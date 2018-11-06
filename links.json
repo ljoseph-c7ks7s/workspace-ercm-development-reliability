@@ -1,1 +1,10 @@
-[]
+[
+    {
+        "source":"sortie_history",
+        "target":"compiled_sortie_history_data"
+    },
+    {
+        "source":"remis_import",
+        "target":"compiled_remis_import_data"
+    }
+]

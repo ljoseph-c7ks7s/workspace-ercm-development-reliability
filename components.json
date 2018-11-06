@@ -1,6 +1,6 @@
 [
     {
-	 "attrs":{
+        "attrs":{
             "column_conversion":{
                 "Command":"str(x).strip()",
                 "MDS":"str(x).strip()",
@@ -23,32 +23,31 @@
             50
         ]
     },
-	
     {
-	"attrs":{
-      "column_conversion":{
-        "Corrective Narrative":"x.strip()",
-        "Discrepancy Narrative":"x.strip()",
-        "Documenter Name":"str(x).strip()",
-        "Equipment Designator":"str(x).strip()",
-        "Install Location Identifier":"x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
-        "Install Serial Number":"x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
-        "Install Work Unit Code":"x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
-        "Job Control Number":"x if not x else str(x).strip() if type(x) == unicode else '%09d' % int(float(x))",
-        "Maintainer Name":"str(x).strip()",
-        "Off Component Part Number":"x if not x else str(x).strip().strip('.0')",
-        "On Component Serial Number":"x if not x else str(x).strip('.0')",
-        "Remove Location Identifier":"x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
-        "Remove Work Unit Code":"x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
-        "Serial Number":"x if not x else str(x).strip() if type(x) == unicode else '%010d' % int(float(x))",
-        "TCTO Data Code":"x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
-        "Work Center Event Narrative":"x.strip()",
-        "Work Unit Code":"x if not x else str(x).strip() if type(x) == unicode else int(float(x))"
-      },
-      "date_formatter":{
-        "Transaction_Date":"%b %d, %Y"
-      }
-    },
+        "attrs":{
+            "column_conversion":{
+                "Corrective Narrative":"x.strip()",
+                "Discrepancy Narrative":"x.strip()",
+                "Documenter Name":"str(x).strip()",
+                "Equipment Designator":"str(x).strip()",
+                "Install Location Identifier":"x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
+                "Install Serial Number":"x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
+                "Install Work Unit Code":"x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
+                "Job Control Number":"x if not x else str(x).strip() if type(x) == unicode else '%09d' % int(float(x))",
+                "Maintainer Name":"str(x).strip()",
+                "Off Component Part Number":"x if not x else str(x).strip().strip('.0')",
+                "On Component Serial Number":"x if not x else str(x).strip('.0')",
+                "Remove Location Identifier":"x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
+                "Remove Work Unit Code":"x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
+                "Serial Number":"x if not x else str(x).strip() if type(x) == unicode else '%010d' % int(float(x))",
+                "TCTO Data Code":"x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
+                "Work Center Event Narrative":"x.strip()",
+                "Work Unit Code":"x if not x else str(x).strip() if type(x) == unicode else int(float(x))"
+            },
+            "date_formatter":{
+                "Transaction_Date":"%b %d, %Y"
+            }
+        },
         "class":"Excel",
         "custom_model":true,
         "description":"Import an Excel file.",
@@ -57,6 +56,28 @@
         "model":"0981f804-f842-4f8d-82e4-10302ccfdcf6",
         "position":[
             50,
+            160
+        ]
+    },
+    {
+        "class":"Stager",
+        "description":"Create a staged table in the database.",
+        "id":"compiled_sortie_history_data",
+        "label":"Compiled Sortie History Data",
+        "model":"empty",
+        "position":[
+            225,
+            50
+        ]
+    },
+    {
+        "class":"Stager",
+        "description":"Create a staged table in the database.",
+        "id":"compiled_remis_import_data",
+        "label":"Compiled REMIS Import Data",
+        "model":"empty",
+        "position":[
+            230,
             160
         ]
     }
