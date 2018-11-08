@@ -14,60 +14,25 @@
         },
         "class":"Excel",
         "custom_model":true,
-        "description":"Import an Excel file.",
-        "id":"sortie_history",
-        "label":"Sortie History",
+        "description":"Sortie History data import, first format",
+        "id":"sortie_import_new",
+        "label":"Sortie Import New",
         "model":"ebbdb8d5-9400-4162-8fba-fc97e34d70c6",
         "position":[
-            40,
-            50
-        ]
-    },
-    {
-        "attrs":{
-            "column_conversion":{
-                "Corrective Narrative":"x.strip()",
-                "Discrepancy Narrative":"x.strip()",
-                "Documenter Name":"str(x).strip()",
-                "Equipment Designator":"str(x).strip()",
-                "Install Location Identifier":"x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
-                "Install Serial Number":"x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
-                "Install Work Unit Code":"x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
-                "Job Control Number":"x if not x else str(x).strip() if type(x) == unicode else '%09d' % int(float(x))",
-                "Maintainer Name":"str(x).strip()",
-                "Off Component Part Number":"x if not x else str(x).strip().strip('.0')",
-                "On Component Serial Number":"x if not x else str(x).strip('.0')",
-                "Remove Location Identifier":"x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
-                "Remove Work Unit Code":"x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
-                "Serial Number":"x if not x else str(x).strip() if type(x) == unicode else '%010d' % int(float(x))",
-                "TCTO Data Code":"x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
-                "Work Center Event Narrative":"x.strip()",
-                "Work Unit Code":"x if not x else str(x).strip() if type(x) == unicode else int(float(x))"
-            },
-            "date_formatter":{
-                "Transaction_Date":"%b %d, %Y"
-            }
-        },
-        "class":"Excel",
-        "custom_model":true,
-        "description":"Import an Excel file.",
-        "id":"remis_import",
-        "label":"REMIS Import",
-        "model":"0981f804-f842-4f8d-82e4-10302ccfdcf6",
-        "position":[
-            30,
-            415
+            50,
+            160
         ]
     },
     {
         "class":"Stager",
+        "custom_model":true,
         "description":"Create a staged table in the database.",
         "id":"compiled_sortie_history_data",
         "label":"Compiled Sortie History Data",
-        "model":"empty",
+        "model":"9e0736ea-e64f-48f1-9c9d-2a25c3c8ce3b",
         "position":[
-            225,
-            50
+            355,
+            180
         ]
     },
     {
@@ -83,19 +48,44 @@
         "label":"C130 REMIS Data",
         "model":"6018bebc-4949-4ecc-9a4b-f233ad436242",
         "position":[
-            55,
-            130
+            50,
+            20
         ]
     },
     {
         "class":"Stager",
+        "custom_model":true,
         "description":"Create a staged table in the database.",
         "id":"compiled_c130_remis_data",
         "label":"Compiled C130 REMIS Data",
         "model":"empty",
         "position":[
-            225,
-            130
+            215,
+            15
+        ]
+    },
+    {
+        "class":"Excel",
+        "custom_model":true,
+        "description":"Sortie History data import, second format",
+        "id":"sortie_import_old",
+        "label":"Sortie Import Old",
+        "model":"fbdc98ee-c271-4ae8-887e-24c89d42870a",
+        "position":[
+            50,
+            200
+        ]
+    },
+    {
+        "class":"SQL",
+        "custom_model":true,
+        "description":"Run a set of SQL select queries on existing database tables.",
+        "id":"sortie_merged",
+        "label":"Sortie Merged",
+        "model":"a8228da4-e502-4564-b5ef-e246e798cdeb",
+        "position":[
+            205,
+            180
         ]
     }
 ]

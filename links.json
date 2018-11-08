@@ -1,10 +1,14 @@
 [
     {
-        "source":"sortie_history",
-        "target":"compiled_sortie_history_data"
+        "source":"sortie_import_new",
+        "target":"sortie_merged"
     },
     {
-        "source":"c130_remis_data",
-        "target":"compiled_c130_remis_data"
+        "source":"sortie_import_old",
+        "target":"sortie_merged"
+    },
+    {
+        "source":"sortie_merged",
+        "target":"compiled_sortie_history_data"
     }
 ]
