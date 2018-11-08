@@ -4,7 +4,7 @@
         "target":"compiled_sortie_history_data"
     },
     {
-        "source":"remis_import",
-        "target":"compiled_remis_import_data"
+        "source":"c130_remis_data",
+        "target":"compiled_c130_remis_data"
     }
 ]

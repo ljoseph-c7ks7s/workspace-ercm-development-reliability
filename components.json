@@ -19,7 +19,7 @@
         "label":"Sortie History",
         "model":"ebbdb8d5-9400-4162-8fba-fc97e34d70c6",
         "position":[
-            50,
+            40,
             50
         ]
     },
@@ -55,8 +55,8 @@
         "label":"REMIS Import",
         "model":"0981f804-f842-4f8d-82e4-10302ccfdcf6",
         "position":[
-            50,
-            160
+            30,
+            415
         ]
     },
     {
@@ -71,14 +71,31 @@
         ]
     },
     {
+        "attrs":{
+            "date_formatter":{
+                "Transaction_Date":"%b %d, %Y"
+            }
+        },
+        "class":"Excel",
+        "custom_model":true,
+        "description":"Latest export of C130 REMIS data",
+        "id":"c130_remis_data",
+        "label":"C130 REMIS Data",
+        "model":"6018bebc-4949-4ecc-9a4b-f233ad436242",
+        "position":[
+            55,
+            130
+        ]
+    },
+    {
         "class":"Stager",
         "description":"Create a staged table in the database.",
-        "id":"compiled_remis_import_data",
-        "label":"Compiled REMIS Import Data",
+        "id":"compiled_c130_remis_data",
+        "label":"Compiled C130 REMIS Data",
         "model":"empty",
         "position":[
-            230,
-            160
+            225,
+            130
         ]
     }
 ]
