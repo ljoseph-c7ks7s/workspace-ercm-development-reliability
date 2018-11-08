@@ -14,13 +14,13 @@
         },
         "class":"Excel",
         "custom_model":true,
-        "description":"Import an Excel file.",
-        "id":"sortie_history",
-        "label":"Sortie History",
+        "description":"Sortie History data import, first format",
+        "id":"sortie_import_new",
+        "label":"Sortie Import New",
         "model":"ebbdb8d5-9400-4162-8fba-fc97e34d70c6",
         "position":[
             50,
-            50
+            160
         ]
     },
     {
@@ -56,29 +56,55 @@
         "model":"0981f804-f842-4f8d-82e4-10302ccfdcf6",
         "position":[
             50,
-            160
+            40
         ]
     },
     {
         "class":"Stager",
+        "custom_model":true,
         "description":"Create a staged table in the database.",
         "id":"compiled_sortie_history_data",
         "label":"Compiled Sortie History Data",
-        "model":"empty",
+        "model":"9e0736ea-e64f-48f1-9c9d-2a25c3c8ce3b",
         "position":[
-            225,
-            50
+            355,
+            180
         ]
     },
     {
         "class":"Stager",
+        "custom_model":true,
         "description":"Create a staged table in the database.",
         "id":"compiled_remis_import_data",
         "label":"Compiled REMIS Import Data",
-        "model":"empty",
+        "model":"5f2899cd-0856-4c07-9778-4daa9ef0087b",
         "position":[
-            230,
-            160
+            200,
+            40
+        ]
+    },
+    {
+        "class":"Excel",
+        "custom_model":true,
+        "description":"Sortie History data import, second format",
+        "id":"sortie_import_old",
+        "label":"Sortie Import Old",
+        "model":"fbdc98ee-c271-4ae8-887e-24c89d42870a",
+        "position":[
+            50,
+            200
+        ]
+    },
+    {
+        "class":"SQL",
+        "custom_model":true,
+        "description":"Run a set of SQL select queries on existing database tables.",
+        "id":"sortie_merged",
+        "label":"Sortie Merged",
+        "model":"a8228da4-e502-4564-b5ef-e246e798cdeb",
+        "position":[
+            205,
+            180
         ]
     }
 ]
