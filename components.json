@@ -49,7 +49,7 @@
         "model":"6018bebc-4949-4ecc-9a4b-f233ad436242",
         "position":[
             50,
-            20
+            40
         ]
     },
     {
@@ -62,9 +62,24 @@
         "position":[
             215,
             20
+
         ]
     },
     {
+        "attrs":{
+            "column_conversion":{
+                "Mission Design Series (e.g. F-16C)":"str(x).strip()"
+            },
+            "date_formatter":{
+                "Sortie_Date":"%y%j"
+            },
+            "data_start_row":5,
+            "label_start_row":4,
+            "data_start_column":2,
+            "labels":[
+                  "Mission Design Series (e.g. F-16C)", "Serial Number", "Mission Number", "Sortie Number", "Takeoff ICAO Code", "Takeoff Date", "Takeoff Time", "Landing ICAO Code", "Landing Date", "Landing Time", "Hours Flown", "Sorties Flown", "Total Lndgs", "Total Full Stop Lndgs", "Sortie Date"
+              ]
+        },    
         "class":"Excel",
         "custom_model":true,
         "description":"Sortie History data import, second format",
