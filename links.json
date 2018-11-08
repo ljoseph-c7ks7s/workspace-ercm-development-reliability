@@ -10,5 +10,9 @@
     {
         "source":"sortie_merged",
         "target":"compiled_sortie_history_data"
+    },
+    {
+        "source":"c130_remis_data",
+        "target":"compiled_c130_remis_data"
     }
 ]
