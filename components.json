@@ -58,7 +58,7 @@
         "description":"Create a staged table in the database.",
         "id":"compiled_c130_remis_data",
         "label":"Compiled C130 REMIS Data",
-        "model":"empty",
+        "model":"1bcf09ae-93eb-426a-9bfd-a8a3c8fcfadd",
         "position":[
             215,
             20
@@ -105,6 +105,11 @@
         ]
     },
     {
+        "attrs":{
+            "query_list":[
+                "SELECT MDS, Serial_Number,  Mission_Number, Depart_ICAO, Depart_Date, Depart_Time, Land_ICAO, Land_Date, Land_Time, Flying_Hours, Sorties as Sorties_Flown, Total_Landings, Full_Stop_Landings FROM sortie_import_new",
+                "SELECT MDS, Serial_Number,  Mission_Number, Depart_ICAO, Depart_Date, Depart_Time, Land_ICAO, Land_Date, Land_Time, Flying_Hours, Sorties_Flown, Total_Landings, Full_Stop_Landings  FROM sortie_import_old"
+        ]},
         "class":"SQL",
         "custom_model":true,
         "description":"Run a set of SQL select queries on existing database tables.",
