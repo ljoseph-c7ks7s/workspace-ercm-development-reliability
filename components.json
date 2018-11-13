@@ -29,7 +29,7 @@
         "description":"Create a staged table in the database.",
         "id":"compiled_sortie_history_data",
         "label":"Compiled Sortie History Data",
-        "model":"9e0736ea-e64f-48f1-9c9d-2a25c3c8ce3b",
+        "model":"empty",
         "position":[
             355,
             180
@@ -62,7 +62,6 @@
         "position":[
             215,
             20
-
         ]
     },
     {
@@ -70,16 +69,30 @@
             "column_conversion":{
                 "Mission Design Series (e.g. F-16C)":"str(x).strip()"
             },
+            "data_start_column":2,
+            "data_start_row":5,
             "date_formatter":{
                 "Sortie_Date":"%y%j"
             },
-            "data_start_row":5,
             "label_start_row":4,
-            "data_start_column":2,
             "labels":[
-                  "Mission Design Series (e.g. F-16C)", "Serial Number", "Mission Number", "Sortie Number", "Takeoff ICAO Code", "Takeoff Date", "Takeoff Time", "Landing ICAO Code", "Landing Date", "Landing Time", "Hours Flown", "Sorties Flown", "Total Lndgs", "Total Full Stop Lndgs", "Sortie Date"
-              ]
-        },    
+                "Mission Design Series (e.g. F-16C)",
+                "Serial Number",
+                "Mission Number",
+                "Sortie Number",
+                "Takeoff ICAO Code",
+                "Takeoff Date",
+                "Takeoff Time",
+                "Landing ICAO Code",
+                "Landing Date",
+                "Landing Time",
+                "Hours Flown",
+                "Sorties Flown",
+                "Total Lndgs",
+                "Total Full Stop Lndgs",
+                "Sortie Date"
+            ]
+        },
         "class":"Excel",
         "custom_model":true,
         "description":"Sortie History data import, second format",
