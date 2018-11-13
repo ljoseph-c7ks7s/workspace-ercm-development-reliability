@@ -120,5 +120,17 @@
             205,
             180
         ]
+    },
+    {
+        "class":"Excel",
+        "custom_model":true,
+        "description":"eRCM WUCs",
+        "id":"wuc_list",
+        "label":"WUC List",
+        "model":"fc6f37a8-7402-4c5d-b5d3-c887716aca94",
+        "position":[
+            50,
+            280
+        ]
     }
 ]

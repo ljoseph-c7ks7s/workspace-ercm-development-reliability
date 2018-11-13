@@ -4,7 +4,7 @@ from sqlalchemy import MetaData, Table
 
 metadata = MetaData()
 
-compiled_remis_import_data = Table('compiled_remis_import_data', metadata, 
+compiled_c130_remis_data = Table('compiled_c130_remis_data', metadata, 
 
     Column('On_Work_Order_Key', Integer, primary_key=True, autoincrement=False),
     Column('On_Maint_Action_Key', Integer, primary_key=True, autoincrement=False),
