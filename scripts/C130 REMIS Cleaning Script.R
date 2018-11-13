@@ -82,36 +82,6 @@ for(i in 1:nrow(data_edit)){
 data_edit <- cbind(data_edit, new_date)
 data_edit$new_date <- lubridate::ymd(data_edit$new_date)
 
-sortie_mergeset <- dplyr::filter(df_cumulate, Serial_Number %in% data_edit$Serial_Number)
-sortie_mergeset <- sortie_mergeset[,c('Flying_Hours', 'Serial_Number', 'Depart_Date')]
-colnames(sortie_mergeset) <- c('Flying_Hours', 'Serial_Number', 'new_date')
-sortie_mergeset$new_date <- ymd_hms(sortie_mergeset$new_date)
-
-merged_set <- merge(sortie_mergeset, data_edit, by= c('Serial_Number','new_date'))
-merged_set$Current_Operating_Time <- merged_set$Flying_Hours
-merged_set <- merged_set[,-3]
-merged_set <- merged_set[,c(3:8,1,9:75,2)]
-
-data_reserve$new_date <- rep(NA, nrow(data_reserve))
-
-C130_corrected <- rbind(data_reserve, merged_set) ##Transaction Date Filled-in using Sortie
-
-##Isolate to only Interval Data
-interested <- c( "Q", "R", "P")
-df_interval <- dplyr::filter(C130_corrected, Action_Taken_Code %in% interested)
-df_interval_PQ <- dplyr::filter(C130_corrected, !Action_Taken_Code %in% interested)
-
-df_interval_R <- dplyr::filter(C130_corrected, Action_Taken_Code == "R")
-
-df_interval_P <-df_interval_R
-df_interval_Q <-df_interval_R
-
-df_interval_P$Action_Taken_Code <- rep("P", nrow(df_interval_P))
-df_interval_Q$Action_Taken_Code <- rep("Q", nrow(df_interval_Q))
-
-df_interval <- rbind(df_interval_PQ, df_interval_P, df_interval_Q)
-
-
 ##Validation/Fixing##
 data_reserve$Transaction_Date <- lubridate::ymd(data_reserve$Transaction_Date)
 new_date <- c()
@@ -136,10 +106,39 @@ adjustment <- aggregate(merged_ver[,77], list(merged_ver$Serial_Number), mean)
 adjustment2 <- aggregate(merged_ver[,77], list(merged_ver$Serial_Number), median)
 colnames(adjustment) <- c("Serial_Number", "Mean_Adj")
 
-fixed_merge <- merge(C130_corrected, adjustment, by = "Serial_Number")
+fixed_merge <- merge(data_edit, adjustment, by = "Serial_Number")
 fixed_merge$Current_Operating_Time <- fixed_merge$Current_Operating_Time + fixed_merge$Mean_Adj
 fixed_merge <- fixed_merge[,-76]
 
-unfixed_merge <- dplyr::filter(C130_corrected, !Serial_Number %in% fixed_merge$Serial_Number)
+unfixed_merge <- dplyr::filter(data_edit, !Serial_Number %in% fixed_merge$Serial_Number)
 
-merge_update <- rbind(fixed_merge, unfixed_merge) ##Adjusted for the mean difference and everything!!
+data_edit <- rbind(fixed_merge, unfixed_merge) ##Adjusted for the mean difference and everything!!
+
+sortie_mergeset <- dplyr::filter(df_cumulate, Serial_Number %in% data_edit$Serial_Number)
+sortie_mergeset <- sortie_mergeset[,c('Flying_Hours', 'Serial_Number', 'Depart_Date')]
+colnames(sortie_mergeset) <- c('Flying_Hours', 'Serial_Number', 'new_date')
+sortie_mergeset$new_date <- ymd_hms(sortie_mergeset$new_date)
+
+merged_set <- merge(sortie_mergeset, data_edit, by= c('Serial_Number','new_date'))
+merged_set$Current_Operating_Time <- merged_set$Flying_Hours
+merged_set <- merged_set[,-3]
+merged_set <- merged_set[,c(3:8,1,9:75,2)]
+
+
+C130_corrected <- rbind(data_reserve, merged_set) ##Transaction Date Filled-in using Sortie
+
+##Isolate to only Interval Data
+interested <- c( "Q", "R", "P", "T", "U")
+df_interval <- dplyr::filter(C130_corrected, Action_Taken_Code %in% interested)
+df_interval_PQ <- dplyr::filter(df_interval, Action_Taken_Code != "R")
+
+df_interval_R <- dplyr::filter(C130_corrected, Action_Taken_Code == "R")
+
+df_interval_P <-df_interval_R
+df_interval_Q <-df_interval_R
+
+df_interval_P$Action_Taken_Code <- rep("P", nrow(df_interval_P))
+df_interval_Q$Action_Taken_Code <- rep("Q", nrow(df_interval_Q))
+
+df_interval <- rbind(df_interval_PQ, df_interval_P, df_interval_Q)
+unique(df_interval$Action_Taken_Code)
