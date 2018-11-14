@@ -19,6 +19,7 @@ df_i <- as.data.frame(df_i)
 df_full <- dbGetQuery(con, 'SELECT * FROM ercm.sortie_merged')
 df_cumulate <- as.data.frame(df_full)
 dbDisconnect(con)
+df_full[df_full[,"Depart_Date"] < as.Date('1950-01-01'), 5] <- df_full[df_full[,"Depart_Date"] < as.Date('1950-01-01'), 8]
 
 C_130_CBM_sheet1 <- read_excel("P:/External Projects/3134 - eRCM/Software - Models - Analyses - Data/C-130 CBM components and systems.xlsx") %>% as.data.frame()
 C_130_CBM_sheet2 <- read_excel("P:/External Projects/3134 - eRCM/Software - Models - Analyses - Data/C-130 CBM components and systems.xlsx", sheet = 2)%>% as.data.frame()
