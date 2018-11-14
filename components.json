@@ -29,7 +29,7 @@
         "description":"Create a staged table in the database.",
         "id":"compiled_sortie_history_data",
         "label":"Compiled Sortie History Data",
-        "model":"empty",
+        "model":"15527b59-5772-40b6-8c69-f4126c6405d0",
         "position":[
             355,
             180
@@ -109,7 +109,8 @@
             "query_list":[
                 "SELECT MDS, Serial_Number,  Mission_Number, Depart_ICAO, Depart_Date, Depart_Time, Land_ICAO, Land_Date, Land_Time, Flying_Hours, Sorties as Sorties_Flown, Total_Landings, Full_Stop_Landings FROM sortie_import_new",
                 "SELECT MDS, Serial_Number,  Mission_Number, Depart_ICAO, Depart_Date, Depart_Time, Land_ICAO, Land_Date, Land_Time, Flying_Hours, Sorties_Flown, Total_Landings, Full_Stop_Landings  FROM sortie_import_old"
-        ]},
+            ]
+        },
         "class":"SQL",
         "custom_model":true,
         "description":"Run a set of SQL select queries on existing database tables.",
