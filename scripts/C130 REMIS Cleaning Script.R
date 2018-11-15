@@ -19,10 +19,14 @@ df_i <- as.data.frame(df_i)
 df_full <- dbGetQuery(con, 'SELECT * FROM ercm.sortie_merged')
 df_cumulate <- as.data.frame(df_full)
 dbDisconnect(con)
+df_full[df_full[,"Depart_Date"] < as.Date('1950-01-01'), 5] <- df_full[df_full[,"Depart_Date"] < as.Date('1950-01-01'), 8]
 
-C_130_CBM_sheet1 <- read_excel("P:/External Projects/3134 - eRCM/Software - Models - Analyses - Data/C-130 CBM components and systems.xlsx") %>% as.data.frame()
-C_130_CBM_sheet2 <- read_excel("P:/External Projects/3134 - eRCM/Software - Models - Analyses - Data/C-130 CBM components and systems.xlsx", sheet = 2)%>% as.data.frame()
-C_130_CBM_sheet3 <- read_excel("P:/External Projects/3134 - eRCM/Software - Models - Analyses - Data/C-130 CBM components and systems.xlsx", sheet = 3)%>% as.data.frame()
+C_130_CBM_sheet1 <- read_excel("P:/External Projects/3134 - eRCM/Software - Models - Analyses - Data/C-130 CBM components and systems.xlsx") %>% 
+  as.data.frame()
+C_130_CBM_sheet2 <- read_excel("P:/External Projects/3134 - eRCM/Software - Models - Analyses - Data/C-130 CBM components and systems.xlsx", sheet = 2)%>% 
+  as.data.frame()
+C_130_CBM_sheet3 <- read_excel("P:/External Projects/3134 - eRCM/Software - Models - Analyses - Data/C-130 CBM components and systems.xlsx", sheet = 3)%>% 
+  as.data.frame()
 
 
 C_130_CBM_components_and_systems <- bind_rows(C_130_CBM_sheet2, C_130_CBM_sheet1,  C_130_CBM_sheet3)
@@ -37,14 +41,19 @@ for(i in 1:ncol(df_i)){
   }
 }
 
-df_clean <- df_i[,-c(3, 7, 37, 53, 56, 63, 66, 77, 81)]
+df_clean <- df_i[,-c("Record_Identifier", "Block_Number", "Activity_Identifier", 
+                     "Install_Lot_Number", "Install_Location_Identifier", 
+                     "Remove_Lot_Number", "Remove_Location_Identifier", 
+                     "On_Base_Turn_In_Doc_Number", "Column_for_Asterisks" )]
 
 ##Filter down to WUC's in the study##
-df_phase1 <- dplyr::filter(df_clean, Work_Unit_Code %in% C_130_CBM_components_and_systems$WUC)
+df_phase1 <- dplyr::filter(df_clean, Work_Unit_Code %in% 
+                             C_130_CBM_components_and_systems$WUC)
 
 ##Limit serial numbers to those associated with the WUC in the study
 df_cumulate_match <- dplyr::filter(df_cumulate, Serial_Number %in% df_phase1$Serial_Number)
-df_cumulate_match <- df_cumulate_match[order(df_cumulate_match$Serial_Number, df_cumulate_match$Depart_Date, df_cumulate_match$Depart_Time),]
+df_cumulate_match <- df_cumulate_match[order(df_cumulate_match$Serial_Number, 
+                                             df_cumulate_match$Depart_Date, df_cumulate_match$Depart_Time),]
 df_cumulate_match$Flying_Hours <- as.numeric(df_cumulate_match$Flying_Hours)
 
 ##OH NO A FOR LOOP- get cumulative flying hours by Serial Number ##
@@ -78,7 +87,7 @@ date_check <- date_check[,1] %>% ymd()
 ##Generate a new vector with the closest date in Sortie to the Transaction Date
 new_date <- c()
 for(i in 1:nrow(data_edit)){
-  new_date <- rbind(new_date, date_check[which.min(abs(difftime(data_edit[i,27],date_check, units = 'days')))]
+  new_date <- rbind(new_date, date_check[which.min(abs(difftime(data_edit[i,'Transaction_Date'],date_check, units = 'days')))]
                     %>% as.character())
 }
 data_edit <- cbind(data_edit, new_date)
@@ -92,7 +101,7 @@ sortie_mergeset$new_date <- ymd_hms(sortie_mergeset$new_date)
 
 merged_set <- merge(sortie_mergeset, data_edit, by= c('Serial_Number','new_date'))
 merged_set$Current_Operating_Time <- merged_set$Flying_Hours
-merged_set <- merged_set[,-3]
+merged_set <- merged_set %>% select(-Flying_Hours)
 merged_set <- merged_set[,c(3:8,1,9:75,2)]
 
 
@@ -101,7 +110,7 @@ merged_set <- merged_set[,c(3:8,1,9:75,2)]
 data_reserve$Transaction_Date <- lubridate::ymd(data_reserve$Transaction_Date)
 new_date <- c()
 for(i in 1:nrow(data_reserve)){
-  new_date <- rbind(new_date, date_check[which.min(abs(difftime(data_reserve[i,27],date_check, units = 'days')))]
+  new_date <- rbind(new_date, date_check[which.min(abs(difftime(data_reserve[i,'Transaction_Date'],date_check, units = 'days')))]
                     %>% as.character())
 }
 data_reserve <- cbind(data_reserve, new_date)
@@ -121,18 +130,18 @@ merged_ver <- merge(sortie_ver, data_reserve, by= c('Serial_Number','new_date'))
 ##Defined a new column that is the difference in flight hours
 merged_ver$flight_diff <- merged_ver$Current_Operating_Time- merged_ver$Flying_Hours
 merged_ver$flight_diff <- as.numeric(merged_ver$flight_diff)
-adjustment <- aggregate(merged_ver[,77], list(merged_ver$Serial_Number), mean)
+adjustment <- aggregate(merged_ver[, 'flight_diff'], list(merged_ver$Serial_Number), mean)
 colnames(adjustment) <- c("Serial_Number", "Mean_Adj")
 
 ##Merged data_edit with adjustment so that we could get the desired adjustement
 ##Added adjustment to current operating time (which is the Flight_Hours)
-fixed_merge <- merge(data_edit, adjustment, by = "Serial_Number")
+fixed_merge <- merge(merged_set, adjustment, by = "Serial_Number")
 fixed_merge$Current_Operating_Time <- fixed_merge$Current_Operating_Time + fixed_merge$Mean_Adj
-fixed_merge <- fixed_merge[,-76]
+fixed_merge <- select(fixed_merge, -Mean_Adj)
 
-unfixed_merge <- dplyr::filter(data_edit, !Serial_Number %in% fixed_merge$Serial_Number)
+unfixed_merge <- dplyr::filter(merged_set, !Serial_Number %in% fixed_merge$Serial_Number)
 
-data_edit <- rbind(fixed_merge, unfixed_merge) ##Adjusted for the mean difference and everything!!
+merged_set <- rbind(fixed_merge, unfixed_merge) ##Adjusted for the mean difference and everything!!
 
 
 C130_corrected <- rbind(data_reserve, merged_set) ##Transaction Date Filled-in using Sortie
