@@ -29,7 +29,7 @@
         "description":"Create a staged table in the database.",
         "id":"compiled_sortie_history_data",
         "label":"Compiled Sortie History Data",
-        "model":"15527b59-5772-40b6-8c69-f4126c6405d0",
+        "model":"2ec95720-5068-445c-a15a-0d5c4f99894d",
         "position":[
             355,
             180
@@ -39,6 +39,9 @@
         "attrs":{
             "date_formatter":{
                 "Transaction_Date":"%b %d, %Y"
+            },
+            "column_conversion":{
+                "Serial Number": "str(x).strip()"
             }
         },
         "class":"Excel",
@@ -67,7 +70,8 @@
     {
         "attrs":{
             "column_conversion":{
-                "Mission Design Series (e.g. F-16C)":"str(x).strip()"
+                "Mission Design Series (e.g. F-16C)":"str(x).strip()",
+                "Serial Number": "str(x).strip()"
             },
             "data_start_column":2,
             "data_start_row":5,
