@@ -123,6 +123,9 @@
         ]
     },
     {
+        "attrs":{
+            "save_sheet_name":"Platform"
+        },
         "class":"Excel",
         "custom_model":true,
         "description":"eRCM WUCs",
