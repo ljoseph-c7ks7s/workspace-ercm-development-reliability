@@ -17,9 +17,10 @@ df_i <- dbGetQuery(con, 'SELECT * FROM c130_remis_data ')
 df_i <- as.data.frame(df_i)
 
 df_full <- dbGetQuery(con, 'SELECT * FROM ercm.sortie_merged')
+df_full[df_full[,"Depart_Date"] < as.Date('1950-01-01'), 5] <- df_full[df_full[,"Depart_Date"] < as.Date('1950-01-01'), 8]
 df_cumulate <- as.data.frame(df_full)
 dbDisconnect(con)
-df_full[df_full[,"Depart_Date"] < as.Date('1950-01-01'), 5] <- df_full[df_full[,"Depart_Date"] < as.Date('1950-01-01'), 8]
+
 
 C_130_CBM_sheet1 <- read_excel("P:/External Projects/3134 - eRCM/Software - Models - Analyses - Data/C-130 CBM components and systems.xlsx") %>% 
   as.data.frame()
@@ -31,6 +32,14 @@ C_130_CBM_sheet3 <- read_excel("P:/External Projects/3134 - eRCM/Software - Mode
 
 C_130_CBM_components_and_systems <- bind_rows(C_130_CBM_sheet2, C_130_CBM_sheet1,  C_130_CBM_sheet3)
 
+df_i$Serial_Number <- trimws(df_i$Serial_Number, which = "both")
+df_cumulate$Serial_Number <- trimws(df_cumulate$Serial_Number, which = "both")
+
+##Note: SN == c("0100001462", "0200001434", "0200008155", "0300008154", 
+## "0400003142", "0400008153", "0500001465", "0500001466", "0500003146",
+## "0500008158", "0600004631") Have a bug where the fill function previous to
+## the first sortie data tries to fill with data points that are wrong. Will 
+## fix with new script later
 
 ##Edit Sortie Data
 ##Find all of the columns without unique items & cleaning
@@ -41,10 +50,10 @@ for(i in 1:ncol(df_i)){
   }
 }
 
-df_clean <- df_i[,-c("Record_Identifier", "Block_Number", "Activity_Identifier", 
-                     "Install_Lot_Number", "Install_Location_Identifier", 
-                     "Remove_Lot_Number", "Remove_Location_Identifier", 
-                     "On_Base_Turn_In_Doc_Number", "Column_for_Asterisks" )]
+df_clean <- df_i %>% select(-c(Record_Identifier, Block_Number, Activity_Identifier, 
+                     Install_Lot_Number, Install_Location_Identifier, 
+                     Remove_Lot_Number, Remove_Location_Identifier, 
+                     On_Base_Turn_In_Doc_Number, Column_for_Asterisks))
 
 ##Filter down to WUC's in the study##
 df_phase1 <- dplyr::filter(df_clean, Work_Unit_Code %in% 
@@ -71,33 +80,106 @@ df_cumulate <- df_cumulate_match
 ##Change 0 to NA
 df_phase1$Current_Operating_Time[df_phase1$Current_Operating_Time == 0] <- NA
 
+##Find Two Serial Numbers Not in Sortie##
+SN_fix <- c('9600008153', '9600008154')
+df_fix <- df_phase1 %>% filter(Serial_Number %in% SN_fix)
+df_fix$Transaction_Date <- as.Date(df_fix$Transaction_Date)
+
+##Find first entry in Sortie Data##
+first <- df_full %>%
+  group_by(Serial_Number) %>%
+  arrange(Depart_Date) %>%
+  slice(1L)
+first <- first %>% as.data.frame()
+df_phase1$Transaction_Date <- df_phase1$Transaction_Date %>%
+  as.Date()
+first$Depart_Date <- first$Depart_Date %>%
+  as.Date()
+
+##Find all entries before first Sorite in REMIS data##
+for(i in 1:nrow(first)){
+  check_me <- dplyr::filter(df_phase1, Serial_Number == first[i,'Serial_Number'])
+  before_sortie_df <- dplyr::filter(check_me, Transaction_Date < first[i,'Depart_Date'])
+  df_fix <- rbind(df_fix, before_sortie_df)
+}
+
+
+
+index <- 0
+for(i in 1:ncol(df_fix)){
+  df_fix[,i] <- trimws(df_fix[,i], which = 'both')
+  index <- index + 1
+}
+index
+
+df_fix <- df_fix[order(df_fix$Serial_Number, df_fix$Transaction_Date, df_fix$Current_Operating_Time),]
+#Fill in the NA in the Current Operating Time down then up##
+df_fix <- df_fix %>% 
+  arrange(Transaction_Date) %>%
+  dplyr::group_by(Serial_Number) %>% 
+  tidyr::fill(Current_Operating_Time ,.direction = "down")
+df_fix <- df_fix %>% 
+  dplyr::group_by(Serial_Number) %>% 
+  arrange(Transaction_Date) %>%
+  tidyr::fill(Current_Operating_Time ,.direction = "up")
+
+
+##re-append the rest##
+remainder <- df_phase1 %>%
+  filter(!Serial_Number %in% SN_fix)
+df_append <- c()
+for(i in 1:nrow(first)){
+  check_me <- dplyr::filter(remainder, Serial_Number == first[i,'Serial_Number'])
+  after_sortie_df <- dplyr::filter(check_me, Transaction_Date >= first[i,'Depart_Date'])
+  df_append <- rbind(df_append, after_sortie_df)
+}
+
+##append the two together##
+##Note: Serial_Number == NA is omitted because it could not be serialized/analyzed##
+df_fix <- df_fix %>% ungroup()
+df_fix <- df_fix %>% as_tibble()
+df_fix$Transaction_Date <- df_fix$Transaction_Date %>% as.character()
+fix_df_fix <- filter(df_fix, is.na(Current_Operating_Time))
+fix_df_fix <- fix_df_fix %>% as_tibble()
+df_fix <- filter(df_fix, !is.na(Current_Operating_Time)) %>% as.data.frame()
+df_phase1 <- df_append
+
 ##Get entries that do not need to be changed
 data_reserve <- dplyr::filter(df_phase1, !is.na(Current_Operating_Time))
 
 ##Get entries that do need to be filled in 
 data_edit <- dplyr::filter(df_phase1, is.na(Current_Operating_Time)) ##From REMIS
+data_edit <- rbind(data_edit, fix_df_fix)
 data_edit$Transaction_Date <- lubridate::ymd(data_edit$Transaction_Date) ##Change Date format
 
 ##Isolate the dates of interst to check against for closest date
-date_check <- lubridate::ymd_hms(df_cumulate$Depart_Date) %>% 
-  as.data.frame() %>% 
+df_cumulate$Depart_Date <- df_cumulate$Depart_Date %>% ymd_hms()
+df_cumulate$Depart_Date <- df_cumulate$Depart_Date %>% as.character()
+
+date_check <- df_cumulate[,c('Depart_Date','Serial_Number')] %>% 
+  as.data.frame() %>%
   unique()
-date_check <- date_check[,1] %>% ymd()
+date_check$Depart_Date <- date_check$Depart_Date %>% ymd()
 
 ##Generate a new vector with the closest date in Sortie to the Transaction Date
 new_date <- c()
 for(i in 1:nrow(data_edit)){
-  new_date <- rbind(new_date, date_check[which.min(abs(difftime(data_edit[i,'Transaction_Date'],date_check, units = 'days')))]
+  data_check <- filter(date_check, Serial_Number == data_edit[i,"Serial_Number"])
+  new_date <- rbind(new_date, data_check[which.min(abs(difftime(data_edit[i,'Transaction_Date'],data_check[,1], units = 'days'))),1]
                     %>% as.character())
 }
+
+data_edit <- filter(data_edit, Serial_Number %in% date_check$Serial_Number)
 data_edit <- cbind(data_edit, new_date)
-data_edit$new_date <- lubridate::ymd(data_edit$new_date)
+data_edit$new_date <- as.Date(data_edit$new_date)
+
+
 
 ##Get the flight hours for REMIS DATA
-sortie_mergeset <- dplyr::filter(df_cumulate, Serial_Number %in% data_edit$Serial_Number)
-sortie_mergeset <- sortie_mergeset[,c('Flying_Hours', 'Serial_Number', 'Depart_Date')]
+#sortie_mergeset <- dplyr::filter(df_cumulate, Serial_Number %in% data_edit$Serial_Number)
+sortie_mergeset <- df_cumulate[,c('Flying_Hours', 'Serial_Number', 'Depart_Date')]
 colnames(sortie_mergeset) <- c('Flying_Hours', 'Serial_Number', 'new_date')
-sortie_mergeset$new_date <- ymd_hms(sortie_mergeset$new_date)
+sortie_mergeset$new_date <- as.Date(sortie_mergeset$new_date)
 
 merged_set <- merge(sortie_mergeset, data_edit, by= c('Serial_Number','new_date'))
 merged_set$Current_Operating_Time <- merged_set$Flying_Hours
@@ -110,21 +192,23 @@ merged_set <- merged_set[,c(3:8,1,9:75,2)]
 data_reserve$Transaction_Date <- lubridate::ymd(data_reserve$Transaction_Date)
 new_date <- c()
 for(i in 1:nrow(data_reserve)){
-  new_date <- rbind(new_date, date_check[which.min(abs(difftime(data_reserve[i,'Transaction_Date'],date_check, units = 'days')))]
+  data_check <- filter(date_check, Serial_Number == data_reserve[i,"Serial_Number"])
+  new_date <- rbind(new_date, data_check[which.min(abs(difftime(data_reserve[i,'Transaction_Date'],data_check[,1], units = 'days'))),1]
                     %>% as.character())
 }
+
+data_reserve <- filter(data_reserve, Serial_Number %in% date_check$Serial_Number)
 data_reserve <- cbind(data_reserve, new_date)
-data_reserve$new_date <- lubridate::ymd(data_reserve$new_date)
+data_reserve$new_date<- lubridate::ymd(data_reserve$new_date)
 
 ##Isolate Sortie data with serial numbers identical to those we are confirming flight hours against
-sortie_ver <- dplyr::filter(df_cumulate, Serial_Number %in% data_reserve$Serial_Number)
-sortie_ver <- sortie_ver[,c('Flying_Hours', 'Serial_Number', 'Depart_Date')]
+sortie_ver <- df_cumulate[,c('Flying_Hours', 'Serial_Number', 'Depart_Date')]
 colnames(sortie_ver) <- c('Flying_Hours', 'Serial_Number', 'new_date')
-sortie_ver$new_date <- ymd_hms(sortie_ver$new_date)
+sortie_ver$new_date <- as.Date(sortie_ver$new_date)
 
 ## Merge data sets by serial number and new date so we can get the associated flight hours
 ##merge results in 284 results, due to not all serial numbers being present in previous data frame
-data_reserve$new_date <- data_reserve$new_date %>% ymd()
+data_reserve$new_date <- data_reserve$new_date %>% as.Date()
 merged_ver <- merge(sortie_ver, data_reserve, by= c('Serial_Number','new_date'))
 
 ##Defined a new column that is the difference in flight hours
@@ -133,7 +217,7 @@ merged_ver$flight_diff <- as.numeric(merged_ver$flight_diff)
 adjustment <- aggregate(merged_ver[, 'flight_diff'], list(merged_ver$Serial_Number), mean)
 colnames(adjustment) <- c("Serial_Number", "Mean_Adj")
 
-##Merged data_edit with adjustment so that we could get the desired adjustement
+##Merged data_edit with adjustment so that we could get the desired adjustment
 ##Added adjustment to current operating time (which is the Flight_Hours)
 fixed_merge <- merge(merged_set, adjustment, by = "Serial_Number")
 fixed_merge$Current_Operating_Time <- fixed_merge$Current_Operating_Time + fixed_merge$Mean_Adj
@@ -143,8 +227,16 @@ unfixed_merge <- dplyr::filter(merged_set, !Serial_Number %in% fixed_merge$Seria
 
 merged_set <- rbind(fixed_merge, unfixed_merge) ##Adjusted for the mean difference and everything!!
 
+##Edit data_reserve to have adjusted flight instead of current hours##
+merged_ver <- merge(merged_ver, adjustment, by= "Serial_Number")
+merged_ver$Current_Operating_Time <- merged_ver$Flying_Hours + merged_ver$Mean_Adj
+merged_ver <- select(merged_ver, -c('Mean_Adj', 'Flying_Hours', 'flight_diff'))
 
-C130_corrected <- rbind(data_reserve, merged_set) ##Transaction Date Filled-in using Sortie
+
+C130_corrected_stage <- rbind(merged_set, merged_ver) ##Transaction Date Filled-in using Sortie
+C130_corrected_stage <- select(C130_corrected_stage, -'new_date')
+C130_corrected <- rbind(C130_corrected_stage, df_fix)
+
 
 ##Isolate to only Interval Data
 interested <- c( "Q", "R", "P", "T", "U")
@@ -161,4 +253,3 @@ df_interval_Q$Action_Taken_Code <- rep("Q", nrow(df_interval_Q))
 
 df_interval <- rbind(df_interval_PQ, df_interval_P, df_interval_Q)
 unique(df_interval$Action_Taken_Code)
-
