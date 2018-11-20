@@ -50,10 +50,15 @@ for(i in 1:ncol(df_i)){
   }
 }
 
-df_clean <- df_i %>% select(-c(Record_Identifier, Block_Number, Activity_Identifier, 
-                     Install_Lot_Number, Install_Location_Identifier, 
-                     Remove_Lot_Number, Remove_Location_Identifier, 
-                     On_Base_Turn_In_Doc_Number, Column_for_Asterisks))
+df_clean <- df_i %>% select(c(Work_Unit_Code, On_Component_Serial_Number,
+                              On_Component_Part_Number, Equipment_Designator,
+                              Serial_Number, Geographic_Location, 
+                              Performing_Geographic_Location, Transaction_Date,
+                              Work_Center_Code, When_Discovered_Code, 
+                              How_Malfunction_Code, Action_Taken_Code, 
+                              Type_Maintenance_Code, Current_Operating_Time, 
+                              Component_Position_Number, Corrective_Narrative, 
+                              Discrepancy_Narrative, Work_Center_Event_Narrative))
 
 ##Filter down to WUC's in the study##
 df_phase1 <- dplyr::filter(df_clean, Work_Unit_Code %in% 
@@ -177,8 +182,10 @@ data_edit$new_date <- as.Date(data_edit$new_date)
 
 ##Get the flight hours for REMIS DATA
 #sortie_mergeset <- dplyr::filter(df_cumulate, Serial_Number %in% data_edit$Serial_Number)
-sortie_mergeset <- df_cumulate[,c('Flying_Hours', 'Serial_Number', 'Depart_Date')]
-colnames(sortie_mergeset) <- c('Flying_Hours', 'Serial_Number', 'new_date')
+sortie_mergeset <- df_cumulate[,c('Flying_Hours', 'Serial_Number', 'Depart_Date', 
+                                  'Total_Landings', 'Full_Stop_Landings')]
+colnames(sortie_mergeset) <- c('Flying_Hours', 'Serial_Number', 'new_date', 
+                               'Total_Landings', 'Full_Stop_Landings')
 sortie_mergeset$new_date <- as.Date(sortie_mergeset$new_date)
 
 merged_set <- merge(sortie_mergeset, data_edit, by= c('Serial_Number','new_date'))
@@ -202,8 +209,10 @@ data_reserve <- cbind(data_reserve, new_date)
 data_reserve$new_date<- lubridate::ymd(data_reserve$new_date)
 
 ##Isolate Sortie data with serial numbers identical to those we are confirming flight hours against
-sortie_ver <- df_cumulate[,c('Flying_Hours', 'Serial_Number', 'Depart_Date')]
-colnames(sortie_ver) <- c('Flying_Hours', 'Serial_Number', 'new_date')
+sortie_ver <- df_cumulate[,c('Flying_Hours', 'Serial_Number', 'Depart_Date', 
+                             'Total_Landings', 'Full_Stop_Landings')]
+colnames(sortie_ver) <- c('Flying_Hours', 'Serial_Number', 'new_date', 
+                          'Total_Landings', 'Full_Stop_Landings')
 sortie_ver$new_date <- as.Date(sortie_ver$new_date)
 
 ## Merge data sets by serial number and new date so we can get the associated flight hours
@@ -235,6 +244,11 @@ merged_ver <- select(merged_ver, -c('Mean_Adj', 'Flying_Hours', 'flight_diff'))
 
 C130_corrected_stage <- rbind(merged_set, merged_ver) ##Transaction Date Filled-in using Sortie
 C130_corrected_stage <- select(C130_corrected_stage, -'new_date')
+df_fix_mod <- df_full[,c('Serial_Number','Depart_Date','Full_Stop_Landings', 'Total_Landings')]
+colnames(df_fix_mod) <- c("Serial_Number", "Transaction_Date", "Full_Stop_Landings", "Total_Landings")
+df_fix_mod$Transaction_Date <- df_fix_mod$Transaction_Date %>% ymd_hms() %>% as.character()
+df_fix$Full_Stop_Landings <- rep(NA, nrow(df_fix))
+df_fix$Total_Landings <- rep(NA, nrow(df_fix))
 C130_corrected <- rbind(C130_corrected_stage, df_fix)
 
 
