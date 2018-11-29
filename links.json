@@ -14,5 +14,21 @@
     {
         "source":"sortie_merged",
         "target":"compiled_sortie_history_data"
+    },
+    {
+        "source":"c130_remis_data",
+        "target":"wuc_edits"
+    },
+    {
+        "source":"rules_list",
+        "target":"wuc_edits"
+    },
+    {
+        "source":"wuc_narratives_from_remis",
+        "target":"wuc_edits"
+    },
+    {
+        "source":"c130_remis_data",
+        "target":"wuc_narratives_from_remis"
     }
 ]

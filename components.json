@@ -20,7 +20,7 @@
         "model":"ebbdb8d5-9400-4162-8fba-fc97e34d70c6",
         "position":[
             50,
-            160
+            275
         ]
     },
     {
@@ -31,17 +31,17 @@
         "label":"Compiled Sortie History Data",
         "model":"2ec95720-5068-445c-a15a-0d5c4f99894d",
         "position":[
-            355,
-            180
+            360,
+            290
         ]
     },
     {
         "attrs":{
+            "column_conversion":{
+                "Serial Number":"str(x).strip()"
+            },
             "date_formatter":{
                 "Transaction_Date":"%b %d, %Y"
-            },
-            "column_conversion":{
-                "Serial Number": "str(x).strip()"
             }
         },
         "class":"Excel",
@@ -71,7 +71,7 @@
         "attrs":{
             "column_conversion":{
                 "Mission Design Series (e.g. F-16C)":"str(x).strip()",
-                "Serial Number": "str(x).strip()"
+                "Serial Number":"str(x).strip()"
             },
             "data_start_column":2,
             "data_start_row":5,
@@ -105,7 +105,7 @@
         "model":"fbdc98ee-c271-4ae8-887e-24c89d42870a",
         "position":[
             50,
-            200
+            315
         ]
     },
     {
@@ -123,7 +123,7 @@
         "model":"a8228da4-e502-4564-b5ef-e246e798cdeb",
         "position":[
             205,
-            180
+            290
         ]
     },
     {
@@ -138,7 +138,46 @@
         "model":"fc6f37a8-7402-4c5d-b5d3-c887716aca94",
         "position":[
             50,
-            280
+            125
+        ]
+    },
+    {
+        "attrs":{
+            "timeout":"60"
+        },
+        "class":"Python",
+        "custom_model":true,
+        "description":"Apply Work Unit Code edit rules",
+        "id":"wuc_edits",
+        "label":"WUC Edits",
+        "model":"184ad32a-a25b-4e56-bd17-1078f80aae4a",
+        "position":[
+            345,
+            75
+        ]
+    },
+    {
+        "class":"TSV",
+        "custom_model":true,
+        "description":"Pre-Induction Analysis and FSIP excision and edit rules exported from the Non Autofilter C130 MDA SRS Exerpt Rev2D 24Oct18 Word document",
+        "id":"rules_list",
+        "label":"Rules List",
+        "model":"e98cd295-63ad-4ce4-97e7-561c611ac6ce",
+        "position":[
+            50,
+            160
+        ]
+    },
+    {
+        "class":"SQL",
+        "custom_model":true,
+        "description":"WUC to Narrative lookup, using the higher-count Narrative when there are multiple per WUC",
+        "id":"wuc_narratives_from_remis",
+        "label":"WUC Narratives from REMIS",
+        "model":"23ff17e6-6308-4b3e-bfde-84a674a7280f",
+        "position":[
+            115,
+            80
         ]
     }
 ]
