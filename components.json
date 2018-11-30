@@ -144,7 +144,9 @@
     {
         "attrs":{
             "timeout":"60",
-            "level":"all"
+            "additional_parameters":{
+                "level":"all"
+            }
         },
         "class":"Python",
         "custom_model":true,
