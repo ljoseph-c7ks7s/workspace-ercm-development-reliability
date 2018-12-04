@@ -173,8 +173,7 @@
     },
     {
         "attrs":{"query_list":[
-            "SELECT wuc_max_count.Work_Unit_Code, max(wucs_w_duplicates_2.WUC_Narrative) WUC_Narrative, wuc_max_count.Count FROM (SELECT Work_Unit_Code, max(Count) Count FROM (SELECT Work_Unit_Code, WUC_Narrative, count(*) Count FROM compiled_c130_remis_data GROUP BY  Work_Unit_Code, WUC_Narrative) wucs_w_duplicates GROUP BY  Work_Unit_Code) wuc_max_count JOIN (SELECT Work_Unit_Code, WUC_Narrative, count(*) Count FROM compiled_c130_remis_data GROUP BY  Work_Unit_Code, WUC_Narrative) wucs_w_duplicates_2 ON wuc_max_count.Work_Unit_Code = wucs_w_duplicates_2.Work_Unit_Code and wuc_max_count.count = wucs_w_duplicates_2.count GROUP BY  Work_Unit_Code, Count ORDER BY  wuc_max_count.Work_Unit_Code"
-]       },
+            "SELECT wuc_max_count.Work_Unit_Code, max(wucs_w_duplicates_2.WUC_Narrative) WUC_Narrative, wuc_max_count.Count FROM (SELECT Work_Unit_Code, max(Count) Count FROM (SELECT Work_Unit_Code, WUC_Narrative, count(*) Count FROM compiled_c130_remis_data GROUP BY  Work_Unit_Code, WUC_Narrative) wucs_w_duplicates GROUP BY  Work_Unit_Code) wuc_max_count JOIN (SELECT Work_Unit_Code, WUC_Narrative, count(*) Count FROM compiled_c130_remis_data GROUP BY  Work_Unit_Code, WUC_Narrative) wucs_w_duplicates_2 ON wuc_max_count.Work_Unit_Code = wucs_w_duplicates_2.Work_Unit_Code and wuc_max_count.count = wucs_w_duplicates_2.count GROUP BY  Work_Unit_Code, Count ORDER BY  wuc_max_count.Work_Unit_Code"]       },
         "class":"SQL",
         "custom_model":true,
         "description":"WUC to Narrative lookup, using the higher-count Narrative when there are multiple per WUC",
