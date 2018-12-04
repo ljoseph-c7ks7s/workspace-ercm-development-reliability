@@ -62,5 +62,9 @@
     {
         "source":"identify_r2",
         "target":"split_r_and_multi_pos"
+    },
+    {
+        "source":"compiled_sortie_history_data",
+        "target":"sortie_accumulated_hours"
     }
 ]

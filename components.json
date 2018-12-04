@@ -235,5 +235,17 @@
             690,
             130
         ]
+    },
+    {
+        "class":"R",
+        "custom_model":true,
+        "description":"Run an R script.",
+        "id":"sortie_accumulated_hours",
+        "label":"Sortie Accumulated Hours",
+        "model":"debc7c2f-0456-44bc-9f4d-680ba5ea86a4",
+        "position":[
+            510,
+            290
+        ]
     }
 ]
