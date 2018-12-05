@@ -180,8 +180,8 @@
         "class":"SQL",
         "custom_model":true,
         "description":"WUC to Narrative lookup, using the higher-count Narrative when there are multiple per WUC",
-        "id":"wuc_narratives_from_remis",
-        "label":"WUC Narratives from REMIS",
+        "id":"work_unit_code_narratives",
+        "label":"Work Unit Code Narratives",
         "model":"23ff17e6-6308-4b3e-bfde-84a674a7280f",
         "position":[
             85,

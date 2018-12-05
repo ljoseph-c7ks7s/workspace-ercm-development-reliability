@@ -24,14 +24,6 @@
         "target":"wuc_edits"
     },
     {
-        "source":"wuc_narratives_from_remis",
-        "target":"wuc_edits"
-    },
-    {
-        "source":"c130_remis_data",
-        "target":"wuc_narratives_from_remis"
-    },
-    {
         "source":"wuc_edits",
         "target":"clean_wuc_remove_fom"
     },
@@ -66,5 +58,23 @@
     {
         "source":"compiled_sortie_history_data",
         "target":"sortie_accumulated_hours"
+    },
+    {
+        "source":"compiled_c130_remis_data",
+        "target":"work_unit_code_narratives",
+        "vertices":[
+            [
+                385,
+                100
+            ],
+            [
+                50,
+                100
+            ]
+        ]
+    },
+    {
+        "source":"work_unit_code_narratives",
+        "target":"wuc_edits"
     }
 ]
