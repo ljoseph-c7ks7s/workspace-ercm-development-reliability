@@ -15,7 +15,7 @@ Args:
 def fn(conn, libraries, params, predecessors):
     pd = libraries["pandas"]
     re = libraries["re"]    
-    df = pd.read_sql(con=conn,sql="SELECT A.*, B.Action_Taken_Code, B.Corrective_Narrative FROM Clean_WUC_Remove_FOM A LEFT JOIN Compiled_C130_REMIS_Data B ON A.On_Work_Order_Key=B.On_Work_Order_Key AND A.On_Maint_Action_Key=B.On_Maint_Action_Key AND A.Work_Center_Event_Identifier=B.Work_Center_Event_Identifier AND A.Sequence_Number=B.Sequence_Number AND A.Work_Order_Number=B.Work_Order_Number")
+    df = pd.read_sql(con=conn,sql="SELECT A.*, B.Action_Taken_Code, B.Corrective_Narrative FROM clean_wuc_remove_fom A LEFT JOIN compiled_c130_remis_data B ON A.On_Work_Order_Key=B.On_Work_Order_Key AND A.On_Maint_Action_Key=B.On_Maint_Action_Key AND A.Work_Center_Event_Identifier=B.Work_Center_Event_Identifier AND A.Sequence_Number=B.Sequence_Number AND A.Work_Order_Number=B.Work_Order_Number")
 
 
     #Search for R&R in Corrective Narrative, replace corresponding ATC with "R"

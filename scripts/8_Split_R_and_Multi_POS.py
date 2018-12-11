@@ -15,7 +15,7 @@ Args:
 def fn(conn, libraries, params, predecessors):
     pd = libraries["pandas"]
     re = libraries["re"]    
-    df = pd.read_sql(con=conn,sql="SELECT A.*, B.Action_Taken_Code FROM Part_Position_Parser A LEFT JOIN .Identify_R2 B ON A.On_Work_Order_Key=B.On_Work_Order_Key AND A.On_Maint_Action_Key=B.On_Maint_Action_Key AND A.Work_Center_Event_Identifier=B.Work_Center_Event_Identifier AND A.Sequence_Number=B.Sequence_Number AND A.Work_Order_Number=B.Work_Order_Number")
+    df = pd.read_sql(con=conn,sql="SELECT A.*, B.Action_Taken_Code FROM part_position_parser A LEFT JOIN identify_r2 B ON A.On_Work_Order_Key=B.On_Work_Order_Key AND A.On_Maint_Action_Key=B.On_Maint_Action_Key AND A.Work_Center_Event_Identifier=B.Work_Center_Event_Identifier AND A.Sequence_Number=B.Sequence_Number AND A.Work_Order_Number=B.Work_Order_Number")
 
 
     #Split all entries with ATC = R into ATC = P and ATC = Q for separate removal and replacement entries

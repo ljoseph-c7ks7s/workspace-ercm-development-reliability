@@ -2,8 +2,8 @@ fn <- function(conn_rmysql, load_path, params_path, component_path, output_file)
   library(dplyr)
   library(lubridate)
   ##load data for usage ##
-  df_cumulate <- dbGetQuery(conn_rmysql, 'SELECT * FROM ercm.sortie_accumulated_hours')
-  df_i <- dbGetQuery(conn_rmysql, 'SELECT * FROM ercm.clean_wuc_remove_fom AS c  INNER JOIN compiled_c130_remis_data AS r
+  df_cumulate <- dbGetQuery(conn_rmysql, 'SELECT * FROM sortie_accumulated_hours')
+  df_i <- dbGetQuery(conn_rmysql, 'SELECT * FROM clean_wuc_remove_fom AS c  INNER JOIN compiled_c130_remis_data AS r
                      ON r.On_Work_Order_Key = c.On_Work_Order_Key
                      AND r.On_Maint_Action_Key = c.On_Maint_Action_Key
                      AND r.Work_Center_Event_Identifier = c.Work_Center_Event_Identifier

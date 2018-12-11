@@ -8,7 +8,7 @@ fn <- function(conn_rmysql, load_path, params_path, component_path, output_file)
                    AND r.Sequence_Number = c.Sequence_Number
                    AND r.Work_Order_Number = c.Work_Order_Number')
   df_phase1 <- df_phase1[, !duplicated(colnames(df_phase1))]
-  df_cumulate <- dbGetQuery(conn_rmysql, 'SELECT * FROM ercm.current_sortie_date_and_adjusted_flying_hours')
+  df_cumulate <- dbGetQuery(conn_rmysql, 'SELECT * FROM current_sortie_date_and_adjusted_flying_hours')
   
   df_phase1 <- df_phase1 %>% select(c(Work_Unit_Code, On_Component_Serial_Number,
                                  On_Component_Part_Number, Equipment_Designator,

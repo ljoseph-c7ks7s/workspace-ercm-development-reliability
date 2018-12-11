@@ -1,7 +1,7 @@
 fn <- function(conn_rmysql, load_path, params_path, component_path, output_file) {
   library(dplyr)
   ##import model
-  df_cumulated <- dbGetQuery(conn_rmysql, 'SELECT * FROM ercm.current_sortie_date_and_adjusted_flying_hours')
+  df_cumulated <- dbGetQuery(conn_rmysql, 'SELECT * FROM current_sortie_date_and_adjusted_flying_hours')
   
   ##find last date
   df_sortie_last <- df_cumulated %>%
