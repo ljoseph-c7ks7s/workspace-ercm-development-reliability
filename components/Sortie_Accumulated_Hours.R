@@ -14,4 +14,6 @@ fn <- function(conn_rmysql, load_path, params_path, component_path, output_file)
   df_cumulate$Depart_Time <- substr(df_cumulate$Depart_Time %>% as.POSIXct(format = "%H:%M:%OS"),12,16)
   df_cumulate$Depart_Date <- as.POSIXct(paste(df_cumulate$Depart_Date, df_cumulate$Depart_Time), format = "%Y-%m-%d %H:%M")
   df_cumulate$Depart_Date <- df_cumulate$Depart_Date %>% as.character()
+  dbWriteTable(conn_rmysql, name = "sortie_accumulated_hours" , value = df_cumulate, 
+               overwrite = TRUE, row.names = FALSE)
 }

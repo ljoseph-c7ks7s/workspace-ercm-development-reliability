@@ -237,6 +237,9 @@
         ]
     },
     {
+    	"attrs":{
+            "script_file":"Sortie_Accumulated_Hours.R"
+        },
         "class":"R",
         "custom_model":true,
         "description":"Run an R script.",
@@ -246,6 +249,77 @@
         "position":[
             510,
             290
+        ]
+    },
+    {
+    	"attrs":{
+            "script_file":"Sortie_Recent_Entry&Time_Adjust.R"
+        },
+        "class":"R",
+        "custom_model":true,
+        "description":"Run an R script.",
+        "id":"current_sortie_date_and_adjusted_flying_hours",
+        "label":"Current Sortie Date and Adjusted Flying Hours",
+        "model":"7436c7a9-d95d-4dfe-8f35-9394ec5d5cfd",
+        "position":[
+            670,
+            290
+        ]
+    },
+    {
+    	"attrs":{
+            "script_file":"Last_Sortie_Date.R"
+        },
+        "class":"R",
+        "custom_model":true,
+        "description":"Run an R script.",
+        "id":"last_sortie_date",
+        "label":"Last Sortie Date",
+        "model":"62ce744b-764a-49b5-9e38-ec84eec3713f",
+        "position":[
+            830,
+            290
+        ]
+    },
+    {
+    	"attrs":{
+            "script_file":"Current_Operating_Time.R"
+        },
+        "class":"R",
+        "custom_model":true,
+        "description":"Run an R script.",
+        "id":"current_operating_time",
+        "label":"Current Operating Time",
+        "model":"fe45927a-354a-4a72-aa41-3a609f694151",
+        "position":[
+            830,
+            230
+        ]
+    },
+    {
+    	"attrs":{
+            "query_list":[
+                "SELECT On_Component_Serial_Number, On_Component_Part_Number, Equipment_Designator, Serial_Number, Geographic_Location, Performing_Geographic_Location, Transaction_Date, Start_Time, Work_Center_Code, When_Discovered_Code, How_Malfunction_Code, compiled_c130_remis_data.Action_Taken_Code, Type_Maintenance_Code, compiled_c130_remis_data.Current_Operating_Time, Component_Position_Number, Corrective_Narrative, Discrepancy_Narrative, Work_Center_Event_Narrative, compiled_c130_remis_data.On_Work_Order_Key, compiled_c130_remis_data.On_Maint_Action_Key, compiled_c130_remis_data.Work_Center_Event_Identifier, compiled_c130_remis_data.Sequence_Number, compiled_c130_remis_data.Work_Order_Number FROM compiled_c130_remis_data JOIN split_r_and_multi_pos ON compiled_c130_remis_data.On_Work_Order_Key = split_r_and_multi_pos.On_Work_Order_Key AND compiled_c130_remis_data.On_Maint_Action_Key = split_r_and_multi_pos.On_Maint_Action_Key AND compiled_c130_remis_data.Work_Center_Event_Identifier = split_r_and_multi_pos.Work_Center_Event_Identifier AND compiled_c130_remis_data.Sequence_Number = split_r_and_multi_pos.Sequence_Number AND compiled_c130_remis_data.Work_Order_Number = split_r_and_multi_pos.Work_Order_Number JOIN current_operating_time ON compiled_c130_remis_data.On_Work_Order_Key = current_operating_time.On_Work_Order_Key AND compiled_c130_remis_data.On_Maint_Action_Key = current_operating_time.On_Maint_Action_Key AND compiled_c130_remis_data.Work_Center_Event_Identifier = current_operating_time.Work_Center_Event_Identifier AND compiled_c130_remis_data.Sequence_Number = current_operating_time.Sequence_Number AND compiled_c130_remis_data.Work_Order_Number = current_operating_time.Work_Order_Number"] },
+        "class":"SQL",
+        "custom_model":true,
+        "description":"Run a set of SQL select queries on existing database tables.",
+        "id":"joined_data",
+        "label":"Joined Data",
+        "model":"a2acd8e8-0f7e-4f81-84c8-f90d430d60cc",
+        "position":[
+            950,
+            130
+        ]
+    },
+    {
+        "class":"Stager",
+        "description":"Create a staged table in the database.",
+        "id":"stage_data_for_tow",
+        "label":"Stage Data for TOW",
+        "model":"empty",
+        "position":[
+            1115,
+            130
         ]
     }
 ]

@@ -76,5 +76,43 @@
     {
         "source":"work_unit_code_narratives",
         "target":"wuc_edits"
+    },
+    {
+        "source":"sortie_accumulated_hours",
+        "target":"current_sortie_date_and_adjusted_flying_hours"
+    },
+    {
+        "source":"current_sortie_date_and_adjusted_flying_hours",
+        "target":"last_sortie_date"
+    },
+    {
+        "source":"clean_wuc_remove_fom",
+        "target":"current_operating_time",
+        "vertices":[
+            [
+                515,
+                245
+            ]
+        ]
+    },
+    {
+        "source":"current_sortie_date_and_adjusted_flying_hours",
+        "target":"current_operating_time"
+    },
+    {
+        "source":"current_operating_time",
+        "target":"joined_data"
+    },
+    {
+        "source":"split_r_and_multi_pos",
+        "target":"joined_data"
+    },
+    {
+        "source":"compiled_c130_remis_data",
+        "target":"joined_data"
+    },
+    {
+        "source":"joined_data",
+        "target":"stage_data_for_tow"
     }
 ]
