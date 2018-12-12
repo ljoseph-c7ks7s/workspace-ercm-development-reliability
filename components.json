@@ -238,7 +238,9 @@
     },
     {
     	"attrs":{
-            "script_file":"Sortie_Accumulated_Hours.R"
+            "script_file":"Sortie_Accumulated_Hours.R",
+            "db_class_preference": "RMySQL", 
+            "local_script": "True"
         },
         "class":"R",
         "custom_model":true,
@@ -253,7 +255,9 @@
     },
     {
     	"attrs":{
-            "script_file":"Sortie_Recent_Entry&Time_Adjust.R"
+            "script_file":"Sortie_Recent_Entry&Time_Adjust.R",
+            "db_class_preference": "RMySQL", 
+            "local_script": "True"
         },
         "class":"R",
         "custom_model":true,
@@ -268,7 +272,9 @@
     },
     {
     	"attrs":{
-            "script_file":"Last_Sortie_Date.R"
+            "script_file":"Last_Sortie_Date.R",
+            "db_class_preference": "RMySQL", 
+            "local_script": "True"
         },
         "class":"R",
         "custom_model":true,
@@ -283,7 +289,9 @@
     },
     {
     	"attrs":{
-            "script_file":"Current_Operating_Time.R"
+            "script_file":"Current_Operating_Time.R",
+            "db_class_preference": "RMySQL", 
+            "local_script": "True"
         },
         "class":"R",
         "custom_model":true,
