@@ -77,7 +77,9 @@ fn <- function(conn_rmysql, load_path, params_path, component_path, output_file)
   df_phase1_FH <- merge(df_phase1, sortie_mergeset, by= c('Serial_Number','new_date')) 
   df_phase1_FH$Current_Operating_Time <- df_phase1_FH$Flying_Hours
   current_op_time <- df_phase1_FH %>% select(c(On_Work_Order_Key, On_Maint_Action_Key, 
-                                               Work_Center_Event_Identifier, Sequence_Number, Work_Order_Number, Current_Operating_Time))
+                                               Work_Center_Event_Identifier, Sequence_Number, Work_Order_Number, Current_Operating_Time)) %>%
+  distinct()
+  
   dbWriteTable(conn_rmysql, name = "current_operating_time", value = current_op_time, 
                overwrite = TRUE, row.names = FALSE)
 
