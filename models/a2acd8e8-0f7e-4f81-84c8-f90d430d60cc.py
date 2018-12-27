@@ -6,6 +6,7 @@ metadata = MetaData()
 
 joined_data = Table('joined_data', metadata, 
 
+    Column('Work_Unit_Code', String(45), primary_key=False, autoincrement=False),
     Column('On_Component_Serial_Number', String(255), primary_key=False, autoincrement=False),
     Column('On_Component_Part_Number', String(255), primary_key=False, autoincrement=False),
     Column('Equipment_Designator', String(255), primary_key=False, autoincrement=False),
@@ -24,6 +25,7 @@ joined_data = Table('joined_data', metadata,
     Column('Corrective_Narrative', TEXT, primary_key=False, autoincrement=False),
     Column('Discrepancy_Narrative', TEXT, primary_key=False, autoincrement=False),
     Column('Work_Center_Event_Narrative', TEXT, primary_key=False, autoincrement=False),
+    Column('Primary_Key_Index', Integer, primary_key=True, autoincrement=False),
     Column('On_Work_Order_Key', Integer, primary_key=True, autoincrement=False),
     Column('On_Maint_Action_Key', Integer, primary_key=True, autoincrement=False),
     Column('Work_Center_Event_Identifier', Integer, primary_key=True, autoincrement=False),

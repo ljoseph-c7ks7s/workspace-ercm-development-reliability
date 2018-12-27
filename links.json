@@ -114,5 +114,9 @@
     {
         "source":"joined_data",
         "target":"stage_data_for_tow"
+    },
+    {
+        "source":"clean_wuc_remove_fom",
+        "target":"current_sortie_date_and_adjusted_flying_hours"
     }
 ]
