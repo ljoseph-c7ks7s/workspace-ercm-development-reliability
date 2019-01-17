@@ -307,7 +307,7 @@
     {
         "attrs":{
             "query_list":[
-                "SELECT compiled_c130_remis_data.Work_Unit_Code, compiled_c130_remis_data.On_Component_Serial_Number, compiled_c130_remis_data.On_Component_Part_Number, compiled_c130_remis_data.Equipment_Designator, compiled_c130_remis_data.Serial_Number, compiled_c130_remis_data.Geographic_Location, compiled_c130_remis_data.Performing_Geographic_Location, compiled_c130_remis_data.Transaction_Date, compiled_c130_remis_data.Start_Time, compiled_c130_remis_data.Work_Center_Code, compiled_c130_remis_data.When_Discovered_Code, compiled_c130_remis_data.How_Malfunction_Code, split_r_and_multi_pos.Action_Taken_Code, compiled_c130_remis_data.Type_Maintenance_Code, current_operating_time.Current_Operating_Time, compiled_c130_remis_data.Component_Position_Number, compiled_c130_remis_data.Corrective_Narrative, compiled_c130_remis_data.Discrepancy_Narrative, compiled_c130_remis_data.Work_Center_Event_Narrative, split_r_and_multi_pos.Primary_Key_Index, compiled_c130_remis_data.On_Work_Order_Key, compiled_c130_remis_data.On_Maint_Action_Key, compiled_c130_remis_data.Work_Center_Event_Identifier, compiled_c130_remis_data.Sequence_Number, compiled_c130_remis_data.Work_Order_Number FROM ercm.compiled_c130_remis_data JOIN ercm.split_r_and_multi_pos ON compiled_c130_remis_data.On_Work_Order_Key = split_r_and_multi_pos.On_Work_Order_Key AND compiled_c130_remis_data.On_Maint_Action_Key = split_r_and_multi_pos.On_Maint_Action_Key AND compiled_c130_remis_data.Work_Center_Event_Identifier = split_r_and_multi_pos.Work_Center_Event_Identifier AND compiled_c130_remis_data.Sequence_Number = split_r_and_multi_pos.Sequence_Number AND compiled_c130_remis_data.Work_Order_Number = split_r_and_multi_pos.Work_Order_Number JOIN ercm.current_operating_time ON compiled_c130_remis_data.On_Work_Order_Key = current_operating_time.On_Work_Order_Key AND compiled_c130_remis_data.On_Maint_Action_Key = current_operating_time.On_Maint_Action_Key AND compiled_c130_remis_data.Work_Center_Event_Identifier = current_operating_time.Work_Center_Event_Identifier AND compiled_c130_remis_data.Sequence_Number = current_operating_time.Sequence_Number AND compiled_c130_remis_data.Work_Order_Number = current_operating_time.Work_Order_Number"
+                "SELECT compiled_c130_remis_data.Work_Unit_Code, compiled_c130_remis_data.On_Component_Serial_Number, compiled_c130_remis_data.On_Component_Part_Number, compiled_c130_remis_data.Equipment_Designator, compiled_c130_remis_data.Serial_Number, compiled_c130_remis_data.Geographic_Location, compiled_c130_remis_data.Performing_Geographic_Location, compiled_c130_remis_data.Transaction_Date, compiled_c130_remis_data.Start_Time, compiled_c130_remis_data.Work_Center_Code, compiled_c130_remis_data.When_Discovered_Code, compiled_c130_remis_data.How_Malfunction_Code, split_r_and_multi_pos.Action_Taken_Code, compiled_c130_remis_data.Type_Maintenance_Code, current_operating_time.Current_Operating_Time, compiled_c130_remis_data.Component_Position_Number, compiled_c130_remis_data.Corrective_Narrative, compiled_c130_remis_data.Discrepancy_Narrative, compiled_c130_remis_data.Work_Center_Event_Narrative, last_sortie_date.Depart_Date, last_sortie_date.Depart_Time, last_sortie_date.Flying_Hours AS Flying_Hours_Last_Sortie, split_r_and_multi_pos.Primary_Key_Index, compiled_c130_remis_data.On_Work_Order_Key, compiled_c130_remis_data.On_Maint_Action_Key, compiled_c130_remis_data.Work_Center_Event_Identifier, compiled_c130_remis_data.Sequence_Number, compiled_c130_remis_data.Work_Order_Number FROM ercm.compiled_c130_remis_data JOIN ercm.split_r_and_multi_pos ON compiled_c130_remis_data.On_Work_Order_Key = split_r_and_multi_pos.On_Work_Order_Key AND compiled_c130_remis_data.On_Maint_Action_Key = split_r_and_multi_pos.On_Maint_Action_Key AND compiled_c130_remis_data.Work_Center_Event_Identifier = split_r_and_multi_pos.Work_Center_Event_Identifier AND compiled_c130_remis_data.Sequence_Number = split_r_and_multi_pos.Sequence_Number AND compiled_c130_remis_data.Work_Order_Number = split_r_and_multi_pos.Work_Order_Number JOIN ercm.current_operating_time ON compiled_c130_remis_data.On_Work_Order_Key = current_operating_time.On_Work_Order_Key AND compiled_c130_remis_data.On_Maint_Action_Key = current_operating_time.On_Maint_Action_Key AND compiled_c130_remis_data.Work_Center_Event_Identifier = current_operating_time.Work_Center_Event_Identifier AND compiled_c130_remis_data.Sequence_Number = current_operating_time.Sequence_Number AND compiled_c130_remis_data.Work_Order_Number = current_operating_time.Work_Order_Number LEFT JOIN ercm.last_sortie_date ON compiled_c130_remis_data.Serial_Number = last_sortie_date.Serial_Number"
             ]
         },
         "class":"SQL",
@@ -317,19 +317,18 @@
         "label":"Joined Data",
         "model":"a2acd8e8-0f7e-4f81-84c8-f90d430d60cc",
         "position":[
-            950,
+            1025,
             130
         ]
     },
     {
         "class":"Stager",
-        "custom_model":true,
         "description":"Create a staged table in the database.",
         "id":"stage_data_for_tow",
         "label":"Stage Data for TOW",
-        "model":"60fd5600-4e81-414f-af4a-2038a8b0b9f0",
+        "model":"empty",
         "position":[
-            1115,
+            1225,
             130
         ]
     }
