@@ -331,5 +331,25 @@
             1225,
             130
         ]
+    },
+    {
+        "attrs":{
+            "component":"eRCM_TOW",
+            "component_config":{
+                "source_table":"stage_data_for_tow"
+            },
+            "iter_key":"Work_Unit_Code",
+            "iter_src":"stage_data_for_tow"
+        },
+        "class":"Looper",
+        "custom_model":true,
+        "description":"Run another component ('child component') multiple times, for each available value of the selected field",
+        "id":"calculate_tow",
+        "label":"Calculate TOW",
+        "model":"c6b9d182-d4a9-46f6-b5b0-4333051ed6cc",
+        "position":[
+            1415,
+            130
+        ]
     }
 ]
