@@ -51,28 +51,33 @@ class eRCM_TOW(Component):
     
     def _start_tow_record(self, record):
         self.tow_record = defaultdict(list)
-        self.tow_record['WUC'] = record['Work_Unit_Code']
+        self.tow_record['Work_Unit_Code'] = record['Work_Unit_Code']
         self.tow_record['Serial_Number'] = record['Serial_Number']
         #self.tow_record['PN'] = record.get('PN')
-        self.tow_record['EI_MDS'] = record['Equipment_Designator']
+        self.tow_record['Equipment_Designator'] = record['Equipment_Designator']
         #self.tow_record['NHA_SN'] = record['Install_EI_Serial_Number']
         self.tow_record['Component_Position_Number'] = record['Component_Position_Number']
-        self.tow_record['INSTALL_DT'] = record['Transaction_Date']
-        self.tow_record['INSTALL_TIME'] = record['Start_Time']
-        self.tow_record['INSTALL_LOC'] = record['Geographic_Location']
+        self.tow_record['Work_Order_Number'] = record['Work_Order_Number']
+        self.tow_record['On_Work_Order_Key'] = record['On_Work_Order_Key']
+        self.tow_record['Sequence_Number'] = record['Sequence_Number']
+        self.tow_record['Work_Center_Event_Identifier'] = record['Work_Center_Event_Identifier']
+        self.tow_record['On_Maint_Action_Key'] = record['On_Maint_Action_Key']
+        self.tow_record['INSTALL_Transaction_Date'] = record['Transaction_Date']
+        #self.tow_record['INSTALL_TIME'] = record['Start_Time']
+        self.tow_record['INSTALL_Geographic_Location'] = record['Geographic_Location']
         self.tow_record['TSN'] = record['Current_Operating_Time']
-        self.tow_record['ATC'] = record['Action_Taken_Code']
-        self.tow_record['CORR_NARR'] = record['Corrective_Narrative']
-        self.tow_record['DISCREP_NARR'] = record['Discrepancy_Narrative']
-        self.tow_record['WCE_NARR'] = record['Work_Center_Event_Narrative']
+        self.tow_record['Action_Taken_Code'] = record['Action_Taken_Code']
+        self.tow_record['Corrective_Narrative'] = record['Corrective_Narrative']
+        self.tow_record['Discrepancy_Narrative'] = record['Discrepancy_Narrative']
+        self.tow_record['Work_Center_Event_Narrative'] = record['Work_Center_Event_Narrative']
         self.tow_record['Last_FH'] = record['Flying_Hours_Last_Sortie']
     
     def _add_removal_to_tow_record(self, record):
-        self.tow_record['REMOVAL_DT'] = record['Transaction_Date']
-        self.tow_record['REMOVAL_TIME'] = record['Start_Time']
-        self.tow_record['REMOVAL_LOC'] = record['Geographic_Location']
-        self.tow_record['REMOVAL_HOWMAL'] = record['How_Malfunction_Code']
-        self.tow_record['WHEN_DISC_CODE'] = record['When_Discovered_Code']
+        self.tow_record['REMOVAL_Transaction_Date'] = record['Transaction_Date']
+        #self.tow_record['REMOVAL_TIME'] = record['Start_Time']
+        self.tow_record['REMOVAL_Geographic_Location'] = record['Geographic_Location']
+        self.tow_record['REMOVAL_How_Malfunction_Code'] = record['How_Malfunction_Code']
+        self.tow_record['When_Discovered_Code'] = record['When_Discovered_Code']
         self.tow_record['TOW'] = max(0, record['Current_Operating_Time'] - self.tow_record['TSN'])
     
     def record_tow_record(self, record=None):
