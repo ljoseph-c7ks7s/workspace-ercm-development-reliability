@@ -38,8 +38,24 @@
     {
         "attrs":{
             "column_conversion":{
-                "Serial Number":"str(x).strip()"
-            },
+          "Corrective Narrative": "x.strip()",
+          "Discrepancy Narrative": "x.strip()",
+          "Documenter Name": "str(x).strip()",
+          "Equipment Designator": "str(x).strip()",
+          "Install Location Identifier": "x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
+          "Install Serial Number": "x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
+          "Install Work Unit Code": "x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
+          "Job Control Number": "x if not x else str(x).strip() if type(x) == unicode else '%09d' % int(float(x))",
+          "Maintainer Name": "str(x).strip()",
+          "Off Component Part Number": "x if not x else str(x).strip().strip('.0')",
+          "On Component Serial Number": "x if not x else str(x).strip('.0')",
+          "Remove Location Identifier": "x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
+          "Remove Work Unit Code": "x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
+          "Serial Number": "x if not x else str(x).strip() if type(x) == unicode else '%010d' % int(float(x))",
+          "TCTO Data Code": "x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
+          "Work Center Event Narrative": "x.strip()",
+          "Work Unit Code": "x if not x else str(x).strip() if type(x) == unicode else int(float(x))"
+        },
             "date_formatter":{
                 "Transaction_Date":"%b %d, %Y"
             }
@@ -261,7 +277,7 @@
         },
         "class":"R",
         "custom_model":true,
-        "description":"Run an R script.",
+        "description":"Link REMIS data to Sortie data: add to REMIS data the closest accumulated hours value (by date) for each Serial_Number and Transaction_Date. Remove REMIS data before each Tail Number's first sortie.",
         "id":"current_sortie_date_and_adjusted_flying_hours",
         "label":"Current Sortie Date and Adjusted Flying Hours",
         "model":"7436c7a9-d95d-4dfe-8f35-9394ec5d5cfd",
