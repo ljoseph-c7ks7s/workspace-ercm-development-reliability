@@ -19,11 +19,7 @@ def fn(conn, libraries, params, predecessors):
 
 
     #Search for R&R in Corrective Narrative, replace corresponding ATC with "R"
-    Rs = df[df['Corrective_Narrative'].str.contains(pat="r2 |removed and replace| r 2 |r&r |r & r |r and r |r+r |r2d ",flags=re.IGNORECASE)].index
-    df.loc[Rs,'Action_Taken_Code'] = "R"
-
-    #Search for R&R at beginning of Corrective Narrative, replace corresponding ATC with "R"
-    Rs = df[df['Corrective_Narrative'].str.startswith("r 2 ","R 2 ")].index
+    Rs = df[df['Corrective_Narrative'].str.contains(pat=r"\br2\b|\br2\^d\b|\bremoved and replace|\br 2\b|\br&r\b|\br & r\b|\br and r\b|\br\+r\b|\br2d\b",flags=re.IGNORECASE)].index
     df.loc[Rs,'Action_Taken_Code'] = "R"
 
     df=df[['On_Work_Order_Key','On_Maint_Action_Key','Work_Center_Event_Identifier','Sequence_Number','Work_Order_Number','Action_Taken_Code']]
