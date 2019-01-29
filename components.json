@@ -331,28 +331,5 @@
             1115,
             130
         ]
-    },
-    {
-        "class":"TextMiner",
-        "description":"Run a set of descriptive statistics on text data",
-        "id":"failure_mode_wordcloud",
-        "label":"failure mode wordcloud",
-        "model":"textminer",
-        "position":[
-            795,
-            15
-        ]
-    },
-    {
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Run a set of SQL select queries on existing database tables.",
-        "id":"one_wuc",
-        "label":"one wuc",
-        "model":"2270b339-9c54-4034-85cc-f5a39fba7acf",
-        "position":[
-            585,
-            20
-        ]
     }
 ]

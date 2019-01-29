@@ -114,13 +114,5 @@
     {
         "source":"joined_data",
         "target":"stage_data_for_tow"
-    },
-    {
-        "source":"one_wuc",
-        "target":"failure_mode_wordcloud"
-    },
-    {
-        "source":"compiled_c130_remis_data",
-        "target":"one_wuc"
     }
 ]
