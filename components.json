@@ -38,24 +38,24 @@
     {
         "attrs":{
             "column_conversion":{
-          "Corrective Narrative": "x.strip()",
-          "Discrepancy Narrative": "x.strip()",
-          "Documenter Name": "str(x).strip()",
-          "Equipment Designator": "str(x).strip()",
-          "Install Location Identifier": "x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
-          "Install Serial Number": "x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
-          "Install Work Unit Code": "x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
-          "Job Control Number": "x if not x else str(x).strip() if type(x) == unicode else '%09d' % int(float(x))",
-          "Maintainer Name": "str(x).strip()",
-          "Off Component Part Number": "x if not x else str(x).strip().strip('.0')",
-          "On Component Serial Number": "x if not x else str(x).strip('.0')",
-          "Remove Location Identifier": "x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
-          "Remove Work Unit Code": "x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
-          "Serial Number": "x if not x else str(x).strip() if type(x) == unicode else '%010d' % int(float(x))",
-          "TCTO Data Code": "x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
-          "Work Center Event Narrative": "x.strip()",
-          "Work Unit Code": "x if not x else str(x).strip() if type(x) == unicode else int(float(x))"
-        },
+                "Corrective Narrative":"x.strip()",
+                "Discrepancy Narrative":"x.strip()",
+                "Documenter Name":"str(x).strip()",
+                "Equipment Designator":"str(x).strip()",
+                "Install Location Identifier":"x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
+                "Install Serial Number":"x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
+                "Install Work Unit Code":"x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
+                "Job Control Number":"x if not x else str(x).strip() if type(x) == unicode else '%09d' % int(float(x))",
+                "Maintainer Name":"str(x).strip()",
+                "Off Component Part Number":"x if not x else str(x).strip().strip('.0')",
+                "On Component Serial Number":"x if not x else str(x).strip('.0')",
+                "Remove Location Identifier":"x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
+                "Remove Work Unit Code":"x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
+                "Serial Number":"x if not x else str(x).strip() if type(x) == unicode else '%010d' % int(float(x))",
+                "TCTO Data Code":"x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
+                "Work Center Event Narrative":"x.strip()",
+                "Work Unit Code":"x if not x else str(x).strip() if type(x) == unicode else int(float(x))"
+            },
             "date_formatter":{
                 "Transaction_Date":"%b %d, %Y"
             }
@@ -343,9 +343,9 @@
         "description":"Create a staged table in the database.",
         "id":"stage_data_for_tow",
         "label":"Stage Data for TOW",
-        "model":"6fb80d2b-df89-49b6-8dc6-d66a110a5637",
+        "model":"9b05fdc5-734f-44ca-9360-0dec413e6b1f",
         "position":[
-            1225,
+            1185,
             130
         ]
     },
@@ -365,7 +365,63 @@
         "label":"Calculate TOW",
         "model":"c6b9d182-d4a9-46f6-b5b0-4333051ed6cc",
         "position":[
-            1415,
+            1345,
+            130
+        ]
+    },
+    {
+        "class":"Reliability_Interval_Creator",
+        "description":"Create reliability intervals by specifying table entries",
+        "id":"calculate_intervals",
+        "label":"Calculate Intervals",
+        "model":"reliability_interval_model",
+        "position":[
+            1095,
+            225
+        ]
+    },
+    {
+        "attrs":{
+            "query_list":[
+                "SELECT On_Work_Order_Key, On_Maint_Action_Key, Work_Center_Event_Identifier, Sequence_Number, Work_Order_Number FROM c130_remis_data WHERE work_unit_code not REGEXP '^0'"
+            ]
+        },
+        "class":"SQL",
+        "custom_model":true,
+        "description":"Excision Rule 2: Delete all entries with WUCs that begin with 0. (Because we are performing a root cause analysis for each MX event, we are not interested in capturing the inspections themselves, only the resulting discrepancies captured during the inspection) (Run first to speed up processing)",
+        "id":"remove_general_support_wucs",
+        "label":"Remove General Support WUCs",
+        "model":"a49ad5eb-5ada-4b73-8eb4-75945890f3b6",
+        "position":[
+            215,
+            70
+        ]
+    },
+    {
+        "class":"Reliability_Distribution_Creator",
+        "description":"Fit reliability distributions",
+        "id":"calculate_distributions",
+        "label":"Calculate Distributions",
+        "model":"reliability_distribution_model",
+        "position":[
+            1255,
+            225
+        ]
+    },
+    {
+        "attrs":{
+            "query_list":[
+                "SELECT * FROM calculate_tow WHERE INSTALL_action_taken_code != 'U'"
+            ]
+        },
+        "class":"SQL",
+        "custom_model":true,
+        "description":"Run a set of SQL select queries on existing database tables.",
+        "id":"remove_left_censored",
+        "label":"Remove Left Censored",
+        "model":"4e530303-442b-406c-94d8-cd53fafcf784",
+        "position":[
+            1495,
             130
         ]
     }

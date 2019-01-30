@@ -16,10 +16,6 @@
         "target":"compiled_sortie_history_data"
     },
     {
-        "source":"c130_remis_data",
-        "target":"wuc_edits"
-    },
-    {
         "source":"rules_list",
         "target":"wuc_edits"
     },
@@ -126,5 +122,53 @@
     {
         "source":"stage_data_for_tow",
         "target":"calculate_tow"
+    },
+    {
+        "source":"c130_remis_data",
+        "target":"remove_general_support_wucs"
+    },
+    {
+        "source":"remove_general_support_wucs",
+        "target":"wuc_edits"
+    },
+    {
+        "source":"compiled_c130_remis_data",
+        "target":"wuc_edits",
+        "vertices":[
+            [
+                385,
+                100
+            ]
+        ]
+    },
+    {
+        "source":"calculate_intervals",
+        "target":"calculate_distributions"
+    },
+    {
+        "source":"calculate_tow",
+        "target":"remove_left_censored"
+    },
+    {
+        "source":"remove_left_censored",
+        "target":"calculate_intervals",
+        "vertices":[
+            [
+                1655,
+                145
+            ],
+            [
+                1655,
+                190
+            ],
+            [
+                1045,
+                190
+            ],
+            [
+                1045,
+                240
+            ]
+        ]
     }
 ]
