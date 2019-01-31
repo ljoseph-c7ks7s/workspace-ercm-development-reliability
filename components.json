@@ -398,6 +398,23 @@
         ]
     },
     {
+        "attrs":{"script_file":"reliability_distribution_creator.R",
+        "additional_r_parameters":{
+          "make_plots": false,
+          "min_interval_time": 1,
+          "plot_dir": "./plots/",
+          "specific_param_combos": [
+            {
+              "override_dnc": null,
+              "parameter_values": {
+                "parent_object_type": [
+                  "C130H",
+                  "C130J"
+                ]
+              }
+            }
+          ]
+        }},
         "class":"Reliability_Distribution_Creator",
         "description":"Fit reliability distributions",
         "id":"calculate_distributions",
