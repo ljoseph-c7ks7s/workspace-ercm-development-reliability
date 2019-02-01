@@ -38,7 +38,23 @@
     {
         "attrs":{
             "column_conversion":{
-                "Serial Number":"str(x).strip()"
+                "Corrective Narrative":"x.strip()",
+                "Discrepancy Narrative":"x.strip()",
+                "Documenter Name":"str(x).strip()",
+                "Equipment Designator":"str(x).strip()",
+                "Install Location Identifier":"x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
+                "Install Serial Number":"x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
+                "Install Work Unit Code":"x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
+                "Job Control Number":"x if not x else str(x).strip() if type(x) == unicode else '%09d' % int(float(x))",
+                "Maintainer Name":"str(x).strip()",
+                "Off Component Part Number":"x if not x else str(x).strip().strip('.0')",
+                "On Component Serial Number":"x if not x else str(x).strip('.0')",
+                "Remove Location Identifier":"x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
+                "Remove Work Unit Code":"x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
+                "Serial Number":"x if not x else str(x).strip() if type(x) == unicode else '%010d' % int(float(x))",
+                "TCTO Data Code":"x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
+                "Work Center Event Narrative":"x.strip()",
+                "Work Unit Code":"x if not x else str(x).strip() if type(x) == unicode else int(float(x))"
             },
             "date_formatter":{
                 "Transaction_Date":"%b %d, %Y"
@@ -261,7 +277,7 @@
         },
         "class":"R",
         "custom_model":true,
-        "description":"Run an R script.",
+        "description":"Link REMIS data to Sortie data: add to REMIS data the closest accumulated hours value (by date) for each Serial_Number and Transaction_Date. Remove REMIS data before each Tail Number's first sortie.",
         "id":"current_sortie_date_and_adjusted_flying_hours",
         "label":"Current Sortie Date and Adjusted Flying Hours",
         "model":"7436c7a9-d95d-4dfe-8f35-9394ec5d5cfd",
@@ -307,7 +323,7 @@
     {
         "attrs":{
             "query_list":[
-                "SELECT compiled_c130_remis_data.On_Component_Serial_Number, compiled_c130_remis_data.On_Component_Part_Number, compiled_c130_remis_data.Equipment_Designator, compiled_c130_remis_data.Serial_Number, compiled_c130_remis_data.Geographic_Location, compiled_c130_remis_data.Performing_Geographic_Location, compiled_c130_remis_data.Transaction_Date, compiled_c130_remis_data.Start_Time, compiled_c130_remis_data.Work_Center_Code, compiled_c130_remis_data.When_Discovered_Code, compiled_c130_remis_data.How_Malfunction_Code, split_r_and_multi_pos.Action_Taken_Code, compiled_c130_remis_data.Type_Maintenance_Code, current_operating_time.Current_Operating_Time, compiled_c130_remis_data.Component_Position_Number, compiled_c130_remis_data.Corrective_Narrative, compiled_c130_remis_data.Discrepancy_Narrative, compiled_c130_remis_data.Work_Center_Event_Narrative, compiled_c130_remis_data.On_Work_Order_Key, compiled_c130_remis_data.On_Maint_Action_Key, compiled_c130_remis_data.Work_Center_Event_Identifier, compiled_c130_remis_data.Sequence_Number, compiled_c130_remis_data.Work_Order_Number FROM ercm.compiled_c130_remis_data JOIN ercm.split_r_and_multi_pos ON compiled_c130_remis_data.On_Work_Order_Key = split_r_and_multi_pos.On_Work_Order_Key AND compiled_c130_remis_data.On_Maint_Action_Key = split_r_and_multi_pos.On_Maint_Action_Key AND compiled_c130_remis_data.Work_Center_Event_Identifier = split_r_and_multi_pos.Work_Center_Event_Identifier AND compiled_c130_remis_data.Sequence_Number = split_r_and_multi_pos.Sequence_Number AND compiled_c130_remis_data.Work_Order_Number = split_r_and_multi_pos.Work_Order_Number JOIN ercm.current_operating_time ON compiled_c130_remis_data.On_Work_Order_Key = current_operating_time.On_Work_Order_Key AND compiled_c130_remis_data.On_Maint_Action_Key = current_operating_time.On_Maint_Action_Key AND compiled_c130_remis_data.Work_Center_Event_Identifier = current_operating_time.Work_Center_Event_Identifier AND compiled_c130_remis_data.Sequence_Number = current_operating_time.Sequence_Number AND compiled_c130_remis_data.Work_Order_Number = current_operating_time.Work_Order_Number"
+                "SELECT compiled_c130_remis_data.Work_Unit_Code, compiled_c130_remis_data.On_Component_Serial_Number, compiled_c130_remis_data.On_Component_Part_Number, compiled_c130_remis_data.Equipment_Designator, compiled_c130_remis_data.Serial_Number, compiled_c130_remis_data.Geographic_Location, compiled_c130_remis_data.Performing_Geographic_Location, compiled_c130_remis_data.Transaction_Date, compiled_c130_remis_data.Start_Time, compiled_c130_remis_data.Work_Center_Code, compiled_c130_remis_data.When_Discovered_Code, compiled_c130_remis_data.How_Malfunction_Code, split_r_and_multi_pos.Action_Taken_Code, compiled_c130_remis_data.Type_Maintenance_Code, current_operating_time.Current_Operating_Time, split_r_and_multi_pos.Parsed_Component_Position AS Component_Position_Number, compiled_c130_remis_data.Corrective_Narrative, compiled_c130_remis_data.Discrepancy_Narrative, compiled_c130_remis_data.Work_Center_Event_Narrative, last_sortie_date.Depart_Date, last_sortie_date.Depart_Time, last_sortie_date.Flying_Hours AS Flying_Hours_Last_Sortie, split_r_and_multi_pos.Primary_Key_Index, split_r_and_multi_pos.On_Work_Order_Key, split_r_and_multi_pos.On_Maint_Action_Key, split_r_and_multi_pos.Work_Center_Event_Identifier, split_r_and_multi_pos.Sequence_Number, split_r_and_multi_pos.Work_Order_Number FROM ercm.compiled_c130_remis_data JOIN ercm.split_r_and_multi_pos ON compiled_c130_remis_data.On_Work_Order_Key = split_r_and_multi_pos.On_Work_Order_Key AND compiled_c130_remis_data.On_Maint_Action_Key = split_r_and_multi_pos.On_Maint_Action_Key AND compiled_c130_remis_data.Work_Center_Event_Identifier = split_r_and_multi_pos.Work_Center_Event_Identifier AND compiled_c130_remis_data.Sequence_Number = split_r_and_multi_pos.Sequence_Number AND compiled_c130_remis_data.Work_Order_Number = split_r_and_multi_pos.Work_Order_Number JOIN ercm.current_operating_time ON compiled_c130_remis_data.On_Work_Order_Key = current_operating_time.On_Work_Order_Key AND compiled_c130_remis_data.On_Maint_Action_Key = current_operating_time.On_Maint_Action_Key AND compiled_c130_remis_data.Work_Center_Event_Identifier = current_operating_time.Work_Center_Event_Identifier AND compiled_c130_remis_data.Sequence_Number = current_operating_time.Sequence_Number AND compiled_c130_remis_data.Work_Order_Number = current_operating_time.Work_Order_Number LEFT JOIN ercm.last_sortie_date ON compiled_c130_remis_data.Serial_Number = last_sortie_date.Serial_Number AND compiled_c130_remis_data.Equipment_Designator = last_sortie_date.MDS"
             ]
         },
         "class":"SQL",
@@ -317,18 +333,112 @@
         "label":"Joined Data",
         "model":"a2acd8e8-0f7e-4f81-84c8-f90d430d60cc",
         "position":[
-            950,
+            1025,
             130
         ]
     },
     {
         "class":"Stager",
+        "custom_model":true,
         "description":"Create a staged table in the database.",
         "id":"stage_data_for_tow",
         "label":"Stage Data for TOW",
-        "model":"empty",
+        "model":"9b05fdc5-734f-44ca-9360-0dec413e6b1f",
         "position":[
-            1115,
+            1185,
+            130
+        ]
+    },
+    {
+        "attrs":{
+            "component":"eRCM_TOW",
+            "component_config":{
+                "source_table":"stage_data_for_tow"
+            },
+            "iter_key":"Work_Unit_Code",
+            "iter_src":"stage_data_for_tow"
+        },
+        "class":"Looper",
+        "custom_model":true,
+        "description":"Run another component ('child component') multiple times, for each available value of the selected field",
+        "id":"calculate_tow",
+        "label":"Calculate TOW",
+        "model":"c6b9d182-d4a9-46f6-b5b0-4333051ed6cc",
+        "position":[
+            1345,
+            130
+        ]
+    },
+    {
+        "class":"Reliability_Interval_Creator",
+        "description":"Create reliability intervals by specifying table entries",
+        "id":"calculate_intervals",
+        "label":"Calculate Intervals",
+        "model":"reliability_interval_model",
+        "position":[
+            1095,
+            225
+        ]
+    },
+    {
+        "attrs":{
+            "query_list":[
+                "SELECT On_Work_Order_Key, On_Maint_Action_Key, Work_Center_Event_Identifier, Sequence_Number, Work_Order_Number FROM c130_remis_data WHERE work_unit_code not REGEXP '^0'"
+            ]
+        },
+        "class":"SQL",
+        "custom_model":true,
+        "description":"Excision Rule 2: Delete all entries with WUCs that begin with 0. (Because we are performing a root cause analysis for each MX event, we are not interested in capturing the inspections themselves, only the resulting discrepancies captured during the inspection) (Run first to speed up processing)",
+        "id":"remove_general_support_wucs",
+        "label":"Remove General Support WUCs",
+        "model":"a49ad5eb-5ada-4b73-8eb4-75945890f3b6",
+        "position":[
+            215,
+            70
+        ]
+    },
+    {
+        "attrs":{"script_file":"reliability_distribution_creator.R",
+        "additional_r_parameters":{
+          "make_plots": false,
+          "min_interval_time": 1,
+          "plot_dir": "./plots/",
+          "specific_param_combos": [
+            {
+              "override_dnc": null,
+              "parameter_values": {
+                "parent_object_type": [
+                  "C130H",
+                  "C130J"
+                ]
+              }
+            }
+          ]
+        }},
+        "class":"Reliability_Distribution_Creator",
+        "description":"Fit reliability distributions",
+        "id":"calculate_distributions",
+        "label":"Calculate Distributions",
+        "model":"reliability_distribution_model",
+        "position":[
+            1255,
+            225
+        ]
+    },
+    {
+        "attrs":{
+            "query_list":[
+                "SELECT * FROM calculate_tow WHERE INSTALL_action_taken_code != 'U'"
+            ]
+        },
+        "class":"SQL",
+        "custom_model":true,
+        "description":"Run a set of SQL select queries on existing database tables.",
+        "id":"remove_left_censored",
+        "label":"Remove Left Censored",
+        "model":"4e530303-442b-406c-94d8-cd53fafcf784",
+        "position":[
+            1495,
             130
         ]
     }

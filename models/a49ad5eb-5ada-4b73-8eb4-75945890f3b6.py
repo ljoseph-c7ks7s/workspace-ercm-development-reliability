@@ -4,13 +4,11 @@ from sqlalchemy import MetaData, Table
 
 metadata = MetaData()
 
-on_equipment_maintenance = Table('on_equipment_maintenance', metadata,
+wuc_edits = Table('wuc_edits', metadata,
 
     Column('On_Work_Order_Key', Integer, primary_key=True, autoincrement=False),
     Column('On_Maint_Action_Key', Integer, primary_key=True, autoincrement=False),
     Column('Work_Center_Event_Identifier', Integer, primary_key=True, autoincrement=False),
     Column('Sequence_Number', BIGINT, primary_key=True, autoincrement=False),
-    Column('Work_Order_Number', BIGINT, primary_key=True, autoincrement=False),
-    Column('Work_Unit_Code', String(45)),
-    Column('WUC_Rule', String(255))
+    Column('Work_Order_Number', BIGINT, primary_key=True, autoincrement=False)
     )
