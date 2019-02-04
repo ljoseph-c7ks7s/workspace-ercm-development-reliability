@@ -4,9 +4,9 @@ from sqlalchemy import MetaData, Table
 
 metadata = MetaData()
 
-joined_data = Table('joined_data', metadata, 
+stage_data_for_tow = Table('stage_data_for_tow', metadata, 
 
-    Column('Work_Unit_Code', String(45), primary_key=False, autoincrement=False),
+    Column('Work_Unit_Code', String(255), primary_key=False, autoincrement=False),
     Column('On_Component_Serial_Number', String(255), primary_key=False, autoincrement=False),
     Column('On_Component_Part_Number', String(255), primary_key=False, autoincrement=False),
     Column('Equipment_Designator', String(255), primary_key=False, autoincrement=False),
@@ -34,4 +34,5 @@ joined_data = Table('joined_data', metadata,
     Column('Work_Center_Event_Identifier', Integer, primary_key=True, autoincrement=False),
     Column('Sequence_Number', BigInteger, primary_key=True, autoincrement=False),
     Column('Work_Order_Number', BigInteger, primary_key=True, autoincrement=False),
+    Column('__id__', String(255), primary_key=True, autoincrement=False),
 )
