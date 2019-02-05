@@ -19,4 +19,5 @@ sortie_merged = Table('sortie_merged', metadata,
     Column('Sorties_Flown', Integer, primary_key=False, autoincrement=False),
     Column('Total_Landings', Integer, primary_key=False, autoincrement=False),
     Column('Full_Stop_Landings', Integer, primary_key=False, autoincrement=False),
+    Column('__id__', String(255), primary_key=True, autoincrement=False)
 )

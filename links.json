@@ -24,32 +24,16 @@
         "target":"clean_wuc_remove_fom"
     },
     {
-        "source":"clean_wuc_remove_fom",
-        "target":"identify_r2"
-    },
-    {
         "source":"compiled_c130_remis_data",
         "target":"clean_wuc_remove_fom"
     },
     {
-        "source":"compiled_c130_remis_data",
-        "target":"identify_r2"
-    },
-    {
         "source":"clean_wuc_remove_fom",
         "target":"part_position_parser"
     },
     {
         "source":"compiled_c130_remis_data",
         "target":"part_position_parser"
-    },
-    {
-        "source":"part_position_parser",
-        "target":"split_r_and_multi_pos"
-    },
-    {
-        "source":"identify_r2",
-        "target":"split_r_and_multi_pos"
     },
     {
         "source":"compiled_sortie_history_data",
@@ -74,45 +58,11 @@
         "target":"wuc_edits"
     },
     {
-        "source":"sortie_accumulated_hours",
-        "target":"current_sortie_date_and_adjusted_flying_hours"
-    },
-    {
-        "source":"current_sortie_date_and_adjusted_flying_hours",
-        "target":"last_sortie_date"
-    },
-    {
-        "source":"clean_wuc_remove_fom",
-        "target":"current_operating_time",
-        "vertices":[
-            [
-                515,
-                245
-            ]
-        ]
-    },
-    {
-        "source":"current_sortie_date_and_adjusted_flying_hours",
-        "target":"current_operating_time"
-    },
-    {
-        "source":"current_operating_time",
-        "target":"joined_data"
-    },
-    {
         "source":"split_r_and_multi_pos",
         "target":"joined_data"
     },
     {
         "source":"compiled_c130_remis_data",
-        "target":"joined_data"
-    },
-    {
-        "source":"clean_wuc_remove_fom",
-        "target":"current_sortie_date_and_adjusted_flying_hours"
-    },
-    {
-        "source":"last_sortie_date",
         "target":"joined_data"
     },
     {
@@ -170,5 +120,51 @@
                 240
             ]
         ]
+    },
+    {
+        "source":"sortie_accumulated_hours",
+        "target":"last_sortie"
+    },
+    {
+        "source":"sortie_accumulated_hours",
+        "target":"add_event_age"
+    },
+    {
+        "source":"clean_wuc_remove_fom",
+        "target":"identify_r2_drop_atc"
+    },
+    {
+        "source":"compiled_c130_remis_data",
+        "target":"identify_r2_drop_atc"
+    },
+    {
+        "source":"identify_r2_drop_atc",
+        "target":"add_event_age"
+    },
+    {
+        "source":"compiled_c130_remis_data",
+        "target":"add_event_age",
+        "vertices":[
+            [
+                385,
+                240
+            ]
+        ]
+    },
+    {
+        "source":"identify_r2_drop_atc",
+        "target":"split_r_and_multi_pos"
+    },
+    {
+        "source":"part_position_parser",
+        "target":"joined_data"
+    },
+    {
+        "source":"add_event_age",
+        "target":"joined_data"
+    },
+    {
+        "source":"last_sortie",
+        "target":"joined_data"
     }
 ]

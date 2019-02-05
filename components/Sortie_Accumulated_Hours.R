@@ -7,7 +7,10 @@ fn <- function(conn_rmysql, load_path, params_path, component_path, output_file)
   
   df_cumulate <- df_cumulate %>%
     group_by(Serial_Number) %>%
-    mutate(Flying_Hours = cumsum(Flying_Hours))
+    mutate(Flying_Hours = cumsum(Flying_Hours),
+      Sorties_Flown = cumsum(Sorties_Flown),
+      Total_Landings = cumsum(Total_Landings),
+      Full_Stop_Landings = cumsum(Full_Stop_Landings))
   
   
   df_cumulate$Depart_Date <-  df_cumulate$Depart_Date %>% substr(1,10) %>% as.POSIXct()

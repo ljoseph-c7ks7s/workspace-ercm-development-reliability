@@ -219,9 +219,9 @@
     {
         "class":"Python",
         "custom_model":true,
-        "description":"Run a python script.",
-        "id":"identify_r2",
-        "label":"Identify R2",
+        "description":"Identify extra remove and replace actions and drop any ATC not related to a remove and replace (R, P, Q, T, or U).",
+        "id":"identify_r2_drop_atc",
+        "label":"Identify R2 Drop ATC",
         "model":"410fc5d6-6d2d-4655-8ed1-8f5715a946fb",
         "position":[
             540,
@@ -248,8 +248,8 @@
         "label":"Split R and Multi POS",
         "model":"98437406-31ef-429a-a8cd-d8a1b3d11ce0",
         "position":[
-            690,
-            130
+            695,
+            170
         ]
     },
     {
@@ -271,53 +271,17 @@
     },
     {
         "attrs":{
-            "db_class_preference":"RMySQL",
-            "local_script":"True",
-            "script_file":"Sortie_Recent_Entry&Time_Adjust.R"
+            "timeout":60
         },
-        "class":"R",
+        "class":"Python",
         "custom_model":true,
-        "description":"Link REMIS data to Sortie data: add to REMIS data the closest accumulated hours value (by date) for each Serial_Number and Transaction_Date. Remove REMIS data before each Tail Number's first sortie.",
-        "id":"current_sortie_date_and_adjusted_flying_hours",
-        "label":"Current Sortie Date and Adjusted Flying Hours",
-        "model":"7436c7a9-d95d-4dfe-8f35-9394ec5d5cfd",
-        "position":[
-            670,
-            290
-        ]
-    },
-    {
-        "attrs":{
-            "db_class_preference":"RMySQL",
-            "local_script":"True",
-            "script_file":"Last_Sortie_Date.R"
-        },
-        "class":"R",
-        "custom_model":true,
-        "description":"Run an R script.",
-        "id":"last_sortie_date",
-        "label":"Last Sortie Date",
-        "model":"62ce744b-764a-49b5-9e38-ec84eec3713f",
-        "position":[
-            830,
-            290
-        ]
-    },
-    {
-        "attrs":{
-            "db_class_preference":"RMySQL",
-            "local_script":"True",
-            "script_file":"Current_Operating_Time.R"
-        },
-        "class":"R",
-        "custom_model":true,
-        "description":"Run an R script.",
-        "id":"current_operating_time",
-        "label":"Current Operating Time",
+        "description":"Calculate accumulated hours for each maintenance event.",
+        "id":"add_event_age",
+        "label":"Add Event Age",
         "model":"fe45927a-354a-4a72-aa41-3a609f694151",
         "position":[
-            830,
-            230
+            700,
+            225
         ]
     },
     {
@@ -398,23 +362,25 @@
         ]
     },
     {
-        "attrs":{"script_file":"reliability_distribution_creator.R",
-        "additional_r_parameters":{
-          "make_plots": false,
-          "min_interval_time": 1,
-          "plot_dir": "./plots/",
-          "specific_param_combos": [
-            {
-              "override_dnc": null,
-              "parameter_values": {
-                "parent_object_type": [
-                  "C130H",
-                  "C130J"
+        "attrs":{
+            "additional_r_parameters":{
+                "make_plots":false,
+                "min_interval_time":1,
+                "plot_dir":"./plots/",
+                "specific_param_combos":[
+                    {
+                        "override_dnc":null,
+                        "parameter_values":{
+                            "parent_object_type":[
+                                "C130H",
+                                "C130J"
+                            ]
+                        }
+                    }
                 ]
-              }
-            }
-          ]
-        }},
+            },
+            "script_file":"reliability_distribution_creator.R"
+        },
         "class":"Reliability_Distribution_Creator",
         "description":"Fit reliability distributions",
         "id":"calculate_distributions",
@@ -440,6 +406,23 @@
         "position":[
             1495,
             130
+        ]
+    },
+    {
+        "attrs":{
+            "query_list":[
+                "SELECT sortie_accumulated_hours.* FROM sortie_accumulated_hours JOIN (SELECT Serial_Number, max(Flying_Hours) Flying_Hours FROM sortie_accumulated_hours GROUP BY Serial_Number ) max_sortie ON sortie_accumulated_hours.serial_number = max_sortie.serial_number AND sortie_accumulated_hours.Flying_Hours = max_sortie.Flying_Hours"
+            ]
+        },
+        "class":"SQL",
+        "custom_model":true,
+        "description":"Select the latest sortie for each aircraft.",
+        "id":"last_sortie",
+        "label":"Last Sortie",
+        "model":"77f11401-f6f5-4268-b547-f7a1b1aea338",
+        "position":[
+            670,
+            290
         ]
     }
 ]
