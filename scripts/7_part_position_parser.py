@@ -19,77 +19,118 @@ def reader(df,libraries):
 
     #For each entry, search corrective,discrepancy narratives for component position numbers 
     for i in range (0,len(df)):
-        pounds = []
+    pounds = []
 
-    #A (for future reference)
-        if re.findall("\#[1-9][^0-9]",df.loc[i,'Corrective_Narrative']) != []:
-            pounds = re.findall("\#[1-9][^0-9]",df.loc[i,'Corrective_Narrative'])
+    #For each entry, search corrective narrative for component position numbers
+        if re.findall("\#[1-9]",df.loc[i,'Corrective_Narrative']) != []:
+                pounds = re.findall("\#[1-9]",df.loc[i,'Corrective_Narrative'])
 
-        elif re.findall("\#[1-9]$",df.loc[i,'Corrective_Narrative']) != []:
-            pounds = re.findall("\#[1-9]$",df.loc[i,'Corrective_Narrative'])
+        elif re.findall("\#[1-9][0-9]",df.loc[i,'Corrective_Narrative']) != []:
+                pounds = re.findall("\#[1-9][0-9]",df.loc[i,'Corrective_Narrative'])
 
-        elif  re.findall("\#[1-9][0-9][^0-9]",df.loc[i,'Corrective_Narrative']) != []:
-            pounds = re.findall("\#[1-9][0-9][^0-9]",df.loc[i,'Corrective_Narrative'])
-        
-        elif  re.findall("\#[1-9][0-9]$",df.loc[i,'Corrective_Narrative']) != []:
-            pounds = re.findall("\#[1-9][0-9]$",df.loc[i,'Corrective_Narrative'])
+        elif re.findall("\bALL [1-9]",df.loc[i,'Corrective_Narrative']) != []:
+                pounds = re.findall("ALL [1-9]",df.loc[i,'Corrective_Narrative'])
 
-        elif  re.findall("ALL [1-9][^0-9]",df.loc[i,'Corrective_Narrative']) != []:
-            pounds = re.findall("ALL [1-9][^0-9]",df.loc[i,'Corrective_Narrative'])
+        elif re.findall("\bALL [1-9][0-9]",df.loc[i,'Corrective_Narrative']) != []:
+                pounds = re.findall("ALL [1-9][0-9]",df.loc[i,'Corrective_Narrative'])
 
-        elif re.findall("ALL [1-9][0-9][^0-9]",df.loc[i,'Corrective_Narrative']) != []:
-            pounds = re.findall("ALL [1-9][0-9][^0-9]",df.loc[i,'Corrective_Narrative'])
+        elif re.findall("\bALL FOUR",df.loc[i,'Corrective_Narrative']) != []:
+                pounds = re.findall("ALL FOUR",df.loc[i,'Corrective_Narrative'])
 
-        elif re.findall("ALL FOUR",df.loc[i,'Corrective_Narrative']) != []:
-            pounds = re.findall("ALL FOUR",df.loc[i,'Corrective_Narrative'])
+        elif re.findall("\bALL THREE",df.loc[i,'Corrective_Narrative']) != []:
+                pounds = re.findall("ALL THREE",df.loc[i,'Corrective_Narrative'])
 
-        elif re.findall("ALL THREE",df.loc[i,'Corrective_Narrative']) != []:
-            pounds = re.findall("ALL THREE",df.loc[i,'Corrective_Narrative'])
+        elif re.findall("\bNO [1-9]",df.loc[i,'Corrective_Narrative']) != []:
+                pounds = re.findall("NO [1-9]",df.loc[i,'Corrective_Narrative'])
+
+        elif re.findall("\bNO [1-9][0-9]",df.loc[i,'Corrective_Narrative']) != []:
+                pounds = re.findall("NO [1-9][0-9]",df.loc[i,'Corrective_Narrative'])
+
+        elif re.findall("\bNO. [1-9]",df.loc[i,'Corrective_Narrative']) != []:
+                pounds = re.findall("NO. [1-9]",df.loc[i,'Corrective_Narrative'])
+
+        elif re.findall("\bNO. [1-9][0-9]",df.loc[i,'Corrective_Narrative']) != []:
+                pounds = re.findall("NO. [1-9][0-9]",df.loc[i,'Corrective_Narrative'])
+
+        elif re.findall("\# [1-9]",df.loc[i,'Corrective_Narrative']) != []:
+                pounds = re.findall("\# [1-9]",df.loc[i,'Corrective_Narrative'])
+
+        elif re.findall("\# [1-9][0-9]",df.loc[i,'Corrective_Narrative']) != []:
+                pounds = re.findall("\# [1-9][0-9]",df.loc[i,'Corrective_Narrative'])
+
+        elif re.findall("NUMBER [1-9]",df.loc[i,'Corrective_Narrative']) != []:
+                pounds =  re.findall("NUMBER [1-9]",df.loc[i,'Corrective_Narrative'])
+
+        elif re.findall("NUMBER [1-9][0-9]",df.loc[i,'Corrective_Narrative']) != []:
+                pounds =  re.findall("NUMBER [1-9][0-9]",df.loc[i,'Corrective_Narrative'])
             
-    #B (for future reference)
-        elif  re.findall("\#[1-9][^0-9]",df.loc[i,'Discrepancy_Narrative']) != []:
-            pounds = re.findall("\#[1-9][^0-9]",df.loc[i,'Discrepancy_Narrative'])
+    #if no information is found in the corrective narrative, search discrepancy narrative
+        elif re.findall("\#[1-9]",df.loc[i,'Discrepancy_Narrative']) != []:
+                pounds = re.findall("\#[1-9]",df.loc[i,'Discrepancy_Narrative'])
 
-        elif re.findall("\#[1-9]$",df.loc[i,'Discrepancy_Narrative']) != []:
-            pounds = re.findall("\#[1-9]$",df.loc[i,'Discrepancy_Narrative'])
+        elif re.findall("\#[1-9][0-9]",df.loc[i,'Discrepancy_Narrative']) != []:
+                pounds = re.findall("\#[1-9][0-9]",df.loc[i,'Discrepancy_Narrative'])
 
-        elif  re.findall("\#[1-9][0-9][^0-9]",df.loc[i,'Discrepancy_Narrative']) != []:
-            pounds = re.findall("\#[1-9][0-9][^0-9]",df.loc[i,'Discrepancy_Narrative'])
-        
-        elif  re.findall("\#[1-9][0-9]$",df.loc[i,'Discrepancy_Narrative']) != []:
-            pounds = re.findall("\#[1-9][0-9]$",df.loc[i,'Discrepancy_Narrative'])
+        elif re.findall("\bALL [1-9]",df.loc[i,'Discrepancy_Narrative']) != []:
+                pounds = re.findall("ALL [1-9]",df.loc[i,'Discrepancy_Narrative'])
 
-        elif  re.findall("ALL [3-4]",df.loc[i,'Discrepancy_Narrative']) != []:
-            pounds = re.findall("ALL [3-4]",df.loc[i,'Discrepancy_Narrative'])
+        elif re.findall("\bALL [1-9][0-9]",df.loc[i,'Discrepancy_Narrative']) != []:
+                pounds = re.findall("ALL [1-9][0-9]",df.loc[i,'Discrepancy_Narrative'])
 
-        elif re.findall("ALL FOUR",df.loc[i,'Discrepancy_Narrative']) != []:
-            pounds = re.findall("ALL FOUR",df.loc[i,'Discrepancy_Narrative'])
+        elif re.findall("\bALL FOUR",df.loc[i,'Discrepancy_Narrative']) != []:
+                pounds = re.findall("ALL FOUR",df.loc[i,'Discrepancy_Narrative'])
 
-        elif re.findall("ALL THREE",df.loc[i,'Discrepancy_Narrative']) != []:
-            pounds = re.findall("ALL THREE",df.loc[i,'Discrepancy_Narrative'])
+        elif re.findall("\bALL THREE",df.loc[i,'Discrepancy_Narrative']) != []:
+                pounds = re.findall("ALL THREE",df.loc[i,'Discrepancy_Narrative'])
+
+        elif re.findall("\bNO [1-9]",df.loc[i,'Discrepancy_Narrative']) != []:
+                pounds = re.findall("NO [1-9]",df.loc[i,'Discrepancy_Narrative'])
+
+        elif re.findall("\bNO [1-9][0-9]",df.loc[i,'Discrepancy_Narrative']) != []:
+                pounds = re.findall("NO [1-9][0-9]",df.loc[i,'Discrepancy_Narrative'])
+
+        elif re.findall("\bNO. [1-9]",df.loc[i,'Discrepancy_Narrative']) != []:
+                pounds = re.findall("NO. [1-9]",df.loc[i,'Discrepancy_Narrative'])
+
+        elif re.findall("\bNO. [1-9][0-9]",df.loc[i,'Discrepancy_Narrative']) != []:
+                pounds = re.findall("NO. [1-9][0-9]",df.loc[i,'Discrepancy_Narrative'])
+
+        elif re.findall("\# [1-9]",df.loc[i,'Discrepancy_Narrative']) != []:
+                pounds = re.findall("\# [1-9]",df.loc[i,'Discrepancy_Narrative'])
+
+        elif re.findall("\# [1-9][0-9]",df.loc[i,'Discrepancy_Narrative']) != []:
+                pounds = re.findall("\# [1-9][0-9]",df.loc[i,'Discrepancy_Narrative'])
+
+        elif re.findall("NUMBER [1-9]",df.loc[i,'Discrepancy_Narrative']) != []:
+                pounds =  re.findall("NUMBER [1-9]",df.loc[i,'Discrepancy_Narrative'])
+
+        elif re.findall("NUMBER [1-9][0-9]",df.loc[i,'Discrepancy_Narrative']) != []:
+                pounds =  re.findall("NUMBER [1-9][0-9]",df.loc[i,'Discrepancy_Narrative'])
 
     #reformat string for ordering
-        string1 = str(pounds)
-        string1 = string1.replace("ALL 3","1,2,3")
-        string1 = string1.replace("ALL 4","1,2,3,4")
-        string1 = string1.replace("THREE","1,2,3")
-        string1 = string1.replace("FOUR","1,2,3,4")
-        string1 = string1.replace("\"","")
-        string1 = string1.replace("\'","")
-        string1 = string1.replace("#","")
-        string1 = string1.replace("ALL","")
-        string1 = string1.replace(" ","")
-        string1 = string1.replace("[","")
-        string1 = string1.replace("]",",")
-        string1 = string1.strip(',')
+    string1 = str(pounds)
+    string1 = string1.replace("ALL 3","1,2,3")
+    string1 = string1.replace("ALL 4","1,2,3,4")
+    string1 = string1.replace("ALL THREE","1,2,3")
+    string1 = string1.replace("ALL FOUR","1,2,3,4")
+    string1 = string1.replace("\"","")
+    string1 = string1.replace("\'","")
+    string1 = string1.replace("#","")
+    string1 = string1.replace("NUMBER","")
+    string1 = string1.replace("NO.","")
+    string1 = string1.replace("NO","")
+    string1 = string1.replace(" ","")
+    string1 = string1.replace("[","")
+    string1 = string1.replace("]",",")
+    string1 = string1.strip(',')
 
     #order numbers and reformat for output
-        string1 = str(sorted(string1.split(',')))
-        string1 = string1.replace("[","")
-        string1 = string1.replace("\'","")
-        string1 = string1.replace(" ","")
-        string1 = string1.replace("]","")
-        df.loc[i,'Parsed_Component_Position']=string1 
+    string1 = str(sorted(string1.split(',')))
+    string1 = string1.replace("[","")
+    string1 = string1.replace("\'","")
+    string1 = string1.replace(" ","")
+    string1 = string1.replace("]","")
+    df.loc[i,'Parsed_Component_Position']=string1
 
     #if no information is found in the narratives, copy in the provided 'Component_Position_Number'
         if df.loc[i,'Parsed_Component_Position'] == str():
