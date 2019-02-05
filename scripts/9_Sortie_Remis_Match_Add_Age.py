@@ -64,10 +64,5 @@ def fn(conn, libraries, params, predecessors):
         p.line(x=group.Transaction_Date, y=group.Current_Operating_Time, alpha=0.5)
 
     plotting.save(p)
-    
-    print df_remis[cols_to_return].sample(10)
-    print df_remis['Work_Order_Number'].sample(10)
-    print df_remis[cols_to_return].shape
-    print df_remis[cols_to_return].columns
 
     return df_remis[cols_to_return]

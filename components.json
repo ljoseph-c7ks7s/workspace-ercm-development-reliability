@@ -2,6 +2,8 @@
     {
         "attrs":{
             "column_conversion":{
+                "Depart Time": "'00:'+str(int(x)) if len(str(int(x)))==2 else '00:0' + str(int(x)) if len(str(int(x)))==1 else '0' + str(int(x))[0] + ':' + str(int(x))[1:] if len(str(int(x)))==3 else str(int(x))[0:2] + ':' + str(int(x))[2:]",
+                "Land Time": "'00:'+str(int(x)) if len(str(int(x)))==2 else '00:0' + str(int(x)) if len(str(int(x)))==1 else '0' + str(int(x))[0] + ':' + str(int(x))[1:] if len(str(int(x)))==3 else str(int(x))[0:2] + ':' + str(int(x))[2:]",
                 "Command":"str(x).strip()",
                 "MDS":"str(x).strip()",
                 "Serial Number":"('0'+str(x).replace('.0','') if len(str(x).replace('.0',''))==7 else str(x).replace('.0',''))[0:2]+'00'+('0'+str(x).replace('.0','') if len(str(x).replace('.0',''))==7 else str(x).replace('.0',''))[2:10]"
