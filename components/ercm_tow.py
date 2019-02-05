@@ -65,7 +65,7 @@ class eRCM_TOW(Component):
         self.tow_record['INSTALL_Transaction_Date'] = record['Transaction_Date']
         #self.tow_record['INSTALL_TIME'] = record['Start_Time']
         self.tow_record['INSTALL_Geographic_Location'] = record['Geographic_Location']
-        self.tow_record['TSN'] = record['Current_Operating_Time']
+        self.tow_record['INSTALL_TSN'] = record['Current_Operating_Time']
         self.tow_record['INSTALL_Action_Taken_Code'] = record['Action_Taken_Code']
         self.tow_record['Corrective_Narrative'] = record['Corrective_Narrative']
         self.tow_record['Discrepancy_Narrative'] = record['Discrepancy_Narrative']
@@ -79,7 +79,7 @@ class eRCM_TOW(Component):
         self.tow_record['REMOVAL_Geographic_Location'] = record['Geographic_Location']
         self.tow_record['REMOVAL_How_Malfunction_Code'] = record['How_Malfunction_Code']
         self.tow_record['When_Discovered_Code'] = record['When_Discovered_Code']
-        self.tow_record['TOW'] = max(0, record['Current_Operating_Time'] - self.tow_record['TSN'])
+        self.tow_record['TOW'] = max(0, record['Current_Operating_Time'] - self.tow_record['INSTALL_TSN'])
     
     def record_tow_record(self, record=None):
         if hasattr(self, 'tow_record'):
@@ -93,9 +93,9 @@ class eRCM_TOW(Component):
             if self.tow_record.get('TOW') is None:
                # still-installed (suspension); estimate current age and location
                #current_tsn = self._get_current_age(self.tow_record)
-               self.tow_record['TOW'] = max(0, self.tow_record['Last_FH'] - self.tow_record['TSN'])
+               self.tow_record['TOW'] = max(0, self.tow_record['Last_FH'] - self.tow_record['INSTALL_TSN'])
 
-            self.tow_record['TSN'] = self.tow_record['TSN'] + self.tow_record['TOW']
+            self.tow_record['REMOVAL_TSN'] = self.tow_record['INSTALL_TSN'] + self.tow_record['TOW']
             self.tow_record.pop('Last_FH')
             self.tow_records.append(dict(self.tow_record))
             del self.tow_record
