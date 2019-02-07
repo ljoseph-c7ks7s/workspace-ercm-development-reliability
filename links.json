@@ -114,5 +114,21 @@
     {
         "source":"joined_data",
         "target":"stage_data_for_tow"
+    },
+    {
+        "source":"compiled_c130_remis_data",
+        "target":"what_data"
+    },
+    {
+        "source":"compiled_c130_remis_data",
+        "target":"candidate_wucs_raw_removals"
+    },
+    {
+        "source":"ercm_wuc_list",
+        "target":"candidate_wucs_raw_removals"
+    },
+    {
+        "source":"candidate_wucs_raw_removals",
+        "target":"export_candidate_wuc_removals"
     }
 ]

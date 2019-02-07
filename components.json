@@ -128,21 +128,6 @@
     },
     {
         "attrs":{
-            "save_sheet_name":"Platform"
-        },
-        "class":"Excel",
-        "custom_model":true,
-        "description":"eRCM WUCs",
-        "id":"wuc_list",
-        "label":"WUC List",
-        "model":"fc6f37a8-7402-4c5d-b5d3-c887716aca94",
-        "position":[
-            50,
-            175
-        ]
-    },
-    {
-        "attrs":{
             "additional_parameters":{
                 "level":"all"
             },
@@ -237,10 +222,10 @@
         ]
     },
     {
-    	"attrs":{
-            "script_file":"Sortie_Accumulated_Hours.R",
-            "db_class_preference": "RMySQL", 
-            "local_script": "True"
+        "attrs":{
+            "db_class_preference":"RMySQL",
+            "local_script":"True",
+            "script_file":"Sortie_Accumulated_Hours.R"
         },
         "class":"R",
         "custom_model":true,
@@ -254,10 +239,10 @@
         ]
     },
     {
-    	"attrs":{
-            "script_file":"Sortie_Recent_Entry&Time_Adjust.R",
-            "db_class_preference": "RMySQL", 
-            "local_script": "True"
+        "attrs":{
+            "db_class_preference":"RMySQL",
+            "local_script":"True",
+            "script_file":"Sortie_Recent_Entry&Time_Adjust.R"
         },
         "class":"R",
         "custom_model":true,
@@ -271,10 +256,10 @@
         ]
     },
     {
-    	"attrs":{
-            "script_file":"Last_Sortie_Date.R",
-            "db_class_preference": "RMySQL", 
-            "local_script": "True"
+        "attrs":{
+            "db_class_preference":"RMySQL",
+            "local_script":"True",
+            "script_file":"Last_Sortie_Date.R"
         },
         "class":"R",
         "custom_model":true,
@@ -288,10 +273,10 @@
         ]
     },
     {
-    	"attrs":{
-            "script_file":"Current_Operating_Time.R",
-            "db_class_preference": "RMySQL", 
-            "local_script": "True"
+        "attrs":{
+            "db_class_preference":"RMySQL",
+            "local_script":"True",
+            "script_file":"Current_Operating_Time.R"
         },
         "class":"R",
         "custom_model":true,
@@ -305,10 +290,10 @@
         ]
     },
     {
-    	"attrs":{
+        "attrs":{
             "query_list":[
                 "SELECT compiled_c130_remis_data.On_Component_Serial_Number, compiled_c130_remis_data.On_Component_Part_Number, compiled_c130_remis_data.Equipment_Designator, compiled_c130_remis_data.Serial_Number, compiled_c130_remis_data.Geographic_Location, compiled_c130_remis_data.Performing_Geographic_Location, compiled_c130_remis_data.Transaction_Date, compiled_c130_remis_data.Start_Time, compiled_c130_remis_data.Work_Center_Code, compiled_c130_remis_data.When_Discovered_Code, compiled_c130_remis_data.How_Malfunction_Code, split_r_and_multi_pos.Action_Taken_Code, compiled_c130_remis_data.Type_Maintenance_Code, current_operating_time.Current_Operating_Time, compiled_c130_remis_data.Component_Position_Number, compiled_c130_remis_data.Corrective_Narrative, compiled_c130_remis_data.Discrepancy_Narrative, compiled_c130_remis_data.Work_Center_Event_Narrative, compiled_c130_remis_data.On_Work_Order_Key, compiled_c130_remis_data.On_Maint_Action_Key, compiled_c130_remis_data.Work_Center_Event_Identifier, compiled_c130_remis_data.Sequence_Number, compiled_c130_remis_data.Work_Order_Number FROM ercm.compiled_c130_remis_data JOIN ercm.split_r_and_multi_pos ON compiled_c130_remis_data.On_Work_Order_Key = split_r_and_multi_pos.On_Work_Order_Key AND compiled_c130_remis_data.On_Maint_Action_Key = split_r_and_multi_pos.On_Maint_Action_Key AND compiled_c130_remis_data.Work_Center_Event_Identifier = split_r_and_multi_pos.Work_Center_Event_Identifier AND compiled_c130_remis_data.Sequence_Number = split_r_and_multi_pos.Sequence_Number AND compiled_c130_remis_data.Work_Order_Number = split_r_and_multi_pos.Work_Order_Number JOIN ercm.current_operating_time ON compiled_c130_remis_data.On_Work_Order_Key = current_operating_time.On_Work_Order_Key AND compiled_c130_remis_data.On_Maint_Action_Key = current_operating_time.On_Maint_Action_Key AND compiled_c130_remis_data.Work_Center_Event_Identifier = current_operating_time.Work_Center_Event_Identifier AND compiled_c130_remis_data.Sequence_Number = current_operating_time.Sequence_Number AND compiled_c130_remis_data.Work_Order_Number = current_operating_time.Work_Order_Number"
-        	]
+            ]
         },
         "class":"SQL",
         "custom_model":true,
@@ -330,6 +315,100 @@
         "position":[
             1115,
             130
+        ]
+    },
+    {
+        "class":"SQL",
+        "custom_model":true,
+        "description":"Run a set of SQL select queries on existing database tables.",
+        "id":"what_data",
+        "label":"what data",
+        "model":"504ed54c-5d03-4c82-bbbe-8d3ccaf99e74",
+        "position":[
+            410,
+            5
+        ]
+    },
+    {
+        "class":"Excel",
+        "custom_model":true,
+        "description":"Import an Excel file.",
+        "id":"ercm_wuc_list",
+        "label":"eRCM WUC List",
+        "model":"335fda3d-ca15-44d9-9ac1-83b6a57f79ca",
+        "position":[
+            50,
+            190
+        ]
+    },
+    {
+        "class":"SQL",
+        "custom_model":true,
+        "description":"Run a set of SQL select queries on existing database tables.",
+        "id":"candidate_wucs_raw_removals",
+        "label":"Candidate WUCs Raw Removals",
+        "model":"6d78991e-09b9-41f4-8569-8381db89d78b",
+        "position":[
+            555,
+            25
+        ]
+    },
+    {
+        "class":"DataExporter",
+        "description":"Export all or a subset of rows contained in a table.",
+        "id":"export_candidate_wuc_removals",
+        "label":"Export Candidate WUC Removals",
+        "position":[
+            700,
+            25
+        ]
+    },
+    {
+        "class":"Excel",
+        "custom_model":true,
+        "description":"Import an Excel file.",
+        "id":"hmal_codes",
+        "label":"HMAL Codes",
+        "model":"6f7a7abe-a6bf-440c-bf23-ff5b327fa71d",
+        "position":[
+            50,
+            385
+        ]
+    },
+    {
+        "class":"Excel",
+        "custom_model":true,
+        "description":"Import an Excel file.",
+        "id":"at_codes",
+        "label":"AT Codes",
+        "model":"2871c63c-0c64-4f75-bbf3-55ea10996d23",
+        "position":[
+            50,
+            420
+        ]
+    },
+    {
+        "class":"Excel",
+        "custom_model":true,
+        "description":"Import an Excel file.",
+        "id":"tm_codes",
+        "label":"TM Codes",
+        "model":"fa84505e-1d6c-4838-8e32-4b3f48d705ab",
+        "position":[
+            50,
+            455
+        ]
+    },
+    {
+        "class":"Excel",
+        "custom_model":true,
+        "description":"Import an Excel file.",
+        "id":"wd_codes",
+        "label":"WD Codes",
+        "model":"615506ca-c708-4b27-b2b9-e56cb29c01ed",
+        "position":[
+            50,
+            490
         ]
     }
 ]
