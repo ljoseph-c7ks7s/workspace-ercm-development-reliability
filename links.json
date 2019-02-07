@@ -166,5 +166,9 @@
     {
         "source":"last_sortie",
         "target":"joined_data"
+    },
+    {
+        "source":"part_position_parser",
+        "target":"split_r_and_multi_pos"
     }
 ]
