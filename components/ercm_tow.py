@@ -101,6 +101,10 @@ class eRCM_TOW(Component):
             del self.tow_record
     
     def _process_sn_group(self, (sn, sn_group)):
+
+        map(self._process_sn_station_group, groupby(sn_group, key=lambda x: x['Component_Position_Number']))
+
+    def _process_sn_station_group(self, (sn, sn_group)):
         for r in sn_group:
             if self._is_install(r) and not hasattr(self, 'tow_record'):
                 self._start_tow_record(r)
@@ -119,8 +123,7 @@ class eRCM_TOW(Component):
     def transform(self):
 
         self.tow_records = []
-        map(self._process_sn_group, groupby(self.wuc_records, key=lambda x:x['Serial_Number']))
-
+        map(self._process_sn_group, groupby(self.wuc_records, key=lambda x: x['Serial_Number']))
 
         self.write_tsv(self.name, self.tow_records, self.field_names)
 
