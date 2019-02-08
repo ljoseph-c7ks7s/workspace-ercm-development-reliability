@@ -89,11 +89,11 @@ class eRCM_TOW(Component):
             #self.tow_record['CONSQ_RCODE'] = ';'.join(self.tow_record['CONSQ_RCODE'])
             #self.tow_record['CONSQ_UIC'] = ';'.join(self.tow_record['CONSQ_UIC'])
             #self.tow_record['CONSQ_IACT_CD'] = ';'.join(self.tow_record['CONSQ_IACT_CD'])
-            
-            if self.tow_record.get('TOW') is None:
-               # still-installed (suspension); estimate current age and location
-               #current_tsn = self._get_current_age(self.tow_record)
-               self.tow_record['TOW'] = max(0, self.tow_record['Last_FH'] - self.tow_record['INSTALL_TSN'])
+
+            if 'TOW' not in self.tow_record:
+                # still-installed (suspension); estimate current age and location
+                #current_tsn = self._get_current_age(self.tow_record)
+                self.tow_record['TOW'] = max(0, self.tow_record['Last_FH'] - self.tow_record['INSTALL_TSN'])
 
             self.tow_record['REMOVAL_TSN'] = self.tow_record['INSTALL_TSN'] + self.tow_record['TOW']
             self.tow_record.pop('Last_FH')
@@ -104,8 +104,8 @@ class eRCM_TOW(Component):
 
         map(self._process_sn_station_group, groupby(sn_group, key=lambda x: x['Component_Position_Number']))
 
-    def _process_sn_station_group(self, (sn, sn_group)):
-        for r in sn_group:
+    def _process_sn_station_group(self, (station, sn_station_group)):
+        for r in sn_station_group:
             if self._is_install(r) and not hasattr(self, 'tow_record'):
                 self._start_tow_record(r)
             elif self._is_removal(r) and hasattr(self, 'tow_record'):
@@ -113,10 +113,13 @@ class eRCM_TOW(Component):
             #elif (self._is_repair(r) or self._is_loss(r)) and hasattr(self, 'tow_record'):
                 #self._add_consq_to_tow_record(r)
             elif self._is_install(r) and hasattr(self, 'tow_record'):
-                #if not hasattr(self.tow_record, 'CONSQ_DT'):
-                    #self._add_consq_to_tow_record(r)
-                self.record_tow_record(r)
-                self._start_tow_record(r)
+                if 'TOW' not in self.tow_record:
+                    # multiple installs in a row without a removal. start interval over
+                    self._start_tow_record(r)
+                else:
+                    # end of proper tow record
+                    self.record_tow_record(r)
+                    self._start_tow_record(r)
 
         self.record_tow_record()
 
