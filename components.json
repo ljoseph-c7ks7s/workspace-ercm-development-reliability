@@ -321,6 +321,90 @@
         ]
     },
     {
+        "attrs":{"parameter_info":{
+              "completed_repairs": {
+                "plot_name": "repairs",
+                "removal_rate": 0,
+                "nrts": 0,
+                "do_not_combine": 0,
+                "consequence": 0
+              },
+              "object_type": {
+                "plot_name": "type",
+                "removal_rate": 0,
+                "nrts": 1,
+                "do_not_combine": 0,
+                "consequence": 1
+              },
+              "object_class": {
+                "plot_name": "class",
+                "removal_rate": 1,
+                "nrts": 1,
+                "do_not_combine": 1,
+                "consequence": 1
+              },
+              "location": {
+                "plot_name": "loc",
+                "removal_rate": 0,
+                "nrts": 1,
+                "do_not_combine": 0,
+                "consequence": 1
+              },
+              "parent_object_type": {
+                "plot_name": "nha_type",
+                "removal_rate": 1,
+                "nrts": 0,
+                "do_not_combine": 0,
+                "consequence": 0
+              }
+            },
+        "component_config":{
+  "object_class": "Work_Unit_Code",
+  "object_type": "Work_Unit_Code",
+  "object": "Component_Position_Number",
+  "operating_time": "TOW",
+  "interval_start_column": "INSTALL_Transaction_Date",
+  "interval_end_column": "REMOVAL_Transaction_Date",
+  "parent_type": "Equipment_Designator",
+  "suspension": [
+    {
+      "require_all": false,
+      "name": "CANNIBALIZATION",
+      "criteria": [
+        {
+          "field": "REMOVAL_Action_Taken_Code",
+          "is": "T"
+        }
+      ]
+    },
+    {
+      "require_all": false,
+      "name": "INSTALLED",
+      "criteria": [
+        {
+          "field": "REMOVAL_Transaction_Date",
+          "is": null
+        }
+      ]
+    }
+  ],
+  "consequence": [],
+  "age_reset_event": [
+    {
+      "require_all": false,
+      "name": "REPAIR",
+      "criteria": [
+        {
+          "field": "REMOVAL_Action_Taken_Code",
+          "is": "P"
+        }
+      ]
+    }
+  ],
+  "special_repair_event": [],
+  "location_group": []
+}
+    },
         "class":"Reliability_Interval_Creator",
         "description":"Create reliability intervals by specifying table entries",
         "id":"calculate_intervals",
