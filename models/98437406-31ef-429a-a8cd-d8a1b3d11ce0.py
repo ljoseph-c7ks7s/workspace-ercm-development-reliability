@@ -13,5 +13,5 @@ split_r_and_multi_pos = Table('split_r_and_multi_pos', metadata,
     Column('Work_Order_Number', BigInteger, primary_key=True, autoincrement=False),
     Column('Primary_Key_Index', Integer, primary_key=True, autoincrement=False),
     Column('Action_Taken_Code', String(1), primary_key=False, autoincrement=False),
-    Column('Parsed_Component_Position', Integer, primary_key=False, autoincrement=False),
+    Column('Parsed_Component_Position', String(45), primary_key=False, autoincrement=False),
 )
