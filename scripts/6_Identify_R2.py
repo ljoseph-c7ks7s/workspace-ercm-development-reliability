@@ -28,7 +28,7 @@ def fn(conn, libraries, params, predecessors):
 
 
     # Search for R&R in Corrective Narrative, replace corresponding ATC with "R"
-    Rs = df[df['Corrective_Narrative'].str.contains(pat=r"\br2\b|\br2\^d\b|\bremoved and replace|\br 2\b|\br&r\b|\br & r\b|\br and r\b|\br\+r\b|\br2d\b|\br2'd\b",flags=re.IGNORECASE)].index
+    Rs = df[df['Corrective_Narrative'].str.contains(pat=r"\br2\b|\br2\^d\b|\bremoved and replace|\br 2\b|\br&r\b|\br & r\b|\br and r\b|\br\+r\b|\br2d\b|\br2'd\b", na=False, flags=re.IGNORECASE)].index
     df.loc[Rs,'Action_Taken_Code'] = "R"
 
     # Remove ATCs we are not interested in
