@@ -21,6 +21,9 @@ def reader(df,libraries):
     for i in range (0,len(df)):
         pounds = []
 
+        if pd.isnull(df.loc[i,'Corrective_Narrative']):
+            continue
+
         #For each entry, search corrective narrative for component position numbers
         if re.findall("\#[1-9]",df.loc[i,'Corrective_Narrative']) != []:
                 pounds = re.findall("\#[1-9]",df.loc[i,'Corrective_Narrative'])

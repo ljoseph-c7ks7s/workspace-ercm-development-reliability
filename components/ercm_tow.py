@@ -78,7 +78,7 @@ class eRCM_TOW(Component):
         #self.tow_record['REMOVAL_TIME'] = record['Start_Time']
         self.tow_record['REMOVAL_Geographic_Location'] = record['Geographic_Location']
         self.tow_record['REMOVAL_How_Malfunction_Code'] = record['How_Malfunction_Code']
-        self.tow_record['When_Discovered_Code'] = record['When_Discovered_Code']
+        self.tow_record['REMOVAL_When_Discovered_Code'] = record['When_Discovered_Code']
         self.tow_record['TOW'] = max(0, record['Current_Operating_Time'] - self.tow_record['INSTALL_TSN'])
     
     def record_tow_record(self, record=None):

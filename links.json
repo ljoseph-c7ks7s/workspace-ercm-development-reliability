@@ -97,10 +97,10 @@
     },
     {
         "source":"calculate_tow",
-        "target":"remove_left_censored"
+        "target":"remove_left_censored_add_full_susp"
     },
     {
-        "source":"remove_left_censored",
+        "source":"remove_left_censored_add_full_susp",
         "target":"calculate_intervals",
         "vertices":[
             [

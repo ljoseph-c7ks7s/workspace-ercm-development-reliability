@@ -465,14 +465,15 @@
     {
         "attrs":{
             "query_list":[
-                "SELECT * FROM calculate_tow WHERE INSTALL_action_taken_code != 'U'"
+                "SELECT * FROM calculate_tow WHERE INSTALL_action_taken_code != 'U'",
+                "SELECT null id, work_unit_code, pt.serial_number, mds equipment_designator, station component_position_number, null work_order_Number, null on_work_order_key, null sequence_number, null work_center_event_identifier, null on_maint_action_key, first_sortie.depart_date install_transaction_date, null install_tsn, null install_geographic_location, null install_action_taken_code, null corrective_narrative, null discrepancy_narrative, null work_center_event_narrative, null removal_transaction_date, null removal_tsn, null removal_geographic_location, null removal_action_taken_code, null removal_how_malfunction_code, null removal_when_discovered_code, current_tow tow FROM predictive_twins pt JOIN (SELECT serial_number, min(depart_date) depart_date FROM compiled_sortie_history_data GROUP BY serial_number) first_sortie ON first_sortie.serial_number = pt.serial_number WHERE last_install_tsn IS NULL AND pt.serial_number IN (SELECT DISTINCT serial_number FROM compiled_c130_remis_data)"
             ]
         },
         "class":"SQL",
         "custom_model":true,
-        "description":"Run a set of SQL select queries on existing database tables.",
-        "id":"remove_left_censored",
-        "label":"Remove Left Censored",
+        "description":"Remove left-censored intervals for which we do not know the total time on test: those that were begun with a cannibalization install.  Also, add full-suspension intervals for aircraft that we've seen some maintenance record for - those intervals that were never removed at all (left and right censored) - to treat as non-causal/suspension intervals (use SN's earliest sortie date as install/interval start date).",
+        "id":"remove_left_censored_add_full_susp",
+        "label":"Remove Left Censored Add Full Susp",
         "model":"5a058a8e-8665-499a-9c67-6881efaecc18",
         "position":[
             1495,

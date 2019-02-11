@@ -30,7 +30,7 @@ calculate_tow = Table('calculate_tow', metadata,
     Column('REMOVAL_Geographic_Location', String(255), primary_key=False, autoincrement=False),
     Column('REMOVAL_Action_Taken_Code', String(255), primary_key=False, autoincrement=False),
     Column('REMOVAL_How_Malfunction_Code', Integer, primary_key=False, autoincrement=False),
-    Column('When_Discovered_Code', String(255), primary_key=False, autoincrement=False),
+    Column('REMOVAL_When_Discovered_Code', String(255), primary_key=False, autoincrement=False),
     Column('TOW', Float, primary_key=False, autoincrement=False),
 
     UniqueConstraint('Work_Unit_Code', 'Serial_Number', 'Component_Position_Number', 'INSTALL_Transaction_Date', 'Work_Order_Number', 'On_Work_Order_Key', 'Sequence_Number', 'Work_Center_Event_Identifier', 'On_Maint_Action_Key', name='wuc-sn-posn-install-dt-seq')
