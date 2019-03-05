@@ -11,5 +11,5 @@ fn <- function(conn_rmysql, load_path, params_path, component_path, output_file)
   
   ##Current Sortie Dates
   dbWriteTable(conn_rmysql, name = "last_sortie_date", value = df_sortie_last, 
-             overwrite = TRUE, row.names = FALSE)
+             overwrite = FALSE, append = TRUE, row.names = FALSE)
 }

@@ -121,6 +121,6 @@ fn <- function(conn_rmysql, load_path, params_path, component_path, output_file)
   ##Create the different tables
   ##Adjusted Cumulated Hours
   dbWriteTable(conn_rmysql, name = "current_sortie_date_and_adjusted_flying_hours", value = df_cumulated, 
-               overwrite = TRUE, row.names = FALSE)
+               overwrite = FALSE, append = TRUE, row.names = FALSE)
 }
 

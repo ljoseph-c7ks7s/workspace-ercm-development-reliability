@@ -81,6 +81,6 @@ fn <- function(conn_rmysql, load_path, params_path, component_path, output_file)
   distinct()
   
   dbWriteTable(conn_rmysql, name = "current_operating_time", value = current_op_time, 
-               overwrite = TRUE, row.names = FALSE)
+               overwrite = FALSE, append=TRUE, row.names = FALSE)
 
 }
