@@ -1,3 +1,4 @@
+import os
 from datetime import date
 from itertools import groupby
 from collections import defaultdict
@@ -133,3 +134,9 @@ class eRCM_TOW(Component):
     def load(self):
 
         self.load_text(self.get_filename())
+
+    def tearDown(self):
+
+        # delete any intermediate tab file
+        if os.path.isfile(self.get_filename()):
+            os.remove(self.get_filename())
