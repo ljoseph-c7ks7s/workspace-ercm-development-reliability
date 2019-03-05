@@ -50,7 +50,7 @@ def fn(conn, libraries, params, predecessors):
     df_remis = pd.concat(df_sns.values())
 
     # drop records without flight hour info
-    df = df[~pd.isna(df['Flying_Hours'])]
+    df_remis = df_remis[~df_remis['Flying_Hours'].isna()]
 
     df_remis.rename(columns={"Flying_Hours":"Current_Operating_Time"}, inplace=True)
 
