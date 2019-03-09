@@ -59,10 +59,11 @@ class eRCM_TOW(Component):
         #self.tow_record['NHA_SN'] = record['Install_EI_Serial_Number']
         self.tow_record['Component_Position_Number'] = record['Component_Position_Number']
         self.tow_record['Work_Order_Number'] = record['Work_Order_Number']
-        self.tow_record['On_Work_Order_Key'] = record['On_Work_Order_Key']
         self.tow_record['Sequence_Number'] = record['Sequence_Number']
         self.tow_record['Work_Center_Event_Identifier'] = record['Work_Center_Event_Identifier']
         self.tow_record['On_Maint_Action_Key'] = record['On_Maint_Action_Key']
+        self.tow_record['Off_Maint_Action_Key'] = record['Off_Maint_Action_Key']
+        self.tow_record['Depot_Maint_Action_Key'] = record['Depot_Maint_Action_Key']
         self.tow_record['INSTALL_Transaction_Date'] = record['Transaction_Date']
         #self.tow_record['INSTALL_TIME'] = record['Start_Time']
         self.tow_record['INSTALL_Geographic_Location'] = record['Geographic_Location']
@@ -74,6 +75,9 @@ class eRCM_TOW(Component):
         self.tow_record['Last_FH'] = record['Flying_Hours_Last_Sortie']
     
     def _add_removal_to_tow_record(self, record):
+        if self.tow_record.get('REMOVAL_Transaction_Date'):
+            self.log.info('multiple removals in a single interval')
+            self.log.info(repr(self.tow_record))
         self.tow_record['REMOVAL_Transaction_Date'] = record['Transaction_Date']
         self.tow_record['REMOVAL_Action_Taken_Code'] = record['Action_Taken_Code']
         #self.tow_record['REMOVAL_TIME'] = record['Start_Time']
@@ -116,6 +120,8 @@ class eRCM_TOW(Component):
             elif self._is_install(r) and hasattr(self, 'tow_record'):
                 if 'TOW' not in self.tow_record:
                     # multiple installs in a row without a removal. start interval over
+                    self.log.info('multiple installs in a single interval')
+                    self.log.info(repr(self.tow_record))
                     self._start_tow_record(r)
                 else:
                     # end of proper tow record

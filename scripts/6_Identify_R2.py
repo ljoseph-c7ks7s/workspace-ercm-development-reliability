@@ -21,11 +21,12 @@ def fn(conn, libraries, params, predecessors):
             compiled_table_name = pred
             break
 
-    df = pd.read_sql(con=conn,sql="""SELECT A.*, B.Action_Taken_Code, B.Corrective_Narrative FROM clean_wuc_remove_fom A 
-        LEFT JOIN {} B ON A.On_Work_Order_Key=B.On_Work_Order_Key AND A.On_Maint_Action_Key=B.On_Maint_Action_Key 
-        AND A.Work_Center_Event_Identifier=B.Work_Center_Event_Identifier AND A.Sequence_Number=B.Sequence_Number AND 
-        A.Work_Order_Number=B.Work_Order_Number""".format(compiled_table_name))
+    keys = list(pd.read_sql(sql="SHOW KEYS FROM remis_data", con=conn).Column_name)
+    join_clause = ['A.{} = B.{}'.format(ii,ii) for ii in keys]
+    join_clause = ' AND '.join(join_clause)
 
+    df = pd.read_sql(con=conn,sql="""SELECT A.*, B.Action_Taken_Code, B.Corrective_Narrative FROM clean_wuc_remove_fom A 
+        LEFT JOIN {} B ON {}""".format(compiled_table_name, join_clause))
 
     # Search for R&R in Corrective Narrative, replace corresponding ATC with "R"
     Rs = df[df['Corrective_Narrative'].str.contains(pat=r"\br2\b|\br2\^d\b|\bremoved and replace|\br 2\b|\br&r\b|\br & r\b|\br and r\b|\br\+r\b|\br2d\b|\br2'd\b", na=False, flags=re.IGNORECASE)].index
@@ -34,7 +35,8 @@ def fn(conn, libraries, params, predecessors):
     # Remove ATCs we are not interested in
     df = df[df.Action_Taken_Code.str.contains(r'R|P|Q|T|U')]
 
-    df = df[['On_Work_Order_Key','On_Maint_Action_Key','Work_Center_Event_Identifier','Sequence_Number','Work_Order_Number','Action_Taken_Code']]
+    keys.append('Action_Taken_Code')
+    df = df[keys]
     
     return df    
 

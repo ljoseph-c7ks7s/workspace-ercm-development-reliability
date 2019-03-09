@@ -14,4 +14,7 @@ eng_hrs = (
 )
 
 # select transactional maintenance data
-fetch_wuc = "SELECT * FROM stage_data_for_tow WHERE Work_Unit_Code = %s AND Action_Taken_Code in ('P','Q','T','U') ORDER BY Serial_Number, Component_Position_Number, Transaction_Date, Action_Taken_Code, Work_Order_Number, On_Work_Order_Key, Sequence_Number, Work_Center_Event_Identifier, On_Maint_Action_Key"
+fetch_wuc = """SELECT * FROM stage_data_for_tow 
+WHERE Work_Unit_Code = %s AND Action_Taken_Code in ('P','Q','T','U') 
+ORDER BY Serial_Number, Component_Position_Number, Transaction_Date, Action_Taken_Code, 
+Work_Order_Number, Sequence_Number, Work_Center_Event_Identifier, On_Maint_Action_Key, Off_Maint_Action_Key, Depot_Maint_Action_Key"""

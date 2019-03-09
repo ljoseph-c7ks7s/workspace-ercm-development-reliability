@@ -151,12 +151,14 @@ def fn(conn, libraries, params, predecessors):
             compiled_table_name = pred
             break
 
-    df = pd.read_sql(con=conn,sql="""SELECT A.*, B.Discrepancy_Narrative, B.Corrective_Narrative, B.Component_Position_Number FROM clean_wuc_remove_fom A 
-        LEFT JOIN {} B ON A.On_Work_Order_Key=B.On_Work_Order_Key AND A.On_Maint_Action_Key=B.On_Maint_Action_Key AND 
-        A.Work_Center_Event_Identifier=B.Work_Center_Event_Identifier AND A.Sequence_Number=B.Sequence_Number AND 
-        A.Work_Order_Number=B.Work_Order_Number""".format(compiled_table_name))
+    keys = list(pd.read_sql(sql="SHOW KEYS FROM remis_data", con=conn).Column_name)
+    join_clause = ['A.{} = B.{}'.format(ii,ii) for ii in keys]
+    join_clause = ' AND '.join(join_clause)
 
-    df['Parsed_Component_Position']= ""
+    df = pd.read_sql(con=conn,sql="""SELECT A.*, B.Discrepancy_Narrative, B.Corrective_Narrative, B.Component_Position_Number FROM clean_wuc_remove_fom A 
+        LEFT JOIN {} B ON {}""".format(compiled_table_name, join_clause))
+
+    df['Parsed_Component_Position'] = ""
     df['Parsed_Component_Position'] = df['Parsed_Component_Position'].astype(str)
     df['Component_Position_Number'] = df['Component_Position_Number'].astype(str)
 
@@ -164,7 +166,7 @@ def fn(conn, libraries, params, predecessors):
     df['Component_Position_Number'] = df['Component_Position_Number'].map(lambda x: 0 if not x.isdigit() else x)
     
     #run the reader function
-    reader(df,libraries)
+    reader(df, libraries)
     df['Parsed_Component_Position'] = df['Parsed_Component_Position'].astype(str)
     
     #remove any non-numeric characters captured at A or B
@@ -172,5 +174,6 @@ def fn(conn, libraries, params, predecessors):
     
 
     #keep only needed columns to save memory
-    df=df[['On_Work_Order_Key','On_Maint_Action_Key','Work_Center_Event_Identifier','Sequence_Number','Work_Order_Number','Parsed_Component_Position']]
+    keys.append('Parsed_Component_Position')
+    df=df[keys]
     return df

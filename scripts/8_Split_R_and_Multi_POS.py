@@ -14,9 +14,15 @@ Args:
 
 def fn(conn, libraries, params, predecessors):
     pd = libraries["pandas"]
-    re = libraries["re"]    
-    df = pd.read_sql(con=conn,sql="SELECT A.*, B.Action_Taken_Code FROM part_position_parser A LEFT JOIN identify_r2_drop_atc B ON A.On_Work_Order_Key=B.On_Work_Order_Key AND A.On_Maint_Action_Key=B.On_Maint_Action_Key AND A.Work_Center_Event_Identifier=B.Work_Center_Event_Identifier AND A.Sequence_Number=B.Sequence_Number AND A.Work_Order_Number=B.Work_Order_Number")
+    re = libraries["re"]
 
+
+    keys = list(pd.read_sql(sql="SHOW KEYS FROM remis_data", con=conn).Column_name)
+    join_clause = ['A.{} = B.{}'.format(ii,ii) for ii in keys]
+    join_clause = ' AND '.join(join_clause)
+
+    df = pd.read_sql(con=conn,sql="""SELECT A.*, B.Action_Taken_Code FROM part_position_parser A 
+        LEFT JOIN identify_r2_drop_atc B ON {}""".format(join_clause))
 
     #Split all entries with ATC = R into ATC = P and ATC = Q for separate removal and replacement entries
     df_Q = df[(df.loc[:,'Action_Taken_Code'] == 'R')]
@@ -36,13 +42,16 @@ def fn(conn, libraries, params, predecessors):
     
     #delete duplicate entries created where Parsed_Component_Position "4,4" "2,2" etc
     #find entries with duplicated primary key, ATC, PCP
-    df["Duplicate"] = df.duplicated(subset = ['On_Work_Order_Key','On_Maint_Action_Key','Work_Center_Event_Identifier','Sequence_Number','Work_Order_Number','Action_Taken_Code','Parsed_Component_Position'],keep='first')
+    cols = list(keys)
+    cols.extend(['Action_Taken_Code', 'Parsed_Component_Position'])
+    df["Duplicate"] = df.duplicated(subset = cols, keep='first')
     #Remove duplicate entries
     df=df[~df['Duplicate']]
     df=df.reset_index(drop=True) 
     
     #Find entries with duplicated primary key, append new 
-    df["Duplicate"] = df.duplicated(subset = ['On_Work_Order_Key','On_Maint_Action_Key','Work_Center_Event_Identifier','Sequence_Number','Work_Order_Number'],keep='first')
+    df.sort_values(by=keys, inplace=True)
+    df["Duplicate"] = df.duplicated(subset = keys, keep='first')
 #     For each row:
 #     if PK is equal to that of previous row, increment New_PK_Index by 1
 #     if not, set New_PK_Index to 1
