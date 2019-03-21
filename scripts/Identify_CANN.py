@@ -11,27 +11,28 @@ Args:
     Returns:
         Data frame of " On_Maint_Action_Key, Work_Center_Event_Identifier, Sequence_Number, Work_Order_Number, Action_Taken_Code "
 """
-def CANN_identifier(conn, libraries, params, predecessors):
+def fn(conn, libraries, params, predecessors):
     pd = libraries["pandas"]
     re = libraries["re"]
 
-    df = pd.read_sql(con=conn,sql="SELECT A.*, B.Discrepancy_Narrative, B.Corrective_Narrative, B.Action_Taken_Code FROM identify_r2_drop_atc A LEFT JOIN compiled_remis_data B ON A.on_maint_action_key = B. on_maint_action_key AND A.work_center_Event_identifier = B.work_Center_event_identifier AND A.sequence_number = B.sequence_number AND A.work_order_number = B.work_order_number")
+    keys = list(pd.read_sql(sql="SHOW KEYS FROM remis_data", con=conn).Column_name)
+    join_clause = ['A.{} = B.{}'.format(ii,ii) for ii in keys]
+    join_clause = ' AND '.join(join_clause)
 
-    CANNdisc=df[df['Discrepancy_Narrative'].str.contains(pat=r"CANN\b|CANNED|CANN'D|CANIB|CANN:|CANND")]
-    CANNcorr=df[df['Corrective_Narrative'].str.contains(pat=r"CANN\b|CANNED|CANN'D|CANIB|CANN:|CANND")]
+    df = pd.read_sql(con=conn,sql="""SELECT A.*, B.Discrepancy_Narrative, B.Corrective_Narrative 
+        FROM identify_r2_drop_atc A LEFT JOIN compiled_remis_data B ON {}""".format(join_clause))
+
+    CANNdisc=df[df['Discrepancy_Narrative'].str.contains(pat=r"CANN\b|CANNED|CANN'D|CANIB|CANNIB|CANN:|CANND")]
+    CANNcorr=df[df['Corrective_Narrative'].str.contains(pat=r"CANN\b|CANNED|CANN'D|CANIB|CANNIB|CANN:|CANND")]
     CANNdf=pd.concat([CANNdisc,CANNcorr]).drop_duplicates()
 
-    
-    # #Where ATC = P, change ATC to T
-    # Ps=CANNdf[CANNdf['Action_Taken_Code']=="P"].index
-    # df.loc[Ps,'Action_Taken_Code']="T"
+    # Where ATC = P, change ATC to T
+    Ps=CANNdf[CANNdf['Action_Taken_Code']=="P"].index
+    df.loc[Ps,'Action_Taken_Code']="T"
 
-
-
-    # #Where ATC = Q and CANN involved, change ATC to U
-    # Qs=CANNdf[CANNdf['Action_Taken_Code']=="Q"].index
-    # df.loc[Qs,'Action_Taken_Code']="U"
-
+    # Where ATC = Q and CANN involved, change ATC to U
+    Qs=CANNdf[CANNdf['Action_Taken_Code']=="Q"].index
+    df.loc[Qs,'Action_Taken_Code']="U"
 
     #Filter dataframe to just R entries
     Rs=CANNdf[CANNdf['Action_Taken_Code']=="R"]
@@ -50,13 +51,21 @@ def CANN_identifier(conn, libraries, params, predecessors):
                     df.loc[Rkey[Rkey['local_index']==1].index,'Action_Taken_Code']="U"
                 elif len(Rkey[Rkey['Corrective_Narrative']==narr])!=1:
                     raise ValueError("Too many duplicated R narratives: Work_Order_Number "+key+" has "+len(Rkey[Rkey['Corrective_Narrative']==narr])+" R's assigned to single corrective narrative")
+    
     # Rs=CANNdf[CANNdf['Action_Taken_Code']=="R"]
     # df.loc[Rs,'Action_Taken_Code']="C"
-    #test this new idea cleaner code
-    df.loc[:,'Action_Taken_Code'] = df.loc[:,'Action_Taken_Code'].replace("R","C")
-    df.loc[:,'Action_Taken_Code'] = df.loc[:,'Action_Taken_Code'].replace("P","T")
-    df.loc[:,'Action_Taken_Code'] = df.loc[:,'Action_Taken_Code'].replace("Q","U")
+    
+    # for ATC=R with some indication of CANN - leave as R for now except above changes
+    # could be several things that need more reasearch:
+    # 1) cann removal (search narrative for "CANN ___ TO")
+    # 2) cann install (search narrative for "CANN ___ FROM")
+    #      > "CANN ___ FOR" is unclear. found a case where it was a cann install (kc135 SN 5800000010 part removed and installed into SN 6300008003, WUC 11360, 2015-08-04)
+    # 3) true R2 for cause, so 'cann' in narrative is false positive
+    # 4) removal for cause but replaced with cann'd part
+    #       e.g. c130 sn 0800008606 jcn 173018771 wuc 61ae
+    #       and kc135 SN 5800000047 JCN 152778976 wuc 11PAB - actually an ATC=S originally
+    # there's also S's sometimes:
 
-    df = df[['On_Maint_Action_Key','Work_Center_Event_Identifier','Sequence_Number','Work_Order_Number','Action_Taken_Code']]
+    df = df.drop(columns=['Discrepancy_Narrative','Corrective_Narrative'])
     
     return df 

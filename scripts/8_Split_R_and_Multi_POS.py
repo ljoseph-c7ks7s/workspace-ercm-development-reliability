@@ -16,7 +16,6 @@ def fn(conn, libraries, params, predecessors):
     pd = libraries["pandas"]
     re = libraries["re"]
 
-
     keys = list(pd.read_sql(sql="SHOW KEYS FROM remis_data", con=conn).Column_name)
     join_clause = ['A.{} = B.{}'.format(ii,ii) for ii in keys]
     join_clause = ' AND '.join(join_clause)
