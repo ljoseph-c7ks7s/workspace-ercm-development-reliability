@@ -58,7 +58,7 @@ def fn(conn, libraries, params, predecessors):
         if df.loc[i,'Duplicate']:
             df.loc[i,'Primary_Key_Index'] = int(df.loc[i-1,'Primary_Key_Index'])+1
         else:
-            df.loc[i,'Primary_Key_Index'] = str("1")
+            df.loc[i,'Primary_Key_Index'] = 1
     
     df=df.drop(['Duplicate'],axis=1)
     df=df.reset_index(drop=True)
