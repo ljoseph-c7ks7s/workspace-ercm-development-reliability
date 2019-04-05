@@ -1,0 +1,12 @@
+On_Maint_Action_Key,Discrepancy_Narrative,Corrective_Narrative,Component_Position_Number,Parsed_Component_Position
+1,#1 engine not starting,removed #1 engine,0,1
+2,#11 ECBU dead,replaced with #7,0,0
+3,ran check pursuant to # 139 ,no fault found,0,0
+4,engine coolant leaking,plugged hole,4,4
+5,ecb inop replace per #123-45678,replaced ecb,0,0
+6,r2 engine #14,r2 engine #14,2,2
+7,r2 engine sn#123,r2 engine sn#123,2,2
+8,J JACKSON # 01019,J JACKSON # 01019,3,3
+9,NO. 4 engine down,r2 engine per 12-234,0,4
+11,(X) #1 THRU #10 COVE LIP DOORS LOWERED TO FOM,R2 #4 ENG PUMP IAW 1C-135(K)R-2-13JG-4,0,4
+12,engines #1-3 back,"engine #1,#2,#3 replaced",0,"1,2,3"

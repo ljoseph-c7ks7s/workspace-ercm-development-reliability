@@ -1,4 +1,9 @@
 """
+____________________________________________________________________________________________________________________________________
+
+Do not use this for kc135 it crashes studio
+____________________________________________________________________________________________________________________________________
+
 Args:
         conn: connection to database for read access
         libraries: dictionary of libraries; access by name
@@ -14,8 +19,7 @@ Args:
 
 def fn(conn, libraries, params, predecessors):
     pd = libraries["pandas"]
-    re = libraries["re"]    
-    df = "***WRITE SQL HERE***"
+    re = libraries["re"]
     df = pd.read_sql(con=conn,sql="SELECT A.*, B.Serial_Number, B.Work_Center_Event_Narrative, B.Corrective_Narrative, B.Discrepancy_Narrative FROM wuc_edits A LEFT JOIN compiled_c130_remis_data B ON A.On_Work_Order_Key=B.On_Work_Order_Key AND A.On_Maint_Action_Key=B.On_Maint_Action_Key AND A.Work_Center_Event_Identifier=B.Work_Center_Event_Identifier AND A.Sequence_Number=B.Sequence_Number AND A.Work_Order_Number=B.Work_Order_Number")
     pd = libraries["pandas"]
 
