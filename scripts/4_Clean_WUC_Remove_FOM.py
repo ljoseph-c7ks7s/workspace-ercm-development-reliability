@@ -32,9 +32,9 @@ def fn(conn, libraries, params, predecessors):
     print("The number of rows after removing WUCs is: "+str(len(df)))
     
     #Find all entries without FOM in narrative text
-    keepum = df[~(df['Work_Center_Event_Narrative'].str.contains(pat=r"\bF\.O\.M\b|\bFOM\b"))&
-               ~(df['Discrepancy_Narrative'].str.contains(pat=r"\bF\.O\.M\b|\bFOM\b"))&
-               ~(df['Corrective_Narrative'].str.contains(pat=r"\bF\.O\.M\b|\bFOM\b"))].index
+    keepum = df[~(df['Work_Center_Event_Narrative'].str.contains(pat=r"\bF\.O\.M\b|\bFOM\b|f[aeiou]c[aeiou]l+[aeiou]t[aeiou]t"))&
+               ~(df['Discrepancy_Narrative'].str.contains(pat=r"\bF\.O\.M\b|\bFOM\b|f[aeiou]c[aeiou]l+[aeiou]t[aeiou]t"))&
+               ~(df['Corrective_Narrative'].str.contains(pat=r"\bF\.O\.M\b|\bFOM\b|f[aeiou]c[aeiou]l+[aeiou]t[aeiou]t"))].index
     #Remove all other entries
     df=df.loc[keepum]
     print("The number of rows after removing FOMs is: "+str(len(df)))
