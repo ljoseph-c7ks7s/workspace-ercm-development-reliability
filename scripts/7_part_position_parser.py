@@ -74,9 +74,10 @@ def fn(conn, libraries, params, predecessors):
     for pred in predecessors:
         if 'compiled' in pred:
             compiled_table_name = pred
-            break
+        else:
+            key_table_name = pred
 
-    keys = list(pd.read_sql(sql="SHOW KEYS FROM remis_data", con=conn).Column_name)
+    keys = list(pd.read_sql(sql="SHOW KEYS FROM {}".format(key_table_name), con=conn).Column_name)
     join_clause = ['A.{} = B.{}'.format(ii,ii) for ii in keys]
     join_clause = ' AND '.join(join_clause)
 

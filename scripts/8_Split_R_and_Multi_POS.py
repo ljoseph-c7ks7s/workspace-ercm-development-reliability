@@ -16,12 +16,23 @@ def fn(conn, libraries, params, predecessors):
     pd = libraries["pandas"]
     re = libraries["re"]
 
-    keys = list(pd.read_sql(sql="SHOW KEYS FROM remis_data", con=conn).Column_name)
+    for pred in predecessors:
+        if 'position' in pred:
+            pred_position = pred
+        else:
+            pred_atc = pred
+            # ugly for backwards compatability with eRCM
+            if 'label' in pred:
+                atc_field = 'Action'
+            else:
+                atc_field = 'Action_Taken_Code'
+
+    keys = list(pd.read_sql(sql="SHOW KEYS FROM {}".format(pred), con=conn).Column_name)
     join_clause = ['A.{} = B.{}'.format(ii,ii) for ii in keys]
     join_clause = ' AND '.join(join_clause)
 
-    df = pd.read_sql(con=conn,sql="""SELECT A.*, B.Action_Taken_Code FROM part_position_parser A 
-        LEFT JOIN identify_r2_drop_atc B ON {}""".format(join_clause))
+    df = pd.read_sql(con=conn,sql="""SELECT A.*, B.{} Action_Taken_Code FROM {} A 
+        LEFT JOIN {} B ON {}""".format(atc_field, pred_position, pred_atc, join_clause))
 
     #Split all entries with ATC = R into ATC = P and ATC = Q for separate removal and replacement entries
     df_Q = df[(df.loc[:,'Action_Taken_Code'] == 'R')]
