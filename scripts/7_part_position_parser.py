@@ -51,7 +51,7 @@ def reader(df,libraries):
             remove = ','.join(map(str, trim))
 
             # save values into df
-            df.at[i,'Parsed_Component_Position']=remove
+            df.loc[i,'Parsed_Component_Position']=remove
             
             # if empty, check next narrative
             if any(x.isdigit() for x in remove):
@@ -74,14 +74,15 @@ def fn(conn, libraries, params, predecessors):
     for pred in predecessors:
         if 'compiled' in pred:
             compiled_table_name = pred
-            break
+        else:
+            key_table_name = pred
 
-    keys = list(pd.read_sql(sql="SHOW KEYS FROM remis_data", con=conn).Column_name)
+    keys = list(pd.read_sql(sql="SHOW KEYS FROM {}".format(key_table_name), con=conn).Column_name)
     join_clause = ['A.{} = B.{}'.format(ii,ii) for ii in keys]
     join_clause = ' AND '.join(join_clause)
 
-    df = pd.read_sql(con=conn,sql="""SELECT A.*, B.Discrepancy_Narrative, B.Corrective_Narrative, B.Component_Position_Number FROM identify_r2_drop_atc A 
-        LEFT JOIN {} B ON {}""".format(compiled_table_name, join_clause))
+    df = pd.read_sql(con=conn,sql="""SELECT A.*, B.Discrepancy_Narrative, B.Corrective_Narrative, B.Component_Position_Number FROM {} A 
+        LEFT JOIN {} B ON {}""".format(key_table_name, compiled_table_name, join_clause))
 
     df['Parsed_Component_Position'] = ""
     df['Parsed_Component_Position'] = df['Parsed_Component_Position'].astype(str)
