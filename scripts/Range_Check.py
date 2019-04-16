@@ -38,8 +38,8 @@ def fn(conn, libraries, params, predecessors):
 	df = pd.read_sql(sql = query, con = conn)
 
 	# grab parameter values
-	Y = df[params['Y']]
-	max_range = df[params['max_range']]
+	Y = params['Y']
+	max_range = params['max_range']
 	
 	df_out = range_check(df,libraries,Y,max_range)
 
