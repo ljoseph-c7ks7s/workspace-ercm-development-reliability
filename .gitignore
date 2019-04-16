@@ -2,3 +2,4 @@
 **/.ipynb_checkpoints
 /components/*_dl_models/*
 **.pytest_cache/
+/components/*_training_directory/*
