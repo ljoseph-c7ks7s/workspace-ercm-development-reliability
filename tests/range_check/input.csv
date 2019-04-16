@@ -1,0 +1,10 @@
+type,quantile,time,lcl,ucl
+quantile_ci, 0.15 ,1,0,0
+quantile_ci, 0.85 ,10,0,0
+quantile_ci, 0.16 ,2,0,1
+quantile_ci, 0.84 ,9,0,0
+quantile_ci, 0.17 ,3,0,0
+quantile_ci, 0.83 ,8,0,1
+quantile_ci, 0.19 ,1,0,1
+quantile_ci, 0.81 ,1,0,1
+,,,,
