@@ -1,2 +1,4 @@
 *.pyc
 **/.ipynb_checkpoints
+/components/*_dl_models/*
+**.pytest_cache/
