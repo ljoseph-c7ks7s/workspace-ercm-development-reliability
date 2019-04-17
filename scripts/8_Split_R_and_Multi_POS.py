@@ -48,7 +48,7 @@ def fn(conn, libraries, params, predecessors):
     df_U.loc[:,'Action_Taken_Code'] = df_U.loc[:,'Action_Taken_Code'].replace("TU","U")
     df_T.loc[:,'Action_Taken_Code'] = df_T.loc[:,'Action_Taken_Code'].replace("TU","T")
     df_not_TU = df[(df.loc[:,'Action_Taken_Code'] != 'TU')]
-    df = df_not_TU.append([df_T,df_Q])
+    df = df_not_TU.append([df_U,df_T])
     
     # Split multiple component positions into multiple entries with one component position
     # Parsed_Component_Position "1,2,3,4" becomes 4 entries with Parsed_Component_Position "1","2","3","4" respectively
