@@ -20,8 +20,9 @@ def range_check(df,libraries,Y,max_range):
 	out = pd.DataFrame(index=[0],columns={'range_check'})
 
 	# compute and test spreads
-	CI_spread_Y = df[df['quantile']==Y].iloc[0]['ucl']-df[df['quantile']==Y].iloc[0]['lcl']
-	CI_spread_compY = df[df['quantile']==(1-Y)].iloc[0]['ucl']-df[df['quantile']==(1-Y)].iloc[0]['lcl']
+	CI_spread_Y = df.loc[int(Y*100)-1]['ucl']-df.loc[int(Y*100)-1]['lcl']
+	CI_spread_compY = df.loc[100-int(Y*100)-1]['ucl']-df.loc[100-int(Y*100)-1]['lcl']
+
 	
 	if (CI_spread_Y or CI_spread_compY) > max_range:
 		out.iloc[0]['range_check'] = 'Fail'

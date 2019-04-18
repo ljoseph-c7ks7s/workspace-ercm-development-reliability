@@ -9,8 +9,8 @@ outdf = pd.DataFrame(index=[0],columns={'range_check'})
 
 def test():	
 	max_range = 0.3
-	df_input = pd.read_csv('input.csv')
-	df_output = pd.read_csv('output.csv')
+	df_input = pd.read_csv('input_4_18_19.csv')
+	df_output = pd.read_csv('output_4_18_19.csv')
 
 	for i in range(0,4):
 		Y = y[i]
