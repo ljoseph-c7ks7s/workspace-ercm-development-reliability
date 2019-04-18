@@ -4,7 +4,7 @@ import pandas as pd
 
 libraries = {'pandas':pd}
 
-y = [0.15,0.16,0.17,0.19]
+y = [0.14,0.15,0.17,0.18]
 outdf = pd.DataFrame(index=[0],columns={'range_check'})
 
 def test():	
