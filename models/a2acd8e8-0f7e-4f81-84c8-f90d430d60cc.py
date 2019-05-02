@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, BigInteger, String, DateTime, Text, Float, Date
-from sqlalchemy.dialects.mysql import DOUBLE, DECIMAL, TEXT, MEDIUMTEXT, MEDIUMBLOB, TINYINT, LONGTEXT, BINARY, SMALLINT, MEDIUMINT, BIT, TIMESTAMP, TIME
+from sqlalchemy.dialects.mysql import DOUBLE, DECIMAL, TEXT, MEDIUMTEXT, MEDIUMBLOB, TINYINT, LONGTEXT, BINARY, SMALLINT, MEDIUMINT, BIT, TIMESTAMP, TIME, BIGINT
 from sqlalchemy import MetaData, Table
 
 metadata = MetaData()
@@ -32,9 +32,10 @@ joined_data = Table('joined_data', metadata,
     Column('Total_Landings_Last_Sortie', Float, primary_key=False, autoincrement=False),
     Column('Full_Stop_Landings_Last_Sortie', Float, primary_key=False, autoincrement=False),
     Column('Primary_Key_Index', Integer, primary_key=True, autoincrement=False),
-    Column('On_Work_Order_Key', Integer, primary_key=True, autoincrement=False),
     Column('On_Maint_Action_Key', Integer, primary_key=True, autoincrement=False),
     Column('Work_Center_Event_Identifier', Integer, primary_key=True, autoincrement=False),
-    Column('Sequence_Number', BigInteger, primary_key=True, autoincrement=False),
-    Column('Work_Order_Number', BigInteger, primary_key=True, autoincrement=False),
+    Column('Sequence_Number', BIGINT, primary_key=True, autoincrement=False),
+    Column('Off_Maint_Action_Key', Integer, primary_key=True, autoincrement=False),
+    Column('Work_Order_Number', BIGINT, primary_key=True, autoincrement=False),
+    Column('Depot_Maint_Action_Key', Integer, primary_key=True, autoincrement=False)
 )

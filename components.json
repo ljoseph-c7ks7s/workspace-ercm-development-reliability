@@ -22,7 +22,7 @@
         "model":"ebbdb8d5-9400-4162-8fba-fc97e34d70c6",
         "position":[
             50,
-            275
+            320
         ]
     },
     {
@@ -34,7 +34,7 @@
         "model":"2ec95720-5068-445c-a15a-0d5c4f99894d",
         "position":[
             360,
-            290
+            335
         ]
     },
     {
@@ -60,13 +60,14 @@
             },
             "date_formatter":{
                 "Transaction_Date":"%b %d, %Y"
-            }
+            },
+            "save_file_name":"File_Name"
         },
         "class":"Excel",
         "custom_model":true,
         "description":"Latest export of C130 REMIS data",
-        "id":"c130_remis_data",
-        "label":"C130 REMIS Data",
+        "id":"remis_data",
+        "label":"REMIS Data",
         "model":"6018bebc-4949-4ecc-9a4b-f233ad436242",
         "position":[
             50,
@@ -76,10 +77,10 @@
     {
         "class":"Stager",
         "custom_model":true,
-        "description":"Create a staged table in the database.",
-        "id":"compiled_c130_remis_data",
-        "label":"Compiled C130 REMIS Data",
-        "model":"1bcf09ae-93eb-426a-9bfd-a8a3c8fcfadd",
+        "description":"Compile all previously-uploaded remis data.",
+        "id":"compiled_remis_data",
+        "label":"Compiled REMIS Data",
+        "model":"cd691f7b-48d2-4ef4-976c-4d6386eba8de",
         "position":[
             215,
             20
@@ -123,7 +124,7 @@
         "model":"fbdc98ee-c271-4ae8-887e-24c89d42870a",
         "position":[
             50,
-            315
+            355
         ]
     },
     {
@@ -141,7 +142,7 @@
         "model":"a8228da4-e502-4564-b5ef-e246e798cdeb",
         "position":[
             205,
-            290
+            335
         ]
     },
     {
@@ -158,8 +159,8 @@
         "label":"WUC Edits",
         "model":"184ad32a-a25b-4e56-bd17-1078f80aae4a",
         "position":[
-            245,
-            170
+            250,
+            125
         ]
     },
     {
@@ -171,13 +172,13 @@
         "model":"e98cd295-63ad-4ce4-97e7-561c611ac6ce",
         "position":[
             50,
-            235
+            190
         ]
     },
     {
         "attrs":{
             "query_list":[
-                "SELECT wuc_max_count.Work_Unit_Code, max(wucs_w_duplicates_2.WUC_Narrative) WUC_Narrative, wuc_max_count.Count FROM (SELECT Work_Unit_Code, max(Count) Count FROM (SELECT Work_Unit_Code, WUC_Narrative, count(*) Count FROM compiled_c130_remis_data GROUP BY  Work_Unit_Code, WUC_Narrative) wucs_w_duplicates GROUP BY  Work_Unit_Code) wuc_max_count JOIN (SELECT Work_Unit_Code, WUC_Narrative, count(*) Count FROM compiled_c130_remis_data GROUP BY  Work_Unit_Code, WUC_Narrative) wucs_w_duplicates_2 ON wuc_max_count.Work_Unit_Code = wucs_w_duplicates_2.Work_Unit_Code and wuc_max_count.count = wucs_w_duplicates_2.count GROUP BY  Work_Unit_Code, Count ORDER BY  wuc_max_count.Work_Unit_Code"
+                "SELECT wuc_max_count.Work_Unit_Code, max(wucs_w_duplicates_2.WUC_Narrative) WUC_Narrative, wuc_max_count.Count FROM (SELECT Work_Unit_Code, max(Count) Count FROM (SELECT Work_Unit_Code, WUC_Narrative, count(*) Count FROM compiled_remis_data GROUP BY  Work_Unit_Code, WUC_Narrative) wucs_w_duplicates GROUP BY  Work_Unit_Code) wuc_max_count JOIN (SELECT Work_Unit_Code, WUC_Narrative, count(*) Count FROM compiled_remis_data GROUP BY  Work_Unit_Code, WUC_Narrative) wucs_w_duplicates_2 ON wuc_max_count.Work_Unit_Code = wucs_w_duplicates_2.Work_Unit_Code and wuc_max_count.count = wucs_w_duplicates_2.count GROUP BY  Work_Unit_Code, Count ORDER BY  wuc_max_count.Work_Unit_Code"
             ]
         },
         "class":"SQL",
@@ -252,8 +253,8 @@
         "label":"Sortie Accumulated Hours",
         "model":"debc7c2f-0456-44bc-9f4d-680ba5ea86a4",
         "position":[
-            510,
-            290
+            515,
+            335
         ]
     },
     {
@@ -274,7 +275,7 @@
     {
         "attrs":{
             "query_list":[
-                "SELECT raw.Work_Unit_Code, raw.On_Component_Serial_Number, raw.On_Component_Part_Number, raw.Equipment_Designator, raw.Serial_Number, raw.Geographic_Location, raw.Performing_Geographic_Location, raw.Transaction_Date, raw.Start_Time, raw.Work_Center_Code, raw.When_Discovered_Code, raw.How_Malfunction_Code, split_r_and_multi_pos.Action_Taken_Code, raw.Type_Maintenance_Code, age.Current_Operating_Time, split_r_and_multi_pos.Parsed_Component_Position AS Component_Position_Number, raw.Corrective_Narrative, raw.Discrepancy_Narrative, raw.Work_Center_Event_Narrative, last_sortie.Depart_Date, last_sortie.Depart_Time, last_sortie.Flying_Hours AS Flying_Hours_Last_Sortie, last_sortie.Sorties_Flown AS Sorties_Flown_Last_Sortie, last_sortie.Total_Landings AS Total_Landings_Last_Sortie, last_sortie.Full_Stop_Landings AS Full_Stop_Landings_Last_Sortie, split_r_and_multi_pos.Primary_Key_Index, split_r_and_multi_pos.On_Work_Order_Key, split_r_and_multi_pos.On_Maint_Action_Key, split_r_and_multi_pos.Work_Center_Event_Identifier, split_r_and_multi_pos.Sequence_Number, split_r_and_multi_pos.Work_Order_Number FROM compiled_c130_remis_data raw JOIN split_r_and_multi_pos ON raw.On_Work_Order_Key = split_r_and_multi_pos.On_Work_Order_Key AND raw.On_Maint_Action_Key = split_r_and_multi_pos.On_Maint_Action_Key AND raw.Work_Center_Event_Identifier = split_r_and_multi_pos.Work_Center_Event_Identifier AND raw.Sequence_Number = split_r_and_multi_pos.Sequence_Number AND raw.Work_Order_Number = split_r_and_multi_pos.Work_Order_Number JOIN add_event_age age ON raw.On_Work_Order_Key = age.On_Work_Order_Key AND raw.On_Maint_Action_Key = age.On_Maint_Action_Key AND raw.Work_Center_Event_Identifier = age.Work_Center_Event_Identifier AND raw.Sequence_Number = age.Sequence_Number AND raw.Work_Order_Number = age.Work_Order_Number LEFT JOIN last_sortie ON raw.Serial_Number = last_sortie.Serial_Number AND raw.Equipment_Designator = last_sortie.MDS"
+                "SELECT raw.Work_Unit_Code, raw.On_Component_Serial_Number, raw.On_Component_Part_Number, raw.Equipment_Designator, raw.Serial_Number, raw.Geographic_Location, raw.Performing_Geographic_Location, raw.Transaction_Date, raw.Start_Time, raw.Work_Center_Code, raw.When_Discovered_Code, raw.How_Malfunction_Code, split_r_and_multi_pos.Action_Taken_Code, raw.Type_Maintenance_Code, age.Current_Operating_Time, split_r_and_multi_pos.Parsed_Component_Position AS Component_Position_Number, raw.Corrective_Narrative, raw.Discrepancy_Narrative, raw.Work_Center_Event_Narrative, last_sortie.Depart_Date, last_sortie.Depart_Time, last_sortie.Flying_Hours AS Flying_Hours_Last_Sortie, last_sortie.Sorties_Flown AS Sorties_Flown_Last_Sortie, last_sortie.Total_Landings AS Total_Landings_Last_Sortie, last_sortie.Full_Stop_Landings AS Full_Stop_Landings_Last_Sortie, split_r_and_multi_pos.Primary_Key_Index, split_r_and_multi_pos.On_Work_Order_Key, split_r_and_multi_pos.On_Maint_Action_Key, split_r_and_multi_pos.Work_Center_Event_Identifier, split_r_and_multi_pos.Sequence_Number, split_r_and_multi_pos.Work_Order_Number FROM compiled_remis_data raw JOIN split_r_and_multi_pos ON raw.On_Work_Order_Key = split_r_and_multi_pos.On_Work_Order_Key AND raw.On_Maint_Action_Key = split_r_and_multi_pos.On_Maint_Action_Key AND raw.Work_Center_Event_Identifier = split_r_and_multi_pos.Work_Center_Event_Identifier AND raw.Sequence_Number = split_r_and_multi_pos.Sequence_Number AND raw.Work_Order_Number = split_r_and_multi_pos.Work_Order_Number JOIN add_event_age age ON raw.On_Work_Order_Key = age.On_Work_Order_Key AND raw.On_Maint_Action_Key = age.On_Maint_Action_Key AND raw.Work_Center_Event_Identifier = age.Work_Center_Event_Identifier AND raw.Sequence_Number = age.Sequence_Number AND raw.Work_Order_Number = age.Work_Order_Number LEFT JOIN last_sortie ON raw.Serial_Number = last_sortie.Serial_Number AND raw.Equipment_Designator = last_sortie.MDS"
             ]
         },
         "class":"SQL",
@@ -294,7 +295,7 @@
         "description":"Create a staged table in the database.",
         "id":"stage_data_for_tow",
         "label":"Stage Data for TOW",
-        "model":"fd105d3a-f26e-4f88-b967-987f8789f28e",
+        "model":"1aed829d-8e00-42ce-8fcf-9a674474389e",
         "position":[
             1185,
             130
@@ -321,104 +322,139 @@
         ]
     },
     {
-        "attrs":{"parameter_info":{
-              "completed_repairs": {
-                "plot_name": "repairs",
-                "removal_rate": 0,
-                "nrts": 0,
-                "do_not_combine": 0,
-                "consequence": 0
-              },
-              "object_type": {
-                "plot_name": "type",
-                "removal_rate": 0,
-                "nrts": 1,
-                "do_not_combine": 0,
-                "consequence": 1
-              },
-              "object_class": {
-                "plot_name": "class",
-                "removal_rate": 1,
-                "nrts": 1,
-                "do_not_combine": 1,
-                "consequence": 1
-              },
-              "location": {
-                "plot_name": "loc",
-                "removal_rate": 0,
-                "nrts": 1,
-                "do_not_combine": 0,
-                "consequence": 1
-              },
-              "parent_object_type": {
-                "plot_name": "nha_type",
-                "removal_rate": 1,
-                "nrts": 0,
-                "do_not_combine": 0,
-                "consequence": 0
-              }
+        "attrs":{
+            "component_config":{
+                "age_reset_event":[
+                    {
+                        "criteria":[
+                            {
+                                "field":"REMOVAL_Action_Taken_Code",
+                                "is":"P"
+                            }
+                        ],
+                        "name":"REPAIR",
+                        "require_all":false
+                    }
+                ],
+                "consequence":[],
+                "interval_end_column":"REMOVAL_Transaction_Date",
+                "interval_start_column":"INSTALL_Transaction_Date",
+                "location_group":[],
+                "object":"Component_Position_Number",
+                "object_class":"Work_Unit_Code",
+                "object_type":"Work_Unit_Code",
+                "operating_time":"TOW",
+                "parent_type":"Equipment_Designator",
+                "special_repair_event":[],
+                "suspension":[
+                    {
+                        "criteria":[
+                            {
+                                "field":"REMOVAL_Action_Taken_Code",
+                                "is":"T"
+                            }
+                        ],
+                        "name":"CANNIBALIZATION",
+                        "require_all":false
+                    },
+                    {
+                        "criteria":[
+                            {
+                                "field":"REMOVAL_Transaction_Date",
+                                "is":null
+                            }
+                        ],
+                        "name":"INSTALLED",
+                        "require_all":false
+                    },
+                    {
+                        "criteria":[
+                            {
+                                "field":"spans_unknown_removal",
+                                "is":"1"
+                            }
+                        ],
+                        "name":"SPANS_UNKNOWN_REMOVAL",
+                        "require_all":false
+                    },
+                    {
+                        "criteria":[
+                            {
+                                "field":"REMOVAL_Cause",
+                                "is":"Isolation"
+                            }
+                        ],
+                        "name":"ISOLATION",
+                        "require_all":false
+                    }
+                ]
             },
-        "component_config":{
-  "object_class": "Work_Unit_Code",
-  "object_type": "Work_Unit_Code",
-  "object": "Component_Position_Number",
-  "operating_time": "TOW",
-  "interval_start_column": "INSTALL_Transaction_Date",
-  "interval_end_column": "REMOVAL_Transaction_Date",
-  "parent_type": "Equipment_Designator",
-  "suspension": [
-    {
-      "require_all": false,
-      "name": "CANNIBALIZATION",
-      "criteria": [
-        {
-          "field": "REMOVAL_Action_Taken_Code",
-          "is": "T"
-        }
-      ]
-    },
-    {
-      "require_all": false,
-      "name": "INSTALLED",
-      "criteria": [
-        {
-          "field": "REMOVAL_Transaction_Date",
-          "is": null
-        }
-      ]
-    }
-  ],
-  "consequence": [],
-  "age_reset_event": [
-    {
-      "require_all": false,
-      "name": "REPAIR",
-      "criteria": [
-        {
-          "field": "REMOVAL_Action_Taken_Code",
-          "is": "P"
-        }
-      ]
-    }
-  ],
-  "special_repair_event": [],
-  "location_group": []
-}
-    },
+            "parameter_info":{
+                "Removed_Last_10_Years":{
+                    "consequence":0,
+                    "do_not_combine":0,
+                    "nrts":0,
+                    "plot_name":"rem_last_10",
+                    "removal_rate":1
+                },
+                "Removed_Last_5_Years":{
+                    "consequence":0,
+                    "do_not_combine":0,
+                    "nrts":0,
+                    "plot_name":"rem_last_5",
+                    "removal_rate":1
+                },
+                "completed_repairs":{
+                    "consequence":0,
+                    "do_not_combine":0,
+                    "nrts":0,
+                    "plot_name":"repairs",
+                    "removal_rate":0
+                },
+                "location":{
+                    "consequence":1,
+                    "do_not_combine":0,
+                    "nrts":1,
+                    "plot_name":"loc",
+                    "removal_rate":0
+                },
+                "object_class":{
+                    "consequence":1,
+                    "do_not_combine":1,
+                    "nrts":1,
+                    "plot_name":"class",
+                    "removal_rate":1
+                },
+                "object_type":{
+                    "consequence":1,
+                    "do_not_combine":0,
+                    "nrts":1,
+                    "plot_name":"type",
+                    "removal_rate":0
+                },
+                "parent_object_type":{
+                    "consequence":0,
+                    "do_not_combine":0,
+                    "nrts":0,
+                    "plot_name":"nha_type",
+                    "removal_rate":1
+                }
+            }
+        },
         "class":"Reliability_Interval_Creator",
         "description":"Create reliability intervals by specifying table entries",
         "id":"calculate_intervals",
         "label":"Calculate Intervals",
         "model":"reliability_interval_model",
         "position":[
-            1095,
+            1225,
             225
         ]
     },
     {
         "attrs":{
             "query_list":[
-                "SELECT On_Work_Order_Key, On_Maint_Action_Key, Work_Center_Event_Identifier, Sequence_Number, Work_Order_Number FROM c130_remis_data WHERE work_unit_code not REGEXP '^0'"
+                "SELECT On_Maint_Action_Key, Work_Center_Event_Identifier, Sequence_Number, Off_Maint_Action_Key, Work_Order_Number, Depot_Maint_Action_Key FROM remis_data WHERE work_unit_code not REGEXP '^0'"
             ]
         },
         "class":"SQL",
@@ -436,7 +472,7 @@
         "attrs":{
             "additional_r_parameters":{
                 "make_plots":false,
-                "min_interval_time":1,
+                "min_interval_time":0.1,
                 "plot_dir":"./plots/",
                 "specific_param_combos":[
                     {
@@ -458,26 +494,8 @@
         "label":"Calculate Distributions",
         "model":"reliability_distribution_model",
         "position":[
-            1255,
+            1375,
             225
-        ]
-    },
-    {
-        "attrs":{
-            "query_list":[
-                "SELECT * FROM calculate_tow WHERE INSTALL_action_taken_code != 'U'",
-                "SELECT null id, work_unit_code, pt.serial_number, mds equipment_designator, station component_position_number, null work_order_Number, null on_work_order_key, null sequence_number, null work_center_event_identifier, null on_maint_action_key, first_sortie.depart_date install_transaction_date, null install_tsn, null install_geographic_location, null install_action_taken_code, null corrective_narrative, null discrepancy_narrative, null work_center_event_narrative, null removal_transaction_date, null removal_tsn, null removal_geographic_location, null removal_action_taken_code, null removal_how_malfunction_code, null removal_when_discovered_code, current_tow tow FROM predictive_twins pt JOIN (SELECT serial_number, min(depart_date) depart_date FROM compiled_sortie_history_data GROUP BY serial_number) first_sortie ON first_sortie.serial_number = pt.serial_number WHERE last_install_tsn IS NULL AND pt.serial_number IN (SELECT DISTINCT serial_number FROM compiled_c130_remis_data)"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Remove left-censored intervals for which we do not know the total time on test: those that were begun with a cannibalization install.  Also, add full-suspension intervals for aircraft that we've seen some maintenance record for - those intervals that were never removed at all (left and right censored) - to treat as non-causal/suspension intervals (use SN's earliest sortie date as install/interval start date).",
-        "id":"remove_left_censored_add_full_susp",
-        "label":"Remove Left Censored Add Full Susp",
-        "model":"5a058a8e-8665-499a-9c67-6881efaecc18",
-        "position":[
-            1495,
-            130
         ]
     },
     {
@@ -493,8 +511,8 @@
         "label":"Last Sortie",
         "model":"77f11401-f6f5-4268-b547-f7a1b1aea338",
         "position":[
-            670,
-            290
+            665,
+            335
         ]
     },
     {
@@ -510,15 +528,25 @@
         ]
     },
     {
+        "attrs":{
+            "column_conversion":{
+                "BOBJ Transactions for 01-2018 thru 01-2019":"x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
+                "PART NUMBER":"x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
+                "WUC":"x if not x else str(x).strip() if type(x) == unicode else int(float(x))"
+            },
+            "sheets":[
+                "WUC list with Part #"
+            ]
+        },
         "class":"Excel",
         "custom_model":true,
-        "description":"Import an Excel file.",
-        "id":"ercm_wuc_list",
-        "label":"eRCM WUC List",
+        "description":"Import an Excel file with the ~30 priority WUCs for C130.",
+        "id":"ercm_wuc_list_raw",
+        "label":"eRCM WUC List Raw",
         "model":"335fda3d-ca15-44d9-9ac1-83b6a57f79ca",
         "position":[
-            50,
-            190
+            10,
+            225
         ]
     },
     {
@@ -552,7 +580,7 @@
         "model":"6f7a7abe-a6bf-440c-bf23-ff5b327fa71d",
         "position":[
             50,
-            385
+            525
         ]
     },
     {
@@ -589,6 +617,238 @@
         "position":[
             50,
             490
+        ]
+    },
+    {
+        "attrs":{
+            "query_list":[
+                "SELECT File_Name, remis.On_Maint_Action_Key, remis.Work_Center_Event_Identifier, remis.Sequence_Number, remis.Off_Maint_Action_Key, remis.Work_Order_Number, remis.Depot_Maint_Action_Key, Serial_Number, Job_Control_Number, remis.Work_Unit_Code, Transaction_Date, Geographic_Location, remis.Current_Operating_Time, Action_Taken_Code, at.description, How_Malfunction_Code, How_Malfunction_Class_Ind, hmal.description, Type_Maintenance_Code, tm.description, When_Discovered_Code, wd.description, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM (SELECT DISTINCT work_unit_code FROM ercm_wuc_list) ercm_wuc_list JOIN compiled_remis_data remis ON remis.Work_Unit_Code = ercm_wuc_list.Work_Unit_Code JOIN at_codes at ON at.code = remis.Action_Taken_Code JOIN hmal_codes hmal ON hmal.code = remis.How_Malfunction_Code JOIN wd_codes wd ON wd.code = remis.When_Discovered_Code JOIN tm_codes tm ON tm.code = remis.Type_Maintenance_Code"
+            ]
+        },
+        "class":"SQL",
+        "custom_model":true,
+        "description":"Include codes and narratives to assist with labeling excercises.",
+        "id":"to_label",
+        "label":"To Label",
+        "model":"f98a2964-117b-458d-bf6a-ed80a1eca2f6",
+        "position":[
+            230,
+            420
+        ]
+    },
+    {
+        "attrs":{
+            "column_conversion":{
+                "EQUIPMENT DESIGNATOR":"str(x).strip()"
+            },
+            "data_start_row":4,
+            "date_formatter":{
+                "Effective_Date":"%e%b%Y",
+                "Pub_Date":"%e%b%Y",
+                "Start_Date":"%e%b%Y",
+                "Stop_Date":"%e%b%Y"
+            },
+            "label_start_row":3,
+            "labels":[
+                "ACTION CODE",
+                "EQUIPMENT DESIGNATOR",
+                "WORK UNIT CODE",
+                "BLOCK NUMBER",
+                "START DATE",
+                "TYPE EQUIPMENT",
+                "SERIALLY TRACKED IND",
+                "FAILURE LIMIT",
+                "REPLACEMENT IND",
+                "NRTS IND",
+                "USAGE FACTOR",
+                "ACTION LIMIT",
+                "QTY PER APPLIC",
+                "SPECIAL INVENTORY",
+                "CAT OF FAILURE IND",
+                "INSP REQUIREMENT",
+                "PUB DATE",
+                "STOP DATE",
+                "ORIGINAL WUC",
+                "CASCADE TO NEW WUC",
+                "DESCRIPTION",
+                "CASCADED BY",
+                "EFFECTIVE DATE",
+                "MESSAGES"
+            ]
+        },
+        "class":"Excel",
+        "custom_model":true,
+        "description":"Import report EFM 1640, which includes quantity-per-aircraft for each MDS and work unit code.",
+        "id":"qpa",
+        "label":"QPA",
+        "model":"bcafda99-f8e4-470d-92db-debc7bd06288",
+        "position":[
+            50,
+            260
+        ]
+    },
+    {
+        "class":"Python",
+        "custom_model":true,
+        "description":"Run a python script.",
+        "id":"ercm_wuc_list",
+        "label":"eRCM WUC List",
+        "model":"47ba97d1-5510-4765-b228-60d68d13be86",
+        "position":[
+            150,
+            225
+        ]
+    },
+    {
+        "class":"DataExporter",
+        "description":"Export all or a subset of rows contained in a table.",
+        "id":"export_to_label",
+        "label":"Export to Label",
+        "position":[
+            370,
+            440
+        ]
+    },
+    {
+        "attrs":{
+            "labels":{
+                "Action":[
+                    "O",
+                    "R",
+                    "P",
+                    "Q",
+                    "T",
+                    "U",
+                    "IU",
+                    "CC"
+                ],
+                "Position":[
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "0",
+                    "1,2",
+                    "1,3",
+                    "1,4",
+                    "2,3",
+                    "2,4",
+                    "3,4",
+                    "1,2,3",
+                    "1,2,4",
+                    "1,3,4",
+                    "2,3,4"
+                ],
+                "RC":[
+                    "Leaking",
+                    "Worn",
+                    "Isolation",
+                    "Unknown",
+                    "Light",
+                    "Metal",
+                    "Pressure",
+                    ""
+                ]
+            }
+        },
+        "class":"EventLabelGenerator",
+        "custom_model":true,
+        "description":"Save sets of labels to validate uploaded hand-labeled events against",
+        "id":"labels_import",
+        "label":"Labels Import",
+        "model":"907521ac-c001-4a25-8627-84b67f6354df",
+        "position":[
+            370,
+            405
+        ]
+    },
+    {
+        "attrs":{
+            "query_list":[
+                "SELECT id, Work_Unit_Code, Serial_Number, Equipment_Designator, Component_Position_Number, Work_Order_Number, Sequence_Number, Work_Center_Event_Identifier, On_Maint_Action_Key, Off_Maint_Action_Key, Depot_Maint_Action_Key, INSTALL_Transaction_Date, INSTALL_TSN, INSTALL_Geographic_Location, INSTALL_Action_Taken_Code, Corrective_Narrative, Discrepancy_Narrative, Work_Center_Event_Narrative, if(unk_removal_date, unk_removal_date, REMOVAL_Transaction_Date) REMOVAL_Transaction_Date, if(unk_removal_date, unk_removal_tsn, REMOVAL_TSN) REMOVAL_TSN, if(unk_removal_date, NULL, REMOVAL_Geographic_Location) REMOVAL_Geographic_Location, if(unk_removal_date, NULL, REMOVAL_Action_Taken_Code) REMOVAL_Action_Taken_Code, if(unk_removal_date, NULL, REMOVAL_How_Malfunction_Code) REMOVAL_How_Malfunction_Code, if(unk_removal_date, NULL, REMOVAL_When_Discovered_Code) REMOVAL_When_Discovered_Code, if(unk_removal_date, NULL, REMOVAL_Cause) REMOVAL_Cause, spans_unknown_install, spans_unknown_removal, ROUND(IF(unk_removal_date, unk_removal_tsn - INSTALL_TSN, TOW), 2) TOW, DATEDIFF(CURDATE(), COALESCE(if(unk_removal_date, unk_removal_date, REMOVAL_Transaction_Date), CURDATE())) / 365.24 <= 5 removed_last_5_years, DATEDIFF(CURDATE(), COALESCE(if(unk_removal_date, unk_removal_date, REMOVAL_Transaction_Date), CURDATE())) / 365.24 <= 10 removed_last_10_years FROM remove_unk_position_number WHERE INSTALL_action_taken_code != 'IU'"
+            ]
+        },
+        "class":"SQL",
+        "custom_model":true,
+        "description":"(1) Remove left-censored intervals for which we do not know the total time on test (those that were begun with the install of a used part), (2) update intervals that cross 'lost' removals of parts with unknown station to suspensions at the unknown-position removal dates, (3) add two time-based covariates: removed in the last 5 years, and removed in the last 10 years (both options include installed parts).",
+        "id":"remove_left_censored_add_covariates",
+        "label":"Remove Left Censored Add Covariates",
+        "model":"3131696e-9d7a-4f75-b716-80dd73f2705f",
+        "position":[
+            1070,
+            225
+        ]
+    },
+    {
+        "class":"Python",
+        "custom_model":true,
+        "description":"Tabulate current part ages for each position in each aircraft seen in sortie data and whether an unknown-position removal or install occurred since the part was installed (lost position).",
+        "id":"current_part_ages",
+        "label":"Current Part Ages",
+        "model":"df9503ad-e1b1-41ea-897f-a30c923e57ad",
+        "position":[
+            1675,
+            130
+        ]
+    },
+    {
+        "class":"Python",
+        "custom_model":true,
+        "description":"Drop interval data without known positions, and identify other intervals that span removals and installs without known positions.",
+        "id":"remove_unk_position_number",
+        "label":"Remove Unk Position Number",
+        "model":"4cc3322a-9684-4715-81a6-0bde8f0d289a",
+        "position":[
+            1505,
+            130
+        ]
+    },
+    {
+        "attrs":{
+            "additional_parameters":{
+                "cdf_threshold":0.95,
+                "hours_threshold":8500
+            }
+        },
+        "class":"Python",
+        "custom_model":true,
+        "description":"Add CDF values for every position's currently-installed parts and predict probability of removal 30/60/90 days out.",
+        "id":"predictive_twins",
+        "label":"Predictive Twins",
+        "model":"78c9203b-b6d1-4447-8263-d8629b328d2a",
+        "position":[
+            1825,
+            180
+        ]
+    },
+    {
+        "attrs":{
+            "additional_r_parameters":{
+                "alpha":0.05
+            },
+            "db_class_preference":"RMySQL",
+            "local_script":"True",
+            "script_file":"single_weibull_quantile_table.R"
+        },
+        "class":"R",
+        "custom_model":true,
+        "description":"Estimate confidence intervals for regular quantiles of the most-generic Weibull distribution using all data.  Default is 95% confidence intervals, but you can adjust alpha in additional_r_parameters.",
+        "id":"single_weibull_quantiles",
+        "label":"Single Weibull Quantiles",
+        "model":"8d41847f-1f54-4311-ad92-a2ff406d1d3f",
+        "position":[
+            1375,
+            265
+        ]
+    },
+    {
+        "class":"DataExporter",
+        "description":"Export all or a subset of rows contained in a table.",
+        "id":"export_predictions",
+        "label":"Export Predictions",
+        "position":[
+            1840,
+            240
         ]
     }
 ]

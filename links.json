@@ -8,8 +8,8 @@
         "target":"sortie_merged"
     },
     {
-        "source":"c130_remis_data",
-        "target":"compiled_c130_remis_data"
+        "source":"remis_data",
+        "target":"compiled_remis_data"
     },
     {
         "source":"sortie_merged",
@@ -24,7 +24,7 @@
         "target":"clean_wuc_remove_fom"
     },
     {
-        "source":"compiled_c130_remis_data",
+        "source":"compiled_remis_data",
         "target":"clean_wuc_remove_fom"
     },
     {
@@ -32,7 +32,7 @@
         "target":"part_position_parser"
     },
     {
-        "source":"compiled_c130_remis_data",
+        "source":"compiled_remis_data",
         "target":"part_position_parser"
     },
     {
@@ -40,7 +40,7 @@
         "target":"sortie_accumulated_hours"
     },
     {
-        "source":"compiled_c130_remis_data",
+        "source":"compiled_remis_data",
         "target":"work_unit_code_narratives",
         "vertices":[
             [
@@ -62,7 +62,7 @@
         "target":"joined_data"
     },
     {
-        "source":"compiled_c130_remis_data",
+        "source":"compiled_remis_data",
         "target":"joined_data"
     },
     {
@@ -74,7 +74,7 @@
         "target":"calculate_tow"
     },
     {
-        "source":"c130_remis_data",
+        "source":"remis_data",
         "target":"remove_general_support_wucs"
     },
     {
@@ -82,7 +82,7 @@
         "target":"wuc_edits"
     },
     {
-        "source":"compiled_c130_remis_data",
+        "source":"compiled_remis_data",
         "target":"wuc_edits",
         "vertices":[
             [
@@ -94,32 +94,6 @@
     {
         "source":"calculate_intervals",
         "target":"calculate_distributions"
-    },
-    {
-        "source":"calculate_tow",
-        "target":"remove_left_censored_add_full_susp"
-    },
-    {
-        "source":"remove_left_censored_add_full_susp",
-        "target":"calculate_intervals",
-        "vertices":[
-            [
-                1655,
-                145
-            ],
-            [
-                1655,
-                190
-            ],
-            [
-                1045,
-                190
-            ],
-            [
-                1045,
-                240
-            ]
-        ]
     },
     {
         "source":"sortie_accumulated_hours",
@@ -134,7 +108,7 @@
         "target":"identify_r2_drop_atc"
     },
     {
-        "source":"compiled_c130_remis_data",
+        "source":"compiled_remis_data",
         "target":"identify_r2_drop_atc"
     },
     {
@@ -142,7 +116,7 @@
         "target":"add_event_age"
     },
     {
-        "source":"compiled_c130_remis_data",
+        "source":"compiled_remis_data",
         "target":"add_event_age",
         "vertices":[
             [
@@ -176,11 +150,11 @@
         "target":"stage_data_for_tow"
     },
     {
-        "source":"compiled_c130_remis_data",
+        "source":"compiled_remis_data",
         "target":"what_data"
     },
     {
-        "source":"compiled_c130_remis_data",
+        "source":"compiled_remis_data",
         "target":"candidate_wucs_raw_removals"
     },
     {
@@ -190,5 +164,119 @@
     {
         "source":"candidate_wucs_raw_removals",
         "target":"export_candidate_wuc_removals"
+    },
+    {
+        "source":"wd_codes",
+        "target":"to_label"
+    },
+    {
+        "source":"tm_codes",
+        "target":"to_label"
+    },
+    {
+        "source":"at_codes",
+        "target":"to_label"
+    },
+    {
+        "source":"hmal_codes",
+        "target":"to_label"
+    },
+    {
+        "source":"ercm_wuc_list_raw",
+        "target":"ercm_wuc_list"
+    },
+    {
+        "source":"ercm_wuc_list",
+        "target":"to_label",
+        "vertices":[
+            [
+                290,
+                240
+            ],
+            [
+                290,
+                300
+            ],
+            [
+                180,
+                300
+            ]
+        ]
+    },
+    {
+        "source":"to_label",
+        "target":"export_to_label"
+    },
+    {
+        "source":"to_label",
+        "target":"labels_import"
+    },
+    {
+        "source":"calculate_tow",
+        "target":"remove_unk_position_number"
+    },
+    {
+        "source":"remove_unk_position_number",
+        "target":"current_part_ages"
+    },
+    {
+        "source":"remove_unk_position_number",
+        "target":"remove_left_censored_add_covariates",
+        "vertices":[
+            [
+                1650,
+                145
+            ],
+            [
+                1650,
+                185
+            ],
+            [
+                1025,
+                190
+            ],
+            [
+                1025,
+                240
+            ]
+        ]
+    },
+    {
+        "source":"current_part_ages",
+        "target":"predictive_twins"
+    },
+    {
+        "source":"calculate_distributions",
+        "target":"predictive_twins"
+    },
+    {
+        "source":"remove_left_censored_add_covariates",
+        "target":"calculate_intervals"
+    },
+    {
+        "source":"calculate_intervals",
+        "target":"single_weibull_quantiles"
+    },
+    {
+        "source":"predictive_twins",
+        "target":"export_predictions",
+        "vertices":[
+            [
+                1965,
+                195
+            ],
+            [
+                1965,
+                225
+            ],
+            [
+                1810,
+                225
+            ],
+            [
+                1810,
+                255
+            ]
+        ]
     }
 ]
