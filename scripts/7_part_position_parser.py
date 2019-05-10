@@ -71,18 +71,27 @@ def fn(conn, libraries, params, predecessors):
     pd = libraries["pandas"]
     re = libraries["re"]
 
-    for pred in predecessors:
-        if 'compiled' in pred:
-            compiled_table_name = pred
-        else:
-            key_table_name = pred
+    if len(predecessors) == 2:
 
-    keys = list(pd.read_sql(sql="SHOW KEYS FROM {}".format(key_table_name), con=conn).Column_name)
-    join_clause = ['A.{} = B.{}'.format(ii,ii) for ii in keys]
-    join_clause = ' AND '.join(join_clause)
+        for pred in predecessors:
+            if 'compiled' in pred:
+                compiled_table_name = pred
+            else:
+                key_table_name = pred
 
-    df = pd.read_sql(con=conn,sql="""SELECT A.*, B.Discrepancy_Narrative, B.Corrective_Narrative, B.Component_Position_Number FROM {} A 
-        LEFT JOIN {} B ON {}""".format(key_table_name, compiled_table_name, join_clause))
+        keys = list(pd.read_sql(sql="SHOW KEYS FROM {}".format(key_table_name), con=conn).Column_name)
+        join_clause = ['A.{} = B.{}'.format(ii,ii) for ii in keys]
+        join_clause = ' AND '.join(join_clause)
+
+        df = pd.read_sql(con=conn, sql="""SELECT A.*, B.Discrepancy_Narrative, B.Corrective_Narrative, B.Component_Position_Number FROM {} A 
+            LEFT JOIN {} B ON {}""".format(key_table_name, compiled_table_name, join_clause))
+
+    elif len(predecessors) == 1:
+        keys = list(pd.read_sql(sql="SHOW KEYS FROM {}".format(predecessors[0]), con=conn).Column_name)
+        df = pd.read_sql(con=conn, sql="""SELECT * FROM {}""".format(predecessors[0]))        
+
+    else:
+        raise Exception, "Component should have one or two predecessor components"
 
     df['Parsed_Component_Position'] = ""
     df['Parsed_Component_Position'] = df['Parsed_Component_Position'].astype(str)
@@ -95,7 +104,8 @@ def fn(conn, libraries, params, predecessors):
     reader(df, libraries)
     df['Parsed_Component_Position'] = df['Parsed_Component_Position'].astype(str)    
 
-    #keep only needed columns to save memory
+    # keep only needed columns to save memory
     keys.append('Parsed_Component_Position')
-    df=df[keys]
+    df = df[keys]
+
     return df
