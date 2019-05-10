@@ -141,7 +141,7 @@
         "label":"Sortie Merged",
         "model":"a8228da4-e502-4564-b5ef-e246e798cdeb",
         "position":[
-            205,
+            215,
             335
         ]
     },
@@ -159,8 +159,8 @@
         "label":"WUC Edits",
         "model":"184ad32a-a25b-4e56-bd17-1078f80aae4a",
         "position":[
-            250,
-            125
+            245,
+            165
         ]
     },
     {
@@ -171,8 +171,8 @@
         "label":"Rules List",
         "model":"e98cd295-63ad-4ce4-97e7-561c611ac6ce",
         "position":[
-            50,
-            190
+            55,
+            215
         ]
     },
     {
@@ -189,19 +189,7 @@
         "model":"23ff17e6-6308-4b3e-bfde-84a674a7280f",
         "position":[
             85,
-            125
-        ]
-    },
-    {
-        "class":"Python",
-        "custom_model":true,
-        "description":"Run a python script.",
-        "id":"clean_wuc_remove_fom",
-        "label":"Clean WUC Remove FOM",
-        "model":"da37b1b0-e5c4-4683-ae85-a81c3e0d29b2",
-        "position":[
-            395,
-            170
+            115
         ]
     },
     {
@@ -212,8 +200,8 @@
         "label":"Identify R2 Drop ATC",
         "model":"410fc5d6-6d2d-4655-8ed1-8f5715a946fb",
         "position":[
-            540,
-            170
+            615,
+            60
         ]
     },
     {
@@ -224,8 +212,8 @@
         "label":"Part Position Parser",
         "model":"f21eadfe-d46a-455a-98eb-b8fc8bc9b395",
         "position":[
-            540,
-            130
+            615,
+            25
         ]
     },
     {
@@ -236,8 +224,8 @@
         "label":"Split R and Multi POS",
         "model":"98437406-31ef-429a-a8cd-d8a1b3d11ce0",
         "position":[
-            695,
-            170
+            855,
+            65
         ]
     },
     {
@@ -253,8 +241,8 @@
         "label":"Sortie Accumulated Hours",
         "model":"debc7c2f-0456-44bc-9f4d-680ba5ea86a4",
         "position":[
-            515,
-            335
+            520,
+            285
         ]
     },
     {
@@ -465,7 +453,7 @@
         "model":"a49ad5eb-5ada-4b73-8eb4-75945890f3b6",
         "position":[
             215,
-            70
+            55
         ]
     },
     {
@@ -511,8 +499,8 @@
         "label":"Last Sortie",
         "model":"77f11401-f6f5-4268-b547-f7a1b1aea338",
         "position":[
-            665,
-            335
+            675,
+            285
         ]
     },
     {
@@ -535,7 +523,7 @@
                 "WUC":"x if not x else str(x).strip() if type(x) == unicode else int(float(x))"
             },
             "sheets":[
-                "WUC list with Part #"
+                "WUC list with Multiple Part #"
             ]
         },
         "class":"Excel",
@@ -546,29 +534,7 @@
         "model":"335fda3d-ca15-44d9-9ac1-83b6a57f79ca",
         "position":[
             10,
-            225
-        ]
-    },
-    {
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Run a set of SQL select queries on existing database tables.",
-        "id":"candidate_wucs_raw_removals",
-        "label":"Candidate WUCs Raw Removals",
-        "model":"6d78991e-09b9-41f4-8569-8381db89d78b",
-        "position":[
-            555,
-            25
-        ]
-    },
-    {
-        "class":"DataExporter",
-        "description":"Export all or a subset of rows contained in a table.",
-        "id":"export_candidate_wuc_removals",
-        "label":"Export Candidate WUC Removals",
-        "position":[
-            700,
-            25
+            250
         ]
     },
     {
@@ -622,12 +588,13 @@
     {
         "attrs":{
             "query_list":[
-                "SELECT File_Name, remis.On_Maint_Action_Key, remis.Work_Center_Event_Identifier, remis.Sequence_Number, remis.Off_Maint_Action_Key, remis.Work_Order_Number, remis.Depot_Maint_Action_Key, Serial_Number, Job_Control_Number, remis.Work_Unit_Code, Transaction_Date, Geographic_Location, remis.Current_Operating_Time, Action_Taken_Code, at.description, How_Malfunction_Code, How_Malfunction_Class_Ind, hmal.description, Type_Maintenance_Code, tm.description, When_Discovered_Code, wd.description, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM (SELECT DISTINCT work_unit_code FROM ercm_wuc_list) ercm_wuc_list JOIN compiled_remis_data remis ON remis.Work_Unit_Code = ercm_wuc_list.Work_Unit_Code JOIN at_codes at ON at.code = remis.Action_Taken_Code JOIN hmal_codes hmal ON hmal.code = remis.How_Malfunction_Code JOIN wd_codes wd ON wd.code = remis.When_Discovered_Code JOIN tm_codes tm ON tm.code = remis.Type_Maintenance_Code"
+                "SELECT File_Name, remis.On_Maint_Action_Key, remis.Work_Center_Event_Identifier, remis.Sequence_Number, remis.Off_Maint_Action_Key, remis.Work_Order_Number, remis.Depot_Maint_Action_Key, Equipment_Designator, Serial_Number, Job_Control_Number, remis.Work_Unit_Code, Transaction_Date, Geographic_Location, remis.Current_Operating_Time, Action_Taken_Code, at.description, How_Malfunction_Code, How_Malfunction_Class_Ind, hmal.description, Type_Maintenance_Code, tm.description, When_Discovered_Code, wd.description, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM (SELECT DISTINCT work_unit_code FROM ercm_wuc_list) ercm_wuc_list JOIN compiled_remis_data remis ON remis.Work_Unit_Code = ercm_wuc_list.Work_Unit_Code JOIN at_codes at ON at.code = remis.Action_Taken_Code JOIN hmal_codes hmal ON hmal.code = remis.How_Malfunction_Code JOIN wd_codes wd ON wd.code = remis.When_Discovered_Code JOIN tm_codes tm ON tm.code = remis.Type_Maintenance_Code WHERE TRIM(Equipment_Designator) IN ('C130H','C130J')",
+                "SELECT NULL , NULL , remis.Work_Center_Event_Identifier, remis.Sequence_Number, NULL , NULL , NULL , Equipment_Designator, Serial_Number, Job_Control_Number, remis.Work_Unit_Code, Transaction_Date, Geographic_Location, remis.Current_Operating_Time, Action_Taken_Code, at.description, How_Malfunction_Code, How_Malfunction_Class_Ind, hmal.description, Type_Maintenance_Code, tm.description, When_Discovered_Code, wd.description, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Action_Narrative FROM (SELECT DISTINCT work_unit_code FROM ercm_wuc_list) ercm_wuc_list JOIN prp4127 remis ON remis.Work_Unit_Code = ercm_wuc_list.Work_Unit_Code JOIN at_codes at ON at.code = remis.Action_Taken_Code JOIN hmal_codes hmal ON hmal.code = remis.How_Malfunction_Code JOIN wd_codes wd ON wd.code = remis.When_Discovered_Code JOIN tm_codes tm ON tm.code = remis.Type_Maintenance_Code WHERE TRIM(Equipment_Designator) IN ('C130H','C130J')"
             ]
         },
         "class":"SQL",
         "custom_model":true,
-        "description":"Include codes and narratives to assist with labeling excercises.",
+        "description":"Include codes and narratives to assist with labeling excercises.  Minimal key information for the 4127 report.",
         "id":"to_label",
         "label":"To Label",
         "model":"f98a2964-117b-458d-bf6a-ed80a1eca2f6",
@@ -684,7 +651,7 @@
         "model":"bcafda99-f8e4-470d-92db-debc7bd06288",
         "position":[
             50,
-            260
+            560
         ]
     },
     {
@@ -695,8 +662,8 @@
         "label":"eRCM WUC List",
         "model":"47ba97d1-5510-4765-b228-60d68d13be86",
         "position":[
-            150,
-            225
+            145,
+            250
         ]
     },
     {
@@ -849,6 +816,191 @@
         "position":[
             1840,
             240
+        ]
+    },
+    {
+        "attrs":{
+            "query_list":[
+                "SELECT On_Maint_Action_Key, Work_Center_Event_Identifier, Sequence_Number, Off_Maint_Action_Key, Work_Order_Number, Depot_Maint_Action_Key, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM compiled_remis_data remis JOIN (SELECT DISTINCT work_unit_code FROM ercm_wuc_list) ercm_wuc_list ON remis.Work_Unit_Code = ercm_wuc_list.Work_Unit_Code WHERE Serial_Number IS NOT NULL"
+            ]
+        },
+        "class":"SQL",
+        "custom_model":true,
+        "description":"Filter by WUC and Year, exclude NULL Serial Number, get narratives to for labeling.",
+        "id":"wuc_filter_raw_subset",
+        "label":"WUC Filter Raw Subset",
+        "model":"ae7269f9-da60-4a5e-85ff-8531b250fe56",
+        "position":[
+            425,
+            70
+        ]
+    },
+    {
+        "attrs":{
+            "column_mapping":{
+                "AFTO Form 350 Tag Number":"AFTO_Form_350_Tag_Number",
+                "Action Taken Code":"Action_Taken_Code",
+                "Activity Identifier":"Activity_Identifier",
+                "Block Number":"Block_Number",
+                "Command":"Command",
+                "Component Part Number":"Component_Part_Number",
+                "Component Position Number":"Component_Position_Number",
+                "Component Serial Number":"Component_Serial_Number",
+                "Corrective Action Narrative":"Corrective_Action_Narrative",
+                "Crew Size":"Crew_Size",
+                "Current Operating Time":"Current_Operating_Time",
+                "Discrepancy Narrative":"Discrepancy_Narrative",
+                "Documenter Name":"Documenter_Name",
+                "Equipment Designator":"Equipment_Designator",
+                "Federal Supply Classification":"Federal_Supply_Classification",
+                "Geographic Location":"Geographic_Location",
+                "How Malfunction Class Ind":"How_Malfunction_Class_Ind",
+                "How Malfunction Code":"How_Malfunction_Code",
+                "Installd EI Comp Serial Number":"Installed_EI_Comp_Serial_Number",
+                "Installed CAGE Code":"Installed_CAGE_Code",
+                "Installed Curr Operating Time":"Installed_Current_Operating_Time",
+                "Installed EI Comp Part Number":"Installed_EI_Comp_Part_Number",
+                "Installed EI Equip Designator":"Installed_EI_Equip_Designator",
+                "Installed EI SRD":"Installed_EI_SRD",
+                "Installed EI Serial Number":"Installed_EI_Serial_Number",
+                "Installed EI Type Equipment":"Installed_EI_Type_Equipment",
+                "Installed EI WUC Narrative":"Installed_EI_WUC_Narrative",
+                "Installed EI Work Unit Code":"Installed_EI_Work_Unit_Code",
+                "Installed Equipment Designator":"Installed_Equipment_Designator",
+                "Installed Location Identifier":"Installed_Location_Identifier",
+                "Installed Lot Number":"Installed_Lot_Number",
+                "Installed Prev Operating Time":"Installed_Prev_Operating_Time",
+                "Installed Serial Number":"Installed_Serial_Number",
+                "Installed Type Equipment":"Installed_Type_Equipment",
+                "Installed WUC Narrative":"Installed_WUC_Narrative",
+                "Installed Work Unit Code":"Installed_Work_Unit_Code",
+                "Job Control Number":"Job_Control_Number",
+                "Labor Manhours":"Labor_Manhours",
+                "Maintainer Name":"Maintainer_Name",
+                "Maintenance Priority":"Maintenance_Priority",
+                "On Base Turn In Doc Number":"On_Base_Turn_In_Doc_Number",
+                "On Component Part Number":"On_Component_Part_Number",
+                "On Component Serial Number":"On_Component_Serial_Number",
+                "On Equip Sequence Number":"On_Equip_Sequence_Number",
+                "On Equip Work Center Event Id":"On_Equip_Work_Center_Event_Id",
+                "Organization":"Organization",
+                "Performing Geographic Location":"Performing_Geographic_Location",
+                "Record Type":"Record_Type",
+                "Removed CAGE Code":"Removed_CAGE_Code",
+                "Removed Current Operating Time":"Removed_Current_Operating_Time",
+                "Removed Equipment Designator":"Removed_Equipment_Designator",
+                "Removed Location Identifier":"Removed_Location_Identifier",
+                "Removed Lot Number":"Removed_Lot_Number",
+                "Removed Prev Operating Time":"Removed_Prev_Operating_Time",
+                "Removed Serial Number":"Removed_Serial_Number",
+                "Removed Type Equipment":"Removed_Type_Equipment",
+                "Removed WUC Narrative":"Removed_WUC_Narrative",
+                "Removed Work Unit Code":"Removed_Work_Unit_Code",
+                "Sequence Number":"Sequence_Number",
+                "Serial Number":"Serial_Number",
+                "Standard Reporting Designator":"Standard_Reporting_Designator",
+                "Start Time":"Start_Time",
+                "Stop Time":"Stop_Time",
+                "TCTO Data Code":"TCTO_Data_Code",
+                "Transaction Date":"Transaction_Date",
+                "Type Equipment":"Type_Equipment",
+                "Type Maintenance Code":"Type_Maintenance_Code",
+                "Units":"Units",
+                "WUC Narrative":"WUC_Narrative",
+                "When Discovered Code":"When_Discovered_Code",
+                "Work Center Code":"Work_Center_Code",
+                "Work Center Event Identifier":"Work_Center_Event_Identifier",
+                "Work Center Event Narrative":"Work_Center_Event_Narrative",
+                "Work Unit Code":"Work_Unit_Code"
+            },
+            "date_formatter":{
+                "Transaction_Date":"%M %d, %Y"
+            }
+        },
+        "class":"CSV",
+        "custom_model":true,
+        "description":"Import data that is contained in a delimited text file.",
+        "id":"prp4127",
+        "label":"PRP4127",
+        "model":"0cb4b55f-6b15-4bc6-abd0-8d6b2a2159dc",
+        "position":[
+            55,
+            170
+        ]
+    },
+    {
+        "class":"SQL",
+        "custom_model":true,
+        "description":"Run a set of SQL select queries on existing database tables.",
+        "id":"data_files",
+        "label":"Data Files",
+        "model":"0bf5e4e4-6354-4290-9747-7355bda0fe99",
+        "position":[
+            50,
+            5
+        ]
+    },
+    {
+        "class":"CSV",
+        "custom_model":true,
+        "description":"Import data that is contained in a delimited text file.",
+        "id":"unlabeled_import",
+        "label":"Unlabeled Import",
+        "model":"aec9778f-6c13-4c29-9928-feed17932376",
+        "position":[
+            365,
+            520
+        ]
+    },
+    {
+        "attrs":{
+            "query_list":[
+                "SELECT File_Name, remis.On_Maint_Action_Key, remis.Work_Center_Event_Identifier, remis.Sequence_Number, remis.Off_Maint_Action_Key, remis.Work_Order_Number, remis.Depot_Maint_Action_Key, Equipment_Designator, Serial_Number, Job_Control_Number, remis.Work_Unit_Code, Transaction_Date, Geographic_Location, remis.Current_Operating_Time, Action_Taken_Code, at.description, How_Malfunction_Code, How_Malfunction_Class_Ind, hmal.description, Type_Maintenance_Code, tm.description, When_Discovered_Code, wd.description, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM (SELECT DISTINCT work_unit_code FROM ercm_wuc_list) ercm_wuc_list JOIN compiled_remis_data remis ON remis.Work_Unit_Code = ercm_wuc_list.Work_Unit_Code JOIN at_codes at ON at.code = remis.Action_Taken_Code JOIN hmal_codes hmal ON hmal.code = remis.How_Malfunction_Code JOIN wd_codes wd ON wd.code = remis.When_Discovered_Code JOIN tm_codes tm ON tm.code = remis.Type_Maintenance_Code WHERE TRIM(Equipment_Designator) IN ('C130H','C130J')",
+                "SELECT NULL , NULL , remis.Work_Center_Event_Identifier, remis.Sequence_Number, NULL , NULL , NULL , Equipment_Designator, Serial_Number, Job_Control_Number, remis.Work_Unit_Code, Transaction_Date, Geographic_Location, remis.Current_Operating_Time, Action_Taken_Code, at.description, How_Malfunction_Code, How_Malfunction_Class_Ind, hmal.description, Type_Maintenance_Code, tm.description, When_Discovered_Code, wd.description, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Action_Narrative FROM (SELECT DISTINCT work_unit_code FROM ercm_wuc_list) ercm_wuc_list JOIN prp4127 remis ON remis.Work_Unit_Code = ercm_wuc_list.Work_Unit_Code JOIN at_codes at ON at.code = remis.Action_Taken_Code JOIN hmal_codes hmal ON hmal.code = remis.How_Malfunction_Code JOIN wd_codes wd ON wd.code = remis.When_Discovered_Code JOIN tm_codes tm ON tm.code = remis.Type_Maintenance_Code WHERE TRIM(Equipment_Designator) IN ('C130H','C130J')"
+            ]
+        },
+        "class":"SQL",
+        "custom_model":true,
+        "description":"Include codes and narratives to assist with labeling excercises.  Minimal key information for the 4127 report.",
+        "id":"unlabeled_data_desc",
+        "label":"Unlabeled Data Desc",
+        "model":"923d6d84-4f90-4a58-b20d-14cb8c91238d",
+        "position":[
+            520,
+            520
+        ]
+    },
+    {
+        "class":"Python",
+        "custom_model":true,
+        "description":"Forecast near-term per-aircraft operating tempo.",
+        "id":"opstempo_forecast",
+        "label":"OpsTempo Forecast",
+        "model":"2c4d1493-09dc-4fc5-81b1-c75e5eb5fff7",
+        "position":[
+            520,
+            335
+        ]
+    },
+    {
+        "attrs":{
+            "column_conversion":{
+                "Assigned Geographic Location Name":"x.strip()",
+                "Assigned Organization":"x.strip()",
+                "Mission Design Series (e.g. F-16C)":"x.strip()",
+                "Serial Number":"x.strip()"
+            },
+            "data_start_column":2
+        },
+        "class":"Excel",
+        "custom_model":true,
+        "description":"Import Assigned Location Data.",
+        "id":"assigned_location",
+        "label":"Assigned Location",
+        "model":"ed79df86-5773-47d6-8108-29f3a0df8fa1",
+        "position":[
+            50,
+            285
         ]
     }
 ]

@@ -16,5 +16,6 @@ ercm_wuc_list = Table('ercm_wuc_list', metadata,
     Column('Part_Number', String(255), primary_key=False, autoincrement=False),
     Column('NSN', String(255), primary_key=False, autoincrement=False),
     Column('Transactions_2018', String(255), primary_key=False, autoincrement=False),
+    Column('QPA', LONGTEXT, primary_key=False, autoincrement=False),
     Column('Notes', LONGTEXT, primary_key=False, autoincrement=False)
 )

@@ -4,11 +4,15 @@ from sqlalchemy import MetaData, Table
 
 metadata = MetaData()
 
-clean_wuc_remove_fom = Table('clean_wuc_remove_fom', metadata, 
+hyd_pump = Table('hyd_pump', metadata, 
 
-    Column('On_Work_Order_Key', Integer, primary_key=True, autoincrement=False),
     Column('On_Maint_Action_Key', Integer, primary_key=True, autoincrement=False),
     Column('Work_Center_Event_Identifier', Integer, primary_key=True, autoincrement=False),
     Column('Sequence_Number', BigInteger, primary_key=True, autoincrement=False),
+    Column('Off_Maint_Action_Key', Integer, primary_key=True, autoincrement=False),
     Column('Work_Order_Number', BigInteger, primary_key=True, autoincrement=False),
+    Column('Depot_Maint_Action_Key', Integer, primary_key=True, autoincrement=False),
+    Column('Discrepancy_Narrative', LONGTEXT),
+    Column('Work_Center_Event_Narrative', LONGTEXT),
+    Column('Corrective_Narrative', LONGTEXT)
 )

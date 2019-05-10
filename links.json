@@ -20,18 +20,6 @@
         "target":"wuc_edits"
     },
     {
-        "source":"wuc_edits",
-        "target":"clean_wuc_remove_fom"
-    },
-    {
-        "source":"compiled_remis_data",
-        "target":"clean_wuc_remove_fom"
-    },
-    {
-        "source":"clean_wuc_remove_fom",
-        "target":"part_position_parser"
-    },
-    {
         "source":"compiled_remis_data",
         "target":"part_position_parser"
     },
@@ -63,7 +51,13 @@
     },
     {
         "source":"compiled_remis_data",
-        "target":"joined_data"
+        "target":"joined_data",
+        "vertices":[
+            [
+                460,
+                140
+            ]
+        ]
     },
     {
         "source":"joined_data",
@@ -104,23 +98,15 @@
         "target":"add_event_age"
     },
     {
-        "source":"clean_wuc_remove_fom",
-        "target":"identify_r2_drop_atc"
-    },
-    {
         "source":"compiled_remis_data",
         "target":"identify_r2_drop_atc"
-    },
-    {
-        "source":"identify_r2_drop_atc",
-        "target":"add_event_age"
     },
     {
         "source":"compiled_remis_data",
         "target":"add_event_age",
         "vertices":[
             [
-                385,
+                580,
                 240
             ]
         ]
@@ -128,10 +114,6 @@
     {
         "source":"identify_r2_drop_atc",
         "target":"split_r_and_multi_pos"
-    },
-    {
-        "source":"part_position_parser",
-        "target":"joined_data"
     },
     {
         "source":"add_event_age",
@@ -152,18 +134,6 @@
     {
         "source":"compiled_remis_data",
         "target":"what_data"
-    },
-    {
-        "source":"compiled_remis_data",
-        "target":"candidate_wucs_raw_removals"
-    },
-    {
-        "source":"ercm_wuc_list",
-        "target":"candidate_wucs_raw_removals"
-    },
-    {
-        "source":"candidate_wucs_raw_removals",
-        "target":"export_candidate_wuc_removals"
     },
     {
         "source":"wd_codes",
@@ -191,15 +161,15 @@
         "vertices":[
             [
                 290,
-                240
+                265
             ],
             [
                 290,
                 300
             ],
             [
-                180,
-                300
+                185,
+                320
             ]
         ]
     },
@@ -278,5 +248,61 @@
                 255
             ]
         ]
+    },
+    {
+        "source":"ercm_wuc_list",
+        "target":"wuc_filter_raw_subset",
+        "vertices":[
+            [
+                395,
+                265
+            ],
+            [
+                395,
+                85
+            ]
+        ]
+    },
+    {
+        "source":"compiled_remis_data",
+        "target":"wuc_filter_raw_subset"
+    },
+    {
+        "source":"remis_data",
+        "target":"data_files"
+    },
+    {
+        "source":"unlabeled_import",
+        "target":"unlabeled_data_desc"
+    },
+    {
+        "source":"compiled_sortie_history_data",
+        "target":"opstempo_forecast"
+    },
+    {
+        "source":"assigned_location",
+        "target":"opstempo_forecast",
+        "vertices":[
+            [
+                290,
+                320
+            ],
+            [
+                450,
+                320
+            ]
+        ]
+    },
+    {
+        "source":"wuc_filter_raw_subset",
+        "target":"part_position_parser"
+    },
+    {
+        "source":"wuc_filter_raw_subset",
+        "target":"identify_r2_drop_atc"
+    },
+    {
+        "source":"wuc_filter_raw_subset",
+        "target":"add_event_age"
     }
 ]
