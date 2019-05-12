@@ -12,7 +12,11 @@ Args:
         Data frame of On_Work_Order_Key, On_Maint_Action_Key, Work_Center_Event_Identifier, Sequence_Number, Work_Order_Number, Parsed_Component_Position
 """
 
-def reader(df,libraries):
+def engine_reader(df,libraries):
+    """ 
+        used for work unit codes with QPA=4, 1 per engine
+    """
+
     pd = libraries["pandas"]
     re = libraries["re"]
 
@@ -71,19 +75,31 @@ def fn(conn, libraries, params, predecessors):
     pd = libraries["pandas"]
     re = libraries["re"]
 
-    if len(predecessors) == 2:
+    if len(predecessors) in (2,3):
 
-        for pred in predecessors:
-            if 'compiled' in pred:
-                compiled_table_name = pred
-            else:
-                key_table_name = pred
+        if len(predecessors) == 2:
+            # KC135, single WUC
+            for pred in predecessors:
+                if 'compiled' in pred:
+                    compiled_table_name = pred
+                else:
+                    key_table_name = pred
+        else:
+            # C130, multiple WUCs and complex QPA
+            for pred in predecessors:
+                if 'compiled' in pred:
+                    compiled_table_name = pred
+                elif 'qpa' in pred:
+                    qpa_table_name = pred
+                else:
+                    key_table_name = pred
+            df_qpa = pd.read_sql(con=conn, sql="""SELECT * FROM {}""".format(qpa_table_name))
 
         keys = list(pd.read_sql(sql="SHOW KEYS FROM {}".format(key_table_name), con=conn).Column_name)
         join_clause = ['A.{} = B.{}'.format(ii,ii) for ii in keys]
         join_clause = ' AND '.join(join_clause)
 
-        df = pd.read_sql(con=conn, sql="""SELECT A.*, B.Discrepancy_Narrative, B.Corrective_Narrative, B.Component_Position_Number FROM {} A 
+        df = pd.read_sql(con=conn, sql="""SELECT A.*, B.Work_Unit_Code, B.Discrepancy_Narrative, B.Corrective_Narrative, B.Component_Position_Number FROM {} A 
             LEFT JOIN {} B ON {}""".format(key_table_name, compiled_table_name, join_clause))
 
     elif len(predecessors) == 1:
@@ -91,7 +107,7 @@ def fn(conn, libraries, params, predecessors):
         df = pd.read_sql(con=conn, sql="""SELECT * FROM {}""".format(predecessors[0]))        
 
     else:
-        raise Exception, "Component should have one or two predecessor components"
+        raise Exception, "Component should have one, two, or three predecessor components"
 
     df['Parsed_Component_Position'] = ""
     df['Parsed_Component_Position'] = df['Parsed_Component_Position'].astype(str)
@@ -100,9 +116,30 @@ def fn(conn, libraries, params, predecessors):
     # change all provided,empty positions to 0
     df['Component_Position_Number'] = df['Component_Position_Number'].map(lambda x: 0 if not x.isdigit() else x)
     
-    # run the reader function
-    reader(df, libraries)
-    df['Parsed_Component_Position'] = df['Parsed_Component_Position'].astype(str)    
+    # treat all WUCs differently
+    for this_wuc in df.Work_Unit_Code.unique():
+
+        df_one_wuc = df[df.Work_Unit_Code == this_wuc]
+
+        if len(predecessors) == 2:
+            # KC135 workflow
+            # run the engine reader function
+            df_one_wuc = engine_reader(df_one_wuc, libraries)
+        else:
+            wuc_qpa = df_qpa[df_qpa.Work_Unit_Code == this_wuc]
+
+            if int(wuc_qpa.QPA) == 1:
+                # only 1 per aircraft. set all to 1
+                df_one_wuc['Parsed_Component_Position'] = 1
+            elif int(wuc_qpa.QPA) == 4 and wuc_qpa.Clues == '1 Per Engine':
+                df_one_wuc = engine_reader(df_one_wuc, libraries)
+            else:
+                raise NotImplementedError, "Update code to handle multiple-QPA outside of 1-per-engine"
+
+        # update original df with changes to this WUC
+        df.update(df_one_wuc)
+
+    df['Parsed_Component_Position'] = df['Parsed_Component_Position'].astype(str)
 
     # keep only needed columns to save memory
     keys.append('Parsed_Component_Position')
