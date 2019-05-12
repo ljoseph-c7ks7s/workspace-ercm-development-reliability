@@ -4,12 +4,13 @@ from sqlalchemy import MetaData, Table
 
 metadata = MetaData()
 
-identify_r2 = Table('identify_r2', metadata, 
+label_atc = Table('label_atc', metadata, 
 
-    Column('On_Work_Order_Key', Integer, primary_key=True, autoincrement=False),
     Column('On_Maint_Action_Key', Integer, primary_key=True, autoincrement=False),
     Column('Work_Center_Event_Identifier', Integer, primary_key=True, autoincrement=False),
     Column('Sequence_Number', BigInteger, primary_key=True, autoincrement=False),
+    Column('Off_Maint_Action_Key', Integer, primary_key=True, autoincrement=False),
     Column('Work_Order_Number', BigInteger, primary_key=True, autoincrement=False),
-    Column('Action_Taken_Code', String(64), primary_key=False, autoincrement=False),
+    Column('Depot_Maint_Action_Key', Integer, primary_key=True, autoincrement=False),
+    Column('Action', String(255), primary_key=False, autoincrement=False),
 )

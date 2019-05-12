@@ -12,10 +12,11 @@ calculate_tow = Table('calculate_tow', metadata,
     Column('Equipment_Designator', String(255), primary_key=False, autoincrement=False),
     Column('Component_Position_Number', String(45), primary_key=False, autoincrement=False),
     Column('Work_Order_Number', BigInteger, primary_key=False, autoincrement=False),
-    Column('On_Work_Order_Key', Integer, primary_key=False, autoincrement=False),
     Column('Sequence_Number', BigInteger, primary_key=False, autoincrement=False),
     Column('Work_Center_Event_Identifier', Integer, primary_key=False, autoincrement=False),
     Column('On_Maint_Action_Key', Integer, primary_key=False, autoincrement=False),
+    Column('Off_Maint_Action_Key', Integer, primary_key=False, autoincrement=False),
+    Column('Depot_Maint_Action_Key', Integer, primary_key=False, autoincrement=False),
     Column('INSTALL_Transaction_Date', Date, primary_key=False, autoincrement=False),
     #Column('INSTALL_TIME', Integer, primary_key=False, autoincrement=False),
     Column('INSTALL_TSN', Float, primary_key=False, autoincrement=False),
@@ -31,7 +32,8 @@ calculate_tow = Table('calculate_tow', metadata,
     Column('REMOVAL_Action_Taken_Code', String(255), primary_key=False, autoincrement=False),
     Column('REMOVAL_How_Malfunction_Code', Integer, primary_key=False, autoincrement=False),
     Column('REMOVAL_When_Discovered_Code', String(255), primary_key=False, autoincrement=False),
+    Column('REMOVAL_Cause', String(255), primary_key=False, autoincrement=False),
     Column('TOW', Float, primary_key=False, autoincrement=False),
 
-    UniqueConstraint('Work_Unit_Code', 'Serial_Number', 'Component_Position_Number', 'INSTALL_Transaction_Date', 'Work_Order_Number', 'On_Work_Order_Key', 'Sequence_Number', 'Work_Center_Event_Identifier', 'On_Maint_Action_Key', name='wuc-sn-posn-install-dt-seq')
+    UniqueConstraint('Work_Unit_Code', 'Serial_Number', 'Component_Position_Number', 'INSTALL_Transaction_Date', 'Work_Order_Number', 'Sequence_Number', 'Work_Center_Event_Identifier', 'On_Maint_Action_Key', 'Off_Maint_Action_Key', 'Depot_Maint_Action_Key', name='wuc-sn-posn-install-dt-seq')
 )

@@ -6,12 +6,13 @@ metadata = MetaData()
 
 split_r_and_multi_pos = Table('split_r_and_multi_pos', metadata, 
 
-    Column('On_Work_Order_Key', Integer, primary_key=True, autoincrement=False),
     Column('On_Maint_Action_Key', Integer, primary_key=True, autoincrement=False),
     Column('Work_Center_Event_Identifier', Integer, primary_key=True, autoincrement=False),
     Column('Sequence_Number', BigInteger, primary_key=True, autoincrement=False),
+    Column('Off_Maint_Action_Key', Integer, primary_key=True, autoincrement=False),
     Column('Work_Order_Number', BigInteger, primary_key=True, autoincrement=False),
+    Column('Depot_Maint_Action_Key', Integer, primary_key=True, autoincrement=False),
     Column('Primary_Key_Index', Integer, primary_key=True, autoincrement=False),
-    Column('Action_Taken_Code', String(1), primary_key=False, autoincrement=False),
-    Column('Parsed_Component_Position', String(45), primary_key=False, autoincrement=False),
+    Column('Action_Taken_Code', String(64), primary_key=False, autoincrement=False),
+    Column('Parsed_Component_Position', String(64), primary_key=False, autoincrement=False),
 )

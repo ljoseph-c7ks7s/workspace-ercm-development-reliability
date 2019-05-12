@@ -16,10 +16,6 @@
         "target":"compiled_sortie_history_data"
     },
     {
-        "source":"rules_list",
-        "target":"wuc_edits"
-    },
-    {
         "source":"compiled_remis_data",
         "target":"part_position_parser"
     },
@@ -99,21 +95,13 @@
     },
     {
         "source":"compiled_remis_data",
-        "target":"identify_r2_drop_atc"
-    },
-    {
-        "source":"compiled_remis_data",
         "target":"add_event_age",
         "vertices":[
             [
-                580,
-                240
+                500,
+                175
             ]
         ]
-    },
-    {
-        "source":"identify_r2_drop_atc",
-        "target":"split_r_and_multi_pos"
     },
     {
         "source":"add_event_age",
@@ -130,10 +118,6 @@
     {
         "source":"joined_data",
         "target":"stage_data_for_tow"
-    },
-    {
-        "source":"compiled_remis_data",
-        "target":"what_data"
     },
     {
         "source":"wd_codes",
@@ -154,24 +138,6 @@
     {
         "source":"ercm_wuc_list_raw",
         "target":"ercm_wuc_list"
-    },
-    {
-        "source":"ercm_wuc_list",
-        "target":"to_label",
-        "vertices":[
-            [
-                290,
-                265
-            ],
-            [
-                290,
-                300
-            ],
-            [
-                185,
-                320
-            ]
-        ]
     },
     {
         "source":"to_label",
@@ -268,10 +234,6 @@
         "target":"wuc_filter_raw_subset"
     },
     {
-        "source":"remis_data",
-        "target":"data_files"
-    },
-    {
         "source":"unlabeled_import",
         "target":"unlabeled_data_desc"
     },
@@ -284,12 +246,8 @@
         "target":"opstempo_forecast",
         "vertices":[
             [
-                290,
-                320
-            ],
-            [
-                450,
-                320
+                485,
+                355
             ]
         ]
     },
@@ -299,10 +257,114 @@
     },
     {
         "source":"wuc_filter_raw_subset",
-        "target":"identify_r2_drop_atc"
+        "target":"add_event_age"
+    },
+    {
+        "source":"unlabeled_data_desc",
+        "target":"unlabeled_export"
+    },
+    {
+        "source":"unlabeled_import_no_key",
+        "target":"unlabeled_data_desc_no_key"
+    },
+    {
+        "source":"labels_import",
+        "target":"fit_removal_model"
+    },
+    {
+        "source":"labels_import",
+        "target":"condense_actions"
+    },
+    {
+        "source":"condense_actions",
+        "target":"oversample_minorities"
+    },
+    {
+        "source":"oversample_minorities",
+        "target":"fit_action_3"
+    },
+    {
+        "source":"fit_removal_model",
+        "target":"action_metrics"
+    },
+    {
+        "source":"fit_action_3",
+        "target":"add_label_add_split"
+    },
+    {
+        "source":"oversample_minorities",
+        "target":"add_label_add_split",
+        "vertices":[
+            [
+                835,
+                520
+            ]
+        ]
+    },
+    {
+        "source":"condense_actions",
+        "target":"add_label_add_split",
+        "vertices":[
+            [
+                660,
+                520
+            ]
+        ]
+    },
+    {
+        "source":"add_label_add_split",
+        "target":"action_metrics_weighted"
+    },
+    {
+        "source":"fit_action_3",
+        "target":"label_atc",
+        "vertices":[
+            [
+                965,
+                455
+            ],
+            [
+                560,
+                155
+            ]
+        ]
     },
     {
         "source":"wuc_filter_raw_subset",
-        "target":"add_event_age"
+        "target":"label_atc"
+    },
+    {
+        "source":"label_atc",
+        "target":"split_r_and_multi_pos"
+    },
+    {
+        "source":"condense_actions",
+        "target":"fit_cond_rem_model"
+    },
+    {
+        "source":"fit_cond_rem_model",
+        "target":"action_metrics_condensed"
+    },
+    {
+        "source":"sort_rules_list",
+        "target":"wuc_edits"
+    },
+    {
+        "source":"rules_list",
+        "target":"sort_rules_list"
+    },
+    {
+        "source":"ercm_wuc_list",
+        "target":"to_label"
+    },
+    {
+        "source":"wuc_list_qpa",
+        "target":"part_position_parser",
+        "vertices":[
+            [
+                395,
+                300
+            ]
+        ]
     }
 ]

@@ -4,11 +4,8 @@ from sqlalchemy import MetaData, Table
 
 metadata = MetaData()
 
-rules_list = Table('rules_list', metadata, 
+sort_rules_list = Table('sort_rules_list', metadata, 
 
-    Column('id', BigInteger, primary_key=True, autoincrement=True),
-    Column('type', String(55), primary_key=False, autoincrement=False),
     Column('level', String(55), primary_key=False, autoincrement=False),
-    Column('rule_number', String(55), primary_key=False, autoincrement=False),
-    Column('rule', LONGTEXT, primary_key=False, autoincrement=False)
+    Column('rule', LONGTEXT, primary_key=False, autoincrement=False),
 )

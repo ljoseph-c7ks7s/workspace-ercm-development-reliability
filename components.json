@@ -22,7 +22,7 @@
         "model":"ebbdb8d5-9400-4162-8fba-fc97e34d70c6",
         "position":[
             50,
-            320
+            380
         ]
     },
     {
@@ -34,7 +34,7 @@
         "model":"2ec95720-5068-445c-a15a-0d5c4f99894d",
         "position":[
             360,
-            335
+            360
         ]
     },
     {
@@ -124,7 +124,7 @@
         "model":"fbdc98ee-c271-4ae8-887e-24c89d42870a",
         "position":[
             50,
-            355
+            415
         ]
     },
     {
@@ -142,7 +142,7 @@
         "model":"a8228da4-e502-4564-b5ef-e246e798cdeb",
         "position":[
             215,
-            335
+            360
         ]
     },
     {
@@ -159,8 +159,8 @@
         "label":"WUC Edits",
         "model":"184ad32a-a25b-4e56-bd17-1078f80aae4a",
         "position":[
-            245,
-            165
+            360,
+            160
         ]
     },
     {
@@ -171,7 +171,7 @@
         "label":"Rules List",
         "model":"e98cd295-63ad-4ce4-97e7-561c611ac6ce",
         "position":[
-            55,
+            10,
             215
         ]
     },
@@ -195,25 +195,13 @@
     {
         "class":"Python",
         "custom_model":true,
-        "description":"Identify extra remove and replace actions and drop any ATC not related to a remove and replace (R, P, Q, T, or U).",
-        "id":"identify_r2_drop_atc",
-        "label":"Identify R2 Drop ATC",
-        "model":"410fc5d6-6d2d-4655-8ed1-8f5715a946fb",
-        "position":[
-            615,
-            60
-        ]
-    },
-    {
-        "class":"Python",
-        "custom_model":true,
         "description":"Run a python script.",
         "id":"part_position_parser",
         "label":"Part Position Parser",
         "model":"f21eadfe-d46a-455a-98eb-b8fc8bc9b395",
         "position":[
             615,
-            25
+            20
         ]
     },
     {
@@ -224,8 +212,8 @@
         "label":"Split R and Multi POS",
         "model":"98437406-31ef-429a-a8cd-d8a1b3d11ce0",
         "position":[
-            855,
-            65
+            845,
+            70
         ]
     },
     {
@@ -256,14 +244,14 @@
         "label":"Add Event Age",
         "model":"fe45927a-354a-4a72-aa41-3a609f694151",
         "position":[
-            700,
-            225
+            685,
+            160
         ]
     },
     {
         "attrs":{
             "query_list":[
-                "SELECT raw.Work_Unit_Code, raw.On_Component_Serial_Number, raw.On_Component_Part_Number, raw.Equipment_Designator, raw.Serial_Number, raw.Geographic_Location, raw.Performing_Geographic_Location, raw.Transaction_Date, raw.Start_Time, raw.Work_Center_Code, raw.When_Discovered_Code, raw.How_Malfunction_Code, split_r_and_multi_pos.Action_Taken_Code, raw.Type_Maintenance_Code, age.Current_Operating_Time, split_r_and_multi_pos.Parsed_Component_Position AS Component_Position_Number, raw.Corrective_Narrative, raw.Discrepancy_Narrative, raw.Work_Center_Event_Narrative, last_sortie.Depart_Date, last_sortie.Depart_Time, last_sortie.Flying_Hours AS Flying_Hours_Last_Sortie, last_sortie.Sorties_Flown AS Sorties_Flown_Last_Sortie, last_sortie.Total_Landings AS Total_Landings_Last_Sortie, last_sortie.Full_Stop_Landings AS Full_Stop_Landings_Last_Sortie, split_r_and_multi_pos.Primary_Key_Index, split_r_and_multi_pos.On_Work_Order_Key, split_r_and_multi_pos.On_Maint_Action_Key, split_r_and_multi_pos.Work_Center_Event_Identifier, split_r_and_multi_pos.Sequence_Number, split_r_and_multi_pos.Work_Order_Number FROM compiled_remis_data raw JOIN split_r_and_multi_pos ON raw.On_Work_Order_Key = split_r_and_multi_pos.On_Work_Order_Key AND raw.On_Maint_Action_Key = split_r_and_multi_pos.On_Maint_Action_Key AND raw.Work_Center_Event_Identifier = split_r_and_multi_pos.Work_Center_Event_Identifier AND raw.Sequence_Number = split_r_and_multi_pos.Sequence_Number AND raw.Work_Order_Number = split_r_and_multi_pos.Work_Order_Number JOIN add_event_age age ON raw.On_Work_Order_Key = age.On_Work_Order_Key AND raw.On_Maint_Action_Key = age.On_Maint_Action_Key AND raw.Work_Center_Event_Identifier = age.Work_Center_Event_Identifier AND raw.Sequence_Number = age.Sequence_Number AND raw.Work_Order_Number = age.Work_Order_Number LEFT JOIN last_sortie ON raw.Serial_Number = last_sortie.Serial_Number AND raw.Equipment_Designator = last_sortie.MDS"
+                "SELECT raw.Work_Unit_Code, raw.On_Component_Serial_Number, raw.On_Component_Part_Number, raw.Equipment_Designator, raw.Serial_Number, raw.Geographic_Location, raw.Performing_Geographic_Location, raw.Transaction_Date, raw.Start_Time, raw.Work_Center_Code, raw.When_Discovered_Code, raw.How_Malfunction_Code, split_r_and_multi_pos.Action_Taken_Code, NULL Removal_Cause, raw.Type_Maintenance_Code, age.Current_Operating_Time, split_r_and_multi_pos.Parsed_Component_Position AS Component_Position_Number, raw.Corrective_Narrative, raw.Discrepancy_Narrative, raw.Work_Center_Event_Narrative, last_sortie.Depart_Date, last_sortie.Depart_Time, last_sortie.Flying_Hours AS Flying_Hours_Last_Sortie, last_sortie.Sorties_Flown AS Sorties_Flown_Last_Sortie, last_sortie.Total_Landings AS Total_Landings_Last_Sortie, last_sortie.Full_Stop_Landings AS Full_Stop_Landings_Last_Sortie, split_r_and_multi_pos.On_Maint_Action_Key, split_r_and_multi_pos.Work_Center_Event_Identifier, split_r_and_multi_pos.Sequence_Number, split_r_and_multi_pos.Off_Maint_Action_Key, split_r_and_multi_pos.Work_Order_Number, split_r_and_multi_pos.Depot_Maint_Action_Key, split_r_and_multi_pos.Primary_Key_Index FROM compiled_remis_data raw JOIN split_r_and_multi_pos ON raw.On_Maint_Action_Key = split_r_and_multi_pos.On_Maint_Action_Key AND raw.Work_Center_Event_Identifier = split_r_and_multi_pos.Work_Center_Event_Identifier AND raw.Sequence_Number = split_r_and_multi_pos.Sequence_Number AND raw.Off_Maint_Action_Key = split_r_and_multi_pos.Off_Maint_Action_Key AND raw.Work_Order_Number = split_r_and_multi_pos.Work_Order_Number AND raw.Depot_Maint_Action_Key = split_r_and_multi_pos.Depot_Maint_Action_Key JOIN add_event_age age ON raw.On_Maint_Action_Key = age.On_Maint_Action_Key AND raw.Work_Center_Event_Identifier = age.Work_Center_Event_Identifier AND raw.Sequence_Number = age.Sequence_Number AND raw.Off_Maint_Action_Key = age.Off_Maint_Action_Key AND raw.Work_Order_Number = age.Work_Order_Number AND raw.Depot_Maint_Action_Key = age.Depot_Maint_Action_Key LEFT JOIN last_sortie ON raw.Serial_Number = last_sortie.Serial_Number AND raw.Equipment_Designator = last_sortie.MDS WHERE split_r_and_multi_pos.Action_Taken_Code != 'O'"
             ]
         },
         "class":"SQL",
@@ -283,7 +271,7 @@
         "description":"Create a staged table in the database.",
         "id":"stage_data_for_tow",
         "label":"Stage Data for TOW",
-        "model":"1aed829d-8e00-42ce-8fcf-9a674474389e",
+        "model":"705e54f5-da88-451f-897f-95d1ba377da1",
         "position":[
             1185,
             130
@@ -499,8 +487,8 @@
         "label":"Last Sortie",
         "model":"77f11401-f6f5-4268-b547-f7a1b1aea338",
         "position":[
-            675,
-            285
+            685,
+            195
         ]
     },
     {
@@ -511,8 +499,8 @@
         "label":"what data",
         "model":"504ed54c-5d03-4c82-bbbe-8d3ccaf99e74",
         "position":[
-            410,
-            5
+            50,
+            640
         ]
     },
     {
@@ -546,7 +534,7 @@
         "model":"6f7a7abe-a6bf-440c-bf23-ff5b327fa71d",
         "position":[
             50,
-            525
+            565
         ]
     },
     {
@@ -558,7 +546,7 @@
         "model":"2871c63c-0c64-4f75-bbf3-55ea10996d23",
         "position":[
             50,
-            420
+            475
         ]
     },
     {
@@ -570,7 +558,7 @@
         "model":"fa84505e-1d6c-4838-8e32-4b3f48d705ab",
         "position":[
             50,
-            455
+            505
         ]
     },
     {
@@ -582,7 +570,7 @@
         "model":"615506ca-c708-4b27-b2b9-e56cb29c01ed",
         "position":[
             50,
-            490
+            535
         ]
     },
     {
@@ -645,13 +633,13 @@
         },
         "class":"Excel",
         "custom_model":true,
-        "description":"Import report EFM 1640, which includes quantity-per-aircraft for each MDS and work unit code.",
-        "id":"qpa",
-        "label":"QPA",
+        "description":"Import report EFM 1640, which includes quantity-per-aircraft and names for each MDS and work unit code. We are not using these QPAs - they are not all correct.",
+        "id":"efm_1640",
+        "label":"EFM 1640",
         "model":"bcafda99-f8e4-470d-92db-debc7bd06288",
         "position":[
             50,
-            560
+            600
         ]
     },
     {
@@ -723,7 +711,7 @@
         "description":"Save sets of labels to validate uploaded hand-labeled events against",
         "id":"labels_import",
         "label":"Labels Import",
-        "model":"907521ac-c001-4a25-8627-84b67f6354df",
+        "model":"66989225-35ee-4633-808e-9ffd2e3ef8e0",
         "position":[
             370,
             405
@@ -821,7 +809,7 @@
     {
         "attrs":{
             "query_list":[
-                "SELECT On_Maint_Action_Key, Work_Center_Event_Identifier, Sequence_Number, Off_Maint_Action_Key, Work_Order_Number, Depot_Maint_Action_Key, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM compiled_remis_data remis JOIN (SELECT DISTINCT work_unit_code FROM ercm_wuc_list) ercm_wuc_list ON remis.Work_Unit_Code = ercm_wuc_list.Work_Unit_Code WHERE Serial_Number IS NOT NULL"
+                "SELECT On_Maint_Action_Key, Work_Center_Event_Identifier, Sequence_Number, Off_Maint_Action_Key, Work_Order_Number, Depot_Maint_Action_Key, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM compiled_remis_data remis JOIN (SELECT '41322' AS work_unit_code) ercm_wuc_list ON remis.Work_Unit_Code = ercm_wuc_list.Work_Unit_Code WHERE Serial_Number IS NOT NULL AND TRIM(Equipment_Designator) IN ('C130J','C130H')"
             ]
         },
         "class":"SQL",
@@ -915,11 +903,12 @@
             },
             "date_formatter":{
                 "Transaction_Date":"%M %d, %Y"
-            }
+            },
+            "delimiter":"pipe"
         },
         "class":"CSV",
         "custom_model":true,
-        "description":"Import data that is contained in a delimited text file.",
+        "description":"Import PRP4127 REMIS data.",
         "id":"prp4127",
         "label":"PRP4127",
         "model":"0cb4b55f-6b15-4bc6-abd0-8d6b2a2159dc",
@@ -937,7 +926,7 @@
         "model":"0bf5e4e4-6354-4290-9747-7355bda0fe99",
         "position":[
             50,
-            5
+            675
         ]
     },
     {
@@ -949,7 +938,7 @@
         "model":"aec9778f-6c13-4c29-9928-feed17932376",
         "position":[
             365,
-            520
+            530
         ]
     },
     {
@@ -966,11 +955,14 @@
         "label":"Unlabeled Data Desc",
         "model":"923d6d84-4f90-4a58-b20d-14cb8c91238d",
         "position":[
-            520,
-            520
+            510,
+            530
         ]
     },
     {
+        "attrs":{
+            "timeout":60
+        },
         "class":"Python",
         "custom_model":true,
         "description":"Forecast near-term per-aircraft operating tempo.",
@@ -978,8 +970,8 @@
         "label":"OpsTempo Forecast",
         "model":"2c4d1493-09dc-4fc5-81b1-c75e5eb5fff7",
         "position":[
-            520,
-            335
+            515,
+            360
         ]
     },
     {
@@ -998,6 +990,237 @@
         "id":"assigned_location",
         "label":"Assigned Location",
         "model":"ed79df86-5773-47d6-8108-29f3a0df8fa1",
+        "position":[
+            50,
+            340
+        ]
+    },
+    {
+        "class":"CSV",
+        "custom_model":true,
+        "description":"Import data that is contained in a delimited text file.",
+        "id":"unlabeled_import_no_key",
+        "label":"Unlabeled Import No Key",
+        "model":"c71a9dcb-0dc5-4ff2-92e6-fcdd3b289784",
+        "position":[
+            365,
+            575
+        ]
+    },
+    {
+        "class":"DataExporter",
+        "description":"Export all or a subset of rows contained in a table.",
+        "id":"unlabeled_export",
+        "label":"Unlabeled Export",
+        "position":[
+            665,
+            530
+        ]
+    },
+    {
+        "attrs":{
+            "query_list":[
+                "SELECT File_Name, remis.On_Maint_Action_Key, remis.Work_Center_Event_Identifier, remis.Sequence_Number, remis.Off_Maint_Action_Key, remis.Work_Order_Number, remis.Depot_Maint_Action_Key, Equipment_Designator, Serial_Number, Job_Control_Number, remis.Work_Unit_Code, Transaction_Date, Geographic_Location, remis.Current_Operating_Time, Action_Taken_Code, at.description, How_Malfunction_Code, How_Malfunction_Class_Ind, hmal.description, Type_Maintenance_Code, tm.description, When_Discovered_Code, wd.description, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM (SELECT DISTINCT work_unit_code FROM ercm_wuc_list) ercm_wuc_list JOIN compiled_remis_data remis ON remis.Work_Unit_Code = ercm_wuc_list.Work_Unit_Code JOIN at_codes at ON at.code = remis.Action_Taken_Code JOIN hmal_codes hmal ON hmal.code = remis.How_Malfunction_Code JOIN wd_codes wd ON wd.code = remis.When_Discovered_Code JOIN tm_codes tm ON tm.code = remis.Type_Maintenance_Code WHERE TRIM(Equipment_Designator) IN ('C130H','C130J')",
+                "SELECT NULL , NULL , remis.Work_Center_Event_Identifier, remis.Sequence_Number, NULL , NULL , NULL , Equipment_Designator, Serial_Number, Job_Control_Number, remis.Work_Unit_Code, Transaction_Date, Geographic_Location, remis.Current_Operating_Time, Action_Taken_Code, at.description, How_Malfunction_Code, How_Malfunction_Class_Ind, hmal.description, Type_Maintenance_Code, tm.description, When_Discovered_Code, wd.description, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Action_Narrative FROM (SELECT DISTINCT work_unit_code FROM ercm_wuc_list) ercm_wuc_list JOIN prp4127 remis ON remis.Work_Unit_Code = ercm_wuc_list.Work_Unit_Code JOIN at_codes at ON at.code = remis.Action_Taken_Code JOIN hmal_codes hmal ON hmal.code = remis.How_Malfunction_Code JOIN wd_codes wd ON wd.code = remis.When_Discovered_Code JOIN tm_codes tm ON tm.code = remis.Type_Maintenance_Code WHERE TRIM(Equipment_Designator) IN ('C130H','C130J')"
+            ]
+        },
+        "class":"SQL",
+        "custom_model":true,
+        "description":"Include codes and narratives to assist with labeling excercises.  Minimal key information for the 4127 report.",
+        "id":"unlabeled_data_desc_no_key",
+        "label":"Unlabeled Data Desc No Key",
+        "model":"80619abb-122d-4d53-b951-03e6f6a6e314",
+        "position":[
+            520,
+            575
+        ]
+    },
+    {
+        "attrs":{
+            "label":"Action",
+            "number_epochs":50,
+            "target_columns":[
+                "Discrepancy_Narrative",
+                "Work_Center_Event_Narrative",
+                "Corrective_Narrative"
+            ]
+        },
+        "class":"DeepLearningClassifier",
+        "custom_model":true,
+        "description":"Uses a stacked deep learning method to train a model for classifying text.",
+        "id":"fit_removal_model",
+        "label":"Fit Removal Model",
+        "model":"deeplearningclassifier",
+        "position":[
+            515,
+            405
+        ]
+    },
+    {
+        "attrs":{
+            "query_list":[
+                "SELECT __id, File_Name, On_Maint_Action_Key, Work_Center_Event_Identifier, Sequence_Number, Off_Maint_Action_Key, Work_Order_Number, Depot_Maint_Action_Key, Serial_Number, Job_Control_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Current_Operating_Time, Action_Taken_Code, ATC_Description, How_Malfunction_Code, How_Malfunction_Class_Ind, HMAL_Description, Type_Maintenance_Code, TM_Description, When_Discovered_Code, WD_Description, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative, if(Action in ('T','U'),'TU',if(Action in ('P','Q'), 'R',Action)) Action, Position, Removal_Cause  FROM labels_import"
+            ]
+        },
+        "class":"SQL",
+        "custom_model":true,
+        "description":"Reduce the amount of distinct Action labels from 6 to 3 to improve labeling accuracy: P and Q are converted to R, T and U are converted to TU.",
+        "id":"condense_actions",
+        "label":"Condense Actions",
+        "model":"de95b779-ece1-4057-a76e-cb0945383648",
+        "position":[
+            515,
+            440
+        ]
+    },
+    {
+        "attrs":{
+            "additional_parameters":{
+                "label_name":"Action",
+                "min_minority_fraction_of_most_common":0.9,
+                "test_ratio":0.25
+            }
+        },
+        "class":"Python",
+        "custom_model":true,
+        "description":"Randomly sample from minority classes (those fewer records than the most-common class) to get an even quantity of labeled data per class for training a model.",
+        "id":"oversample_minorities",
+        "label":"Oversample Minorities",
+        "model":"e4e311bc-73d9-49dd-a7a8-919a682ef699",
+        "position":[
+            670,
+            475
+        ]
+    },
+    {
+        "attrs":{
+            "label":"Action",
+            "number_epochs":50,
+            "target_columns":[
+                "Discrepancy_Narrative",
+                "Work_Center_Event_Narrative",
+                "Corrective_Narrative"
+            ]
+        },
+        "class":"DeepLearningClassifier",
+        "custom_model":true,
+        "description":"Uses a stacked deep learning method to train a model for classifying text.",
+        "id":"fit_action_3",
+        "label":"Fit Action 3",
+        "model":"deeplearningclassifier",
+        "position":[
+            815,
+            475
+        ]
+    },
+    {
+        "class":"Python",
+        "custom_model":true,
+        "description":"Display metrics for 8-class ATC model.",
+        "id":"action_metrics",
+        "label":"Action Metrics",
+        "model":"1b677858-184f-461e-8861-106feb3749df",
+        "position":[
+            670,
+            405
+        ]
+    },
+    {
+        "class":"Python",
+        "custom_model":true,
+        "description":"Display metrics for 8-class ATC model.",
+        "id":"action_metrics_weighted",
+        "label":"Action Metrics Weighted",
+        "model":"999c871d-1d26-49a3-b555-ef94f854bf6f",
+        "position":[
+            1105,
+            505
+        ]
+    },
+    {
+        "attrs":{
+            "query_list":[
+                "SELECT labels.*, pr.prediction, os.train_test FROM condense_actions labels JOIN  (SELECT DISTINCT replace(target, 'None', '') target, prediction FROM deeplearningclassifier WHERE component_name like '%action_3%') pr ON concat(coalesce(labels.Discrepancy_Narrative, ''), ' ', coalesce(labels.Work_Center_Event_Narrative, ''), ' ', coalesce(labels.Corrective_Narrative, '')) = pr.target JOIN (SELECT DISTINCT On_Maint_Action_Key, Work_Center_Event_Identifier, Sequence_Number, Off_Maint_Action_Key, Work_Order_Number, Depot_Maint_Action_Key, train_test FROM oversample_minorities) os ON labels.On_Maint_Action_Key = os.On_Maint_Action_Key AND labels.Work_Center_Event_Identifier = os.Work_Center_Event_Identifier AND labels.Sequence_Number = os.Sequence_Number AND labels.Off_Maint_Action_Key = os.Off_Maint_Action_Key AND labels.Work_Order_Number = os.Work_Order_Number AND labels.Depot_Maint_Action_Key = os.Depot_Maint_Action_Key"
+            ]
+        },
+        "class":"SQL",
+        "custom_model":true,
+        "description":"Rename columns to prep for comparison confusion matrix, add train/test split, and add predicted label.",
+        "id":"add_label_add_split",
+        "label":"Add Label Add Split",
+        "model":"3c1bc48f-cd26-4f20-acc5-12dc81e45218",
+        "position":[
+            960,
+            505
+        ]
+    },
+    {
+        "attrs":{
+            "copy_only_key_columns":true
+        },
+        "class":"DeepLearningLabeler",
+        "custom_model":true,
+        "description":"Apply a deep learning model to a new set of data",
+        "id":"label_atc",
+        "label":"Label ATC",
+        "model":"59542510-96de-429d-ae33-a23762462041",
+        "position":[
+            615,
+            70
+        ]
+    },
+    {
+        "attrs":{
+            "label":"Action",
+            "number_epochs":50,
+            "target_columns":[
+                "Discrepancy_Narrative",
+                "Work_Center_Event_Narrative",
+                "Corrective_Narrative"
+            ]
+        },
+        "class":"DeepLearningClassifier",
+        "custom_model":true,
+        "description":"Uses a stacked deep learning method to train a model for classifying text.",
+        "id":"fit_cond_rem_model",
+        "label":"Fit Cond Rem Model",
+        "model":"deeplearningclassifier",
+        "position":[
+            670,
+            440
+        ]
+    },
+    {
+        "class":"Python",
+        "custom_model":true,
+        "description":"Display metrics for 8-class ATC model.",
+        "id":"action_metrics_condensed",
+        "label":"Action Metrics Condensed",
+        "model":"230f0710-ec3b-400d-bce3-0df86e2cf4be",
+        "position":[
+            815,
+            440
+        ]
+    },
+    {
+        "class":"Python",
+        "custom_model":true,
+        "description":"Run a python script.",
+        "id":"sort_rules_list",
+        "label":"Sort Rules List",
+        "model":"3e60b7dd-586d-4665-a6ad-baec666d3886",
+        "position":[
+            145,
+            215
+        ]
+    },
+    {
+        "class":"Excel",
+        "custom_model":true,
+        "description":"Import Clockwork-generated file provided more detail on quantity-per-aricraft for part position parser, lost position finder, and current part ages.",
+        "id":"wuc_list_qpa",
+        "label":"WUC List QPA",
+        "model":"58321884-e4f0-4838-bd78-0866a67fc9f5",
         "position":[
             50,
             285
