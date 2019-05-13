@@ -6,10 +6,10 @@ Args:
         params: dictionary of additional parameters from component config (optional)
         predecessors: list of predecessor component names
 
-        Reads in On_Work_Order_Key, On_Maint_Action_Key, Work_Center_Event_Identifier, Sequence_Number, Work_Order_Number, Corrective_Narrative, Discrepancy_Narrative, Component_Position_Number
+        Reads in key fields, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative, Component_Position_Number
 
     Returns:
-        Data frame of On_Work_Order_Key, On_Maint_Action_Key, Work_Center_Event_Identifier, Sequence_Number, Work_Order_Number, Parsed_Component_Position
+        Data frame of key fields and Parsed_Component_Position
 """
 
 def engine_reader(df,libraries):
@@ -21,7 +21,7 @@ def engine_reader(df,libraries):
     re = libraries["re"]
 
     # define fields to check
-    checks = ['Corrective_Narrative','Discrepancy_Narrative']
+    checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
 
     # for each entry, search fields for component position numbers 
     for i in range (0,len(df)):
@@ -99,7 +99,8 @@ def fn(conn, libraries, params, predecessors):
         join_clause = ['A.{} = B.{}'.format(ii,ii) for ii in keys]
         join_clause = ' AND '.join(join_clause)
 
-        df = pd.read_sql(con=conn, sql="""SELECT A.*, B.Work_Unit_Code, B.Discrepancy_Narrative, B.Corrective_Narrative, B.Component_Position_Number FROM {} A 
+        df = pd.read_sql(con=conn, sql="""SELECT A.*, B.Work_Unit_Code, B.Discrepancy_Narrative, B.Work_Center_Event_Narrative, 
+            B.Corrective_Narrative, B.Component_Position_Number FROM {} A 
             LEFT JOIN {} B ON {}""".format(key_table_name, compiled_table_name, join_clause))
 
     elif len(predecessors) == 1:
@@ -127,6 +128,8 @@ def fn(conn, libraries, params, predecessors):
             df_one_wuc = engine_reader(df_one_wuc, libraries)
         else:
             wuc_qpa = df_qpa[df_qpa.Work_Unit_Code == this_wuc]
+            if len(wuc_qpa) = 0:
+                wuc_qpa = df_qpa[df_qpa.Alternate_WUC == this_wuc]
 
             if int(wuc_qpa.QPA) == 1:
                 # only 1 per aircraft. set all to 1
