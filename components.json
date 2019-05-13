@@ -164,7 +164,8 @@
         ]
     },
     {
-        "class":"TSV",
+        "attrs":{"delimiter":"tab"},
+        "class":"CSV",
         "custom_model":true,
         "description":"Pre-Induction Analysis and FSIP excision and edit rules exported from the Non Autofilter C130 MDA SRS Exerpt Rev2D 24Oct18 Word document",
         "id":"rules_list",
@@ -779,7 +780,8 @@
     {
         "attrs":{
             "additional_r_parameters":{
-                "alpha":0.05
+                "alpha":0.05,
+                "min_interval_time":0.1
             },
             "db_class_preference":"RMySQL",
             "local_script":"True",
