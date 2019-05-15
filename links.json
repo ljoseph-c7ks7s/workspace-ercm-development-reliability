@@ -260,10 +260,6 @@
         "target":"add_event_age"
     },
     {
-        "source":"unlabeled_data_desc",
-        "target":"unlabeled_export"
-    },
-    {
         "source":"unlabeled_import_no_key",
         "target":"unlabeled_data_desc_no_key"
     },
@@ -366,5 +362,13 @@
                 300
             ]
         ]
+    },
+    {
+        "source":"unlabeled_import",
+        "target":"unlabeled_data_desc_no_key"
+    },
+    {
+        "source":"unlabeled_data_desc_no_key",
+        "target":"unlabeled_export"
     }
 ]

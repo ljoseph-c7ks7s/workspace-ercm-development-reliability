@@ -164,7 +164,9 @@
         ]
     },
     {
-        "attrs":{"delimiter":"tab"},
+        "attrs":{
+            "delimiter":"tab"
+        },
         "class":"CSV",
         "custom_model":true,
         "description":"Pre-Induction Analysis and FSIP excision and edit rules exported from the Non Autofilter C130 MDA SRS Exerpt Rev2D 24Oct18 Word document",
@@ -252,7 +254,7 @@
     {
         "attrs":{
             "query_list":[
-                "SELECT raw.Work_Unit_Code, raw.On_Component_Serial_Number, raw.On_Component_Part_Number, raw.Equipment_Designator, raw.Serial_Number, raw.Geographic_Location, raw.Performing_Geographic_Location, raw.Transaction_Date, raw.Start_Time, raw.Work_Center_Code, raw.When_Discovered_Code, raw.How_Malfunction_Code, split_r_and_multi_pos.Action_Taken_Code, NULL Removal_Cause, raw.Type_Maintenance_Code, age.Current_Operating_Time, split_r_and_multi_pos.Parsed_Component_Position AS Component_Position_Number, raw.Corrective_Narrative, raw.Discrepancy_Narrative, raw.Work_Center_Event_Narrative, last_sortie.Depart_Date, last_sortie.Depart_Time, last_sortie.Flying_Hours AS Flying_Hours_Last_Sortie, last_sortie.Sorties_Flown AS Sorties_Flown_Last_Sortie, last_sortie.Total_Landings AS Total_Landings_Last_Sortie, last_sortie.Full_Stop_Landings AS Full_Stop_Landings_Last_Sortie, split_r_and_multi_pos.On_Maint_Action_Key, split_r_and_multi_pos.Work_Center_Event_Identifier, split_r_and_multi_pos.Sequence_Number, split_r_and_multi_pos.Off_Maint_Action_Key, split_r_and_multi_pos.Work_Order_Number, split_r_and_multi_pos.Depot_Maint_Action_Key, split_r_and_multi_pos.Primary_Key_Index FROM compiled_remis_data raw JOIN split_r_and_multi_pos ON raw.On_Maint_Action_Key = split_r_and_multi_pos.On_Maint_Action_Key AND raw.Work_Center_Event_Identifier = split_r_and_multi_pos.Work_Center_Event_Identifier AND raw.Sequence_Number = split_r_and_multi_pos.Sequence_Number AND raw.Off_Maint_Action_Key = split_r_and_multi_pos.Off_Maint_Action_Key AND raw.Work_Order_Number = split_r_and_multi_pos.Work_Order_Number AND raw.Depot_Maint_Action_Key = split_r_and_multi_pos.Depot_Maint_Action_Key JOIN add_event_age age ON raw.On_Maint_Action_Key = age.On_Maint_Action_Key AND raw.Work_Center_Event_Identifier = age.Work_Center_Event_Identifier AND raw.Sequence_Number = age.Sequence_Number AND raw.Off_Maint_Action_Key = age.Off_Maint_Action_Key AND raw.Work_Order_Number = age.Work_Order_Number AND raw.Depot_Maint_Action_Key = age.Depot_Maint_Action_Key LEFT JOIN last_sortie ON raw.Serial_Number = last_sortie.Serial_Number AND raw.Equipment_Designator = last_sortie.MDS WHERE split_r_and_multi_pos.Action_Taken_Code != 'O'"
+                "SELECT raw.Work_Unit_Code, raw.On_Component_Serial_Number, raw.On_Component_Part_Number, TRIM(raw.Equipment_Designator) as Equipment_Designator, raw.Serial_Number, raw.Geographic_Location, raw.Performing_Geographic_Location, raw.Transaction_Date, raw.Start_Time, raw.Work_Center_Code, raw.When_Discovered_Code, raw.How_Malfunction_Code, split_r_and_multi_pos.Action_Taken_Code, NULL Removal_Cause, raw.Type_Maintenance_Code, age.Current_Operating_Time, split_r_and_multi_pos.Parsed_Component_Position AS Component_Position_Number, raw.Corrective_Narrative, raw.Discrepancy_Narrative, raw.Work_Center_Event_Narrative, last_sortie.Depart_Date, last_sortie.Depart_Time, last_sortie.Flying_Hours AS Flying_Hours_Last_Sortie, last_sortie.Sorties_Flown AS Sorties_Flown_Last_Sortie, last_sortie.Total_Landings AS Total_Landings_Last_Sortie, last_sortie.Full_Stop_Landings AS Full_Stop_Landings_Last_Sortie, split_r_and_multi_pos.On_Maint_Action_Key, split_r_and_multi_pos.Work_Center_Event_Identifier, split_r_and_multi_pos.Sequence_Number, split_r_and_multi_pos.Off_Maint_Action_Key, split_r_and_multi_pos.Work_Order_Number, split_r_and_multi_pos.Depot_Maint_Action_Key, split_r_and_multi_pos.Primary_Key_Index FROM compiled_remis_data raw JOIN split_r_and_multi_pos ON raw.On_Maint_Action_Key = split_r_and_multi_pos.On_Maint_Action_Key AND raw.Work_Center_Event_Identifier = split_r_and_multi_pos.Work_Center_Event_Identifier AND raw.Sequence_Number = split_r_and_multi_pos.Sequence_Number AND raw.Off_Maint_Action_Key = split_r_and_multi_pos.Off_Maint_Action_Key AND raw.Work_Order_Number = split_r_and_multi_pos.Work_Order_Number AND raw.Depot_Maint_Action_Key = split_r_and_multi_pos.Depot_Maint_Action_Key JOIN add_event_age age ON raw.On_Maint_Action_Key = age.On_Maint_Action_Key AND raw.Work_Center_Event_Identifier = age.Work_Center_Event_Identifier AND raw.Sequence_Number = age.Sequence_Number AND raw.Off_Maint_Action_Key = age.Off_Maint_Action_Key AND raw.Work_Order_Number = age.Work_Order_Number AND raw.Depot_Maint_Action_Key = age.Depot_Maint_Action_Key LEFT JOIN last_sortie ON raw.Serial_Number = last_sortie.Serial_Number AND raw.Equipment_Designator = last_sortie.MDS WHERE split_r_and_multi_pos.Action_Taken_Code != 'O'"
             ]
         },
         "class":"SQL",
@@ -272,7 +274,7 @@
         "description":"Create a staged table in the database.",
         "id":"stage_data_for_tow",
         "label":"Stage Data for TOW",
-        "model":"705e54f5-da88-451f-897f-95d1ba377da1",
+        "model":"d04ab178-0489-4ca0-a0b2-af03fb503957",
         "position":[
             1185,
             130
@@ -527,6 +529,11 @@
         ]
     },
     {
+        "attrs":{
+            "column_conversion":{
+                "HMAL":"str(x).replace('.0','')"
+            }
+        },
         "class":"Excel",
         "custom_model":true,
         "description":"Import an Excel file.",
@@ -539,6 +546,11 @@
         ]
     },
     {
+        "attrs":{
+            "column_conversion":{
+                "AT":"str(x).replace('.0','')"
+            }
+        },
         "class":"Excel",
         "custom_model":true,
         "description":"Import an Excel file.",
@@ -563,6 +575,11 @@
         ]
     },
     {
+        "attrs":{
+            "column_conversion":{
+                "WD":"str(x).replace('.0','')"
+            }
+        },
         "class":"Excel",
         "custom_model":true,
         "description":"Import an Excel file.",
@@ -1016,7 +1033,7 @@
         "label":"Unlabeled Export",
         "position":[
             665,
-            530
+            575
         ]
     },
     {
@@ -1033,7 +1050,7 @@
         "label":"Unlabeled Data Desc No Key",
         "model":"80619abb-122d-4d53-b951-03e6f6a6e314",
         "position":[
-            520,
+            510,
             575
         ]
     },

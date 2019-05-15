@@ -8,7 +8,7 @@ hyd_pump_for_export = Table('hyd_pump_for_export', metadata,
 
     Column('File_Name', String(255)),
     Column('On_Maint_Action_Key', Integer),
-    Column('Work_Center_Event_Identifier'),
+    Column('Work_Center_Event_Identifier', Integer),
     Column('Sequence_Number', BigInteger),
     Column('Off_Maint_Action_Key', Integer),
     Column('Work_Order_Number', BigInteger),
