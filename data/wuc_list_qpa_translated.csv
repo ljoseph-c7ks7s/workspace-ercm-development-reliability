@@ -30,10 +30,10 @@ Work_Unit_Code,Alternate_WUC,MDS,Minimum_SN_Inclusive,Maximum_SN,QPA,QPA_Descrip
 46620,,C-130H,,,1,,,
 46621,,C-130H,,,18,,"FQI,F/Q,FQG","1,2,3,4"
 491A0,,C-130J,,,1,,,
-5114K,,C-130H,,8500000036,2,,altimeter,"copilot,nav"
-5114K,,C-130H,8500000036,,3,,altimeter,"pilot,copilot,nav"
+5114K,,C-130H,,8500000036,2,Total:  2 to 3 depending on Aircraft Airplane Prior to AF85-0035 Loacated: 1.  Main Instrument Panel- 1 Each 2.  Navigator's Instrument Panel- 1 Each   After AF85-0035 Aircraft 1.  Main Instrument Panel - 2 Each 2.  Navigator's Instrument Panel- 1 Each,altimeter,"copilot,nav"
+5114K,,C-130H,8500000036,,3,Total:  2 to 3 depending on Aircraft Airplane Prior to AF85-0035 Loacated: 1.  Main Instrument Panel- 1 Each 2.  Navigator's Instrument Panel- 1 Each   After AF85-0035 Aircraft 1.  Main Instrument Panel - 2 Each 2.  Navigator's Instrument Panel- 1 Each,altimeter,"pilot,copilot,nav"
 526DA,,C-130H,,,2,Total: 2 Pilot Panel Assembly: 1 Each Copilot Panel Assembly: 1 Each,ADI,"pilot,copilot"
-526DD,,C-130H,,,2,Total: 2 Pilot Panel Assembly: 1 Each Copilot Panel Assembly: 1 Each,HIS,"pilot,copilot"
+526DD,,C-130H,,,2,Total: 2 Pilot Panel Assembly: 1 Each Copilot Panel Assembly: 1 Each,HSI,"pilot,copilot"
 526DE,,C-130H,,,4,Total: 4 Pilot Panel Assembly: 2 Each Co-Pilot Panel Assembly: 2 Each,EFI,"pilot_upper,pilot_lower,copilot_upper,copilot_lower"
 64BAD,,C-130J,,,6,,ICS,"pilot,copilot,aug_crew,aft_center_console,aft_cargo,fwd_cargo"
 64BAD,,WC-130J,,,8,,ICS,"pilot,copilot,aug_crew,aft_center_console,aft_cargo,fwd_cargo,arwo,dso"
