@@ -7,11 +7,12 @@ metadata = MetaData()
 wuc_list_qpa = Table('wuc_list_qpa', metadata, 
 
     Column('Work_Unit_Code', String(5), primary_key=False, autoincrement=False),
+    Column('Alternate_WUC', String(5), primary_key=False, autoincrement=False),
     Column('MDS', String(7), primary_key=False, autoincrement=False),
     Column('Minimum_SN_Inclusive', String(10), primary_key=False, autoincrement=False),
     Column('Maximum_SN', String(10), primary_key=False, autoincrement=False),
     Column('QPA', Integer, primary_key=False, autoincrement=False),
     Column('QPA_Description', LONGTEXT, primary_key=False, autoincrement=False),
-    Column('Keywords', String(255), primary_key=False, autoincrement=False),
-    Column('Names', String(255), primary_key=False, autoincrement=False),
+    Column('Clues', String(255), primary_key=False, autoincrement=False),
+    Column('Names', String(255), primary_key=False, autoincrement=False)
 )

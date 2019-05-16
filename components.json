@@ -1234,9 +1234,9 @@
         ]
     },
     {
-        "class":"Excel",
+        "class":"CSV",
         "custom_model":true,
-        "description":"Import Clockwork-generated file provided more detail on quantity-per-aricraft for part position parser, lost position finder, and current part ages.",
+        "description":"Import Clockwork-generated file providing more detail on quantity-per-aricraft for part position parser, lost position finder, and current part ages.",
         "id":"wuc_list_qpa",
         "label":"WUC List QPA",
         "model":"58321884-e4f0-4838-bd78-0866a67fc9f5",
