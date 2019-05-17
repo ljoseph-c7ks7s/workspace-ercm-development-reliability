@@ -128,7 +128,7 @@ def fn(conn, libraries, params, predecessors):
             df_one_wuc = engine_reader(df_one_wuc, libraries)
         else:
             wuc_qpa = df_qpa[df_qpa.Work_Unit_Code == this_wuc]
-            if len(wuc_qpa) = 0:
+            if len(wuc_qpa) == 0:
                 wuc_qpa = df_qpa[df_qpa.Alternate_WUC == this_wuc]
 
             if int(wuc_qpa.QPA) == 1:
