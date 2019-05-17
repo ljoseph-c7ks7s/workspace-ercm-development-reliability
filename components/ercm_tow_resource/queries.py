@@ -13,8 +13,16 @@ eng_hrs = (
 'ON b.esn = a.esn and b.hstr_sn = a.hstr_sn'
 )
 
-# select transactional maintenance data
+# select transactional maintenance data. 
+# if removal and install on same day: 
+#       order by any removal first, then any install.  w/in those codes, order by causal removal and used install last (w/in removal and install order) 
+#       so they're saved in the interval
 fetch_wuc = """SELECT * FROM stage_data_for_tow 
-WHERE Work_Unit_Code = %s AND Action_Taken_Code in ('P','Q','T','U') 
-ORDER BY Serial_Number, Component_Position_Number, Transaction_Date, Action_Taken_Code, 
+WHERE Work_Unit_Code = %s AND Action_Taken_Code in ('P', 'Q', 'T', 'U', 'IU') 
+ORDER BY Serial_Number, Component_Position_Number, Transaction_Date, 
+CASE WHEN Action_Taken_Code = 'T' then 1
+			  WHEN Action_Taken_Code = 'P' then 2
+              WHEN Action_Taken_Code IN ('Q', 'U') then 3
+              WHEN Action_Taken_Code = 'IU' then 4
+END, 
 Work_Order_Number, Sequence_Number, Work_Center_Event_Identifier, On_Maint_Action_Key, Off_Maint_Action_Key, Depot_Maint_Action_Key"""
