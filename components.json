@@ -1244,5 +1244,22 @@
             50,
             285
         ]
+    },
+    {
+        "attrs":{
+            "label_start_row":9,
+            "data_start_row":10,
+            "save_file_name":"File_Name"
+        },
+        "class":"Excel",
+        "custom_model":true,
+        "description":"Import an Excel file with list of aircraft at depot and when they are due out.",
+        "id":"aircraft_in_depot",
+        "label":"Aircraft In Depot",
+        "model":"8b40ceda-defa-445e-9cc7-484fb6e491db",
+        "position":[
+            50,
+            720
+        ]
     }
 ]
