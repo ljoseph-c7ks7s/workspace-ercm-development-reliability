@@ -1247,8 +1247,8 @@
     },
     {
         "attrs":{
-            "label_start_row":9,
             "data_start_row":10,
+            "label_start_row":9,
             "save_file_name":"File_Name"
         },
         "class":"Excel",
@@ -1260,6 +1260,18 @@
         "position":[
             50,
             720
+        ]
+    },
+    {
+        "class":"CSV",
+        "custom_model":true,
+        "description":"Import data that is contained in a delimited text file.",
+        "id":"asgn_loc_snapshot",
+        "label":"Asgn Loc Snapshot",
+        "model":"d9bbf9f1-6d35-41e1-8822-ceb412f5d722",
+        "position":[
+            50,
+            755
         ]
     }
 ]
