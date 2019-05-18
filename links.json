@@ -386,5 +386,59 @@
     {
         "source":"interval_data_for_plots",
         "target":"interval_plots"
+    },
+    {
+        "source":"wuc_list_qpa",
+        "target":"current_part_ages",
+        "vertices":[
+            [
+                395,
+                300
+            ],
+            [
+                860,
+                35
+            ],
+            [
+                1195,
+                115
+            ],
+            [
+                1630,
+                115
+            ]
+        ]
+    },
+    {
+        "source":"stage_data_for_tow",
+        "target":"current_part_ages",
+        "vertices":[
+            [
+                1335,
+                115
+            ],
+            [
+                1630,
+                115
+            ]
+        ]
+    },
+    {
+        "source":"last_sortie",
+        "target":"current_part_ages",
+        "vertices":[
+            [
+                1030,
+                75
+            ],
+            [
+                1195,
+                115
+            ],
+            [
+                1630,
+                115
+            ]
+        ]
     }
 ]

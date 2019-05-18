@@ -480,7 +480,7 @@
     {
         "attrs":{
             "query_list":[
-                "SELECT sortie_accumulated_hours.* FROM sortie_accumulated_hours JOIN (SELECT Serial_Number, max(Flying_Hours) Flying_Hours FROM sortie_accumulated_hours GROUP BY Serial_Number ) max_sortie ON sortie_accumulated_hours.serial_number = max_sortie.serial_number AND sortie_accumulated_hours.Flying_Hours = max_sortie.Flying_Hours"
+                "SELECT sortie_accumulated_hours.* FROM sortie_accumulated_hours JOIN (SELECT Serial_Number, max(Flying_Hours) Flying_Hours FROM sortie_accumulated_hours GROUP BY Serial_Number ) max_sortie ON sortie_accumulated_hours.serial_number = max_sortie.serial_number AND sortie_accumulated_hours.Flying_Hours = max_sortie.Flying_Hours WHERE MDS IN ('C130J','C130H')"
             ]
         },
         "class":"SQL",
@@ -753,6 +753,7 @@
         ]
     },
     {
+        "attrs":{"additional_parameters":{"wuc_filter":["41322"]}},
         "class":"Python",
         "custom_model":true,
         "description":"Tabulate current part ages for each position in each aircraft seen in sortie data and whether an unknown-position removal or install occurred since the part was installed (lost position).",
@@ -760,7 +761,7 @@
         "label":"Current Part Ages",
         "model":"df9503ad-e1b1-41ea-897f-a30c923e57ad",
         "position":[
-            1675,
+            1670,
             130
         ]
     },
