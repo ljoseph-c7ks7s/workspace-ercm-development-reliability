@@ -157,7 +157,7 @@
     },
     {
         "source":"remove_unk_position_number",
-        "target":"remove_left_censored_add_covariates",
+        "target":"remove_disqualified_add_covariates",
         "vertices":[
             [
                 1650,
@@ -186,7 +186,7 @@
         "target":"predictive_twins"
     },
     {
-        "source":"remove_left_censored_add_covariates",
+        "source":"remove_disqualified_add_covariates",
         "target":"calculate_intervals"
     },
     {
@@ -370,5 +370,21 @@
     {
         "source":"unlabeled_data_desc_no_key",
         "target":"unlabeled_export"
+    },
+    {
+        "source":"calculate_distributions",
+        "target":"weibull_plots"
+    },
+    {
+        "source":"calculate_intervals",
+        "target":"interval_data_for_plots"
+    },
+    {
+        "source":"remove_disqualified_add_covariates",
+        "target":"interval_data_for_plots"
+    },
+    {
+        "source":"interval_data_for_plots",
+        "target":"interval_plots"
     }
 ]

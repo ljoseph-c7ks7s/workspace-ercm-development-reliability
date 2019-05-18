@@ -426,7 +426,7 @@
         "label":"Calculate Intervals",
         "model":"reliability_interval_model",
         "position":[
-            1225,
+            1200,
             225
         ]
     },
@@ -473,7 +473,7 @@
         "label":"Calculate Distributions",
         "model":"reliability_distribution_model",
         "position":[
-            1375,
+            1355,
             225
         ]
     },
@@ -738,17 +738,17 @@
     {
         "attrs":{
             "query_list":[
-                "SELECT id, Work_Unit_Code, Serial_Number, Equipment_Designator, Component_Position_Number, Work_Order_Number, Sequence_Number, Work_Center_Event_Identifier, On_Maint_Action_Key, Off_Maint_Action_Key, Depot_Maint_Action_Key, INSTALL_Transaction_Date, INSTALL_TSN, INSTALL_Geographic_Location, INSTALL_Action_Taken_Code, Corrective_Narrative, Discrepancy_Narrative, Work_Center_Event_Narrative, if(unk_removal_date, unk_removal_date, REMOVAL_Transaction_Date) REMOVAL_Transaction_Date, if(unk_removal_date, unk_removal_tsn, REMOVAL_TSN) REMOVAL_TSN, if(unk_removal_date, NULL, REMOVAL_Geographic_Location) REMOVAL_Geographic_Location, if(unk_removal_date, NULL, REMOVAL_Action_Taken_Code) REMOVAL_Action_Taken_Code, if(unk_removal_date, NULL, REMOVAL_How_Malfunction_Code) REMOVAL_How_Malfunction_Code, if(unk_removal_date, NULL, REMOVAL_When_Discovered_Code) REMOVAL_When_Discovered_Code, if(unk_removal_date, NULL, REMOVAL_Cause) REMOVAL_Cause, spans_unknown_install, spans_unknown_removal, ROUND(IF(unk_removal_date, unk_removal_tsn - INSTALL_TSN, TOW), 2) TOW, DATEDIFF(CURDATE(), COALESCE(if(unk_removal_date, unk_removal_date, REMOVAL_Transaction_Date), CURDATE())) / 365.24 <= 5 removed_last_5_years, DATEDIFF(CURDATE(), COALESCE(if(unk_removal_date, unk_removal_date, REMOVAL_Transaction_Date), CURDATE())) / 365.24 <= 10 removed_last_10_years FROM remove_unk_position_number WHERE INSTALL_action_taken_code != 'IU'"
+                "SELECT id, Work_Unit_Code, Serial_Number, Equipment_Designator, Component_Position_Number, Work_Order_Number, Sequence_Number, Work_Center_Event_Identifier, On_Maint_Action_Key, Off_Maint_Action_Key, Depot_Maint_Action_Key, INSTALL_Transaction_Date, INSTALL_TSN, INSTALL_Geographic_Location, INSTALL_Action_Taken_Code, Corrective_Narrative, Discrepancy_Narrative, Work_Center_Event_Narrative, IFNULL(unk_removal_date, REMOVAL_Transaction_Date) REMOVAL_Transaction_Date, IFNULL(unk_removal_tsn, REMOVAL_TSN) REMOVAL_TSN, IF(ISNULL(unk_removal_date), REMOVAL_Geographic_Location, NULL) REMOVAL_Geographic_Location, IF(ISNULL(unk_removal_date), REMOVAL_Action_Taken_Code, NULL) REMOVAL_Action_Taken_Code, IF(ISNULL(unk_removal_date), REMOVAL_How_Malfunction_Code, NULL) REMOVAL_How_Malfunction_Code, IF(ISNULL(unk_removal_date), REMOVAL_When_Discovered_Code, NULL) REMOVAL_When_Discovered_Code, IF(ISNULL(unk_removal_date), REMOVAL_Cause, NULL) REMOVAL_Cause, spans_unknown_install, spans_unknown_removal, ROUND(IF(ISNULL(unk_removal_date), TOW, unk_removal_tsn - INSTALL_TSN), 2) TOW, DATEDIFF(CURDATE(), COALESCE(IF(ISNULL(unk_removal_date), REMOVAL_Transaction_Date, unk_removal_date), CURDATE())) / 365.24 <= 5 removed_last_5_years, DATEDIFF(CURDATE(), COALESCE(IF(ISNULL(unk_removal_date), REMOVAL_Transaction_Date, unk_removal_date), CURDATE())) / 365.24 <= 10 removed_last_10_years FROM remove_unk_position_number WHERE INSTALL_action_taken_code != 'IU'"
             ]
         },
         "class":"SQL",
         "custom_model":true,
         "description":"(1) Remove left-censored intervals for which we do not know the total time on test (those that were begun with the install of a used part), (2) update intervals that cross 'lost' removals of parts with unknown station to suspensions at the unknown-position removal dates, (3) add two time-based covariates: removed in the last 5 years, and removed in the last 10 years (both options include installed parts).",
-        "id":"remove_left_censored_add_covariates",
-        "label":"Remove Left Censored Add Covariates",
+        "id":"remove_disqualified_add_covariates",
+        "label":"Remove Disqualified Add Covariates",
         "model":"3131696e-9d7a-4f75-b716-80dd73f2705f",
         "position":[
-            1070,
+            1055,
             225
         ]
     },
@@ -811,7 +811,7 @@
         "label":"Single Weibull Quantiles",
         "model":"8d41847f-1f54-4311-ad92-a2ff406d1d3f",
         "position":[
-            1375,
+            1355,
             265
         ]
     },
@@ -1272,6 +1272,87 @@
         "position":[
             50,
             755
+        ]
+    },
+    {
+        "class":"Python",
+        "description":"Plot causal events and MLE fit.",
+        "id":"weibull_plots",
+        "label":"Weibull Plots",
+        "position":[
+            1650,
+            225
+        ]
+    },
+    {
+        "attrs":{
+            "query_list":[
+                "SELECT tow.id, tow.TOW, tow.REMOVAL_Cause, i.causal Causal, tow.Removed_Last_5_Years, tow.Removed_Last_10_Years FROM remove_disqualified_add_covariates tow JOIN `interval` i ON i.source_id = tow.id WHERE TOW > 0.1"
+            ]
+        },
+        "class":"SQL",
+        "custom_model":true,
+        "description":"Select data for interval plots. Treat isolations as causal so they show up in the plots, even though they're treated as suspensions for Weibull calculations.",
+        "id":"interval_data_for_plots",
+        "label":"Interval Data for Plots",
+        "model":"fbbb408f-39cd-4d71-8b81-966bdccdc323",
+        "position":[
+            1355,
+            305
+        ]
+    },
+    {
+        "attrs":{
+            "additional_parameters":{
+                "causal_only":1,
+                "removal_cause_column":"REMOVAL_Cause",
+                "user_bucket_num":8
+            },
+            "timeout":15
+        },
+        "class":"Python",
+        "description":"Run a python script resulting in Bokeh visualizations of TOW Intervals by Removal Cause.",
+        "id":"interval_plots",
+        "label":"Interval Plots",
+        "position":[
+            1500,
+            305
+        ]
+    },
+    {
+        "attrs":{
+            "additional_parameters":{
+                "Y":0.15,
+                "max_range":0.3
+            }
+        },
+        "class":"Python",
+        "custom_model":true,
+        "description":"Test if the height of confidence interval around weibull curve (measured in unreliability, 0 to 1) is too great.  Accepts two parameters, Y: the test is performed by measuring CI height at two estimated quantiles: Y and 1-Y (e.g. 0.15 and 0.85) max_range: the maximum allowable height of the CI at either Y or 1-Y.",
+        "id":"range_check",
+        "label":"Range Check",
+        "model":"f665edbe-3c19-49af-bdda-1ac3dfd9b20a",
+        "position":[
+            1650,
+            265
+        ]
+    },
+    {
+        "attrs":{
+            "additional_parameters":{
+                "Quantile_Cutoff":0,
+                "X":75
+            }
+        },
+        "class":"Python",
+        "custom_model":true,
+        "description":"Run a python script.",
+        "id":"domain_check",
+        "label":"Domain Check",
+        "model":"4f7fde47-fb01-41e4-9d8a-0410d4d7b5cb",
+        "position":[
+            1650,
+            305
         ]
     }
 ]
