@@ -182,10 +182,6 @@
         "target":"predictive_twins"
     },
     {
-        "source":"calculate_distributions",
-        "target":"predictive_twins"
-    },
-    {
         "source":"remove_disqualified_add_covariates",
         "target":"calculate_intervals"
     },
@@ -203,15 +199,15 @@
             ],
             [
                 1965,
-                225
+                170
             ],
             [
-                1810,
-                225
+                1835,
+                170
             ],
             [
-                1810,
-                255
+                1835,
+                100
             ]
         ]
     },
@@ -372,10 +368,6 @@
         "target":"unlabeled_export"
     },
     {
-        "source":"calculate_distributions",
-        "target":"weibull_plots"
-    },
-    {
         "source":"calculate_intervals",
         "target":"interval_data_for_plots"
     },
@@ -438,6 +430,140 @@
             [
                 1630,
                 115
+            ]
+        ]
+    },
+    {
+        "source":"compiled_sortie_history_data",
+        "target":"three_month_fh_collector"
+    },
+    {
+        "source":"opstempo_forecast",
+        "target":"opstempo_archive"
+    },
+    {
+        "source":"three_month_fh_collector",
+        "target":"range_check",
+        "vertices":[
+            [
+                1630,
+                340
+            ],
+            [
+                1630,
+                280
+            ]
+        ]
+    },
+    {
+        "source":"three_month_fh_collector",
+        "target":"domain_check",
+        "vertices":[
+            [
+                1630,
+                340
+            ],
+            [
+                1630,
+                320
+            ]
+        ]
+    },
+    {
+        "source":"opstempo_forecast",
+        "target":"predictive_twins",
+        "vertices":[
+            [
+                1760,
+                375
+            ]
+        ]
+    },
+    {
+        "source":"calculate_distributions",
+        "target":"denormalize_distributions"
+    },
+    {
+        "source":"denormalize_distributions",
+        "target":"weibull_plots"
+    },
+    {
+        "source":"denormalize_distributions",
+        "target":"predictive_twins",
+        "vertices":[
+            [
+                1665,
+                195
+            ]
+        ]
+    },
+    {
+        "source":"predictive_twins",
+        "target":"predictive_twins_archive",
+        "vertices":[
+            [
+                1965,
+                195
+            ],
+            [
+                1965,
+                170
+            ],
+            [
+                1835,
+                170
+            ],
+            [
+                1835,
+                140
+            ]
+        ]
+    },
+    {
+        "source":"denormalize_distributions",
+        "target":"weibull_library",
+        "vertices":[
+            [
+                1660,
+                250
+            ]
+        ]
+    },
+    {
+        "source":"single_weibull_quantiles",
+        "target":"weibull_plots",
+        "vertices":[
+            [
+                1585,
+                280
+            ]
+        ]
+    },
+    {
+        "source":"denormalize_distributions",
+        "target":"export_weibulls",
+        "vertices":[
+            [
+                1660,
+                250
+            ],
+            [
+                1785,
+                250
+            ]
+        ]
+    },
+    {
+        "source":"single_weibull_quantiles",
+        "target":"range_check"
+    },
+    {
+        "source":"single_weibull_quantiles",
+        "target":"domain_check",
+        "vertices":[
+            [
+                1585,
+                280
             ]
         ]
     }

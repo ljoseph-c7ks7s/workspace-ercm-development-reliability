@@ -232,8 +232,8 @@
         "label":"Sortie Accumulated Hours",
         "model":"debc7c2f-0456-44bc-9f4d-680ba5ea86a4",
         "position":[
-            520,
-            285
+            510,
+            270
         ]
     },
     {
@@ -453,17 +453,7 @@
                 "make_plots":false,
                 "min_interval_time":0.1,
                 "plot_dir":"./plots/",
-                "specific_param_combos":[
-                    {
-                        "override_dnc":null,
-                        "parameter_values":{
-                            "parent_object_type":[
-                                "C130H",
-                                "C130J"
-                            ]
-                        }
-                    }
-                ]
+                "specific_param_combos":[]
             },
             "script_file":"reliability_distribution_creator.R"
         },
@@ -495,6 +485,9 @@
         ]
     },
     {
+        "attrs":{"query_list":[
+  "SELECT equipment_designator mds, year(transaction_date) year, count(*) count FROM compiled_remis_data GROUP BY equipment_designator, year(transaction_date)"
+]},
         "class":"SQL",
         "custom_model":true,
         "description":"Run a set of SQL select queries on existing database tables.",
@@ -738,7 +731,7 @@
     {
         "attrs":{
             "query_list":[
-                "SELECT id, Work_Unit_Code, Serial_Number, Equipment_Designator, Component_Position_Number, Work_Order_Number, Sequence_Number, Work_Center_Event_Identifier, On_Maint_Action_Key, Off_Maint_Action_Key, Depot_Maint_Action_Key, INSTALL_Transaction_Date, INSTALL_TSN, INSTALL_Geographic_Location, INSTALL_Action_Taken_Code, Corrective_Narrative, Discrepancy_Narrative, Work_Center_Event_Narrative, IFNULL(unk_removal_date, REMOVAL_Transaction_Date) REMOVAL_Transaction_Date, IFNULL(unk_removal_tsn, REMOVAL_TSN) REMOVAL_TSN, IF(ISNULL(unk_removal_date), REMOVAL_Geographic_Location, NULL) REMOVAL_Geographic_Location, IF(ISNULL(unk_removal_date), REMOVAL_Action_Taken_Code, NULL) REMOVAL_Action_Taken_Code, IF(ISNULL(unk_removal_date), REMOVAL_How_Malfunction_Code, NULL) REMOVAL_How_Malfunction_Code, IF(ISNULL(unk_removal_date), REMOVAL_When_Discovered_Code, NULL) REMOVAL_When_Discovered_Code, IF(ISNULL(unk_removal_date), REMOVAL_Cause, NULL) REMOVAL_Cause, spans_unknown_install, spans_unknown_removal, ROUND(IF(ISNULL(unk_removal_date), TOW, unk_removal_tsn - INSTALL_TSN), 2) TOW, DATEDIFF(CURDATE(), COALESCE(IF(ISNULL(unk_removal_date), REMOVAL_Transaction_Date, unk_removal_date), CURDATE())) / 365.24 <= 5 removed_last_5_years, DATEDIFF(CURDATE(), COALESCE(IF(ISNULL(unk_removal_date), REMOVAL_Transaction_Date, unk_removal_date), CURDATE())) / 365.24 <= 10 removed_last_10_years FROM remove_unk_position_number WHERE INSTALL_action_taken_code != 'IU'"
+                "SELECT id, Work_Unit_Code, Serial_Number, Equipment_Designator, Component_Position_Number, Work_Order_Number, Sequence_Number, Work_Center_Event_Identifier, On_Maint_Action_Key, Off_Maint_Action_Key, Depot_Maint_Action_Key, INSTALL_Transaction_Date, INSTALL_TSN, INSTALL_Geographic_Location, INSTALL_Action_Taken_Code, Corrective_Narrative, Discrepancy_Narrative, Work_Center_Event_Narrative, IFNULL(unk_removal_date, REMOVAL_Transaction_Date) REMOVAL_Transaction_Date, IFNULL(unk_removal_tsn, REMOVAL_TSN) REMOVAL_TSN, IF(ISNULL(unk_removal_date), REMOVAL_Geographic_Location, NULL) REMOVAL_Geographic_Location, IF(ISNULL(unk_removal_date), REMOVAL_Action_Taken_Code, NULL) REMOVAL_Action_Taken_Code, IF(ISNULL(unk_removal_date), REMOVAL_How_Malfunction_Code, NULL) REMOVAL_How_Malfunction_Code, IF(ISNULL(unk_removal_date), REMOVAL_When_Discovered_Code, NULL) REMOVAL_When_Discovered_Code, IF(ISNULL(unk_removal_date), REMOVAL_Cause, NULL) REMOVAL_Cause, spans_unknown_install, spans_unknown_removal, ROUND(IF(ISNULL(unk_removal_date), TOW, unk_removal_tsn - INSTALL_TSN), 2) TOW, DATEDIFF(start_forecast_date, COALESCE(IF(ISNULL(unk_removal_date), REMOVAL_Transaction_Date, unk_removal_date), start_forecast_date)) / 365.24 <= 5 removed_last_5_years, DATEDIFF(start_forecast_date, COALESCE(IF(ISNULL(unk_removal_date), REMOVAL_Transaction_Date, unk_removal_date), start_forecast_date)) / 365.24 <= 10 removed_last_10_years FROM remove_unk_position_number, (SELECT DATE_FORMAT(DATE_ADD(MAX(REMOVAL_Transaction_Date), INTERVAL 1 MONTH), '%Y-%m-01') start_forecast_date FROM calculate_tow) sfd WHERE INSTALL_action_taken_code != 'IU'"
             ]
         },
         "class":"SQL",
@@ -753,7 +746,13 @@
         ]
     },
     {
-        "attrs":{"additional_parameters":{"wuc_filter":["41322"]}},
+        "attrs":{
+            "additional_parameters":{
+                "wuc_filter":[
+                    "41322"
+                ]
+            }
+        },
         "class":"Python",
         "custom_model":true,
         "description":"Tabulate current part ages for each position in each aircraft seen in sortie data and whether an unknown-position removal or install occurred since the part was installed (lost position).",
@@ -791,7 +790,7 @@
         "label":"Predictive Twins",
         "model":"78c9203b-b6d1-4447-8263-d8629b328d2a",
         "position":[
-            1825,
+            1820,
             180
         ]
     },
@@ -822,8 +821,8 @@
         "id":"export_predictions",
         "label":"Export Predictions",
         "position":[
-            1840,
-            240
+            1855,
+            85
         ]
     },
     {
@@ -938,6 +937,9 @@
         ]
     },
     {
+        "attrs":{"query_list":[
+  "SELECT DISTINCT File_Name FROM compiled_remis_data"
+]},
         "class":"SQL",
         "custom_model":true,
         "description":"Run a set of SQL select queries on existing database tables.",
@@ -1281,8 +1283,8 @@
         "id":"weibull_plots",
         "label":"Weibull Plots",
         "position":[
-            1650,
-            225
+            1670,
+            205
         ]
     },
     {
@@ -1354,6 +1356,79 @@
         "position":[
             1650,
             305
+        ]
+    },
+    {
+        "class":"Python",
+        "custom_model":true,
+        "description":"Calculate 90-day flying hour horizons.",
+        "id":"three_month_fh_collector",
+        "label":"Three Month FH Collector",
+        "model":"0af2ac86-c3b3-4cba-87c0-30dae459afa1",
+        "position":[
+            515,
+            320
+        ]
+    },
+    {
+        "class":"Stager",
+        "custom_model":true,
+        "description":"Maintain a copy of all previously-generated predictive twins - one for each forecast month.",
+        "id":"opstempo_archive",
+        "label":"Opstempo Archive",
+        "model":"empty",
+        "position":[
+            660,
+            340
+        ]
+    },
+    {
+        "attrs":{"query_list":[
+  "SELECT   now() fit_date, (SELECT DATE_FORMAT(DATE_ADD(MAX(REMOVAL_Transaction_Date), INTERVAL 1 MONTH), '%Y-%m-01') start_forecast_date from calculate_tow)  forecast_start_date,   rd.id distribution_id,      IFNULL(GROUP_CONCAT(DISTINCT class.name                 SEPARATOR ' '),             'Any WUC') WUC,     IFNULL(GROUP_CONCAT(DISTINCT nha_pn.name                 SEPARATOR ' '),             'Any MDS') MDS,     IFNULL(GROUP_CONCAT(DISTINCT time_frame.name                 SEPARATOR ' '),             'Since 04') TIME_FRAME,     rd.distribution_mean,     rd.causal_events,     rd.censored_events,     rd.log_likelihood,     rd.anderson_darling_adj,     rd.ks_stat,     rd.beta_eq_one_pval,     dt.name dist_name,     rdp.pv1 eta,     rdp.se1 eta_se,     rdp.pv2 beta,     rdp.se2 beta_se FROM     reliability_distribution rd         LEFT JOIN     (SELECT          ips.id ips_id, pv.value name     FROM         interval_parameter_set ips     JOIN interval_parameter_set_map ipsm ON ipsm.interval_parameter_set_id = ips.id     JOIN parameter_value pv ON pv.id = ipsm.parameter_value_id     JOIN parameter p ON p.id = pv.parameter_id     WHERE         p.name = 'object_class') class ON class.ips_id = rd.interval_parameter_set_id         LEFT JOIN     (SELECT          ips.id ips_id, pv.value name     FROM         interval_parameter_set ips     JOIN interval_parameter_set_map ipsm ON ipsm.interval_parameter_set_id = ips.id     JOIN parameter_value pv ON pv.id = ipsm.parameter_value_id     JOIN parameter p ON p.id = pv.parameter_id     WHERE         p.name = 'parent_object_type') nha_pn ON nha_pn.ips_id = rd.interval_parameter_set_id         LEFT JOIN     (SELECT          ips.id ips_id, p.name      FROM         interval_parameter_set ips     JOIN interval_parameter_set_map ipsm ON ipsm.interval_parameter_set_id = ips.id     JOIN parameter_value pv ON pv.id = ipsm.parameter_value_id     JOIN parameter p ON p.id = pv.parameter_id     WHERE         p.name in ('Removed_Last_5_Years', 'Removed_Last_10_Years') AND pv.value = 1) time_frame ON time_frame.ips_id = rd.interval_parameter_set_id         LEFT JOIN     distribution_type dt ON dt.id = rd.distribution_type_id         LEFT JOIN     (SELECT          rdp1.reliability_distribution_id,             rdp1.parameter_value pv1,             rdp1.standard_error se1,             rdp2.parameter_value pv2,             rdp2.standard_error se2     FROM         (SELECT          reliability_distribution_id, parameter_value, standard_error     FROM         reliability_distribution_parameter rdp     JOIN distribution_type_parameter dtp ON dtp.id = rdp.distribution_type_parameter_id     WHERE         dtp.parameter_number = 1) rdp1     LEFT JOIN (SELECT          reliability_distribution_id, parameter_value, standard_error     FROM         reliability_distribution_parameter rdp     JOIN distribution_type_parameter dtp ON dtp.id = rdp.distribution_type_parameter_id     WHERE         dtp.parameter_number = 2) rdp2 ON rdp1.reliability_distribution_id = rdp2.reliability_distribution_id) rdp ON rdp.reliability_distribution_id = rd.id WHERE     dt.name IS NOT NULL     AND rd.interval_parameter_set_id NOT IN (     SELECT          ips.id ips_id     FROM         interval_parameter_set ips     JOIN interval_parameter_set_map ipsm ON ipsm.interval_parameter_set_id = ips.id     JOIN parameter_value pv ON pv.id = ipsm.parameter_value_id     JOIN parameter p ON p.id = pv.parameter_id     WHERE         p.name in ('Removed_Last_5_Years', 'Removed_Last_10_Years') GROUP BY ips.id HAVING sum(pv.value) <> 1 OR count(pv.value) > 1) GROUP BY rd.id, interval_parameter_set_id , dt.name, rdp.pv1, rdp.se1, rdp.pv2, rdp.se2"
+]},
+        "class":"SQL",
+        "custom_model":true,
+        "description":"Convert distributions into a flat table and filter out unwanted distributions.",
+        "id":"denormalize_distributions",
+        "label":"Denormalize Distributions",
+        "model":"cc1e1d81-b31c-4983-ba14-74ed4dc628f2",
+        "position":[
+            1500,
+            205
+        ]
+    },
+    {
+        "class":"Stager",
+        "custom_model":true,
+        "description":"Maintain a copy of all previously-generated predictive twins.",
+        "id":"predictive_twins_archive",
+        "label":"Predictive Twins Archive",
+        "model":"empty",
+        "position":[
+            1855,
+            125
+        ]
+    },
+    {
+        "class":"Stager",
+        "custom_model":true,
+        "description":"Maintain a copy of all previously-generated predictive twins.",
+        "id":"weibull_library",
+        "label":"Weibull Library",
+        "model":"empty",
+        "position":[
+            1815,
+            235
+        ]
+    },
+    {
+        "class":"DataExporter",
+        "description":"Export all or a subset of rows contained in a table.",
+        "id":"export_weibulls",
+        "label":"Export Weibulls",
+        "position":[
+            1815,
+            270
         ]
     }
 ]

@@ -7,11 +7,13 @@ metadata = MetaData()
 opstempo = Table('opstempo', metadata, 
 
     Column('start_prediction_date', DateTime, primary_key=True, autoincrement=False),
-    Column('owner_MDS', String(30), primary_key=True, autoincrement=False),
-    Column('1_month_forecast', Integer, primary_key=False, autoincrement=False),
-    Column('2_month_forecast', Integer, primary_key=False, autoincrement=False),
-    Column('3_month_forecast', Integer, primary_key=False, autoincrement=False),
-    Column('4_month_forecast', Integer, primary_key=False, autoincrement=False),
-    Column('5_month_forecast', Integer, primary_key=False, autoincrement=False),
-    Column('6_month_forecast', Integer, primary_key=False, autoincrement=False)
+    Column('owner', String(30), primary_key=True, autoincrement=False),
+    Column('MDS', String(10), primary_key=True, autoincrement=False),
+    Column('forecast_method', String(10), primary_key=False, autoincrement=False),
+    Column('forecast_1_month', Integer, primary_key=False, autoincrement=False),
+    Column('forecast_2_months', Integer, primary_key=False, autoincrement=False),
+    Column('forecast_3_months', Integer, primary_key=False, autoincrement=False),
+    Column('forecast_4_months', Integer, primary_key=False, autoincrement=False),
+    Column('forecast_5_months', Integer, primary_key=False, autoincrement=False),
+    Column('forecast_6_months', Integer, primary_key=False, autoincrement=False)
 )
