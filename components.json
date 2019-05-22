@@ -669,45 +669,45 @@
     {
         "attrs":{
             "labels":{
-  "Action": [
-    "O",
-    "R",
-    "P",
-    "Q",
-    "T",
-    "U",
-    "IU",
-    "CC"
-  ],
-  "Position": [
-    "1",
-    "2",
-    "3",
-    "4",
-    "0",
-    "1,2",
-    "1,3",
-    "1,4",
-    "2,3",
-    "2,4",
-    "3,4",
-    "1,2,3",
-    "1,2,4",
-    "1,3,4",
-    "2,3,4"
-  ],
-  "Removal_Cause": [
-    "TCTO",
-    ""
-  ]
-}
+                "Action":[
+                    "O",
+                    "R",
+                    "P",
+                    "Q",
+                    "T",
+                    "U",
+                    "IU",
+                    "CC"
+                ],
+                "Position":[
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "0",
+                    "1,2",
+                    "1,3",
+                    "1,4",
+                    "2,3",
+                    "2,4",
+                    "3,4",
+                    "1,2,3",
+                    "1,2,4",
+                    "1,3,4",
+                    "2,3,4"
+                ],
+                "Removal_Cause":[
+                    "TCTO",
+                    ""
+                ]
+            }
         },
         "class":"EventLabelGenerator",
         "custom_model":true,
         "description":"Save sets of labels to validate uploaded hand-labeled events against",
         "id":"labels_import",
         "label":"Labels Import",
-        "model":"66989225-35ee-4633-808e-9ffd2e3ef8e0",
+        "model":"0100e4da-7011-48a4-933f-7e584cbea7e5",
         "position":[
             370,
             405
@@ -1135,9 +1135,11 @@
         ]
     },
     {
-        "attrs":{"additional_parameters":{
-              "custom_predecessor": true
-        }},
+        "attrs":{
+            "additional_parameters":{
+                "custom_predecessor":true
+            }
+        },
         "class":"Python",
         "custom_model":true,
         "description":"Display metrics for 8-class ATC model.",
@@ -1256,11 +1258,13 @@
         ]
     },
     {
-        "attrs":{"column_mapping":{
-  "MDS": "Equipment_Designator",
-  "Serial Number": "Serial_Number",
-  "Assigned Base": "Assigned_Base"
-}},
+        "attrs":{
+            "column_mapping":{
+                "Assigned Base":"Assigned_Base",
+                "MDS":"Equipment_Designator",
+                "Serial Number":"Serial_Number"
+            }
+        },
         "class":"CSV",
         "custom_model":true,
         "description":"Import data that is contained in a delimited text file.",
