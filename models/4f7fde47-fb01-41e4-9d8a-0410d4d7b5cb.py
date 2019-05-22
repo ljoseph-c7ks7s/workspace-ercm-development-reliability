@@ -6,5 +6,6 @@ metadata = MetaData()
 
 domain_check = Table('domain_check', metadata, 
 
-    Column('domain_check', String(15), primary_key=False, autoincrement=False),
+    Column('distribution_id', BigInteger, primary_key=True, autoincrement=False),
+    Column('domain_check', String(15), primary_key=False, autoincrement=False)
 )

@@ -4,20 +4,20 @@ from sqlalchemy import MetaData, Table
 
 metadata = MetaData()
 
-predictive_twins = Table('predictive_twins', metadata, 
+predictive_twins_archive = Table('predictive_twins_archive', metadata, 
 
     Column('Forecast_Generation_Date', DateTime, primary_key=False, autoincrement=False),
     Column('Forecast_Start_Date', Date, primary_key=True, autoincrement=False),
-    Column('MDS', String(15), primary_key=False, autoincrement=False),
-    Column('Serial_Number', String(10), primary_key=True, autoincrement=False),
-    Column('MAJCOM', String(5), primary_key=False, autoincrement=False),
+    Column('MDS', String(255), primary_key=False, autoincrement=False),
+    Column('Serial_Number', String(255), primary_key=True, autoincrement=False),
+    Column('MAJCOM', String(255), primary_key=False, autoincrement=False),
     Column('Owner', String(255), primary_key=False, autoincrement=False),
-    Column('Owner_Loc_Code', String(4), primary_key=False, autoincrement=False),
+    Column('Owner_Loc_Code', String(255), primary_key=False, autoincrement=False),
     Column('At_Depot', TINYINT, primary_key=False, autoincrement=False),
     Column('Current_Airframe_Hours_Since_2004', Float, primary_key=False, autoincrement=False),
     Column('Last_Sortie_Date', DateTime, primary_key=False, autoincrement=False),
-    Column('Work_Unit_Code', String(5), primary_key=True, autoincrement=False),
-    Column('Position', String(45), primary_key=True, autoincrement=False),
+    Column('Work_Unit_Code', String(255), primary_key=True, autoincrement=False),
+    Column('Position', String(255), primary_key=True, autoincrement=False),
     Column('Eta', Float, primary_key=False, autoincrement=False),
     Column('Beta', Float, primary_key=False, autoincrement=False),
     Column('Hours_Threshold', Float, primary_key=False, autoincrement=False),
@@ -71,5 +71,6 @@ predictive_twins = Table('predictive_twins', metadata,
     Column('Pr_Rmvl_5_to_6_Months', Float, primary_key=False, autoincrement=False),
     Column('Threshold_Crossed_5_to_6_Months', Float, primary_key=False, autoincrement=False),
     Column('Pr_Rmvl_Now_to_6_Months', Float, primary_key=False, autoincrement=False),
-    Column('Threshold_Crossed_Up_to_6_Months', Float, primary_key=False, autoincrement=False)
+    Column('Threshold_Crossed_Up_to_6_Months', Float, primary_key=False, autoincrement=False),
+    Column('__id__', String(255), primary_key=True, autoincrement=False),
 )

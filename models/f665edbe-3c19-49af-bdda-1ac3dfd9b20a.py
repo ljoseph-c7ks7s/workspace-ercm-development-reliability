@@ -6,5 +6,6 @@ metadata = MetaData()
 
 range_check = Table('range_check', metadata, 
 
-    Column('range_check', String(15), primary_key=False, autoincrement=False),
+    Column('distribution_id', BigInteger, primary_key=True, autoincrement=False),
+    Column('range_check', String(15), primary_key=False, autoincrement=False)
 )
