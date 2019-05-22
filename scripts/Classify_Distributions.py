@@ -36,8 +36,9 @@ def fn(conn, libraries, params, predecessors):
         else:
             rc_table_name = pred
 
-    # load data from three month flight history collector
-    df_dist = pd.read_sql(sql="SELECT * FROM {}".format(weibull_table_name), 
+    # load data from distributions and checks
+    df_dist = pd.read_sql(sql="""SELECT dd.*, rc.Range_Check, dc.Domain_Check FROM {} dd JOIN {} rc ON rc.distribution_id = dd.distribution_id
+        JOIN {} dc ON dc.distribution_id = dd.distribution_id""".format(weibull_table_name, rc_table_name, dc_table_name), 
         con=conn)
 
     df_dist['Preferred'] = 0
