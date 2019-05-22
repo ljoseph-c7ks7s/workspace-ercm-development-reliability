@@ -502,7 +502,7 @@
         ]
     },
     {
-        "source":"single_weibull_quantiles",
+        "source":"weibull_quantile_cis",
         "target":"weibull_plots",
         "vertices":[
             [
@@ -512,7 +512,7 @@
         ]
     },
     {
-        "source":"single_weibull_quantiles",
+        "source":"weibull_quantile_cis",
         "target":"range_check",
         "vertices":[
             [
@@ -534,7 +534,7 @@
         ]
     },
     {
-        "source":"single_weibull_quantiles",
+        "source":"weibull_quantile_cis",
         "target":"domain_check",
         "vertices":[
             [
@@ -557,7 +557,7 @@
     },
     {
         "source":"calculate_distributions",
-        "target":"single_weibull_quantiles"
+        "target":"weibull_quantile_cis"
     },
     {
         "source":"domain_check",
@@ -593,7 +593,7 @@
     },
     {
         "source":"classify_distributions",
-        "target":"weibull_library"
+        "target":"weibull_archive"
     },
     {
         "source":"classify_distributions",

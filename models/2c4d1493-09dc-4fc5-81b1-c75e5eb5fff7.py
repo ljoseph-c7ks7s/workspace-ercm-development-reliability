@@ -6,6 +6,7 @@ metadata = MetaData()
 
 opstempo = Table('opstempo', metadata, 
 
+    Column('forecast_generation_date', DateTime, primary_key=False, autoincrement=False),
     Column('start_prediction_date', DateTime, primary_key=True, autoincrement=False),
     Column('owner', String(30), primary_key=True, autoincrement=False),
     Column('MDS', String(10), primary_key=True, autoincrement=False),
