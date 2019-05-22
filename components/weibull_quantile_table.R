@@ -40,7 +40,7 @@ fn <- function(conn_rmysql, load_path, params_path, component_path, output_file)
         JOIN
 	distribution_type dt ON dt.id = rd.distribution_type_id
         JOIN
-    classify_distributions cd ON cd.distribution_id = rd.id
+    denormalize_distributions dd ON dd.distribution_id = rd.id
         JOIN
     reliability_interval_map rim ON rim.base_interval_parameter_set_id = rd.interval_parameter_set_id
         JOIN
