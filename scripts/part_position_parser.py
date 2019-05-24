@@ -51,8 +51,10 @@ def engine_reader(df,libraries):
             # convert list of strings into list of ints
             ints = map(int, clean)
             
-            # remove all values > 4
+            # remove all values > 4, duplicates and sort
             trim = [x for x in ints if x<5]
+            trim = list(set(trim))
+            trim.sort()
             
             # convert back to string to remove []
             remove = ','.join(map(str, trim))
@@ -194,7 +196,7 @@ def fn(conn, libraries, params, predecessors):
         print('WUC '+ str(this_wuc) + ' complete')
 
     df['Parsed_Component_Position'] = df['Parsed_Component_Position'].astype(str)
-
+    
     # keep only needed columns to save memory
     keys.append('Parsed_Component_Position')
     df = df[keys]
