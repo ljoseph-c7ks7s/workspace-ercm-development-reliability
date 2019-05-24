@@ -611,9 +611,9 @@ def FQI(df,libraries):
 
 
 def label_picker(df_one_wuc,wuc_qpa,this_wuc,libraries):
-"""
-Determines which function to run in order to parse a given set of records. Returns updated dataframe with parsed positions
-"""
+    """
+    Determines which function to run in order to parse a given set of records. Returns updated dataframe with parsed positions
+    """
     pd = libraries["pandas"]
 
     this_wuc_qpa = wuc_qpa.reset_index(drop=True)
