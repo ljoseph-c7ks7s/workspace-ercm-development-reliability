@@ -74,6 +74,542 @@ def engine_reader(df,libraries):
     return df
 
 
+def cp_navplt(df,libraries):
+    pd = libraries["pandas"]
+    re = libraries["re"]
+
+    # define fields to check
+    checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
+    df['Parsed_Component_Position'] = df['Parsed_Component_Position'].astype(str)
+    
+    # for each entry, search fields for component position numbers 
+    indexer = list(df.index.values)
+    for i in indexer:
+#     for i in range (0,len(df)):
+        j = 0
+        parse = []
+        while j < len(checks):
+
+            # not included here - "ALL (insert number here)","ALL FOUR"
+            parse = re.findall("C?O?\W?PI?L?O?T|C\W?P|NAV",str(df.loc[i,checks[j]]))
+            
+            # keep only alphabetical chars and comma separators to fix C-P, C/P etc.
+            parse = re.sub("[^\w,]","",str(parse))
+
+            # correct parsed labels
+            parse = parse.replace('CPLT','CP')
+            parse = parse.replace('CPT','CP')
+            parse = parse.replace('CPILOT','CP')
+            parse = parse.replace('COPILOT','CP')
+            parse = parse.replace('PLT','PILOT')
+            parse = parse.replace('PT','PILOT')
+            parse = parse.replace('PILOT','NAV')
+            parse = parse.replace('CP','COPILOT')
+            
+            # remove duplicates and sort
+            parse = parse.split(',')
+            parse = list(set(parse))
+            parse.sort()
+            
+            # convert back to string to remove []
+            parse = ','.join(map(str, parse))
+
+            # save values into df
+            df.loc[i,'Parsed_Component_Position']=parse
+
+            # if empty, check next narrative
+            if df.loc[i,'Parsed_Component_Position'] != "":
+                j = len(checks)
+            else:
+                j = j+1
+                
+
+            # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
+        if df.loc[i,'Parsed_Component_Position'] == str():
+            df.loc[i,'Parsed_Component_Position'] = df.loc[i,'Component_Position_Number']
+
+    return df
+
+
+def cp_plt(df,libraries):
+    pd = libraries['pandas']
+    re = libraries['re']
+
+    # define fields to check
+    checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
+    
+    df['Parsed_Component_Position'] = df['Parsed_Component_Position'].astype(str)
+    df['Component_Position_Number'] = df['Component_Position_Number'].astype(int)
+    df['Component_Position_Number'] = df['Component_Position_Number'].astype(str)
+    # for each entry, search fields for component position numbers 
+    indexer = list(df.index.values)
+    for i in indexer:
+#     for i in range (0,len(df)):
+        j = 0
+        parse = []
+        while j < len(checks):
+
+            # not included here - "ALL (insert number here)","ALL FOUR"
+            parse = re.findall("C?O?\W?PI?L?O?T|C\W?P",str(df.loc[i,checks[j]]))
+            
+            # keep only alphabetical chars and comma separators to fix C-P, C/P etc.
+            parse = re.sub("[^\w,]","",str(parse))
+            
+            # correct parsed labels
+            parse = parse.replace('CPLT','COPILOT')
+            parse = parse.replace('CPT','COPILOT')
+            parse = parse.replace('CPILOT','COPILOT')
+            parse = parse.replace('CP','COPILOT')
+            parse = parse.replace('PLT','PILOT')
+            parse = parse.replace('PT','PILOT')
+            
+            # remove duplicates and sort
+            parse = parse.split(',')
+            parse = list(set(parse))
+            parse.sort()
+            
+            # convert back to string to remove []
+            parse = ','.join(map(str, parse))
+
+            # save values into df
+            df.loc[i,'Parsed_Component_Position']=parse
+
+            # if empty, check next narrative
+            if df.loc[i,'Parsed_Component_Position'] != "":
+                j = len(checks)
+            else:
+                j = j+1
+                
+
+            # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
+        if df.loc[i,'Parsed_Component_Position'] == str():
+            df.loc[i,'Parsed_Component_Position'] = df.loc[i,'Component_Position_Number']
+
+    return df
+
+
+def pilot_cp_nav(df,libraries):
+    pd = libraries['pandas']
+    re = libraries['re']
+    # define fields to check
+    checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
+    
+    df['Parsed_Component_Position'] = df['Parsed_Component_Position'].astype(str)
+
+    # for each entry, search fields for component position numbers 
+    indexer = list(df.index.values)
+    for i in indexer:
+#     for i in range (0,len(df)):
+        j = 0
+        parse = []
+        while j < len(checks):
+
+            # not included here - "ALL (insert number here)","ALL FOUR"
+            parse = re.findall("C?O?\W?PI?L?O?T|C\W?P|NAV",str(df.loc[i,checks[j]]))
+            
+            # keep only alphabetical chars and comma separators to fix C-P, C/P etc.
+            parse = re.sub("[^\w,]","",str(parse))
+            
+            # correct parsed labels
+            parse = parse.replace('CPILOT','COPILOT')
+            parse = parse.replace('CPLT','COPILOT')
+            parse = parse.replace('CPT','COPILOT')
+            parse = parse.replace('CP','COPILOT')
+            parse = parse.replace('PLT','PILOT')
+            parse = parse.replace('PT','PILOT')
+            
+            # remove duplicates and sort
+            parse = parse.split(',')
+            parse = list(set(parse))
+            parse.sort()
+            
+            # convert back to string to remove []
+            parse = ','.join(map(str, parse))
+            
+            # save values into df
+            df.loc[i,'Parsed_Component_Position']=parse
+
+            # if empty, check next narrative
+            if df.loc[i,'Parsed_Component_Position'] != "":
+                j = len(checks)
+            else:
+                j = j+1
+                
+
+            # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
+        if df.loc[i,'Parsed_Component_Position'] == str():
+            df.loc[i,'Parsed_Component_Position'] = df.loc[i,'Component_Position_Number']
+
+    return df
+
+
+def INU(df,libraries):
+    pd = libraries['pandas']
+    re = libraries['re']
+
+    # define fields to check
+    checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
+    df['Parsed_Component_Position'] = df['Parsed_Component_Position'].astype(str)
+
+    # for each entry, search fields for component position numbers 
+    indexer = list(df.index.values)
+    for i in indexer:
+        j = 0
+        parse = []
+        while j < len(checks):
+            
+            
+            parse = re.findall("\#\d+|\# \d+|NO. \d+|NUMBER \d+|1 AND 2|1 \& 2|\#!",str(df.loc[i,checks[j]]))
+            
+            # replace 'ALL' matches with numbers
+            parse = [x.replace('1 AND 2','1,2') for x in parse]
+            parse = [x.replace('1 & 2','1,2') for x in parse]
+            parse = [x.replace('#!','1') for x in parse]
+            
+            # keep only numeric digits and comma separators
+            nums = re.sub("[^\d,]","",str(parse))
+            
+            # convert string into list of strings
+            split = [x for x in nums.split(',')]
+            
+            # remove empty strings from list
+            clean = filter(None, split)
+            
+            # convert list of strings into list of ints
+            ints = map(int, clean)
+            
+            # remove all values > 2, duplicates and sort
+            trim = [x for x in ints if x<3]
+            trim = list(set(trim))
+            trim.sort()
+            
+            # convert back to string to remove []
+            remove = ','.join(map(str, trim))
+
+            # save values into df
+            df.loc[i,'Parsed_Component_Position']=remove
+            # if empty, check next narrative
+            if any(x.isdigit() for x in remove):
+                j = len(checks)
+            else:
+                j = j+1
+                
+
+            # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
+        if df.loc[i,'Parsed_Component_Position'] == str():
+            df.loc[i,'Parsed_Component_Position'] = df.loc[i,'Component_Position_Number']
+    return df
+
+
+def EFI(df,libraries):
+    pd = libraries['pandas']
+    re = libraries['re']
+
+    # define fields to check
+    checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
+    
+    df['Parsed_Component_Position'] = df['Parsed_Component_Position'].astype(str)
+    
+    # for each entry, search fields for component position numbers 
+    indexer = list(df.index.values)
+    for i in indexer:
+        j = 0
+        parse = []
+        while j < len(checks):
+            
+            if re.findall("COPILOT\'S EFI \(TOP\)",df.loc[i,checks[j]])==["COPILOT'S EFI (TOP)"]:
+                parse='COPILOT_UPPER'
+                
+            else:
+                parse = re.findall("(?:UPP?E?R|LO?WE?R|TOP|BOTTOM)? ?C?O?\W?PI?L?O?T\'?S? (?:UPP?E?R|LO?WE?R|TOP|BOTTOM)?|(?:UPP?E?R|LO?WE?R|TOP|BOTTOM)? ?C\W?P\'?S? (?:UPP?E?R|LO?WE?R|TOP|BOTTOM)?",str(df.loc[i,checks[j]]))
+
+                # keep only alphabetical chars and comma separators to fix C-P, C/P etc.
+                parse = re.sub("[^\w,]","",str(parse))
+
+                parse = parse.replace('S','')
+                parse = parse.replace('TOP','UPPER')
+                parse = parse.replace('BOTTOM','LOWER')
+                parse = parse.replace('LWR','LOWER')
+                parse = parse.replace('UPR','UPPER')
+                parse = parse.replace('CPILOT','COPILOT')
+                parse = parse.replace('CPLT','COPILOT')
+                parse = parse.replace('CPT','COPILOT')
+                parse = parse.replace('CP','COPILOT')
+                parse = parse.replace('PLT','PILOT')
+                parse = parse.replace('PT','PILOT')
+                parse = parse.replace('PILOTLOWER','PILOT_LOWER')
+                parse = parse.replace('PILOTUPPER','PILOT_UPPER')
+                parse = parse.replace('LOWERCOPILOT','COPILOT_LOWER')
+                parse = parse.replace('UPPERCOPILOT','COPILOT_UPPER')
+                parse = parse.replace('LOWERPILOT','PILOT_LOWER')
+                parse = parse.replace('UPPERPILOT','PILOT_UPPER')
+                parse = parse.replace('COPILOT_','C_')
+                parse = parse.replace('PILOT_','P_')
+                parse = parse.replace('COPILOT','CP')
+                parse = parse.replace('PILOT','PILOT_UPPER,PILOT_LOWER')
+                parse = parse.replace('CP','COPILOT_UPPER,COPILOT_LOWER')
+                parse = parse.replace('C_','COPILOT_')
+                parse = parse.replace('P_','PILOT_')
+                
+                # remove duplicates and sort
+                parse = parse.split(',')
+                parse = list(set(parse))
+                parse.sort()
+
+                # convert back to string to remove []
+                parse = ','.join(map(str, parse))
+                
+            # save values into df
+            df.loc[i,'Parsed_Component_Position']=parse
+            
+            # if empty, check next narrative
+            if df.loc[i,'Parsed_Component_Position'] != "":
+                j = len(checks)
+            else:
+                j = j+1
+                
+
+            # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
+        if df.loc[i,'Parsed_Component_Position'] == str(""):
+            df.loc[i,'Parsed_Component_Position'] = df.loc[i,'Component_Position_Number']
+
+    return df
+
+
+def engine_double(df,libraries):
+    pd = libraries['pandas']
+    re = libraries['re']
+
+    # define fields to check
+    checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
+    df['Parsed_Component_Position'] = df['Parsed_Component_Position'].astype(str)
+    
+    # for each entry, search fields for component position numbers 
+    indexer = list(df.index.values)
+    for i in indexer:
+        j = 0
+        parse = []
+        while j < len(checks):
+            
+            # not included here - "ALL (insert number here)","ALL FOUR"
+            parse = re.findall("\#?\W?\d\W?[AB]\W?B?|[^R]\d(?: ENG)?(?:INE)?(?: FADEC)? ?[AB]\W?B?",str(df.loc[i,checks[j]]))
+
+            # keep only alphanumeric and comma separators
+            parse = re.sub("[^\w,]","",str(parse))
+            
+            # grab digit in 1AB to convert to 1A,1B
+            try:
+                digit = parse[0]
+            except:
+                digit = ''
+            
+            # correct parsed labels
+            parse = parse.replace('ENG','')
+            parse = parse.replace('INE','')
+            parse = parse.replace('FADEC','')
+            parse = parse.replace('AB',str('A,')+str(digit)+str('B'))
+            
+            parse = parse.split(',')
+            trim = list(set(parse))
+            trim.sort()
+            
+            # convert back to string to remove []
+            parse = ','.join(map(str, trim))
+
+            # save values into df
+            df.loc[i,'Parsed_Component_Position']=parse
+
+            # if empty, check next narrative
+            if df.loc[i,'Parsed_Component_Position'] != "":
+                j = len(checks)
+            else:
+                j = j+1
+                
+
+# if no information is found in the narratives, search for A/B in narratives and copy in the provided 'Component_Position_Number'
+        if df.loc[i,'Parsed_Component_Position'] == str():
+            if df.loc[i,'Component_Position_Number'] != str('nan'):
+
+                j = 0
+                parse = []
+                while j < len(checks):
+
+                    parse = re.findall("FADEC [AB]\W?B?",str(df.loc[i,checks[j]]))
+
+                    # keep only alphanumeric and comma separators
+                    parse = re.sub("[^\w,]","",str(parse))
+        
+                    digit = str(df.loc[i,'Component_Position_Number'])
+                    parse = parse.replace('FADEC','')
+                    parse = parse.replace('AB',str('A,')+str(digit)+str('B'))
+                    
+                    # if empty, check next narrative
+                    if parse != str():
+                        j = len(checks)
+                        df.loc[i,'Parsed_Component_Position']=str(df.loc[i,'Component_Position_Number'])+str(parse)
+                    else:
+                        j = j+1
+        if df.loc[i,'Parsed_Component_Position'] == str():
+
+            # needed for testing
+            df.loc[i,'Parsed_Component_Position'] = str('nan')
+        
+
+    return df
+
+
+def BAD(df,libraries):
+    pd = libraries['pandas']
+    re = libraries['re']
+    # define fields to check
+    checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
+    
+    df['Parsed_Component_Position'] = df['Parsed_Component_Position'].astype(str)
+
+    # for each entry, search fields for component position numbers 
+    indexer = list(df.index.values)
+    for i in indexer:
+#     for i in range (0,len(df)):
+        j = 0
+        parse = []
+        while j < len(checks):
+
+            # not included here - "ALL (insert number here)","ALL FOUR"
+            parse = re.findall("(?<=[^COM])C?O?\W?PI?L?O?T|^C?O?\W?PI?L?O?T|C\W?P|\bP |^P |AUG|AFT CARGO|FWD CARGO|OBS|CENTER|AFT",str(df.loc[i,checks[j]]))
+
+            # keep only alphabetical chars and comma separators to fix C-P, C/P etc.
+            parse = re.sub("[^\w,]","",str(parse))
+            
+            # correct parsed labels
+            parse = parse.replace('CPILOT','COPILOT')
+            parse = parse.replace('CPLT','COPILOT')
+            parse = parse.replace('CPT','COPILOT')            
+            parse = parse.replace('CP','COPILOT')
+            parse = parse.replace('PLT','PILOT')
+            parse = parse.replace('PT','PILOT')
+            if parse=='P':
+                parse = parse.replace('P','PILOT')
+            parse = parse.replace('AUG','AUG_CREW')
+            parse = parse.replace('AFTCARGO','A_CO')
+            parse = parse.replace('FWDCARGO','FWD_CARGO')
+            parse = parse.replace('OBS','OBSERVER')
+            parse = parse.replace('CENTER','A_CENTER_CONSOLE')
+            parse = parse.replace('AFT','AFT_CENTER_CONSOLE')
+            parse = parse.replace('A_CO','AFT_CARGO')
+            parse = parse.replace('A_CENTER_CONSOLE','AFT_CENTER_CONSOLE')
+            
+            # remove duplicates and sort
+            parse = parse.split(',')
+            parse = list(set(parse))
+            parse.sort()
+            
+            # convert back to string to remove []
+            parse = ','.join(map(str, parse))
+            
+            # save values into df
+            df.loc[i,'Parsed_Component_Position']=parse
+
+            # if empty, check next narrative
+            if df.loc[i,'Parsed_Component_Position'] != "":
+                j = len(checks)
+            else:
+                j = j+1
+                
+
+            # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
+        if df.loc[i,'Parsed_Component_Position'] == str():
+            df.loc[i,'Parsed_Component_Position'] = df.loc[i,'Component_Position_Number']
+
+    return df
+
+
+def FQI(df,libraries):
+    pd = libraries['pandas']
+    re = libraries['re']
+    # define fields to check
+    checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
+    
+    df['Parsed_Component_Position'] = df['Parsed_Component_Position'].astype(str)
+
+    # for each entry, search fields for component position numbers 
+    indexer = list(df.index.values)
+    for i in indexer:
+#     for i in range (0,len(df)):
+        j = 0
+        parse = []
+        while j < len(checks):
+
+            # not included here - "ALL (insert number here)","ALL FOUR"
+            parse = re.findall("(?:RH|RT|RIGHT|LT|LH|LEFT|LFT|RGT) (?:AUX|EXT)",str(df.loc[i,checks[j]]))
+            parsenum = re.findall("(?:\# ?|NO\.? |NUMBER )\d+",str(df.loc[i,checks[j]]))
+
+            # keep only alphanumeric chars and comma separators
+            parse = re.sub("[^\w,]","",str(parse))
+            parsenum = re.sub("[^\d,]","",str(parsenum))
+            
+            # convert strings into list of strings
+            split = [x for x in parsenum.split(',')]
+            parse = [x for x in parse.split(',')]
+
+# handle parsenum/split
+            # remove all int values > 4
+                # remove empty strings from list
+            clean = filter(None, split)
+            
+                # convert list of strings into list of ints
+            ints = map(int, clean)
+            
+                # remove all values > 4
+            trim = [x for x in ints if x<5]
+            
+            # remove duplicates and sort
+            trim = list(set(trim))
+            trim.sort()
+        
+# handle parse    
+            # convert back to string with only alphabetical, 1-4 labels
+            parse = re.sub("[^\w,^\d]","",str(parse))
+            parse = parse.lstrip(',').rstrip(',')
+            
+            # correct parsed labels
+            parse = parse.replace("RH","RH_")
+            parse = parse.replace("RT","RH_")
+            parse = parse.replace("RIGHT","RH_")
+            parse = parse.replace("RGT","RH_")
+            parse = parse.replace("LH","LH_")
+            parse = parse.replace("LT","LH_")
+            parse = parse.replace("LEFT","LH_")
+            parse = parse.replace("LFT","LH_")
+            
+            # remove duplicates and sort
+            parse = parse.split(',')
+            parse = list(set(parse))
+            parse.sort()
+            
+# concatenate alphabetical labels to numeric positions to get single parsed list
+            trim = trim+parse
+
+            # convert back to string to remove []                       
+            trim = ','.join(map(str, trim)).rstrip(',')
+            
+            
+            # save values into df
+            df.loc[i,'Parsed_Component_Position']=trim
+
+            # if empty, check next narrative
+            if df.loc[i,'Parsed_Component_Position'] != "":
+                j = len(checks)
+            else:
+                j = j+1
+                
+
+            # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
+        if df.loc[i,'Parsed_Component_Position'] == str():
+            df.loc[i,'Parsed_Component_Position'] = df.loc[i,'Component_Position_Number']
+
+    return df
+
+
 def label_picker(df_one_wuc,wuc_qpa,this_wuc,libraries):
 """
 Determines which function to run in order to parse a given set of records. Returns updated dataframe with parsed positions
@@ -101,32 +637,32 @@ Determines which function to run in order to parse a given set of records. Retur
             df_i = df_thisqpa
             
         elif qpa_i.Names=='1,2,3,4':
-            df_i = engine_reader(df_thisqpa)  
+            df_i = engine_reader(df_thisqpa,libraries)  
             
         elif qpa_i.Names=='copilot,nav':
-            df_i = cp_navplt(df_thisqpa)    
+            df_i = cp_navplt(df_thisqpa,libraries)    
             
         elif qpa_i.Names=='pilot,copilot,nav':
-            df_i = pilot_cp_nav(df_thisqpa)   
+            df_i = pilot_cp_nav(df_thisqpa,libraries)   
             
         elif qpa_i.Names=='pilot,copilot':
-            df_i = cp_plt(df_thisqpa)
+            df_i = cp_plt(df_thisqpa,libraries)
             
         elif qpa_i.Names=='1,2':
-            df_i = INU(df_thisqpa)
+            df_i = INU(df_thisqpa,libraries)
             
         elif qpa_i.Names=='pilot_upper,pilot_lower,copilot_upper,copilot_lower':
-            df_i = EFI(df_thisqpa)
+            df_i = EFI(df_thisqpa,libraries)
             
         elif qpa_i.Names=='1A,1B,2A,2B,3A,3B,4A,4B':
-            df_i = engine_double(df_thisqpa)
+            df_i = engine_double(df_thisqpa,libraries)
             
         elif qpa_i.Names=='pilot,copilot,aug_crew,aft_center_console,aft_cargo,fwd_cargo,observer':
-            df_i = BAD(df_thisqpa)
+            df_i = BAD(df_thisqpa,libraries)
             
         elif qpa_i.Names=='LH_AUX,RH_AUX,RH_EXT,LH_EXT,1,2,3,4':
-            df_i = FQI(df_thisqpa)
-    
+            df_i = FQI(df_thisqpa,libraries)
+        
         else:
             df_i = df_thisqpa
         
@@ -178,8 +714,7 @@ def fn(conn, libraries, params, predecessors):
     df['Parsed_Component_Position'] = df['Parsed_Component_Position'].astype(str)
     df['Component_Position_Number'] = df['Component_Position_Number'].astype(str)
     
-    # change all provided,empty positions to 0
-    df['Component_Position_Number'] = df['Component_Position_Number'].map(lambda x: 0 if not x.isdigit() else x)
+    
 
     df_qpa.Maximum_SN = df_qpa.Maximum_SN.fillna(0)
     df_qpa.Maximum_SN = df_qpa.Maximum_SN.astype('int64')
@@ -196,7 +731,10 @@ def fn(conn, libraries, params, predecessors):
         print('WUC '+ str(this_wuc) + ' complete')
 
     df['Parsed_Component_Position'] = df['Parsed_Component_Position'].astype(str)
-    
+
+    # change all empty parsed positions to 0
+    df['Parsed_Component_Position'] = df['Parsed_Component_Position'].map(lambda x: 0 if x=='' else x)
+
     # keep only needed columns to save memory
     keys.append('Parsed_Component_Position')
     df = df[keys]
