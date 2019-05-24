@@ -69,7 +69,7 @@ def engine_reader(df,libraries):
                 
 
             # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
-        if df.loc[i,'Parsed_Component_Position'] == str():
+        if df.loc[i,'Parsed_Component_Position'].isna():
             df.loc[i,'Parsed_Component_Position'] = df.loc[i,'Component_Position_Number']
     return df
 
@@ -125,7 +125,7 @@ def cp_navplt(df,libraries):
                 
 
             # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
-        if df.loc[i,'Parsed_Component_Position'] == str():
+        if df.loc[i,'Parsed_Component_Position'].isna():
             df.loc[i,'Parsed_Component_Position'] = df.loc[i,'Component_Position_Number']
 
     return df
@@ -182,7 +182,7 @@ def cp_plt(df,libraries):
                 
 
             # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
-        if df.loc[i,'Parsed_Component_Position'] == str():
+        if df.loc[i,'Parsed_Component_Position'].isna():
             df.loc[i,'Parsed_Component_Position'] = df.loc[i,'Component_Position_Number']
 
     return df
@@ -237,7 +237,7 @@ def pilot_cp_nav(df,libraries):
                 
 
             # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
-        if df.loc[i,'Parsed_Component_Position'] == str():
+        if df.loc[i,'Parsed_Component_Position'].isna():
             df.loc[i,'Parsed_Component_Position'] = df.loc[i,'Component_Position_Number']
 
     return df
@@ -428,7 +428,7 @@ def engine_double(df,libraries):
 
 # if no information is found in the narratives, search for A/B in narratives and copy in the provided 'Component_Position_Number'
         if df.loc[i,'Parsed_Component_Position'] == str():
-            if df.loc[i,'Component_Position_Number'] != str('nan'):
+            if df.loc[i,'Component_Position_Number'] != str(''):
 
                 j = 0
                 parse = []
@@ -448,12 +448,7 @@ def engine_double(df,libraries):
                         j = len(checks)
                         df.loc[i,'Parsed_Component_Position']=str(df.loc[i,'Component_Position_Number'])+str(parse)
                     else:
-                        j = j+1
-        if df.loc[i,'Parsed_Component_Position'] == str():
-
-            # needed for testing
-            df.loc[i,'Parsed_Component_Position'] = str('nan')
-        
+                        j = j+1        
 
     return df
 
@@ -614,56 +609,69 @@ def label_picker(df_one_wuc,wuc_qpa,this_wuc,libraries):
     """
     Determines which function to run in order to parse a given set of records. Returns updated dataframe with parsed positions
     """
+
     pd = libraries["pandas"]
 
     this_wuc_qpa = wuc_qpa.reset_index(drop=True)
     for i in range(0,len(this_wuc_qpa)):
-#         print(this_wuc)
+
         qpa_i = this_wuc_qpa.loc[i,:]
-#         print(qpa_i.MDS)
+
         # if labels vary by SN, filter to one set at a time
         if qpa_i.Maximum_SN > 0:
             df_thisqpa = df_one_wuc[(df_one_wuc.Serial_Number >= qpa_i.Minimum_SN_Inclusive) & (df_one_wuc.Serial_Number < qpa_i.Maximum_SN) & (df_one_wuc.Equipment_Designator == qpa_i.MDS)]
         else:
             # if MDS is blank, grab both J and H
-            if str(qpa_i.MDS)=='nan':
+            if str(qpa_i.MDS)=='None':
                 df_thisqpa = df_one_wuc[(df_one_wuc.Equipment_Designator == 'C130J') | (df_one_wuc.Equipment_Designator == 'C130H')]
             else:
                 df_thisqpa = df_one_wuc[df_one_wuc.Equipment_Designator == qpa_i.MDS]
-        
+        df_thisqpa['Parsed_Component_Position'] = df_thisqpa['Parsed_Component_Position'].astype(str)
+
         # Select labeling method based on Names from qpa
         if qpa_i.Names=='1':
+            print('Filling with 1')
             df_thisqpa['Parsed_Component_Position'] = '1'
-            df_i = df_thisqpa
+            df_i = df_thisqpa.copy()
             
         elif qpa_i.Names=='1,2,3,4':
+            print('Filling with engine_reader')
             df_i = engine_reader(df_thisqpa,libraries)  
             
         elif qpa_i.Names=='copilot,nav':
+            print('Filling with cp_navplt')
             df_i = cp_navplt(df_thisqpa,libraries)    
             
         elif qpa_i.Names=='pilot,copilot,nav':
+            print('Filling with plt_cp_nav')
             df_i = pilot_cp_nav(df_thisqpa,libraries)   
             
         elif qpa_i.Names=='pilot,copilot':
+            print('Filling with cp_plt')
             df_i = cp_plt(df_thisqpa,libraries)
             
         elif qpa_i.Names=='1,2':
+            print('Filling with INU')
             df_i = INU(df_thisqpa,libraries)
             
         elif qpa_i.Names=='pilot_upper,pilot_lower,copilot_upper,copilot_lower':
+            print('Filling with EFI')
             df_i = EFI(df_thisqpa,libraries)
             
         elif qpa_i.Names=='1A,1B,2A,2B,3A,3B,4A,4B':
+            print('Filling with engine_double')
             df_i = engine_double(df_thisqpa,libraries)
             
         elif qpa_i.Names=='pilot,copilot,aug_crew,aft_center_console,aft_cargo,fwd_cargo,observer':
+            print('Filling with BAD')
             df_i = BAD(df_thisqpa,libraries)
             
         elif qpa_i.Names=='LH_AUX,RH_AUX,RH_EXT,LH_EXT,1,2,3,4':
+            print('Filling with FQI')
             df_i = FQI(df_thisqpa,libraries)
         
         else:
+            print('Filling with nothing')
             df_i = df_thisqpa
         
         # Add labels to df
@@ -699,7 +707,7 @@ def fn(conn, libraries, params, predecessors):
         join_clause = ['A.{} = B.{}'.format(ii,ii) for ii in keys]
         join_clause = ' AND '.join(join_clause)
 
-        df = pd.read_sql(con=conn, sql="""SELECT A.*, B.Equipment_Designator, B.Work_Unit_Code, B.Discrepancy_Narrative, B.Work_Center_Event_Narrative, 
+        df = pd.read_sql(con=conn, sql="""SELECT A.*, B.Serial_Number, B.Equipment_Designator, B.Work_Unit_Code, B.Discrepancy_Narrative, B.Work_Center_Event_Narrative, 
             B.Corrective_Narrative, B.Component_Position_Number FROM {} A 
             LEFT JOIN {} B ON {}""".format(key_table_name, compiled_table_name, join_clause))
 
@@ -723,7 +731,7 @@ def fn(conn, libraries, params, predecessors):
     
     # treat all WUCs differently
     for this_wuc in df.Work_Unit_Code.unique():
-    
+        
         df_one_wuc = df[df.Work_Unit_Code == this_wuc]
         wuc_qpa = df_qpa[df_qpa.Work_Unit_Code == this_wuc]
         df_one_wuc = label_picker(df_one_wuc,wuc_qpa,this_wuc,libraries)
@@ -733,7 +741,7 @@ def fn(conn, libraries, params, predecessors):
     df['Parsed_Component_Position'] = df['Parsed_Component_Position'].astype(str)
 
     # change all empty parsed positions to 0
-    df['Parsed_Component_Position'] = df['Parsed_Component_Position'].map(lambda x: 0 if x=='' else x)
+    # df['Parsed_Component_Position'] = df['Parsed_Component_Position'].map(lambda x: 0 if x=='' else x)
 
     # keep only needed columns to save memory
     keys.append('Parsed_Component_Position')
