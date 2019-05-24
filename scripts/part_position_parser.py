@@ -699,7 +699,7 @@ def fn(conn, libraries, params, predecessors):
         join_clause = ['A.{} = B.{}'.format(ii,ii) for ii in keys]
         join_clause = ' AND '.join(join_clause)
 
-        df = pd.read_sql(con=conn, sql="""SELECT A.*, B.Work_Unit_Code, B.Discrepancy_Narrative, B.Work_Center_Event_Narrative, 
+        df = pd.read_sql(con=conn, sql="""SELECT A.*, B.Equipment_Designator, B.Work_Unit_Code, B.Discrepancy_Narrative, B.Work_Center_Event_Narrative, 
             B.Corrective_Narrative, B.Component_Position_Number FROM {} A 
             LEFT JOIN {} B ON {}""".format(key_table_name, compiled_table_name, join_clause))
 
