@@ -69,7 +69,7 @@ def engine_reader(df,libraries):
                 
 
             # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
-        if df.loc[i,'Parsed_Component_Position'].isna():
+        if df.loc[i,'Parsed_Component_Position']==str(''):
             df.loc[i,'Parsed_Component_Position'] = df.loc[i,'Component_Position_Number']
     return df
 
@@ -125,7 +125,7 @@ def cp_navplt(df,libraries):
                 
 
             # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
-        if df.loc[i,'Parsed_Component_Position'].isna():
+        if df.loc[i,'Parsed_Component_Position']==str(''):
             df.loc[i,'Parsed_Component_Position'] = df.loc[i,'Component_Position_Number']
 
     return df
@@ -182,7 +182,7 @@ def cp_plt(df,libraries):
                 
 
             # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
-        if df.loc[i,'Parsed_Component_Position'].isna():
+        if df.loc[i,'Parsed_Component_Position']==str(''):
             df.loc[i,'Parsed_Component_Position'] = df.loc[i,'Component_Position_Number']
 
     return df
@@ -237,7 +237,7 @@ def pilot_cp_nav(df,libraries):
                 
 
             # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
-        if df.loc[i,'Parsed_Component_Position'].isna():
+        if df.loc[i,'Parsed_Component_Position']==str(''):
             df.loc[i,'Parsed_Component_Position'] = df.loc[i,'Component_Position_Number']
 
     return df
@@ -630,7 +630,6 @@ def label_picker(df_one_wuc,wuc_qpa,this_wuc,libraries):
 
         # Select labeling method based on Names from qpa
         if qpa_i.Names=='1':
-            print('Filling with 1')
             df_thisqpa['Parsed_Component_Position'] = '1'
             df_i = df_thisqpa.copy()
             
@@ -725,9 +724,7 @@ def fn(conn, libraries, params, predecessors):
     
 
     df_qpa.Maximum_SN = df_qpa.Maximum_SN.fillna(0)
-    df_qpa.Maximum_SN = df_qpa.Maximum_SN.astype('int64')
     df_qpa.Minimum_SN_Inclusive = df_qpa.Minimum_SN_Inclusive.fillna(0)
-    df_qpa.Minimum_SN_Inclusive = df_qpa.Minimum_SN_Inclusive.astype('int64')
     
     # treat all WUCs differently
     for this_wuc in df.Work_Unit_Code.unique():
