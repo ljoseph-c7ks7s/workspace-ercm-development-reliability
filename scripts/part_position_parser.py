@@ -684,13 +684,26 @@ def fn(conn, libraries, params, predecessors):
 
     if len(predecessors) in (2,3):
 
-        if len(predecessors) == 2:
-            # KC135, single WUC
-            for pred in predecessors:
-                if 'compiled' in pred:
-                    compiled_table_name = pred
-                else:
-                    key_table_name = pred
+        if len(predecessors) == 2:  
+            if len([ii for ii in predecessors if 'compiled' in ii]) > 0:
+                # KC135, single WUC
+                for pred in predecessors:
+                    if 'compiled' in pred:
+                        compiled_table_name = pred
+                    else:
+                        key_table_name = pred
+                df_qpa = pd.DataFrame()
+            else:
+                # C130 comparisons for ercm
+                for pred in predecessors:
+                    if 'qpa' in pred:
+                        qpa_table_name = pred
+                    else:
+                        data_table_name = pred
+                compiled_table_name = None
+                df_qpa = pd.read_sql(con=conn, sql="""SELECT * FROM {}""".format(qpa_table_name))
+                df = pd.read_sql(con=conn, sql="""SELECT * FROM {}""".format(data_table_name))
+                keys = list(df.columns)  # all data
         else:
             # C130, multiple WUCs and complex QPA
             for pred in predecessors:
@@ -702,30 +715,38 @@ def fn(conn, libraries, params, predecessors):
                     key_table_name = pred
             df_qpa = pd.read_sql(con=conn, sql="""SELECT * FROM {}""".format(qpa_table_name))
 
-        keys = list(pd.read_sql(sql="SHOW KEYS FROM {}".format(key_table_name), con=conn).Column_name)
-        join_clause = ['A.{} = B.{}'.format(ii,ii) for ii in keys]
-        join_clause = ' AND '.join(join_clause)
+        if compiled_table_name:
+            # read data from multiple tables 
+            keys = list(pd.read_sql(sql="SHOW KEYS FROM {}".format(key_table_name), con=conn).Column_name)
+            join_clause = ['A.{} = B.{}'.format(ii,ii) for ii in keys]
+            join_clause = ' AND '.join(join_clause)
 
-        df = pd.read_sql(con=conn, sql="""SELECT A.*, B.Serial_Number, B.Equipment_Designator, B.Work_Unit_Code, B.Discrepancy_Narrative, B.Work_Center_Event_Narrative, 
-            B.Corrective_Narrative, B.Component_Position_Number FROM {} A 
-            LEFT JOIN {} B ON {}""".format(key_table_name, compiled_table_name, join_clause))
+            df = pd.read_sql(con=conn, sql="""SELECT A.*, B.Serial_Number, B.Equipment_Designator, B.Work_Unit_Code, B.Discrepancy_Narrative, B.Work_Center_Event_Narrative, 
+                B.Corrective_Narrative, B.Component_Position_Number FROM {} A 
+                LEFT JOIN {} B ON {}""".format(key_table_name, compiled_table_name, join_clause))
 
     elif len(predecessors) == 1:
+        # KC135 comparison against NB-BOW
         keys = list(pd.read_sql(sql="SHOW KEYS FROM {}".format(predecessors[0]), con=conn).Column_name)
         df = pd.read_sql(con=conn, sql="""SELECT * FROM {}""".format(predecessors[0]))        
+        df_qpa = pd.DataFrame()
 
     else:
         raise Exception, "Component should have one, two, or three predecessor components"
 
     df['Parsed_Component_Position'] = ""
     df['Parsed_Component_Position'] = df['Parsed_Component_Position'].astype(str)
-    df['Component_Position_Number'] = df['Component_Position_Number'].astype(str)
+    df['Component_Position_Number'] = df['Component_Position_Number'].fillna(0.0).astype('int64').astype(str)  # no awful 0.0 strings
     
+    if df_qpa.empty:
+        # backwards compatability for KC135
+        df = engine_reader(df, libraries)
+        keys.append('Parsed_Component_Position')
+        return df[keys]
     
-
     df_qpa.Maximum_SN = df_qpa.Maximum_SN.fillna(0)
     df_qpa.Minimum_SN_Inclusive = df_qpa.Minimum_SN_Inclusive.fillna(0)
-    
+
     # treat all WUCs differently
     for this_wuc in df.Work_Unit_Code.unique():
         
