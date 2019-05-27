@@ -17,12 +17,12 @@ Work_Unit_Code,Alternate_WUC,MDS,Minimum_SN_Inclusive,Maximum_SN,QPA,QPA_Descrip
 41321,,,,,1,,,1
 41322,,,,,1,,,1
 41325,,,,,1,,,1
-422A0,42BA0,C130H,6200001784,6200001818,4,Total: 4 or 5 depending on Aircraft model  mounted on the electrical control and supply rack,GCU,"1,2,3,4"
-422A0,42BA0,C130H,6200001820,6400014851,4,Total: 4 or 5 depending on Aircraft model  mounted on the electrical control and supply rack,GCU,"1,2,3,4"
-422A0,42BA0,C130H,6200001818,6200001819,4,Total: 4 or 5 depending on Aircraft model  mounted on the electrical control and supply rack,GCU,"1,2,3,4"
-422A0,42BA0,C130H,6200001832,6200001833,4,Total: 4 or 5 depending on Aircraft model  mounted on the electrical control and supply rack,GCU,"1,2,3,4"
-422A0,42BA0,C130H,6200001836,6200001837,4,Total: 4 or 5 depending on Aircraft model  mounted on the electrical control and supply rack,GCU,"1,2,3,4"
-422A0,42BA0,C130H,6200001863,6200001864,4,Total: 4 or 5 depending on Aircraft model  mounted on the electrical control and supply rack,GCU,"1,2,3,4"
+422A0,"42BA0,4221P",C130H,6200001784,6200001818,4,Total: 4 or 5 depending on Aircraft model  mounted on the electrical control and supply rack,GCU,"1,2,3,4"
+422A0,"42BA0,4221P",C130H,6200001820,6400014851,4,Total: 4 or 5 depending on Aircraft model  mounted on the electrical control and supply rack,GCU,"1,2,3,4"
+422A0,"42BA0,4221P",C130H,6200001818,6200001819,4,Total: 4 or 5 depending on Aircraft model  mounted on the electrical control and supply rack,GCU,"1,2,3,4"
+422A0,"42BA0,4221P",C130H,6200001832,6200001833,4,Total: 4 or 5 depending on Aircraft model  mounted on the electrical control and supply rack,GCU,"1,2,3,4"
+422A0,"42BA0,4221P",C130H,6200001836,6200001837,4,Total: 4 or 5 depending on Aircraft model  mounted on the electrical control and supply rack,GCU,"1,2,3,4"
+422A0,"42BA0,4221P",C130H,6200001863,6200001864,4,Total: 4 or 5 depending on Aircraft model  mounted on the electrical control and supply rack,GCU,"1,2,3,4"
 ,,,,,,,,
 422A0,42BA0,C130H,,,5,Total: 4 or 5 depending on Aircraft model  mounted on the electrical control and supply rack,GCU,"1,2,3,4,apu"
 42DLA,,C130J,,,13,,,UNKNOWN
@@ -35,9 +35,9 @@ Work_Unit_Code,Alternate_WUC,MDS,Minimum_SN_Inclusive,Maximum_SN,QPA,QPA_Descrip
 526DA,,C130H,,,2,Total: 2 Pilot Panel Assembly: 1 Each Copilot Panel Assembly: 1 Each,ADI,"pilot,copilot"
 526DD,,C130H,,,2,Total: 2 Pilot Panel Assembly: 1 Each Copilot Panel Assembly: 1 Each,HSI,"pilot,copilot"
 526DE,,C130H,,,4,Total: 4 Pilot Panel Assembly: 2 Each Co-Pilot Panel Assembly: 2 Each,EFI,"pilot_upper,pilot_lower,copilot_upper,copilot_lower"
-64BAD,,C130J,,,6,,ICS,"pilot,copilot,aug_crew,aft_center_console,aft_cargo,fwd_cargo"
-64BAD,,WC-130J,,,8,,ICS,"pilot,copilot,aug_crew,aft_center_console,aft_cargo,fwd_cargo,arwo,dso"
-64BAD,,EC-130J,,,8,,ICS,"pilot,copilot,aug_crew,aft_center_console,aft_cargo,fwd_cargo,rh_aft,lh_aft"
+64BAD,,C130J,,,7,,ICS,"pilot,copilot,aug_crew,aft_center_console,aft_cargo,fwd_cargo,observer"
+64BAD,,WC-130J,,,9,,ICS,"pilot,copilot,aug_crew,aft_center_console,aft_cargo,fwd_cargo,observer,arwo,dso"
+64BAD,,EC-130J,,,9,,ICS,"pilot,copilot,aug_crew,aft_center_console,aft_cargo,fwd_cargo,observer,rh_aft,lh_aft"
 71GE0,,C130H,0,9300001036,1,"Total: 1 to 2 depending on Aircraft    Airplanes modified by TO 1C-130-1486 are equipped with two INUs located in the electrical control and supply rack. DUAL INU airplanes   Dual INU airplanes: LC-130H AF92-1094 and up, HC-130(H)N AF92-2104 and up,  C-130H AF93-1036 and up. ",INU,1
 71GE0,,C130H,9300001036,1E+12,2,"Total: 1 to 2 depending on Aircraft    Airplanes modified by TO 1C-130-1486 are equipped with two INUs located in the electrical control and supply rack. DUAL INU airplanes   Dual INU airplanes: LC-130H AF92-1094 and up, HC-130(H)N AF92-2104 and up,  C-130H AF93-1036 and up. ",INU,"1,2"
 71GE0,,LC-130H,,9200001094,1,"Total: 1 to 2 depending on Aircraft    Airplanes modified by TO 1C-130-1486 are equipped with two INUs located in the electrical control and supply rack. DUAL INU airplanes   Dual INU airplanes: LC-130H AF92-1094 and up, HC-130(H)N AF92-2104 and up,  C-130H AF93-1036 and up. ",INU,1
@@ -47,6 +47,6 @@ Work_Unit_Code,Alternate_WUC,MDS,Minimum_SN_Inclusive,Maximum_SN,QPA,QPA_Descrip
 71GE0,,HC-130N,,9200002104,1,"Total: 1 to 2 depending on Aircraft    Airplanes modified by TO 1C-130-1486 are equipped with two INUs located in the electrical control and supply rack. DUAL INU airplanes   Dual INU airplanes: LC-130H AF92-1094 and up, HC-130(H)N AF92-2104 and up,  C-130H AF93-1036 and up. ",INU,1
 71GE0,,HC-130N,9200002104,,2,"Total: 1 to 2 depending on Aircraft    Airplanes modified by TO 1C-130-1486 are equipped with two INUs located in the electrical control and supply rack. DUAL INU airplanes   Dual INU airplanes: LC-130H AF92-1094 and up, HC-130(H)N AF92-2104 and up,  C-130H AF93-1036 and up. ",INU,"1,2"
 72K00,,C130J,,,1 and 2 ?,,UNKNOWN,
-82LC0,,C130J,,,4,Total: 4 to 6 per Aircraft All C-130J: 4 Each on Main Instrument Panel ECU-130J / WC-130J - 2 Additional CMDU on Augmented crew station ,Instrument Panel (HDD),"1,2,3,4"
-82LC0,,EC-130J,,,6,Total: 4 to 6 per Aircraft All C-130J: 4 Each on Main Instrument Panel ECU-130J / WC-130J - 2 Additional CMDU on Augmented crew station ,Instrument Panel (HDD),"1,2,2,3,4,5,6"
-82LC0,,WC-130J,,,6,Total: 4 to 6 per Aircraft All C-130J: 4 Each on Main Instrument Panel ECU-130J / WC-130J - 2 Additional CMDU on Augmented crew station ,Instrument Panel (HDD),"1,2,2,3,4,5,6"
+82LC0,,C130J,,,4,Total: 4 to 6 per Aircraft All C-130J: 4 Each on Main Instrument Panel EC-130J / WC-130J - 2 Additional CMDU on Augmented crew station ,Instrument Panel (HDD),"1,2,3,4"
+82LC0,,EC-130J,,,6,Total: 4 to 6 per Aircraft All C-130J: 4 Each on Main Instrument Panel EC-130J / WC-130J - 2 Additional CMDU on Augmented crew station ,Instrument Panel (HDD),"1,2,3,4,5,6"
+82LC0,,WC-130J,,,6,Total: 4 to 6 per Aircraft All C-130J: 4 Each on Main Instrument Panel EC-130J / WC-130J - 2 Additional CMDU on Augmented crew station ,Instrument Panel (HDD),"1,2,3,4,5,6"
