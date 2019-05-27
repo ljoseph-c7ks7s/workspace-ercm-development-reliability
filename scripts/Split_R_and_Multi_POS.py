@@ -64,11 +64,11 @@ def fn(conn, libraries, params, predecessors):
            ~(df['Parsed_Component_Position']==0) & \
            (df['Parsed_Component_Position'].\
             apply(lambda x: True if len(set(x.split(','))) == 1 else False)), 
-          'Position'] = df.loc[(df['Action_Taken_Code'] == 'SW') & \
+          'Parsed_Component_Position'] = df.loc[(df['Action_Taken_Code'] == 'SW') & \
            ~(df['Parsed_Component_Position']=='0') & \
            ~(df['Parsed_Component_Position']==0) & \
            (df['Parsed_Component_Position'].\
-            apply(lambda x: True if len(set(x.split(','))) == 1 else False)).Position.apply(lambda x: "{},0".format(x))
+            apply(lambda x: True if len(set(x.split(','))) == 1 else False))].Parsed_Component_Position.apply(lambda x: "{},0".format(x))
     # similar pattern to above
     df_IU = df[df['Action_Taken_Code'] == 'SW'].copy()
     df_T = df[df['Action_Taken_Code'] == 'SW'].copy()
