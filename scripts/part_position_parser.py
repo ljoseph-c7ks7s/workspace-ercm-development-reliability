@@ -17,8 +17,8 @@ def engine_reader(df,libraries):
         used for work unit codes with QPA=4, 1 per engine
     """
 
-    pd = libraries["pandas"]
-    re = libraries["re"]
+#     pd = libraries["pandas"]
+#     re = libraries["re"]
 
     # define fields to check
     checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
@@ -32,7 +32,7 @@ def engine_reader(df,libraries):
         while j < len(checks):
             
             # not included here - "ALL (insert number here)","ALL FOUR"
-            parse = re.findall("(?:\# ?|NO\.? |NUMBER )\d+|\bALL FOUR\b|\bALL 4\b",str(df.loc[i,checks[j]]))
+            parse = re.findall("(?:\# ?|NO\.? |NUMBER )\d+|\bALL FOUR\b|\bALL 4\b|HDD ?\d+",str(df.loc[i,checks[j]]))
             
             # replace 'ALL' matches with numbers
             parse = [x.replace('ALL FOUR','1,2,3,4') for x in parse]
