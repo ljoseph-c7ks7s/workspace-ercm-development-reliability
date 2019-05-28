@@ -93,22 +93,25 @@ def cp_navplt(df,libraries):
             parse = re.findall("C?O?\W?PI?L?O?T|C\W?P|NAV",str(df.loc[i,checks[j]]))
             
             # keep only alphabetical chars and comma separators to fix C-P, C/P etc.
-            parse = re.sub("[^\w,]","",str(parse))
-
+            parse = re.sub("[^\w,]","",str(parse))            
+            
             # correct parsed labels
-            parse = parse.replace('CPIT','0')
+            parse = parse.replace('CPIT','PIT')
+            parse = parse.replace(',PIT','')
+            parse = parse.replace('PIT,','')
+            parse = parse.replace('PIT','')
             parse = parse.replace('PILT','PILOT')
+            parse = parse.replace('PLT','PILOT')
+            parse = parse.replace('PT','PILOT')
             parse = parse.replace('CPLT','CP')
             parse = parse.replace('CPT','CP')
             parse = parse.replace('CPILOT','CP')
             parse = parse.replace('COPILOT','CP')
-            parse = parse.replace('PLT','PILOT')
-            parse = parse.replace('PT','PILOT')
             parse = parse.replace('PILOT','NAV')
             parse = parse.replace('CP','COPILOT')
-            parse = parse.replace('PIT','0')
             
             # remove duplicates and sort
+#             parse = parse.strip()
             parse = parse.split(',')
             parse = list(set(parse))
             parse.sort()
@@ -157,17 +160,20 @@ def cp_plt(df,libraries):
             parse = re.sub("[^\w,]","",str(parse))
             
             # correct parsed labels
-            parse = parse.replace('CPIT','0')
+            parse = parse.replace('CPIT','PIT')
+            parse = parse.replace(',PIT','')
+            parse = parse.replace('PIT,','')
+            parse = parse.replace('PIT','')
+            parse = parse.replace('PLT','PILOT')
+            parse = parse.replace('PT','PILOT')
             parse = parse.replace('PILT','PILOT')
             parse = parse.replace('CPLT','COPILOT')
             parse = parse.replace('CPT','COPILOT')
             parse = parse.replace('CPILOT','COPILOT')
             parse = parse.replace('CP','COPILOT')
-            parse = parse.replace('PLT','PILOT')
-            parse = parse.replace('PT','PILOT')
-            parse = parse.replace('PIT','0')
             
             # remove duplicates and sort
+            parse = parse.strip()
             parse = parse.split(',')
             parse = list(set(parse))
             parse.sort()
@@ -195,6 +201,7 @@ def cp_plt(df,libraries):
 def pilot_cp_nav(df,libraries):
     pd = libraries['pandas']
     re = libraries['re']
+    
     # define fields to check
     checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
     
@@ -215,17 +222,20 @@ def pilot_cp_nav(df,libraries):
             parse = re.sub("[^\w,]","",str(parse))
             
             # correct parsed labels
-            parse = parse.replace('CPIT','0')
+            parse = parse.replace('CPIT','PIT')
+            parse = parse.replace(',PIT','')
+            parse = parse.replace('PIT,','')
+            parse = parse.replace('PIT','')
             parse = parse.replace('PILT','PILOT')
+            parse = parse.replace('PLT','PILOT')
+            parse = parse.replace('PT','PILOT')
             parse = parse.replace('CPILOT','COPILOT')
             parse = parse.replace('CPLT','COPILOT')
             parse = parse.replace('CPT','COPILOT')
             parse = parse.replace('CP','COPILOT')
-            parse = parse.replace('PLT','PILOT')
-            parse = parse.replace('PT','PILOT')
-            parse = parse.replace('PIT','0')
             
             # remove duplicates and sort
+            parse = parse.strip()
             parse = parse.split(',')
             parse = list(set(parse))
             parse.sort()
