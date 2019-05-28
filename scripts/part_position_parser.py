@@ -23,8 +23,7 @@ def engine_reader(df,libraries):
     # define fields to check
     checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
     df['Parsed_Component_Position'] = df['Parsed_Component_Position'].astype(str)
-#     df['Component_Position_Number'] = df['Component_Position_Number'].astype(int)
-#     df['Component_Position_Number'] = df['Component_Position_Number'].astype(str)
+
     # for each entry, search fields for component position numbers 
     indexer = list(df.index.values)
     for i in indexer:
@@ -97,6 +96,8 @@ def cp_navplt(df,libraries):
             parse = re.sub("[^\w,]","",str(parse))
 
             # correct parsed labels
+            parse = parse.replace('CPIT','0')
+            parse = parse.replace('PILT','PILOT')
             parse = parse.replace('CPLT','CP')
             parse = parse.replace('CPT','CP')
             parse = parse.replace('CPILOT','CP')
@@ -105,6 +106,7 @@ def cp_navplt(df,libraries):
             parse = parse.replace('PT','PILOT')
             parse = parse.replace('PILOT','NAV')
             parse = parse.replace('CP','COPILOT')
+            parse = parse.replace('PIT','0')
             
             # remove duplicates and sort
             parse = parse.split(',')
@@ -139,7 +141,6 @@ def cp_plt(df,libraries):
     checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
     
     df['Parsed_Component_Position'] = df['Parsed_Component_Position'].astype(str)
-    df['Component_Position_Number'] = df['Component_Position_Number'].astype(int)
     df['Component_Position_Number'] = df['Component_Position_Number'].astype(str)
     # for each entry, search fields for component position numbers 
     indexer = list(df.index.values)
@@ -156,12 +157,15 @@ def cp_plt(df,libraries):
             parse = re.sub("[^\w,]","",str(parse))
             
             # correct parsed labels
+            parse = parse.replace('CPIT','0')
+            parse = parse.replace('PILT','PILOT')
             parse = parse.replace('CPLT','COPILOT')
             parse = parse.replace('CPT','COPILOT')
             parse = parse.replace('CPILOT','COPILOT')
             parse = parse.replace('CP','COPILOT')
             parse = parse.replace('PLT','PILOT')
             parse = parse.replace('PT','PILOT')
+            parse = parse.replace('PIT','0')
             
             # remove duplicates and sort
             parse = parse.split(',')
@@ -211,12 +215,15 @@ def pilot_cp_nav(df,libraries):
             parse = re.sub("[^\w,]","",str(parse))
             
             # correct parsed labels
+            parse = parse.replace('CPIT','0')
+            parse = parse.replace('PILT','PILOT')
             parse = parse.replace('CPILOT','COPILOT')
             parse = parse.replace('CPLT','COPILOT')
             parse = parse.replace('CPT','COPILOT')
             parse = parse.replace('CP','COPILOT')
             parse = parse.replace('PLT','PILOT')
             parse = parse.replace('PT','PILOT')
+            parse = parse.replace('PIT','0')
             
             # remove duplicates and sort
             parse = parse.split(',')
@@ -535,7 +542,8 @@ def FQI(df,libraries):
         while j < len(checks):
 
             # not included here - "ALL (insert number here)","ALL FOUR"
-            parse = re.findall("(?:RH|RT|RIGHT|LT|LH|LEFT|LFT|RGT) (?:AUX|EXT)",str(df.loc[i,checks[j]]))
+            parse = re.findall("(?:RH|RT|RIGHT|LT|LH|LEFT|LFT|RGT) (?:HAND )?(?:AUX|EXT)",str(df.loc[i,checks[j]]))
+            parse = re.findall("(?:R\/?H|RT|RIGHT|LT|L\/?H|LEFT|LFT|RGT|R|L)\.? (?:HAND )?(?:AUX|EXT)",str(df.loc[i,checks[j]]))
             parsenum = re.findall("(?:\# ?|NO\.? |NUMBER )\d+",str(df.loc[i,checks[j]]))
 
             # keep only alphanumeric chars and comma separators
@@ -567,6 +575,7 @@ def FQI(df,libraries):
             parse = parse.lstrip(',').rstrip(',')
             
             # correct parsed labels
+            parse = parse.replace("HAND","")
             parse = parse.replace("RH","RH_")
             parse = parse.replace("RT","RH_")
             parse = parse.replace("RIGHT","RH_")
@@ -575,6 +584,10 @@ def FQI(df,libraries):
             parse = parse.replace("LT","LH_")
             parse = parse.replace("LEFT","LH_")
             parse = parse.replace("LFT","LH_")
+            parse = parse.replace("LEX","LH_EX")
+            parse = parse.replace("REX","RH_EX")
+            parse = parse.replace("LAUX","LH_AUX")
+            parse = parse.replace("RAUX","RH_AUX")
             
             # remove duplicates and sort
             parse = parse.split(',')
