@@ -590,7 +590,7 @@
         "model":"f98a2964-117b-458d-bf6a-ed80a1eca2f6",
         "position":[
             230,
-            420
+            405
         ]
     },
     {
@@ -946,8 +946,8 @@
         "label":"Unlabeled Import",
         "model":"aec9778f-6c13-4c29-9928-feed17932376",
         "position":[
-            365,
-            530
+            50,
+            805
         ]
     },
     {
@@ -964,8 +964,8 @@
         "label":"Unlabeled Data Desc",
         "model":"923d6d84-4f90-4a58-b20d-14cb8c91238d",
         "position":[
-            510,
-            530
+            205,
+            805
         ]
     },
     {
@@ -1014,8 +1014,8 @@
         "label":"Unlabeled Import No Key",
         "model":"c71a9dcb-0dc5-4ff2-92e6-fcdd3b289784",
         "position":[
-            365,
-            575
+            50,
+            840
         ]
     },
     {
@@ -1024,8 +1024,8 @@
         "id":"unlabeled_export",
         "label":"Unlabeled Export",
         "position":[
-            665,
-            575
+            360,
+            840
         ]
     },
     {
@@ -1042,8 +1042,8 @@
         "label":"Unlabeled Data Desc No Key",
         "model":"80619abb-122d-4d53-b951-03e6f6a6e314",
         "position":[
-            510,
-            575
+            205,
+            840
         ]
     },
     {
@@ -1452,6 +1452,150 @@
         "position":[
             1630,
             225
+        ]
+    },
+    {
+        "labels":{
+  "Action": [
+    "O",
+    "R",
+    "P",
+    "Q",
+    "T",
+    "U",
+    "SW"
+  ],
+  "Position": [
+    "",
+    "PILOT",
+    "COPILOT",
+    "COPILOT,PILOT",
+    "PILOT_UPPER",
+    "0",
+    "COPILOT_UPPER",
+    "PILOT_LOWER",
+    "COPILOT_LOWER",
+    "PILOT_LOWER,PILOT_UPPER",
+    "COPILOT_UPPER,PILOT_LOWER",
+    "COPILOT_UPPER,PILOT_UPPER",
+    "COPILOT_LOWER,PILOT_LOWER",
+    "COPILOT_LOWER,COPILOT_UPPER",
+    "COPILOT_LOWER,PILOT_LOWER,PILOT_UPPER",
+    "COPILOT_UPPER,PILOT_LOWER,PILOT_UPPER",
+    "COPILOT_LOWER,COPILOT_UPPER,PILOT_LOWER",
+    "COPILOT_LOWER,COPILOT_UPPER,PILOT_UPPER",
+    "COPILOT_LOWER,COPILOT_UPPER,PILOT_LOWER,PILOT_UPPER"
+  ],
+  "Removal_Cause": [
+    "",
+    "TCTO 1885",
+    "TCTO 1933",
+    "TCTO 1C-130-1885",
+    "VERSION UPGRADE",
+    "REFURB",
+    "MODIFICATION",
+    "NVIS MOD"
+  ]
+},
+        "class":"EventLabelGenerator",
+        "custom_model":true,
+        "description":"Save sets of labels to validate uploaded hand-labeled events against",
+        "id":"labels_import_526dx",
+        "label":"Labels Import 526DX",
+        "model":"4a591825-46f3-4a16-a874-3cc606a236cc",
+        "position":[
+            250,
+            760
+        ]
+    },
+    {
+        "class":"SQL",
+        "custom_model":true,
+        "description":"Placeholder component with model including all the necessary columns for labels import EventLabelGenerators.",
+        "id":"labels_model",
+        "label":"Labels Model",
+        "model":"5fb3e5bc-454c-48d6-bfe0-31844d117f27",
+        "position":[
+            230,
+            445
+        ]
+    },
+    {
+        "attrs":{
+            "additional_parameters":{
+                "class_swaps":{
+                    "P":"R",
+                    "Q":"R",
+                    "T":"TU",
+                    "U":"TU"
+                },
+                "label_name":"Action",
+                "min_minority_fraction_of_most_common":0.33,
+                "test_ratio":0.25
+            }
+        },
+        "class":"Python",
+        "custom_model":true,
+        "description":"Randomly sample from minority classes (those fewer records than the most-common class) to get an even quantity of labeled data per class for training a model.",
+        "id":"oversample_526dx",
+        "label":"Oversample 526DX",
+        "model":"5d3dceef-c3bf-42c3-8550-f0f891a68b82",
+        "position":[
+            400,
+            760
+        ]
+    },
+    {
+        "attrs":{
+            "label":"Action",
+            "number_epochs":50,
+            "target_columns":[
+                "Discrepancy_Narrative",
+                "Work_Center_Event_Narrative",
+                "Corrective_Narrative"
+            ]
+        },
+        "class":"DeepLearningClassifier",
+        "custom_model":true,
+        "description":"Uses a stacked deep learning method to train a model for classifying text.",
+        "id":"fit_action_526dx",
+        "label":"Fit Action 526DX",
+        "model":"deeplearningclassifier",
+        "position":[
+            550,
+            760
+        ]
+    },
+    {
+        "attrs":{ "query_list":[
+          "SELECT labels.Row_Number id, labels.Labels_File_Name, REMIS_File_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, labels.Discrepancy_Narrative, labels.Work_Center_Event_Narrative, labels.Corrective_Narrative, labels.train_test, labels.action label, pr.prediction, if(labels.action=pr.prediction,'True','False') as matches FROM (SELECT DISTINCT Row_Number, Labels_File_Name, REMIS_File_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, action, train_test, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM oversample_526dx) labels JOIN (SELECT DISTINCT replace(target, 'None', '') target, prediction FROM deeplearningclassifier WHERE component_name LIKE '%action_526dx%') pr ON concat(coalesce(labels.Discrepancy_Narrative, ''), ' ', coalesce(labels.Work_Center_Event_Narrative, ''), ' ', coalesce(labels.Corrective_Narrative, '')) = pr.target"
+        ]},
+        "class":"SQL",
+        "custom_model":true,
+        "description":"Condese labeled data to original size for metric calculation.",
+        "id":"add_label_add_split_526dx",
+        "label":"Add Label Add Split 526DX",
+        "model":"d505d98d-c6e7-46fc-918e-33251f374bab",
+        "position":[
+            700,
+            760
+        ]
+    },
+    {
+        "attrs":{
+            "additional_parameters":{
+                "custom_predecessor":true
+            }
+        },
+        "class":"Python",
+        "custom_model":true,
+        "description":"Display metrics for 8-class ATC model.",
+        "id":"action_metrics_526dx",
+        "label":"Action Metrics 526DX",
+        "model":"15c43923-ad28-411d-bf02-d756bcf004fe",
+        "position":[
+            855,
+            760
         ]
     }
 ]
