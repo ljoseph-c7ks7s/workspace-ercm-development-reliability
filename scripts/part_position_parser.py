@@ -18,7 +18,7 @@ def engine_reader(df,libraries):
     """
 
 #     pd = libraries["pandas"]
-#     re = libraries["re"]
+    re = libraries["re"]
 
     # define fields to check
     checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
