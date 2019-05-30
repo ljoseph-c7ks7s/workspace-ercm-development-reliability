@@ -17,7 +17,7 @@ def engine_reader(df,libraries):
         used for work unit codes with QPA=4, 1 per engine
     """
 
-#     pd = libraries["pandas"]
+    pd = libraries["pandas"]
     re = libraries["re"]
 
     # define fields to check
@@ -127,13 +127,6 @@ def cp_navplt(df,libraries):
                 j = len(checks)
             else:
                 j = j+1
-                
-
-            # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
-        if df.loc[i,'Parsed_Component_Position']==str(''):
-            df.loc[i,'Parsed_Component_Position'] = df.loc[i,'Component_Position_Number']
-
-    return df
 
 
 def cp_plt(df,libraries):
@@ -160,6 +153,7 @@ def cp_plt(df,libraries):
             parse = re.sub("[^\w,]","",str(parse))
             
             # correct parsed labels
+            parse = parse.replace('OPI','PI')
             parse = parse.replace('CPIT','PIT')
             parse = parse.replace(',PIT','')
             parse = parse.replace('PIT,','')
@@ -222,6 +216,7 @@ def pilot_cp_nav(df,libraries):
             parse = re.sub("[^\w,]","",str(parse))
             
             # correct parsed labels
+            parse = parse.replace('OPI','PI')
             parse = parse.replace('CPIT','PIT')
             parse = parse.replace(',PIT','')
             parse = parse.replace('PIT,','')
@@ -313,7 +308,7 @@ def INU(df,libraries):
                 
 
             # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
-        if df.loc[i,'Parsed_Component_Position'] == str():
+        if df.loc[i,'Parsed_Component_Position'] == str(''):
             df.loc[i,'Parsed_Component_Position'] = df.loc[i,'Component_Position_Number']
     return df
 
@@ -334,19 +329,20 @@ def EFI(df,libraries):
         parse = []
         while j < len(checks):
             
-            if re.findall("COPILOT\'S EFI \(TOP\)",df.loc[i,checks[j]])==["COPILOT'S EFI (TOP)"]:
-                parse='COPILOT_UPPER'
+            if df.loc[i,'Action'] =='SW':
+                parse = str('0')
                 
             else:
-                parse = re.findall("(?:UPP?E?R|LO?WE?R|TOP|BOTTOM)? ?C?O?\W?PI?L?O?T\'?S? (?:UPP?E?R|LO?WE?R|TOP|BOTTOM)?|(?:UPP?E?R|LO?WE?R|TOP|BOTTOM)? ?C\W?P\'?S? (?:UPP?E?R|LO?WE?R|TOP|BOTTOM)?",str(df.loc[i,checks[j]]))
+                parse = re.findall("(?:UPP?E?R|LO?WW?E?R|TOP|BOTTOM)? ?C?O?\W?PI?L?O?T\'?S? (?:UPP?E?R|LO?WE?R|TOP|BOTTOM)?|(?:UPP?E?R|LO?WE?R|TOP|BOTTOM)? ?C\W?P\'?S? (?:UPP?E?R|LO?WE?R|TOP|BOTTOM)?|ALL 4|4 NEW",str(df.loc[i,checks[j]]))
 
                 # keep only alphabetical chars and comma separators to fix C-P, C/P etc.
-                parse = re.sub("[^\w,]","",str(parse))
-
+                parse = re.sub("[^\w,\d]","",str(parse))
                 parse = parse.replace('S','')
+                parse = parse.replace('OPI','PI')
                 parse = parse.replace('TOP','UPPER')
                 parse = parse.replace('BOTTOM','LOWER')
                 parse = parse.replace('LWR','LOWER')
+                parse = parse.replace('LOWWER','LOWER')
                 parse = parse.replace('UPR','UPPER')
                 parse = parse.replace('CPILOT','COPILOT')
                 parse = parse.replace('CPLT','COPILOT')
@@ -367,6 +363,8 @@ def EFI(df,libraries):
                 parse = parse.replace('CP','COPILOT_UPPER,COPILOT_LOWER')
                 parse = parse.replace('C_','COPILOT_')
                 parse = parse.replace('P_','PILOT_')
+                parse = parse.replace('ALL4','PILOT_UPPER,PILOT_LOWER,COPILOT_UPPER,COPILOT_LOWER')
+                parse = parse.replace('4NEW','PILOT_UPPER,PILOT_LOWER,COPILOT_UPPER,COPILOT_LOWER')
                 
                 # remove duplicates and sort
                 parse = parse.split(',')
@@ -375,6 +373,25 @@ def EFI(df,libraries):
 
                 # convert back to string to remove []
                 parse = ','.join(map(str, parse))
+#                 print(parse)
+                
+                if (parse == str('PILOT_LOWER,PILOT_UPPER') or parse == str('COPILOT_LOWER,COPILOT_UPPER')) and j <2:
+#                     print('check discrep')
+#                     print(parse)
+#                     print(j)
+                    parse2 = re.findall("(?:UPP?E?R|LO?WW?E?R|TOP|BOTTOM)",str(df.loc[i,checks[j+1]]))
+                    if parse2 != []:
+                        parse2 = re.sub("[^\w,]","",str(parse2))
+                        parse2 = parse2.replace('TOP','UPPER')
+                        parse2 = parse2.replace('BOTTOM','LOWER')
+                        parse2 = parse2.replace('LWR','LOWER')
+                        parse2 = parse2.replace('LOWWER','LOWER')
+                        parse2 = parse2.replace('UPR','UPPER')
+                        parse = parse.replace('COPILOT_LOWER,COPILOT_UPPER','CP')
+                        parse = parse.replace('PILOT_LOWER,PILOT_UPPER','PILOT_')
+                        parse = parse.replace('CP','COPILOT_')
+                        parse = parse+parse2
+                        
                 
             # save values into df
             df.loc[i,'Parsed_Component_Position']=parse
@@ -444,8 +461,8 @@ def engine_double(df,libraries):
                 
 
 # if no information is found in the narratives, search for A/B in narratives and copy in the provided 'Component_Position_Number'
-        if df.loc[i,'Parsed_Component_Position'] == str():
-            if df.loc[i,'Component_Position_Number'] != str(''):
+        if df.loc[i,'Parsed_Component_Position'] == str(''):
+            if df.loc[i,'Component_Position_Number'] != str('nan'):
 
                 j = 0
                 parse = []
@@ -461,18 +478,18 @@ def engine_double(df,libraries):
                     parse = parse.replace('AB',str('A,')+str(digit)+str('B'))
                     
                     # if empty, check next narrative
-                    if parse != str():
+                    if parse != str(''):
                         j = len(checks)
                         df.loc[i,'Parsed_Component_Position']=str(df.loc[i,'Component_Position_Number'])+str(parse)
                     else:
-                        j = j+1        
-
+                        j = j+1
     return df
 
 
 def BAD(df,libraries):
     pd = libraries['pandas']
     re = libraries['re']
+    
     # define fields to check
     checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
     
@@ -488,7 +505,7 @@ def BAD(df,libraries):
 
             # not included here - "ALL (insert number here)","ALL FOUR"
             parse = re.findall("(?<=[^COM])C?O?\W?PI?L?O?T|^C?O?\W?PI?L?O?T|C\W?P|\bP |^P |AUG|AFT CARGO|FWD CARGO|OBS|CENTER|AFT",str(df.loc[i,checks[j]]))
-
+            
             # keep only alphabetical chars and comma separators to fix C-P, C/P etc.
             parse = re.sub("[^\w,]","",str(parse))
             
@@ -529,7 +546,7 @@ def BAD(df,libraries):
                 
 
             # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
-        if df.loc[i,'Parsed_Component_Position'] == str():
+        if df.loc[i,'Parsed_Component_Position'] == str(''):
             df.loc[i,'Parsed_Component_Position'] = df.loc[i,'Component_Position_Number']
 
     return df
@@ -538,10 +555,9 @@ def BAD(df,libraries):
 def FQI(df,libraries):
     pd = libraries['pandas']
     re = libraries['re']
+    
     # define fields to check
     checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
-    
-    df['Parsed_Component_Position'] = df['Parsed_Component_Position'].astype(str)
 
     # for each entry, search fields for component position numbers 
     indexer = list(df.index.values)
@@ -622,7 +638,7 @@ def FQI(df,libraries):
                 
 
             # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
-        if df.loc[i,'Parsed_Component_Position'] == str():
+        if df.loc[i,'Parsed_Component_Position'] == str(''):
             df.loc[i,'Parsed_Component_Position'] = df.loc[i,'Component_Position_Number']
 
     return df
@@ -657,43 +673,43 @@ def label_picker(df_one_wuc,wuc_qpa,this_wuc,libraries):
             df_i = df_thisqpa.copy()
             
         elif qpa_i.Names=='1,2,3,4':
-            print('Filling with engine_reader')
+            # print('Filling with engine_reader')
             df_i = engine_reader(df_thisqpa,libraries)  
             
         elif qpa_i.Names=='copilot,nav':
-            print('Filling with cp_navplt')
+            # print('Filling with cp_navplt')
             df_i = cp_navplt(df_thisqpa,libraries)    
             
         elif qpa_i.Names=='pilot,copilot,nav':
-            print('Filling with plt_cp_nav')
+            # print('Filling with plt_cp_nav')
             df_i = pilot_cp_nav(df_thisqpa,libraries)   
             
         elif qpa_i.Names=='pilot,copilot':
-            print('Filling with cp_plt')
+            # print('Filling with cp_plt')
             df_i = cp_plt(df_thisqpa,libraries)
             
         elif qpa_i.Names=='1,2':
-            print('Filling with INU')
+            # print('Filling with INU')
             df_i = INU(df_thisqpa,libraries)
             
         elif qpa_i.Names=='pilot_upper,pilot_lower,copilot_upper,copilot_lower':
-            print('Filling with EFI')
+            # print('Filling with EFI')
             df_i = EFI(df_thisqpa,libraries)
             
         elif qpa_i.Names=='1A,1B,2A,2B,3A,3B,4A,4B':
-            print('Filling with engine_double')
+            # print('Filling with engine_double')
             df_i = engine_double(df_thisqpa,libraries)
             
         elif qpa_i.Names=='pilot,copilot,aug_crew,aft_center_console,aft_cargo,fwd_cargo,observer':
-            print('Filling with BAD')
+            # print('Filling with BAD')
             df_i = BAD(df_thisqpa,libraries)
             
         elif qpa_i.Names=='LH_AUX,RH_AUX,RH_EXT,LH_EXT,1,2,3,4':
-            print('Filling with FQI')
+            # print('Filling with FQI')
             df_i = FQI(df_thisqpa,libraries)
         
         else:
-            print('Filling with nothing')
+            # print('Filling with nothing')
             df_i = df_thisqpa
         
         # Add labels to df
