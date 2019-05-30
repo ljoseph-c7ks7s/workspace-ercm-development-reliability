@@ -22,7 +22,6 @@ def engine_reader(df,libraries):
 
     # define fields to check
     checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
-    df['Parsed_Component_Position'] = df['Parsed_Component_Position'].astype(str)
 
     # for each entry, search fields for component position numbers 
     indexer = list(df.index.values)
@@ -79,7 +78,6 @@ def cp_navplt(df,libraries):
 
     # define fields to check
     checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
-    df['Parsed_Component_Position'] = df['Parsed_Component_Position'].astype(str)
     
     # for each entry, search fields for component position numbers 
     indexer = list(df.index.values)
@@ -128,6 +126,11 @@ def cp_navplt(df,libraries):
             else:
                 j = j+1
 
+                # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
+        if df.loc[i,'Parsed_Component_Position']==str(''):
+            df.loc[i,'Parsed_Component_Position'] = df.loc[i,'Component_Position_Number']
+
+    return df
 
 def cp_plt(df,libraries):
     pd = libraries['pandas']
@@ -136,8 +139,6 @@ def cp_plt(df,libraries):
     # define fields to check
     checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
     
-    df['Parsed_Component_Position'] = df['Parsed_Component_Position'].astype(str)
-    df['Component_Position_Number'] = df['Component_Position_Number'].astype(str)
     # for each entry, search fields for component position numbers 
     indexer = list(df.index.values)
     for i in indexer:
@@ -198,8 +199,6 @@ def pilot_cp_nav(df,libraries):
     
     # define fields to check
     checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
-    
-    df['Parsed_Component_Position'] = df['Parsed_Component_Position'].astype(str)
 
     # for each entry, search fields for component position numbers 
     indexer = list(df.index.values)
@@ -261,7 +260,6 @@ def INU(df,libraries):
 
     # define fields to check
     checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
-    df['Parsed_Component_Position'] = df['Parsed_Component_Position'].astype(str)
 
     # for each entry, search fields for component position numbers 
     indexer = list(df.index.values)
@@ -320,8 +318,6 @@ def EFI(df,libraries):
     # define fields to check
     checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
     
-    df['Parsed_Component_Position'] = df['Parsed_Component_Position'].astype(str)
-    
     # for each entry, search fields for component position numbers 
     indexer = list(df.index.values)
     for i in indexer:
@@ -330,8 +326,8 @@ def EFI(df,libraries):
         while j < len(checks):
             
             if df.loc[i,'Action'] =='SW':
-                parse = str('0')
-                
+                parse = str('0')      
+            
             else:
                 parse = re.findall("(?:UPP?E?R|LO?WW?E?R|TOP|BOTTOM)? ?C?O?\W?PI?L?O?T\'?S? (?:UPP?E?R|LO?WE?R|TOP|BOTTOM)?|(?:UPP?E?R|LO?WE?R|TOP|BOTTOM)? ?C\W?P\'?S? (?:UPP?E?R|LO?WE?R|TOP|BOTTOM)?|ALL 4|4 NEW",str(df.loc[i,checks[j]]))
 
@@ -365,7 +361,7 @@ def EFI(df,libraries):
                 parse = parse.replace('P_','PILOT_')
                 parse = parse.replace('ALL4','PILOT_UPPER,PILOT_LOWER,COPILOT_UPPER,COPILOT_LOWER')
                 parse = parse.replace('4NEW','PILOT_UPPER,PILOT_LOWER,COPILOT_UPPER,COPILOT_LOWER')
-                
+
                 # remove duplicates and sort
                 parse = parse.split(',')
                 parse = list(set(parse))
@@ -373,12 +369,12 @@ def EFI(df,libraries):
 
                 # convert back to string to remove []
                 parse = ','.join(map(str, parse))
-#                 print(parse)
-                
+    #                 print(parse)
+
                 if (parse == str('PILOT_LOWER,PILOT_UPPER') or parse == str('COPILOT_LOWER,COPILOT_UPPER')) and j <2:
-#                     print('check discrep')
-#                     print(parse)
-#                     print(j)
+    #                     print('check discrep')
+    #                     print(parse)
+    #                     print(j)
                     parse2 = re.findall("(?:UPP?E?R|LO?WW?E?R|TOP|BOTTOM)",str(df.loc[i,checks[j+1]]))
                     if parse2 != []:
                         parse2 = re.sub("[^\w,]","",str(parse2))
@@ -391,7 +387,6 @@ def EFI(df,libraries):
                         parse = parse.replace('PILOT_LOWER,PILOT_UPPER','PILOT_')
                         parse = parse.replace('CP','COPILOT_')
                         parse = parse+parse2
-                        
                 
             # save values into df
             df.loc[i,'Parsed_Component_Position']=parse
@@ -416,7 +411,6 @@ def engine_double(df,libraries):
 
     # define fields to check
     checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
-    df['Parsed_Component_Position'] = df['Parsed_Component_Position'].astype(str)
     
     # for each entry, search fields for component position numbers 
     indexer = list(df.index.values)
@@ -483,6 +477,9 @@ def engine_double(df,libraries):
                         df.loc[i,'Parsed_Component_Position']=str(df.loc[i,'Component_Position_Number'])+str(parse)
                     else:
                         j = j+1
+# if still empty, fill with 0
+        if df.loc[i,'Parsed_Component_Position'] == str():
+            df.loc[i,'Parsed_Component_Position'] = '0'
     return df
 
 
@@ -492,8 +489,6 @@ def BAD(df,libraries):
     
     # define fields to check
     checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
-    
-    df['Parsed_Component_Position'] = df['Parsed_Component_Position'].astype(str)
 
     # for each entry, search fields for component position numbers 
     indexer = list(df.index.values)
@@ -661,16 +656,16 @@ def label_picker(df_one_wuc,wuc_qpa,this_wuc,libraries):
             df_thisqpa = df_one_wuc[(df_one_wuc.Serial_Number >= qpa_i.Minimum_SN_Inclusive) & (df_one_wuc.Serial_Number < qpa_i.Maximum_SN) & (df_one_wuc.Equipment_Designator == qpa_i.MDS)]
         else:
             # if MDS is blank, grab both J and H
-            if str(qpa_i.MDS)=='None':
+            if "C" not in str(qpa_i.MDS):
                 df_thisqpa = df_one_wuc[(df_one_wuc.Equipment_Designator == 'C130J') | (df_one_wuc.Equipment_Designator == 'C130H')]
             else:
                 df_thisqpa = df_one_wuc[df_one_wuc.Equipment_Designator == qpa_i.MDS]
-        df_thisqpa['Parsed_Component_Position'] = df_thisqpa['Parsed_Component_Position'].astype(str)
+        df_thisqpa.loc[:,'Parsed_Component_Position'] = df_thisqpa.loc[:,'Parsed_Component_Position'].astype(str)
 
         # Select labeling method based on Names from qpa
-        if qpa_i.Names=='1':
-            df_thisqpa['Parsed_Component_Position'] = '1'
-            df_i = df_thisqpa.copy()
+        if qpa_i.Names==str('1'):
+            df_thisqpa.loc[:,'Parsed_Component_Position'] = str('1')
+            df_i = df_thisqpa
             
         elif qpa_i.Names=='1,2,3,4':
             # print('Filling with engine_reader')
@@ -773,9 +768,9 @@ def fn(conn, libraries, params, predecessors):
     else:
         raise Exception, "Component should have one, two, or three predecessor components"
 
-    df['Parsed_Component_Position'] = ""
-    df['Parsed_Component_Position'] = df['Parsed_Component_Position'].astype(str)
-    df['Component_Position_Number'] = df['Component_Position_Number'].fillna(0.0).astype('int64').astype(str)  # no awful 0.0 strings
+    df.loc[:,'Parsed_Component_Position'] = ""
+    df.loc[:,'Parsed_Component_Position'] = df.loc[:,'Parsed_Component_Position'].astype(str)
+    df.loc[:,'Component_Position_Number'] = df.loc[:,'Component_Position_Number'].fillna(0.0).astype('int64').astype(str)  # no awful 0.0 strings
     
     if df_qpa.empty:
         # backwards compatability for KC135
@@ -795,10 +790,10 @@ def fn(conn, libraries, params, predecessors):
         df.update(df_one_wuc)
         print('WUC '+ str(this_wuc) + ' complete')
 
-    df['Parsed_Component_Position'] = df['Parsed_Component_Position'].astype(str)
+    df.loc[:,'Parsed_Component_Position'] = df.loc[:,'Parsed_Component_Position'].astype(str)
 
     # change all empty parsed positions to 0
-    # df['Parsed_Component_Position'] = df['Parsed_Component_Position'].map(lambda x: 0 if x=='' else x)
+    df.loc[:,'Parsed_Component_Position'] = df.loc[:,'Parsed_Component_Position'].map(lambda x: 0 if x=='' else x)
 
     # keep only needed columns to save memory
     keys.append('Parsed_Component_Position')
