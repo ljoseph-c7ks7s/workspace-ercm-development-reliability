@@ -70,8 +70,8 @@
         "label":"REMIS Data",
         "model":"6018bebc-4949-4ecc-9a4b-f233ad436242",
         "position":[
-            50,
-            40
+            60,
+            55
         ]
     },
     {
@@ -917,8 +917,8 @@
         "label":"PRP4127",
         "model":"0cb4b55f-6b15-4bc6-abd0-8d6b2a2159dc",
         "position":[
-            55,
-            170
+            40,
+            10
         ]
     },
     {
