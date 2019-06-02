@@ -47,13 +47,7 @@
     },
     {
         "source":"compiled_remis_data",
-        "target":"add_event_age",
-        "vertices":[
-            [
-                500,
-                175
-            ]
-        ]
+        "target":"add_event_age"
     },
     {
         "source":"add_event_age",
@@ -161,17 +155,7 @@
     },
     {
         "source":"ercm_wuc_list",
-        "target":"wuc_filter_raw_subset",
-        "vertices":[
-            [
-                395,
-                265
-            ],
-            [
-                395,
-                85
-            ]
-        ]
+        "target":"wuc_filter_raw_subset"
     },
     {
         "source":"compiled_remis_data",

@@ -134,8 +134,8 @@
         "label":"Sortie Accumulated Hours",
         "model":"debc7c2f-0456-44bc-9f4d-680ba5ea86a4",
         "position":[
-            510,
-            270
+            515,
+            280
         ]
     },
     {
@@ -708,8 +708,8 @@
         "label":"WUC Filter Raw Subset",
         "model":"ae7269f9-da60-4a5e-85ff-8531b250fe56",
         "position":[
-            460,
-            105
+            380,
+            180
         ]
     },
     {
