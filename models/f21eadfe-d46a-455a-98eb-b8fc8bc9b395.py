@@ -6,11 +6,8 @@ metadata = MetaData()
 
 part_position_parser = Table('part_position_parser', metadata, 
 
-    Column('On_Maint_Action_Key', Integer, primary_key=True, autoincrement=False),
+    Column('Work_Order_Number', BigInteger, primary_key=True, autoincrement=False),
     Column('Work_Center_Event_Identifier', Integer, primary_key=True, autoincrement=False),
     Column('Sequence_Number', BigInteger, primary_key=True, autoincrement=False),
-    Column('Off_Maint_Action_Key', Integer, primary_key=True, autoincrement=False),
-    Column('Work_Order_Number', BigInteger, primary_key=True, autoincrement=False),
-    Column('Depot_Maint_Action_Key', Integer, primary_key=True, autoincrement=False),
     Column('Parsed_Component_Position', String(45), primary_key=False, autoincrement=False)
 )

@@ -4,10 +4,12 @@ from sqlalchemy import MetaData, Table
 
 metadata = MetaData()
 
-labels_import = Table('labels_import', metadata, 
+labels_import_82lc0 = Table('labels_import_82lc0', metadata, 
 
     Column('__id', BigInteger, primary_key=True, autoincrement=True),
-    Column('File_Name', String(255), primary_key=False, autoincrement=False),
+    Column('Labels_File_Name', String(255), primary_key=False, autoincrement=False),
+    Column('Row_Number', Integer, primary_key=False, autoincrement=False),
+    Column('REMIS_File_Name', String(255), primary_key=False, autoincrement=False),
     Column('On_Maint_Action_Key', Integer, primary_key=False, autoincrement=False),
     Column('Work_Center_Event_Identifier', Integer, primary_key=False, autoincrement=False),
     Column('Sequence_Number', BigInteger, primary_key=False, autoincrement=False),
@@ -33,6 +35,9 @@ labels_import = Table('labels_import', metadata,
     Column('Discrepancy_Narrative', LONGTEXT, primary_key=False, autoincrement=False),
     Column('Work_Center_Event_Narrative', LONGTEXT, primary_key=False, autoincrement=False),
     Column('Corrective_Narrative', LONGTEXT, primary_key=False, autoincrement=False),
+    Column('Action', String(255), primary_key=False, autoincrement=False),
+    Column('Position', String(255), primary_key=False, autoincrement=False),
+    Column('Removal_Cause', String(255), primary_key=False, autoincrement=False),
     Column('Action', String(255), primary_key=False, autoincrement=False),
     Column('Position', String(255), primary_key=False, autoincrement=False),
     Column('Removal_Cause', String(255), primary_key=False, autoincrement=False),

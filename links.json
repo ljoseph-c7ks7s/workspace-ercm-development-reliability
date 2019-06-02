@@ -1,19 +1,7 @@
 [
     {
-        "source":"sortie_import_new",
-        "target":"sortie_merged"
-    },
-    {
-        "source":"sortie_import_old",
-        "target":"sortie_merged"
-    },
-    {
         "source":"remis_data",
         "target":"compiled_remis_data"
-    },
-    {
-        "source":"sortie_merged",
-        "target":"compiled_sortie_history_data"
     },
     {
         "source":"compiled_remis_data",
@@ -320,10 +308,6 @@
     {
         "source":"wuc_filter_raw_subset",
         "target":"label_atc"
-    },
-    {
-        "source":"label_atc",
-        "target":"split_r_and_multi_pos"
     },
     {
         "source":"condense_actions",
@@ -639,16 +623,130 @@
         "vertices":[
             [
                 550,
-                805
+                795
             ],
             [
-                685,
-                805
+                680,
+                795
             ]
         ]
     },
     {
         "source":"add_label_add_split_526dx",
         "target":"action_metrics_526dx"
+    },
+    {
+        "source":"labels_model",
+        "target":"labels_import_82lc0",
+        "vertices":[
+            [
+                365,
+                490
+            ],
+            [
+                215,
+                490
+            ],
+            [
+                215,
+                815
+            ]
+        ]
+    },
+    {
+        "source":"labels_import_82lc0",
+        "target":"oversample_82lc0"
+    },
+    {
+        "source":"oversample_82lc0",
+        "target":"fit_action_82lc0"
+    },
+    {
+        "source":"fit_action_82lc0",
+        "target":"add_label_add_split_82lc0"
+    },
+    {
+        "source":"oversample_82lc0",
+        "target":"add_label_add_split_82lc0",
+        "vertices":[
+            [
+                550,
+                795
+            ],
+            [
+                680,
+                795
+            ]
+        ]
+    },
+    {
+        "source":"add_label_add_split_82lc0",
+        "target":"action_metrics_82lc0"
+    },
+    {
+        "source":"compiled_remis_data",
+        "target":"remis_filter_82lc0",
+        "vertices":[
+            [
+                365,
+                490
+            ],
+            [
+                640,
+                490
+            ],
+            [
+                655,
+                530
+            ],
+            [
+                945,
+                530
+            ]
+        ]
+    },
+    {
+        "source":"remis_filter_82lc0",
+        "target":"label_82lc0_action"
+    },
+    {
+        "source":"fit_action_82lc0",
+        "target":"label_82lc0_action",
+        "vertices":[
+            [
+                700,
+                795
+            ],
+            [
+                1105,
+                795
+            ]
+        ]
+    },
+    {
+        "source":"prp4127",
+        "target":"remis_data",
+        "vertices":[
+            [
+                180,
+                50
+            ],
+            [
+                50,
+                50
+            ]
+        ]
+    },
+    {
+        "source":"label_82lc0_action",
+        "target":"labels_joined"
+    },
+    {
+        "source":"label_atc",
+        "target":"labels_joined"
+    },
+    {
+        "source":"labels_joined",
+        "target":"split_r_and_multi_pos"
     }
 ]

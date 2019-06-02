@@ -4,13 +4,12 @@ from sqlalchemy import MetaData, Table
 
 metadata = MetaData()
 
-label_atc = Table('label_atc', metadata, 
+sub_population_for_labeling = Table('sub_population_for_labeling', metadata, 
 
-    Column('On_Maint_Action_Key', Integer, primary_key=True, autoincrement=False),
+    Column('Work_Order_Number', BigInteger, primary_key=True, autoincrement=False),
     Column('Work_Center_Event_Identifier', Integer, primary_key=True, autoincrement=False),
     Column('Sequence_Number', BigInteger, primary_key=True, autoincrement=False),
-    Column('Off_Maint_Action_Key', Integer, primary_key=True, autoincrement=False),
-    Column('Work_Order_Number', BigInteger, primary_key=True, autoincrement=False),
-    Column('Depot_Maint_Action_Key', Integer, primary_key=True, autoincrement=False),
-    Column('Action', String(255), primary_key=False, autoincrement=False),
+    Column('Discrepancy_Narrative', LONGTEXT),
+    Column('Work_Center_Event_Narrative', LONGTEXT),
+    Column('Corrective_Narrative', LONGTEXT)
 )

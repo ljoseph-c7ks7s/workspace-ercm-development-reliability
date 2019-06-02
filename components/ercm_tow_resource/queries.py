@@ -25,4 +25,4 @@ CASE WHEN Action_Taken_Code = 'T' then 1
               WHEN Action_Taken_Code IN ('Q', 'U') then 3
               WHEN Action_Taken_Code = 'IU' then 4
 END, 
-Work_Order_Number, Sequence_Number, Work_Center_Event_Identifier, On_Maint_Action_Key, Off_Maint_Action_Key, Depot_Maint_Action_Key"""
+Work_Order_Number, Work_Center_Event_Identifier, Sequence_Number"""
