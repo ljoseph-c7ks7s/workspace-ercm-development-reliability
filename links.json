@@ -704,5 +704,9 @@
     {
         "source":"labels_joined",
         "target":"part_position_parser"
+    },
+    {
+        "source":"sortie_import",
+        "target":"compiled_sortie_history_data"
     }
 ]
