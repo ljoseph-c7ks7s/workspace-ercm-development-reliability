@@ -84,24 +84,6 @@
     },
     {
         "attrs":{
-            "additional_parameters":{
-                "level":"all"
-            },
-            "timeout":60
-        },
-        "class":"Python",
-        "custom_model":true,
-        "description":"Apply Work Unit Code edit rules",
-        "id":"wuc_edits",
-        "label":"WUC Edits",
-        "model":"184ad32a-a25b-4e56-bd17-1078f80aae4a",
-        "position":[
-            360,
-            160
-        ]
-    },
-    {
-        "attrs":{
             "delimiter":"tab"
         },
         "class":"CSV",
@@ -116,23 +98,6 @@
         ]
     },
     {
-        "attrs":{
-            "query_list":[
-                "SELECT wuc_max_count.Work_Unit_Code, max(wucs_w_duplicates_2.WUC_Narrative) WUC_Narrative, wuc_max_count.Count FROM (SELECT Work_Unit_Code, max(Count) Count FROM (SELECT Work_Unit_Code, WUC_Narrative, count(*) Count FROM compiled_remis_data GROUP BY  Work_Unit_Code, WUC_Narrative) wucs_w_duplicates GROUP BY  Work_Unit_Code) wuc_max_count JOIN (SELECT Work_Unit_Code, WUC_Narrative, count(*) Count FROM compiled_remis_data GROUP BY  Work_Unit_Code, WUC_Narrative) wucs_w_duplicates_2 ON wuc_max_count.Work_Unit_Code = wucs_w_duplicates_2.Work_Unit_Code and wuc_max_count.count = wucs_w_duplicates_2.count GROUP BY  Work_Unit_Code, Count ORDER BY  wuc_max_count.Work_Unit_Code"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"WUC to Narrative lookup, using the higher-count Narrative when there are multiple per WUC",
-        "id":"work_unit_code_narratives",
-        "label":"Work Unit Code Narratives",
-        "model":"23ff17e6-6308-4b3e-bfde-84a674a7280f",
-        "position":[
-            85,
-            115
-        ]
-    },
-    {
         "class":"Python",
         "custom_model":true,
         "description":"Run a python script.",
@@ -140,8 +105,8 @@
         "label":"Part Position Parser",
         "model":"f21eadfe-d46a-455a-98eb-b8fc8bc9b395",
         "position":[
-            615,
-            20
+            775,
+            15
         ]
     },
     {
@@ -152,8 +117,8 @@
         "label":"Split R and Multi POS",
         "model":"98437406-31ef-429a-a8cd-d8a1b3d11ce0",
         "position":[
-            845,
-            70
+            910,
+            80
         ]
     },
     {
@@ -184,8 +149,8 @@
         "label":"Add Event Age",
         "model":"fe45927a-354a-4a72-aa41-3a609f694151",
         "position":[
-            685,
-            160
+            785,
+            185
         ]
     },
     {
@@ -201,7 +166,7 @@
         "label":"Joined Data",
         "model":"a2acd8e8-0f7e-4f81-84c8-f90d430d60cc",
         "position":[
-            1025,
+            1040,
             130
         ]
     },
@@ -358,23 +323,6 @@
     },
     {
         "attrs":{
-            "query_list":[
-                "SELECT Work_Order_Number, Work_Center_Event_Identifier, Sequence_Number FROM remis_data WHERE work_unit_code not REGEXP '^0'"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Excision Rule 2: Delete all entries with WUCs that begin with 0. (Because we are performing a root cause analysis for each MX event, we are not interested in capturing the inspections themselves, only the resulting discrepancies captured during the inspection) (Run first to speed up processing)",
-        "id":"remove_general_support_wucs",
-        "label":"Remove General Support WUCs",
-        "model":"a49ad5eb-5ada-4b73-8eb4-75945890f3b6",
-        "position":[
-            215,
-            55
-        ]
-    },
-    {
-        "attrs":{
             "additional_r_parameters":{
                 "make_plots":false,
                 "min_interval_time":0.1,
@@ -406,8 +354,8 @@
         "label":"Last Sortie",
         "model":"77f11401-f6f5-4268-b547-f7a1b1aea338",
         "position":[
-            685,
-            195
+            785,
+            220
         ]
     },
     {
@@ -760,8 +708,8 @@
         "label":"WUC Filter Raw Subset",
         "model":"ae7269f9-da60-4a5e-85ff-8531b250fe56",
         "position":[
-            425,
-            70
+            460,
+            105
         ]
     },
     {
@@ -1125,10 +1073,10 @@
         "description":"Apply a deep learning model to a new set of data",
         "id":"label_atc",
         "label":"Label ATC",
-        "model":"29c1a605-726f-411a-b0f4-58c02688f5a1",
+        "model":"d71c75ee-26c2-461b-9031-271e1d62f905",
         "position":[
-            615,
-            70
+            960,
+            440
         ]
     },
     {
@@ -1685,7 +1633,7 @@
         "description":"Apply a deep learning model to a new set of data",
         "id":"label_82lc0_action",
         "label":"Label 82LC0 Action",
-        "model":"710346c8-569b-4b32-83a7-8cfa884a15b9",
+        "model":"16e116fa-98d5-42ba-b66b-478ac584c998",
         "position":[
             1130,
             800
@@ -1722,8 +1670,8 @@
         "label":"Labels Joined",
         "model":"5c883d98-6201-49e6-9f07-ccbc136cec70",
         "position":[
-            1275,
-            430
+            640,
+            80
         ]
     }
 ]

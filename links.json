@@ -12,24 +12,6 @@
         "target":"sortie_accumulated_hours"
     },
     {
-        "source":"compiled_remis_data",
-        "target":"work_unit_code_narratives",
-        "vertices":[
-            [
-                385,
-                100
-            ],
-            [
-                50,
-                100
-            ]
-        ]
-    },
-    {
-        "source":"work_unit_code_narratives",
-        "target":"wuc_edits"
-    },
-    {
         "source":"split_r_and_multi_pos",
         "target":"joined_data"
     },
@@ -50,24 +32,6 @@
     {
         "source":"stage_data_for_tow",
         "target":"calculate_tow"
-    },
-    {
-        "source":"remis_data",
-        "target":"remove_general_support_wucs"
-    },
-    {
-        "source":"remove_general_support_wucs",
-        "target":"wuc_edits"
-    },
-    {
-        "source":"compiled_remis_data",
-        "target":"wuc_edits",
-        "vertices":[
-            [
-                385,
-                100
-            ]
-        ]
     },
     {
         "source":"calculate_intervals",
@@ -233,10 +197,6 @@
     },
     {
         "source":"wuc_filter_raw_subset",
-        "target":"part_position_parser"
-    },
-    {
-        "source":"wuc_filter_raw_subset",
         "target":"add_event_age"
     },
     {
@@ -293,21 +253,17 @@
     },
     {
         "source":"fit_action_3",
-        "target":"label_atc",
-        "vertices":[
-            [
-                965,
-                455
-            ],
-            [
-                560,
-                155
-            ]
-        ]
+        "target":"label_atc"
     },
     {
         "source":"wuc_filter_raw_subset",
-        "target":"label_atc"
+        "target":"label_atc",
+        "vertices":[
+            [
+                685,
+                250
+            ]
+        ]
     },
     {
         "source":"condense_actions",
@@ -316,10 +272,6 @@
     {
         "source":"fit_cond_rem_model",
         "target":"action_metrics_condensed"
-    },
-    {
-        "source":"sort_rules_list",
-        "target":"wuc_edits"
     },
     {
         "source":"rules_list",
@@ -374,8 +326,8 @@
                 300
             ],
             [
-                860,
-                35
+                910,
+                45
             ],
             [
                 1195,
@@ -406,8 +358,8 @@
         "target":"current_part_ages",
         "vertices":[
             [
-                1030,
-                75
+                1070,
+                85
             ],
             [
                 1195,
@@ -739,14 +691,34 @@
     },
     {
         "source":"label_82lc0_action",
-        "target":"labels_joined"
+        "target":"labels_joined",
+        "vertices":[
+            [
+                1240,
+                470
+            ],
+            [
+                685,
+                250
+            ]
+        ]
     },
     {
         "source":"label_atc",
-        "target":"labels_joined"
+        "target":"labels_joined",
+        "vertices":[
+            [
+                685,
+                250
+            ]
+        ]
     },
     {
         "source":"labels_joined",
         "target":"split_r_and_multi_pos"
+    },
+    {
+        "source":"labels_joined",
+        "target":"part_position_parser"
     }
 ]

@@ -6,8 +6,8 @@ metadata = MetaData()
 
 labels_joined = Table('labels_joined', metadata, 
 
-    Column('Work_Order_Number', BigInteger, primary_key=False, autoincrement=False),
-    Column('Work_Center_Event_Identifier', Integer, primary_key=False, autoincrement=False),
-    Column('Sequence_Number', BigInteger, primary_key=False, autoincrement=False),
+    Column('Work_Order_Number', BigInteger, primary_key=True, autoincrement=False),
+    Column('Work_Center_Event_Identifier', Integer, primary_key=True, autoincrement=False),
+    Column('Sequence_Number', BigInteger, primary_key=True, autoincrement=False),
     Column('Action', String(255), primary_key=False, autoincrement=False),
 )
