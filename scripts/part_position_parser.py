@@ -759,6 +759,66 @@ def CCU(df,libraries):
     return df
 
 
+
+def apu(df,libraries):
+
+    pd = libraries["pandas"]
+    re = libraries["re"]
+
+    # define fields to check
+    checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
+
+    # for each entry, search fields for component position numbers 
+    indexer = list(df.index.values)
+    for i in indexer:
+        j = 0
+        parse = []
+        while j < len(checks):
+            
+            # not included here - "ALL (insert number here)","ALL FOUR"
+            parse = re.findall("(?:\# ?|NO\.? |NUMBER )\d+|\bALL FOUR\b|\bALL 4\b",str(df.loc[i,checks[j]]))
+            parseapu = re.findall("APU",str(df.loc[i,checks[j]]))
+            
+            # keep only numeric digits, APU, and comma separators
+            nums = re.sub("[^\d,]","",str(parse))
+            
+            # convert string into list of strings
+            split = [x for x in nums.split(',')]
+            
+            # remove empty strings from list
+            clean = filter(None, split)
+            
+            # convert list of strings into list of ints
+            ints = map(int, clean)
+            
+            # remove all values > 4, duplicates and sort
+            trim = [x for x in ints if x<5]
+            trim = list(set(trim))
+            trim.sort()
+            
+            # add APU back into label
+            parseapu = list(set(parseapu))
+            trim = map(str,trim)
+            trim=trim+parseapu
+            
+            # convert back to string to remove []
+            remove = ','.join(map(str, trim)).strip()
+
+            # save values into df
+            df.loc[i,'Parsed_Component_Position']=remove
+            # if empty, check next narrative
+            if ((any(x.isdigit() for x in remove)) | ('APU' in remove)):
+                j = len(checks)
+            else:
+                j = j+1
+                
+
+            # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
+        if df.loc[i,'Parsed_Component_Position']==str(''):
+            df.loc[i,'Parsed_Component_Position'] = df.loc[i,'Component_Position_Number']
+    return df
+
+
 def label_picker(df_one_wuc,wuc_qpa,this_wuc,libraries):
     """
     Determines which function to run in order to parse a given set of records. Returns updated dataframe with parsed positions
@@ -828,6 +888,9 @@ def label_picker(df_one_wuc,wuc_qpa,this_wuc,libraries):
 
         elif qpa_i.Names=='cursor_control,other':
             df_i = CCU(df_thisqpa,libraries)
+
+        elif qpa_i.Names=='1,2,3,4,apu':
+            df_i = apu(df_thisqpa,libraries)
         
         else:
             # print('Filling with nothing')
@@ -897,6 +960,7 @@ def fn(conn, libraries, params, predecessors):
     df.loc[:,'Parsed_Component_Position'] = ""
     df.loc[:,'Parsed_Component_Position'] = df.loc[:,'Parsed_Component_Position'].astype(str)
     df.loc[:,'Component_Position_Number'] = df.loc[:,'Component_Position_Number'].fillna(0.0).astype('int64').astype(str)  # no awful 0.0 strings
+    df_qpa.Alternate_WUC = df_qpa.Alternate_WUC.astype(str)
     
     if df_qpa.empty:
         # backwards compatability for KC135
@@ -907,11 +971,12 @@ def fn(conn, libraries, params, predecessors):
     df_qpa.Maximum_SN = df_qpa.Maximum_SN.fillna(0)
     df_qpa.Minimum_SN_Inclusive = df_qpa.Minimum_SN_Inclusive.fillna(0)
 
+
     # treat all WUCs differently
     for this_wuc in df.Work_Unit_Code.unique():
         
         df_one_wuc = df[df.Work_Unit_Code == this_wuc]
-        wuc_qpa = df_qpa[df_qpa.Work_Unit_Code == this_wuc]
+        wuc_qpa = df_qpa[(df_qpa.Work_Unit_Code == this_wuc) | [this_wuc in df_qpa.loc[x,'Alternate_WUC'] for x in range(0,len(df_qpa))]]
         df_one_wuc = label_picker(df_one_wuc,wuc_qpa,this_wuc,libraries)
         df.update(df_one_wuc)
         print('WUC '+ str(this_wuc) + ' complete')
