@@ -719,7 +719,7 @@ def CCU(df,libraries):
             
             # correct parsed labels
             parse = parse.replace('CUROSR','CURSOR')
-            parse = parse.replace('CURSOR','CURSOR ')            
+            parse = parse.replace('CURSOR','CURSOR_')            
             parse = parse.replace('CNTRL','CONTROL')
             parse = parse.replace('CNTL','CONTROL')
             parse = parse.replace('CNT','CONTROL')
@@ -826,7 +826,7 @@ def label_picker(df_one_wuc,wuc_qpa,this_wuc,libraries):
         elif qpa_i.Names=='1,2,3,4,5,6,7,8,9,10,11,12,13':
             df_i = ECBU(df_thisqpa,libraries)
 
-        elif qpa_i.Names=='cursor control,other':
+        elif qpa_i.Names=='cursor_control,other':
             df_i = CCU(df_thisqpa,libraries)
         
         else:
