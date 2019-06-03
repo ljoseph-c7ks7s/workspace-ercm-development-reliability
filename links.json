@@ -180,10 +180,6 @@
         ]
     },
     {
-        "source":"wuc_filter_raw_subset",
-        "target":"add_event_age"
-    },
-    {
         "source":"unlabeled_import_no_key",
         "target":"unlabeled_data_desc_no_key"
     },
@@ -706,7 +702,19 @@
         "target":"part_position_parser"
     },
     {
-        "source":"sortie_import",
+        "source":"labels_joined",
+        "target":"add_event_age"
+    },
+    {
+        "source":"sortie_merged",
         "target":"compiled_sortie_history_data"
+    },
+    {
+        "source":"sortie_import_new",
+        "target":"sortie_merged"
+    },
+    {
+        "source":"sortie_import_old",
+        "target":"sortie_merged"
     }
 ]

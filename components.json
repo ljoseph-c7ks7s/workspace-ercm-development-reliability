@@ -5,7 +5,7 @@
         "description":"Create a staged table in the database.",
         "id":"compiled_sortie_history_data",
         "label":"Compiled Sortie History Data",
-        "model":"959c0b3e-696e-4725-aca9-0c081acb69b0",
+        "model":"ad4eb76d-5b1c-478c-9574-e0440ea6936c",
         "position":[
             360,
             360
@@ -44,6 +44,32 @@
     {
         "attrs":{
             "column_conversion":{
+                "Command":"str(x).strip()",
+                "Depart Time":"'00:'+str(int(x)) if len(str(int(x)))==2 else '00:0' + str(int(x)) if len(str(int(x)))==1 else '0' + str(int(x))[0] + ':' + str(int(x))[1:] if len(str(int(x)))==3 else str(int(x))[0:2] + ':' + str(int(x))[2:]",
+                "Land Time":"'00:'+str(int(x)) if len(str(int(x)))==2 else '00:0' + str(int(x)) if len(str(int(x)))==1 else '0' + str(int(x))[0] + ':' + str(int(x))[1:] if len(str(int(x)))==3 else str(int(x))[0:2] + ':' + str(int(x))[2:]",
+                "MDS":"str(x).strip()",
+                "Serial Number":"('0'+str(x).replace('.0','') if len(str(x).replace('.0',''))==7 else str(x).replace('.0',''))[0:2]+'00'+('0'+str(x).replace('.0','') if len(str(x).replace('.0',''))==7 else str(x).replace('.0',''))[2:10]"
+            },
+            "date_formatter":{
+                "Depart_Date":"%Y%m %d",
+                "Land_Date":"%Y%m %d",
+                "Update_Date":"%Y%m %d"
+            }
+        },
+        "class":"Excel",
+        "custom_model":true,
+        "description":"Sortie History data import, first format",
+        "id":"sortie_import_new",
+        "label":"Sortie Import New",
+        "model":"ebbdb8d5-9400-4162-8fba-fc97e34d70c6",
+        "position":[
+            50,
+            380
+        ]
+    },
+    {
+        "attrs":{
+            "column_conversion":{
                 "Mission Design Series (e.g. F-16C)":"str(x).strip()",
                 "Serial Number":"str(x).strip()"
             },
@@ -73,13 +99,31 @@
         },
         "class":"Excel",
         "custom_model":true,
-        "description":"Sortie History data import, newer format",
-        "id":"sortie_import",
-        "label":"Sortie Import",
+        "description":"Sortie History data import, second format",
+        "id":"sortie_import_old",
+        "label":"Sortie Import Old",
         "model":"fbdc98ee-c271-4ae8-887e-24c89d42870a",
         "position":[
             50,
-            375
+            415
+        ]
+    },
+    {
+        "attrs":{
+            "query_list":[
+                "SELECT MDS, Serial_Number,  Mission_Number, Depart_ICAO, Depart_Date, Depart_Time, Land_ICAO, Land_Date, Land_Time, Flying_Hours, Sorties as Sorties_Flown, Total_Landings, Full_Stop_Landings FROM sortie_import_new",
+                "SELECT MDS, Serial_Number,  Mission_Number, Depart_ICAO, Depart_Date, Depart_Time, Land_ICAO, Land_Date, Land_Time, Flying_Hours, Sorties_Flown, Total_Landings, Full_Stop_Landings  FROM sortie_import_old"
+            ]
+        },
+        "class":"SQL",
+        "custom_model":true,
+        "description":"Run a set of SQL select queries on existing database tables.",
+        "id":"sortie_merged",
+        "label":"Sortie Merged",
+        "model":"a8228da4-e502-4564-b5ef-e246e798cdeb",
+        "position":[
+            195,
+            360
         ]
     },
     {
@@ -135,7 +179,7 @@
         "model":"debc7c2f-0456-44bc-9f4d-680ba5ea86a4",
         "position":[
             515,
-            280
+            275
         ]
     },
     {
@@ -149,8 +193,8 @@
         "label":"Add Event Age",
         "model":"fe45927a-354a-4a72-aa41-3a609f694151",
         "position":[
-            785,
-            185
+            790,
+            150
         ]
     },
     {
@@ -354,8 +398,8 @@
         "label":"Last Sortie",
         "model":"77f11401-f6f5-4268-b547-f7a1b1aea338",
         "position":[
-            785,
-            220
+            790,
+            185
         ]
     },
     {
@@ -1073,7 +1117,7 @@
         "description":"Apply a deep learning model to a new set of data",
         "id":"label_atc",
         "label":"Label ATC",
-        "model":"d71c75ee-26c2-461b-9031-271e1d62f905",
+        "model":"b32fca54-b1e2-49ff-bfd8-fd2b8ac0a1d2",
         "position":[
             960,
             440
