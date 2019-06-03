@@ -639,6 +639,62 @@ def FQI(df,libraries):
     return df
 
 
+def ECBU(df,libraries):
+    pd = libraries["pandas"]
+    re = libraries["re"]
+
+    # define fields to check
+    checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
+
+    # for each entry, search fields for component position numbers 
+    indexer = list(df.index.values)
+    for i in indexer:
+        j = 0
+        parse = []
+        while j < len(checks):
+            
+            # not included here - "ALL (insert number here)","ALL FOUR"
+            parse = re.findall("(?:\# ?|NO\.? |NUMBER |ECBU ?)\d+",str(df.loc[i,checks[j]]))
+            
+            # according to pavcon data, only SW entries can have multiple positions...VERIFY WITH REAL DATA
+            if df.loc[i,'Action'] != 'SW' and parse != []:
+                parse = parse[0]
+            
+            # keep only numeric digits and comma separators
+            nums = re.sub("[^\d,]","",str(parse))
+            
+            # convert string into list of strings
+            split = [x for x in nums.split(',')]
+            
+            # remove empty strings from list
+            clean = filter(None, split)
+            
+            # convert list of strings into list of ints
+            ints = map(int, clean)
+            
+            # remove all values > 4, duplicates and sort
+            trim = [x for x in ints if x<14]
+            trim = list(set(trim))
+            trim.sort()
+            
+            # convert back to string to remove []
+            remove = ','.join(map(str, trim))
+
+            # save values into df
+            df.loc[i,'Parsed_Component_Position']=remove
+            # if empty, check next narrative
+            if any(x.isdigit() for x in remove):
+                j = len(checks)
+            else:
+                j = j+1
+                
+
+            # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
+        if df.loc[i,'Parsed_Component_Position']==str(''):
+            df.loc[i,'Parsed_Component_Position'] = df.loc[i,'Component_Position_Number']
+    return df
+
+
 def label_picker(df_one_wuc,wuc_qpa,this_wuc,libraries):
     """
     Determines which function to run in order to parse a given set of records. Returns updated dataframe with parsed positions
@@ -702,6 +758,8 @@ def label_picker(df_one_wuc,wuc_qpa,this_wuc,libraries):
         elif qpa_i.Names=='LH_AUX,RH_AUX,RH_EXT,LH_EXT,1,2,3,4':
             # print('Filling with FQI')
             df_i = FQI(df_thisqpa,libraries)
+        elif qpa_i.Names=='1,2,3,4,5,6,7,8,9,10,11,12,13':
+            df_i = ECBU(df_thisqpa,libraries)
         
         else:
             # print('Filling with nothing')
@@ -755,7 +813,7 @@ def fn(conn, libraries, params, predecessors):
             join_clause = ['A.{} = B.{}'.format(ii,ii) for ii in keys]
             join_clause = ' AND '.join(join_clause)
 
-            df = pd.read_sql(con=conn, sql="""SELECT A.*, B.Serial_Number, B.Equipment_Designator, B.Work_Unit_Code, B.Discrepancy_Narrative, B.Work_Center_Event_Narrative, 
+            df = pd.read_sql(con=conn, sql="""SELECT A.*, B.Serial_Number, B.Equipment_Designator, B.Work_Unit_Code, B.Action_Taken_Code, B.Discrepancy_Narrative, B.Work_Center_Event_Narrative, 
                 B.Corrective_Narrative, B.Component_Position_Number FROM {} A 
                 LEFT JOIN {} B ON {}""".format(key_table_name, compiled_table_name, join_clause))
 
