@@ -46,7 +46,7 @@ Work_Unit_Code,Alternate_WUC,MDS,Minimum_SN_Inclusive,Maximum_SN,QPA,QPA_Descrip
 71GE0,,HC-130H,9200002104,,2,"Total: 1 to 2 depending on Aircraft    Airplanes modified by TO 1C-130-1486 are equipped with two INUs located in the electrical control and supply rack. DUAL INU airplanes   Dual INU airplanes: LC-130H AF92-1094 and up, HC-130(H)N AF92-2104 and up,  C-130H AF93-1036 and up. ",INU,"1,2"
 71GE0,,HC-130N,,9200002104,1,"Total: 1 to 2 depending on Aircraft    Airplanes modified by TO 1C-130-1486 are equipped with two INUs located in the electrical control and supply rack. DUAL INU airplanes   Dual INU airplanes: LC-130H AF92-1094 and up, HC-130(H)N AF92-2104 and up,  C-130H AF93-1036 and up. ",INU,1
 71GE0,,HC-130N,9200002104,,2,"Total: 1 to 2 depending on Aircraft    Airplanes modified by TO 1C-130-1486 are equipped with two INUs located in the electrical control and supply rack. DUAL INU airplanes   Dual INU airplanes: LC-130H AF92-1094 and up, HC-130(H)N AF92-2104 and up,  C-130H AF93-1036 and up. ",INU,"1,2"
-72K00,,C130J,,,1 and 2 ?,,UNKNOWN,
+72K00,,C130J,,,1 and 2 ?,,UNKNOWN,"cursor control,other"
 82LC0,,C130J,,,4,Total: 4 to 6 per Aircraft All C-130J: 4 Each on Main Instrument Panel EC-130J / WC-130J - 2 Additional CMDU on Augmented crew station ,Instrument Panel (HDD),"1,2,3,4"
 82LC0,,EC-130J,,,6,Total: 4 to 6 per Aircraft All C-130J: 4 Each on Main Instrument Panel EC-130J / WC-130J - 2 Additional CMDU on Augmented crew station ,Instrument Panel (HDD),"1,2,3,4,5,6"
 82LC0,,WC-130J,,,6,Total: 4 to 6 per Aircraft All C-130J: 4 Each on Main Instrument Panel EC-130J / WC-130J - 2 Additional CMDU on Augmented crew station ,Instrument Panel (HDD),"1,2,3,4,5,6"
