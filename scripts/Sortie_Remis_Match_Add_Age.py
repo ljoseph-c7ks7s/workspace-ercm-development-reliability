@@ -24,10 +24,12 @@ def fn(conn, libraries, params, predecessors):
     primary_key_fields_list = list(pd.read_sql(sql="SHOW KEYS FROM {}".format(filter_table), con=conn).Column_name)
     join_clause = ['remis.{} = filters.{}'.format(ii,ii) for ii in primary_key_fields_list]
     join_clause = ' AND '.join(join_clause)
+    select_clause = ['filters.{}'.format(ii) for ii in primary_key_fields_list]
+    select_clause = ', '.join(select_clause)
     # convert transaction date to datetime
-    remis_query = """SELECT filters.*, remis.Serial_Number, DATE_FORMAT(
+    remis_query = """SELECT {}, remis.Serial_Number, DATE_FORMAT(
         CONCAT(transaction_date, " ", LEFT(LPAD(start_time, 4, '0'), 2), ":", RIGHT(LPAD(start_time, 4, '0'),2), ":00"), "%%Y-%%m-%%d %%T"
-        ) Transaction_Date FROM {} remis JOIN {} filters ON {}""".format(remis_table, filter_table, join_clause)
+        ) Transaction_Date FROM {} remis JOIN {} filters ON {}""".format(select_clause, remis_table, filter_table, join_clause)
 
     df_remis = pd.read_sql(con=conn,sql=remis_query, parse_dates=["Transaction_Date"])
     df_sortie = pd.read_sql(con=conn,sql="""SELECT Serial_Number, Depart_Date, Flying_Hours, 
