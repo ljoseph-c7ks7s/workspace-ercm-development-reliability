@@ -695,6 +695,70 @@ def ECBU(df,libraries):
     return df
 
 
+def CCU(df,libraries):
+    pd = libraries["pandas"]
+    re = libraries["re"]
+
+    # define fields to check
+    checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
+    
+    # for each entry, search fields for component position numbers 
+    indexer = list(df.index.values)
+    for i in indexer:
+#     for i in range (0,len(df)):
+        j = 0
+        parse = []
+        while j < len(checks):
+
+            # not included here - "ALL (insert number here)","ALL FOUR"
+            parse = re.findall("\d+A\d+|(?:CURSOR|CUROSR) CO?NTR?O?L? PA?NE?L|RTP",str(df.loc[i,checks[j]]))
+            
+            # keep only alphabetical chars and comma separators to fix C-P, C/P etc.
+            parse = re.sub("[^\w,]","",str(parse))
+            parse = re.sub("[\d]","",str(parse))
+            
+            # correct parsed labels
+            parse = parse.replace('CUROSR','CURSOR')
+            parse = parse.replace('CURSOR','CURSOR ')            
+            parse = parse.replace('CNTRL','CONTROL')
+            parse = parse.replace('CNTL','CONTROL')
+            parse = parse.replace('CNT','CONTROL')
+            parse = parse.replace('CNTR','CONTROL')
+            parse = parse.replace('CONTRL','CONTROL')
+            parse = parse.replace('CNTROL','CONTROL')
+            parse = parse.replace('PANEL','')
+            parse = parse.replace('PNL','')
+            parse = parse.replace('PANL','')
+            parse = parse.replace('PNEL','')
+            parse = parse.replace('RTP','OTHER')
+            parse = parse.replace('A','OTHER')
+            
+            # remove duplicates and sort
+#             parse = parse.strip()
+            parse = parse.split(',')
+            parse = list(set(parse))
+            parse.sort()
+            
+            # convert back to string to remove []
+            parse = ','.join(map(str, parse))
+
+            # save values into df
+            df.loc[i,'Parsed_Component_Position']=parse
+
+            # if empty, check next narrative
+            if df.loc[i,'Parsed_Component_Position'] != "":
+                j = len(checks)
+            else:
+                j = j+1
+                
+
+            # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
+        if df.loc[i,'Parsed_Component_Position']==str(''):
+            df.loc[i,'Parsed_Component_Position'] = df.loc[i,'Component_Position_Number']
+
+    return df
+
+
 def label_picker(df_one_wuc,wuc_qpa,this_wuc,libraries):
     """
     Determines which function to run in order to parse a given set of records. Returns updated dataframe with parsed positions
@@ -758,8 +822,12 @@ def label_picker(df_one_wuc,wuc_qpa,this_wuc,libraries):
         elif qpa_i.Names=='LH_AUX,RH_AUX,RH_EXT,LH_EXT,1,2,3,4':
             # print('Filling with FQI')
             df_i = FQI(df_thisqpa,libraries)
+
         elif qpa_i.Names=='1,2,3,4,5,6,7,8,9,10,11,12,13':
             df_i = ECBU(df_thisqpa,libraries)
+
+        elif qpa_i.Names=='cursor control,other':
+            df_i = CCU(df_thisqpa,libraries)
         
         else:
             # print('Filling with nothing')
