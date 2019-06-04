@@ -831,16 +831,20 @@ def label_picker(df_one_wuc,wuc_qpa,this_wuc,libraries):
         if qpa_i.Maximum_SN > 0:
             # filter by SN range & MDS
             df_thisqpa = df_one_wuc[(df_one_wuc.Serial_Number >= qpa_i.Minimum_SN_Inclusive) & (df_one_wuc.Serial_Number < qpa_i.Maximum_SN) & (df_one_wuc.Equipment_Designator == qpa_i.MDS)]
+        
         else:
             # if MDS is blank, grab both J and H
             if "C" not in str(qpa_i.MDS):
                 df_thisqpa = df_one_wuc[(df_one_wuc.Equipment_Designator == 'C130J') | (df_one_wuc.Equipment_Designator == 'C130H')]
+            
             else:
                 df_thisqpa = df_one_wuc[df_one_wuc.Equipment_Designator == qpa_i.MDS]
+        
         df_thisqpa.loc[:,'Parsed_Component_Position'] = df_thisqpa.loc[:,'Parsed_Component_Position'].astype(str)
 
         # Select labeling method based on Names from qpa
         if qpa_i.Names==str('1'):
+
             df_thisqpa.loc[:,'Parsed_Component_Position'] = str('1')
             df_i = df_thisqpa
             
