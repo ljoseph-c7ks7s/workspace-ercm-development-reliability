@@ -13,14 +13,11 @@ Args:
 """
 
 def engine_reader(df,libraries):
-    """ 
-        used for work unit codes with QPA=4, 1 per engine
-    """
 
     pd = libraries["pandas"]
     re = libraries["re"]
 
-    # define fields to check
+    # define fields to check. Use j to iterate through this list
     checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
 
     # for each entry, search fields for component position numbers 
@@ -30,7 +27,7 @@ def engine_reader(df,libraries):
         parse = []
         while j < len(checks):
             
-            # not included here - "ALL (insert number here)","ALL FOUR"
+            # search narratives for given patterns
             parse = re.findall("(?:\# ?|NO\.? |NUMBER )\d+|\bALL FOUR\b|\bALL 4\b|HDD ?\d+",str(df.loc[i,checks[j]]))
             
             # replace 'ALL' matches with numbers
@@ -73,21 +70,21 @@ def engine_reader(df,libraries):
 
 
 def cp_navplt(df,libraries):
+
     pd = libraries["pandas"]
     re = libraries["re"]
 
-    # define fields to check
+    # define fields to check. Use j to iterate through this list.
     checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
     
     # for each entry, search fields for component position numbers 
     indexer = list(df.index.values)
     for i in indexer:
-#     for i in range (0,len(df)):
         j = 0
         parse = []
         while j < len(checks):
 
-            # not included here - "ALL (insert number here)","ALL FOUR"
+            # search narratives for given patterns
             parse = re.findall("C?O?\W?PI?L?O?T|C\W?P|NAV",str(df.loc[i,checks[j]]))
             
             # keep only alphabetical chars and comma separators to fix C-P, C/P etc.
@@ -109,7 +106,7 @@ def cp_navplt(df,libraries):
             parse = parse.replace('CP','COPILOT')
             
             # remove duplicates and sort
-#             parse = parse.strip()
+            parse = parse.strip()
             parse = parse.split(',')
             parse = list(set(parse))
             parse.sort()
@@ -133,10 +130,11 @@ def cp_navplt(df,libraries):
     return df
 
 def cp_plt(df,libraries):
+
     pd = libraries['pandas']
     re = libraries['re']
 
-    # define fields to check
+    # define fields to check. Use j to iterate through this list.
     checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
     
     # for each entry, search fields for component position numbers 
@@ -147,7 +145,7 @@ def cp_plt(df,libraries):
         parse = []
         while j < len(checks):
 
-            # not included here - "ALL (insert number here)","ALL FOUR"
+            # search narratives for given patterns
             parse = re.findall("C?O?\W?PI?L?O?T|C\W?P",str(df.loc[i,checks[j]]))
             
             # keep only alphabetical chars and comma separators to fix C-P, C/P etc.
@@ -194,10 +192,11 @@ def cp_plt(df,libraries):
 
 
 def pilot_cp_nav(df,libraries):
+
     pd = libraries['pandas']
     re = libraries['re']
     
-    # define fields to check
+    # define fields to check. Use j to iterate through this list.
     checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
 
     # for each entry, search fields for component position numbers 
@@ -208,7 +207,7 @@ def pilot_cp_nav(df,libraries):
         parse = []
         while j < len(checks):
 
-            # not included here - "ALL (insert number here)","ALL FOUR"
+            # search narratives for given patterns
             parse = re.findall("C?O?\W?PI?L?O?T|C\W?P|NAV",str(df.loc[i,checks[j]]))
             
             # keep only alphabetical chars and comma separators to fix C-P, C/P etc.
@@ -258,7 +257,7 @@ def INU(df,libraries):
     pd = libraries['pandas']
     re = libraries['re']
 
-    # define fields to check
+    # define fields to check. Use j to iterate through this list
     checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
 
     # for each entry, search fields for component position numbers 
@@ -268,7 +267,7 @@ def INU(df,libraries):
         parse = []
         while j < len(checks):
             
-            
+            # search narratives for given patterns
             parse = re.findall("\#\d+|\# \d+|NO. \d+|NUMBER \d+|1 AND 2|1 \& 2|\#!",str(df.loc[i,checks[j]]))
             
             # replace 'ALL' matches with numbers
@@ -315,7 +314,7 @@ def EFI(df,libraries):
     pd = libraries['pandas']
     re = libraries['re']
 
-    # define fields to check
+    # define fields to check. Use j to iterate through this list
     checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
     
     # for each entry, search fields for component position numbers 
@@ -329,6 +328,7 @@ def EFI(df,libraries):
                 parse = str('0')      
             
             else:
+                # search narratives for given patterns
                 parse = re.findall("(?:UPP?E?R|LO?WW?E?R|TOP|BOTTOM)? ?C?O?\W?PI?L?O?T\'?S? (?:UPP?E?R|LO?WE?R|TOP|BOTTOM)?|(?:UPP?E?R|LO?WE?R|TOP|BOTTOM)? ?C\W?P\'?S? (?:UPP?E?R|LO?WE?R|TOP|BOTTOM)?|ALL 4|4 NEW",str(df.loc[i,checks[j]]))
 
                 # keep only alphabetical chars and comma separators to fix C-P, C/P etc.
@@ -369,12 +369,8 @@ def EFI(df,libraries):
 
                 # convert back to string to remove []
                 parse = ','.join(map(str, parse))
-    #                 print(parse)
 
                 if (parse == str('PILOT_LOWER,PILOT_UPPER') or parse == str('COPILOT_LOWER,COPILOT_UPPER')) and j <2:
-    #                     print('check discrep')
-    #                     print(parse)
-    #                     print(j)
                     parse2 = re.findall("(?:UPP?E?R|LO?WW?E?R|TOP|BOTTOM)",str(df.loc[i,checks[j+1]]))
                     if parse2 != []:
                         parse2 = re.sub("[^\w,]","",str(parse2))
@@ -409,7 +405,7 @@ def engine_double(df,libraries):
     pd = libraries['pandas']
     re = libraries['re']
 
-    # define fields to check
+    # define fields to check. Use j to iterate through this list
     checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
     
     # for each entry, search fields for component position numbers 
@@ -419,7 +415,7 @@ def engine_double(df,libraries):
         parse = []
         while j < len(checks):
             
-            # not included here - "ALL (insert number here)","ALL FOUR"
+            # search narratives for given patterns
             parse = re.findall("\#?\W?\d\W?[AB]\W?B?|[^R]\d(?: ENG)?(?:INE)?(?: FADEC)? ?[AB]\W?B?",str(df.loc[i,checks[j]]))
 
             # keep only alphanumeric and comma separators
@@ -487,7 +483,7 @@ def BAD(df,libraries):
     pd = libraries['pandas']
     re = libraries['re']
     
-    # define fields to check
+    # define fields to check. Use j to iterate through this list
     checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
 
     # for each entry, search fields for component position numbers 
@@ -498,7 +494,7 @@ def BAD(df,libraries):
         parse = []
         while j < len(checks):
 
-            # not included here - "ALL (insert number here)","ALL FOUR"
+            # search narratives for given patterns
             parse = re.findall("(?<=[^COM])C?O?\W?PI?L?O?T|^C?O?\W?PI?L?O?T|C\W?P|\bP |^P |AUG|AFT CARGO|FWD CARGO|OBS|CENTER|AFT",str(df.loc[i,checks[j]]))
             
             # keep only alphabetical chars and comma separators to fix C-P, C/P etc.
@@ -551,7 +547,7 @@ def FQI(df,libraries):
     pd = libraries['pandas']
     re = libraries['re']
     
-    # define fields to check
+    # define fields to check. Use j to iterate through this list
     checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
 
     # for each entry, search fields for component position numbers 
@@ -562,7 +558,7 @@ def FQI(df,libraries):
         parse = []
         while j < len(checks):
 
-            # not included here - "ALL (insert number here)","ALL FOUR"
+            # search narratives for given patterns
             parse = re.findall("(?:RH|RT|RIGHT|LT|LH|LEFT|LFT|RGT) (?:HAND )?(?:AUX|EXT)",str(df.loc[i,checks[j]]))
             parse = re.findall("(?:R\/?H|RT|RIGHT|LT|L\/?H|LEFT|LFT|RGT|R|L)\.? (?:HAND )?(?:AUX|EXT)",str(df.loc[i,checks[j]]))
             parsenum = re.findall("(?:\# ?|NO\.? |NUMBER )\d+",str(df.loc[i,checks[j]]))
@@ -643,7 +639,7 @@ def ECBU(df,libraries):
     pd = libraries["pandas"]
     re = libraries["re"]
 
-    # define fields to check
+    # define fields to check. Use j to iterate through this list
     checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
 
     # for each entry, search fields for component position numbers 
@@ -653,7 +649,7 @@ def ECBU(df,libraries):
         parse = []
         while j < len(checks):
             
-            # not included here - "ALL (insert number here)","ALL FOUR"
+            # search narratives for given patterns
             parse = re.findall("(?:\# ?|NO\.? |NUMBER |ECBU ?)\d+",str(df.loc[i,checks[j]]))
             
             # according to pavcon data, only SW entries can have multiple positions...VERIFY WITH REAL DATA
@@ -699,7 +695,7 @@ def CCU(df,libraries):
     pd = libraries["pandas"]
     re = libraries["re"]
 
-    # define fields to check
+    # define fields to check. Use j to iterate through this list
     checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
     
     # for each entry, search fields for component position numbers 
@@ -710,7 +706,7 @@ def CCU(df,libraries):
         parse = []
         while j < len(checks):
 
-            # not included here - "ALL (insert number here)","ALL FOUR"
+            # search narratives for given patterns
             parse = re.findall("\d+A\d+|(?:CURSOR|CUROSR) CO?NTR?O?L? PA?NE?L|RTP",str(df.loc[i,checks[j]]))
             
             # keep only alphabetical chars and comma separators to fix C-P, C/P etc.
@@ -760,12 +756,12 @@ def CCU(df,libraries):
 
 
 
-def apu(df,libraries):
+def APU(df,libraries):
 
     pd = libraries["pandas"]
     re = libraries["re"]
 
-    # define fields to check
+    # define fields to check. Use j to iterate through this list
     checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
 
     # for each entry, search fields for component position numbers 
@@ -775,7 +771,7 @@ def apu(df,libraries):
         parse = []
         while j < len(checks):
             
-            # not included here - "ALL (insert number here)","ALL FOUR"
+            # search narratives for given patterns
             parse = re.findall("(?:\# ?|NO\.? |NUMBER )\d+|\bALL FOUR\b|\bALL 4\b",str(df.loc[i,checks[j]]))
             parseapu = re.findall("APU",str(df.loc[i,checks[j]]))
             
@@ -833,6 +829,7 @@ def label_picker(df_one_wuc,wuc_qpa,this_wuc,libraries):
 
         # if labels vary by SN, filter to one set at a time
         if qpa_i.Maximum_SN > 0:
+            # filter by SN range & MDS
             df_thisqpa = df_one_wuc[(df_one_wuc.Serial_Number >= qpa_i.Minimum_SN_Inclusive) & (df_one_wuc.Serial_Number < qpa_i.Maximum_SN) & (df_one_wuc.Equipment_Designator == qpa_i.MDS)]
         else:
             # if MDS is blank, grab both J and H
@@ -884,16 +881,19 @@ def label_picker(df_one_wuc,wuc_qpa,this_wuc,libraries):
             df_i = FQI(df_thisqpa,libraries)
 
         elif qpa_i.Names=='1,2,3,4,5,6,7,8,9,10,11,12,13':
+            # print('Filling with ECBU')
             df_i = ECBU(df_thisqpa,libraries)
 
         elif qpa_i.Names=='cursor_control,other':
+            # print('Filling with CCU')
             df_i = CCU(df_thisqpa,libraries)
 
         elif qpa_i.Names=='1,2,3,4,apu':
-            df_i = apu(df_thisqpa,libraries)
+            # print('Filling with APU')
+            df_i = APU(df_thisqpa,libraries)
         
         else:
-            # print('Filling with nothing')
+            # print('Scheme not found. Position left unparsed')
             df_i = df_thisqpa
         
         # Add labels to df
@@ -957,10 +957,11 @@ def fn(conn, libraries, params, predecessors):
     else:
         raise Exception, "Component should have one, two, or three predecessor components"
 
+    # standardize columns
     df.loc[:,'Parsed_Component_Position'] = ""
     df.loc[:,'Parsed_Component_Position'] = df.loc[:,'Parsed_Component_Position'].astype(str)
     df.loc[:,'Component_Position_Number'] = df.loc[:,'Component_Position_Number'].fillna(0.0).astype('int64').astype(str)  # no awful 0.0 strings
-    df_qpa.Alternate_WUC = df_qpa.Alternate_WUC.astype(str)
+    
     
     if df_qpa.empty:
         # backwards compatability for KC135
@@ -968,11 +969,13 @@ def fn(conn, libraries, params, predecessors):
         keys.append('Parsed_Component_Position')
         return df[keys]
     
+    # standardize columns
     df_qpa.Maximum_SN = df_qpa.Maximum_SN.fillna(0)
     df_qpa.Minimum_SN_Inclusive = df_qpa.Minimum_SN_Inclusive.fillna(0)
+    df_qpa.Alternate_WUC = df_qpa.Alternate_WUC.astype(str)
 
 
-    # treat all WUCs differently
+    # treat all WUCs differently by running the label picker for each wuc
     for this_wuc in df.Work_Unit_Code.unique():
         
         df_one_wuc = df[df.Work_Unit_Code == this_wuc]
