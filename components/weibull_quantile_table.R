@@ -54,7 +54,7 @@ fn <- function(conn_rmysql, load_path, params_path, component_path, output_file)
     
     single_fit <- flexsurvreg(df_for_fits ~ 1, dist=dist_type)
       
-    
+    print(distribution_id)
     print(single_fit)
     
     # Calculate time/TOW confidence intervals for each quantile - horizontal CIs

@@ -4,7 +4,7 @@ from sqlalchemy import MetaData, Table
 
 metadata = MetaData()
 
-labels_import_82lc0 = Table('labels_import_82lc0', metadata, 
+labels_import_41315 = Table('labels_import_41315', metadata, 
 
     Column('__id', BigInteger, primary_key=True, autoincrement=True),
     Column('Labels_File_Name', String(255), primary_key=False, autoincrement=False),

@@ -4,18 +4,20 @@ from sqlalchemy import MetaData, Table
 
 metadata = MetaData()
 
-labeled_multiclass_removal_id = Table('labeled_multiclass_removal_id', metadata, 
+labels_import_22rbc = Table('labels_import_22rbc', metadata, 
 
     Column('__id', BigInteger, primary_key=True, autoincrement=True),
-    Column('File_Name', String(255), primary_key=False, autoincrement=False),
-    Column('On_Maint_Action_Key', Integer, primary_key=True, autoincrement=False),
-    Column('Work_Center_Event_Identifier', Integer, primary_key=True, autoincrement=False),
-    Column('Sequence_Number', BigInteger, primary_key=True, autoincrement=False),
-    Column('Off_Maint_Action_Key', Integer, primary_key=True, autoincrement=False),
-    Column('Work_Order_Number', BigInteger, primary_key=True, autoincrement=False),
-    Column('Depot_Maint_Action_Key', Integer, primary_key=True, autoincrement=False),
-    Column('Serial_Number', String(255), primary_key=False, autoincrement=False),
+    Column('Labels_File_Name', String(255), primary_key=False, autoincrement=False),
+    Column('Row_Number', Integer, primary_key=False, autoincrement=False),
+    Column('REMIS_File_Name', String(255), primary_key=False, autoincrement=False),
+    Column('On_Maint_Action_Key', Integer, primary_key=False, autoincrement=False),
+    Column('Work_Center_Event_Identifier', Integer, primary_key=False, autoincrement=False),
+    Column('Sequence_Number', BigInteger, primary_key=False, autoincrement=False),
+    Column('Off_Maint_Action_Key', Integer, primary_key=False, autoincrement=False),
+    Column('Work_Order_Number', BigInteger, primary_key=False, autoincrement=False),
+    Column('Depot_Maint_Action_Key', Integer, primary_key=False, autoincrement=False),
     Column('Equipment_Designator', String(255), primary_key=False, autoincrement=False),
+    Column('Serial_Number', String(255), primary_key=False, autoincrement=False),
     Column('Job_Control_Number', String(255), primary_key=False, autoincrement=False),
     Column('Work_Unit_Code', String(255), primary_key=False, autoincrement=False),
     Column('Transaction_Date', Date, primary_key=False, autoincrement=False),
@@ -36,5 +38,4 @@ labeled_multiclass_removal_id = Table('labeled_multiclass_removal_id', metadata,
     Column('Action', String(255), primary_key=False, autoincrement=False),
     Column('Position', String(255), primary_key=False, autoincrement=False),
     Column('Removal_Cause', String(255), primary_key=False, autoincrement=False),
-    Column('train_test', String(255), primary_key=False, autoincrement=False)
 )

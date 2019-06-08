@@ -4,9 +4,9 @@ from sqlalchemy import MetaData, Table
 
 metadata = MetaData()
 
-labels_import_526dx = Table('labels_import_526dx', metadata, 
+labeled_multiclass_removal_id = Table('labeled_multiclass_removal_id', metadata, 
 
-    Column('__id', BigInteger, primary_key=True, autoincrement=True),
+    Column('__id', BigInteger, primary_key=True, autoincrement=False),
     Column('Labels_File_Name', String(255), primary_key=False, autoincrement=False),
     Column('Row_Number', Integer, primary_key=False, autoincrement=False),
     Column('REMIS_File_Name', String(255), primary_key=False, autoincrement=False),
@@ -38,7 +38,5 @@ labels_import_526dx = Table('labels_import_526dx', metadata,
     Column('Action', String(255), primary_key=False, autoincrement=False),
     Column('Position', String(255), primary_key=False, autoincrement=False),
     Column('Removal_Cause', String(255), primary_key=False, autoincrement=False),
-    Column('Action', String(255), primary_key=False, autoincrement=False),
-    Column('Position', String(255), primary_key=False, autoincrement=False),
-    Column('Removal_Cause', String(255), primary_key=False, autoincrement=False),
+    Column('train_test', String(255), primary_key=False, autoincrement=False)
 )
