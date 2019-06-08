@@ -852,7 +852,7 @@
         "description":"Save sets of labels to validate uploaded hand-labeled events against",
         "id":"labels_import",
         "label":"Labels Import",
-        "model":"439dd0b7-7c2a-4104-834d-881d75886c0f",
+        "model":"7731a24d-a481-420c-8b49-26b0aa6132c6",
         "position":[
             370,
             445
@@ -1529,7 +1529,7 @@
         "label":"Resample 526DX",
         "model":"5d3dceef-c3bf-42c3-8550-f0f891a68b82",
         "position":[
-            400,
+            230,
             760
         ]
     },
@@ -1550,7 +1550,7 @@
         "label":"Fit Action 526DX",
         "model":"deeplearningclassifier",
         "position":[
-            550,
+            365,
             760
         ]
     },
@@ -1590,53 +1590,6 @@
     },
     {
         "attrs":{
-            "labels":{
-                "Action":[
-                    "O",
-                    "R",
-                    "P",
-                    "Q",
-                    "T",
-                    "U",
-                    "SW"
-                ],
-                "Position":[
-                    "",
-                    "1",
-                    "1,2",
-                    "1,3",
-                    "1,4",
-                    "0",
-                    "2",
-                    "2,3",
-                    "2,4",
-                    "3",
-                    "3,4",
-                    "4",
-                    "1,2,3",
-                    "1,3,4",
-                    "2,3,4",
-                    "1,2,3,4"
-                ],
-                "Removal_Cause":[
-                    "",
-                    "TCTO"
-                ]
-            }
-        },
-        "class":"EventLabelGenerator",
-        "custom_model":true,
-        "description":"Save sets of labels to validate uploaded hand-labeled events against",
-        "id":"labels_import_82lc0",
-        "label":"Labels Import 82LC0",
-        "model":"fdc0c91a-77e3-48e5-9995-ae4b86660d0a",
-        "position":[
-            250,
-            800
-        ]
-    },
-    {
-        "attrs":{
             "label":"Action",
             "number_epochs":50,
             "target_columns":[
@@ -1652,7 +1605,7 @@
         "label":"Fit Action 82LC0",
         "model":"deeplearningclassifier",
         "position":[
-            550,
+            365,
             800
         ]
     },
@@ -1668,7 +1621,8 @@
                 "label_name":"Action",
                 "max_majority_fraction_of_next_highest":1.6,
                 "min_minority_fraction_of_most_common":0.15,
-                "test_ratio":0.25
+                "test_ratio":0.25,
+                "col_filter_value": "82LC0"
             }
         },
         "class":"Python",
@@ -1678,7 +1632,7 @@
         "label":"Resample 82LC0",
         "model":"a1c1ff09-c4b0-409a-afbe-a2e44a8a2973",
         "position":[
-            400,
+            230,
             800
         ]
     },
@@ -1688,7 +1642,8 @@
                 "SELECT labels.Row_Number id, labels.Labels_File_Name, REMIS_File_Name, 'HDD_82LC0' as Model_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, labels.Discrepancy_Narrative, labels.Work_Center_Event_Narrative, labels.Corrective_Narrative, labels.train_test, labels.action label, pr.prediction, if(labels.action=pr.prediction,'True','False') as matches FROM (SELECT DISTINCT Row_Number, Labels_File_Name, REMIS_File_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, action, train_test, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM resample_82lc0) labels JOIN (SELECT DISTINCT replace(target, 'None', '') target, prediction FROM deeplearningclassifier WHERE component_name LIKE '%action_82L%') pr ON concat(coalesce(labels.Discrepancy_Narrative, ''), ' ', coalesce(labels.Work_Center_Event_Narrative, ''), ' ', coalesce(labels.Corrective_Narrative, '')) = pr.target",
                 "SELECT labels.Row_Number id, labels.Labels_File_Name, REMIS_File_Name, 'Starter_22xAA' as Model_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, labels.Discrepancy_Narrative, labels.Work_Center_Event_Narrative, labels.Corrective_Narrative, labels.train_test, labels.action label, pr.prediction, if(labels.action=pr.prediction, 'True','False') AS matches FROM (SELECT DISTINCT Row_Number, Labels_File_Name, REMIS_File_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, action, train_test, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM resample_starter) labels JOIN (SELECT DISTINCT replace(target, 'None', '') target, prediction FROM deeplearningclassifier WHERE component_name LIKE '%action_starter%') pr ON concat(coalesce(labels.Discrepancy_Narrative, ''), ' ', coalesce(labels.Work_Center_Event_Narrative, ''), ' ', coalesce(labels.Corrective_Narrative, '')) = pr.target",
                 "SELECT labels.Row_Number id, labels.Labels_File_Name, REMIS_File_Name, 'ICS_64BAD' as Model_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, labels.Discrepancy_Narrative, labels.Work_Center_Event_Narrative, labels.Corrective_Narrative, labels.train_test, labels.action label, pr.prediction, if(labels.action=pr.prediction, 'True','False') AS matches FROM (SELECT DISTINCT Row_Number, Labels_File_Name, REMIS_File_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, action, train_test, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM resample_64bad) labels JOIN (SELECT DISTINCT replace(target, 'None', '') target, prediction FROM deeplearningclassifier WHERE component_name LIKE '%action_64bad%') pr ON concat(coalesce(labels.Discrepancy_Narrative, ''), ' ', coalesce(labels.Work_Center_Event_Narrative, ''), ' ', coalesce(labels.Corrective_Narrative, '')) = pr.target",
-                "SELECT labels.Row_Number id, labels.Labels_File_Name, REMIS_File_Name, 'FADEC_22RBC' as Model_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, labels.Discrepancy_Narrative, labels.Work_Center_Event_Narrative, labels.Corrective_Narrative, labels.train_test, labels.action label, pr.prediction, if(labels.action=pr.prediction, 'True','False') AS matches FROM (SELECT DISTINCT Row_Number, Labels_File_Name, REMIS_File_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, action, train_test, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM resample_22rbc) labels JOIN (SELECT DISTINCT replace(target, 'None', '') target, prediction FROM deeplearningclassifier WHERE component_name LIKE '%action_22rbc%') pr ON concat(coalesce(labels.Discrepancy_Narrative, ''), ' ', coalesce(labels.Work_Center_Event_Narrative, ''), ' ', coalesce(labels.Corrective_Narrative, '')) = pr.target"
+                "SELECT labels.Row_Number id, labels.Labels_File_Name, REMIS_File_Name, 'FADEC_22RBC' as Model_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, labels.Discrepancy_Narrative, labels.Work_Center_Event_Narrative, labels.Corrective_Narrative, labels.train_test, labels.action label, pr.prediction, if(labels.action=pr.prediction, 'True','False') AS matches FROM (SELECT DISTINCT Row_Number, Labels_File_Name, REMIS_File_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, action, train_test, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM resample_22rbc) labels JOIN (SELECT DISTINCT replace(target, 'None', '') target, prediction FROM deeplearningclassifier WHERE component_name LIKE '%action_22rbc%') pr ON concat(coalesce(labels.Discrepancy_Narrative, ''), ' ', coalesce(labels.Work_Center_Event_Narrative, ''), ' ', coalesce(labels.Corrective_Narrative, '')) = pr.target",
+                "SELECT labels.Row_Number id, labels.Labels_File_Name, REMIS_File_Name, 'HydPump_453AS' as Model_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, labels.Discrepancy_Narrative, labels.Work_Center_Event_Narrative, labels.Corrective_Narrative, labels.train_test, labels.action label, pr.prediction, if(labels.action=pr.prediction, 'True','False') AS matches FROM (SELECT DISTINCT Row_Number, Labels_File_Name, REMIS_File_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, action, train_test, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM resample_453as) labels JOIN (SELECT DISTINCT replace(target, 'None', '') target, prediction FROM deeplearningclassifier WHERE component_name LIKE '%action_453as%') pr ON concat(coalesce(labels.Discrepancy_Narrative, ''), ' ', coalesce(labels.Work_Center_Event_Narrative, ''), ' ', coalesce(labels.Corrective_Narrative, '')) = pr.target"
             ]
         },
         "class":"SQL",
@@ -1773,69 +1728,19 @@
     },
     {
         "attrs":{
-            "labels":{
-                "Action":[
-                    "O",
-                    "R",
-                    "P",
-                    "Q",
-                    "T",
-                    "U",
-                    "SW"
-                ],
-                "Position":[
-                    "",
-                    "1A",
-                    "1B",
-                    "2A",
-                    "2B",
-                    "0",
-                    "3A",
-                    "3B",
-                    "4A",
-                    "4B",
-                    "3B,4B",
-                    "4A,4B",
-                    "2A,2B",
-                    "1A,4A",
-                    "3A,3B",
-                    "1A,2A",
-                    "3A,4A",
-                    "1A,1B",
-                    "0,2A",
-                    "1"
-                ],
-                "Removal_Cause":[
-                    "",
-                    "TCTO"
-                ]
-            }
-        },
-        "class":"EventLabelGenerator",
-        "custom_model":true,
-        "description":"Save sets of labels to validate uploaded hand-labeled events against",
-        "id":"labels_import_22rbc",
-        "label":"Labels Import 22RBC",
-        "model":"af7984d4-42d0-4867-ae1c-7793d470fced",
-        "position":[
-            250,
-            835
-        ]
-    },
-    {
-        "attrs":{
             "additional_parameters":{
-                "class_swaps":{
-                    "P":"R",
-                    "Q":"R",
-                    "T":"TU",
-                    "U":"TU"
-                },
-                "label_name":"Action",
-                "max_majority_fraction_of_next_highest":1.6,
-                "min_minority_fraction_of_most_common":0.15,
-                "test_ratio":0.25
-            }
+  "class_swaps": {
+    "P": "R",
+    "Q": "R",
+    "T": "TU",
+    "U": "TU"
+  },
+  "label_name": "Action",
+  "max_majority_fraction_of_next_highest": 2.2,
+  "min_minority_fraction_of_most_common": 0.15,
+  "test_ratio": 0.25,
+  "col_filter_value": {"Work_Unit_Code": "22RBC"}
+}
         },
         "class":"Python",
         "custom_model":true,
@@ -1844,7 +1749,7 @@
         "label":"Resample 22RBC",
         "model":"c4e223b6-defc-48dc-8421-2ed369d65a1b",
         "position":[
-            400,
+            230,
             835
         ]
     },
@@ -1865,47 +1770,8 @@
         "label":"Fit Action 22RBC",
         "model":"deeplearningclassifier",
         "position":[
-            550,
+            365,
             835
-        ]
-    },
-    {
-        "attrs":{
-            "labels":{
-                "Action":[
-                    "O",
-                    "R",
-                    "P",
-                    "Q",
-                    "T",
-                    "U",
-                    "SW"
-                ],
-                "Position":[
-                    "",
-                    "FWD_CARGO",
-                    "AUG_CREW",
-                    "COPILOT",
-                    "PILOT",
-                    "0",
-                    "AFT_CARGO",
-                    "AFT_CENTER_CONSOLE"
-                ],
-                "Removal_Cause":[
-                    "",
-                    "TCTO"
-                ]
-            }
-        },
-        "class":"EventLabelGenerator",
-        "custom_model":true,
-        "description":"Save sets of labels to validate uploaded hand-labeled events against",
-        "id":"labels_import_64bad",
-        "label":"Labels Import 64BAD",
-        "model":"3f1cc607-661a-4641-9179-82588c4de450",
-        "position":[
-            250,
-            875
         ]
     },
     {
@@ -1920,7 +1786,11 @@
                 "label_name":"Action",
                 "max_majority_fraction_of_next_highest":1.6,
                 "min_minority_fraction_of_most_common":0.15,
-                "test_ratio":0.25
+                "test_ratio":0.25,
+  "col_filter_value": {
+    "Work_Unit_Code": 
+      "64BAD"
+  }
             }
         },
         "class":"Python",
@@ -1930,77 +1800,30 @@
         "label":"Resample 64BAD",
         "model":"62631d2a-870f-4fbe-914d-34529f335bfe",
         "position":[
-            400,
+            230,
             875
         ]
     },
     {
         "attrs":{
-            "labels":{
-                "Action":[
-                    "O",
-                    "R",
-                    "P",
-                    "Q",
-                    "T",
-                    "U",
-                    "SW"
-                ],
-                "Position":[
-                    "",
-                    "1",
-                    "1,2",
-                    "1,3",
-                    "1,4",
-                    "0",
-                    "2",
-                    "2,3",
-                    "2,4",
-                    "3",
-                    "3,4",
-                    "4",
-                    "1,2,3",
-                    "1,3,4",
-                    "2,3,4",
-                    "1,2,3,4"
-                ],
-                "Removal_Cause":[
-                    "",
-                    "MX"
-                ]
-            }
-        },
-        "class":"EventLabelGenerator",
-        "custom_model":true,
-        "description":"Save sets of labels to validate uploaded hand-labeled events against",
-        "id":"labels_import_starter",
-        "label":"Labels Import Starter",
-        "model":"26d0ac43-eb6a-4ae4-9c56-56de4c4324e5",
-        "position":[
-            250,
-            910
-        ]
-    },
-    {
-        "attrs":{
             "additional_parameters":{
-                "class_swaps":{
-                    "P":"R",
-                    "Q":"R",
-                    "T":"TU",
-                    "U":"TU"
-                },
-                "col_filter_value":{
-                    "Work_Unit_Code":[
-                        "22YAA",
-                        "22FAA"
-                    ]
-                },
-                "label_name":"Action",
-                "max_majority_fraction_of_next_highest":1.6,
-                "min_minority_fraction_of_most_common":0.15,
-                "test_ratio":0.25
-            }
+  "class_swaps": {
+    "P": "R",
+    "Q": "R",
+    "T": "TU",
+    "U": "TU"
+  },
+  "label_name": "Action",
+  "max_majority_fraction_of_next_highest": 2.2,
+  "min_minority_fraction_of_most_common": 0.15,
+  "test_ratio": 0.25,
+  "col_filter_value": {
+    "Work_Unit_Code": [
+      "22YAA",
+      "22FAA"
+    ]
+  }
+}
         },
         "class":"Python",
         "custom_model":true,
@@ -2009,7 +1832,7 @@
         "label":"Resample Starter",
         "model":"157d7487-ee73-4d34-bc74-508021adf892",
         "position":[
-            400,
+            230,
             910
         ]
     },
@@ -2030,7 +1853,7 @@
         "label":"Fit Action Starter",
         "model":"deeplearningclassifier",
         "position":[
-            550,
+            365,
             910
         ]
     },
@@ -2051,7 +1874,7 @@
         "label":"Fit Action 64BAD",
         "model":"deeplearningclassifier",
         "position":[
-            550,
+            365,
             875
         ]
     },
@@ -2075,12 +1898,12 @@
     {
         "attrs":{
             "query_list":[
-  "SELECT labels.Row_Number id, labels.Labels_File_Name, REMIS_File_Name, 'PrsSftVlv_41322' as Model_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, labels.Discrepancy_Narrative, labels.Work_Center_Event_Narrative, labels.Corrective_Narrative, labels.train_test, labels.action label, pr.prediction, if(labels.action=pr.prediction,'True','False') as matches FROM (SELECT DISTINCT Row_Number, Labels_File_Name, REMIS_File_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, action, train_test, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM resample_41322) labels JOIN (SELECT DISTINCT replace(target, 'None', '') target, prediction FROM deeplearningclassifier WHERE component_name LIKE '%action_41322%') pr ON concat(coalesce(labels.Discrepancy_Narrative, ''), ' ', coalesce(labels.Work_Center_Event_Narrative, ''), ' ', coalesce(labels.Corrective_Narrative, '')) = pr.target",
-  "SELECT labels.Row_Number id, labels.Labels_File_Name, REMIS_File_Name, 'PrsCtrl_41311' as Model_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, labels.Discrepancy_Narrative, labels.Work_Center_Event_Narrative, labels.Corrective_Narrative, labels.train_test, labels.action label, pr.prediction, if(labels.action=pr.prediction, 'True','False') AS matches FROM (SELECT DISTINCT Row_Number, Labels_File_Name, REMIS_File_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, action, train_test, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM resample_41311) labels JOIN (SELECT DISTINCT replace(target, 'None', '') target, prediction FROM deeplearningclassifier WHERE component_name LIKE '%action_41311%') pr ON concat(coalesce(labels.Discrepancy_Narrative, ''), ' ', coalesce(labels.Work_Center_Event_Narrative, ''), ' ', coalesce(labels.Corrective_Narrative, '')) = pr.target",
-  "SELECT labels.Row_Number id, labels.Labels_File_Name, REMIS_File_Name, 'PrsOflVlv_41321' as Model_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, labels.Discrepancy_Narrative, labels.Work_Center_Event_Narrative, labels.Corrective_Narrative, labels.train_test, labels.action label, pr.prediction, if(labels.action=pr.prediction, 'True','False') AS matches FROM (SELECT DISTINCT Row_Number, Labels_File_Name, REMIS_File_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, action, train_test, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM resample_41321) labels JOIN (SELECT DISTINCT replace(target, 'None', '') target, prediction FROM deeplearningclassifier WHERE component_name LIKE '%action_41321%') pr ON concat(coalesce(labels.Discrepancy_Narrative, ''), ' ', coalesce(labels.Work_Center_Event_Narrative, ''), ' ', coalesce(labels.Corrective_Narrative, '')) = pr.target",
-  "SELECT labels.Row_Number id, labels.Labels_File_Name, REMIS_File_Name, 'PrsSftVlvFlt_41325' as Model_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, labels.Discrepancy_Narrative, labels.Work_Center_Event_Narrative, labels.Corrective_Narrative, labels.train_test, labels.action label, pr.prediction, if(labels.action=pr.prediction, 'True','False') AS matches FROM (SELECT DISTINCT Row_Number, Labels_File_Name, REMIS_File_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, action, train_test, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM resample_41325) labels JOIN (SELECT DISTINCT replace(target, 'None', '') target, prediction FROM deeplearningclassifier WHERE component_name LIKE '%action_41325%') pr ON concat(coalesce(labels.Discrepancy_Narrative, ''), ' ', coalesce(labels.Work_Center_Event_Narrative, ''), ' ', coalesce(labels.Corrective_Narrative, '')) = pr.target",
-  "SELECT labels.Row_Number id, labels.Labels_File_Name, REMIS_File_Name, 'PrsOflVlvFlt_41315' as Model_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, labels.Discrepancy_Narrative, labels.Work_Center_Event_Narrative, labels.Corrective_Narrative, labels.train_test, labels.action label, pr.prediction, if(labels.action=pr.prediction, 'True','False') AS matches FROM (SELECT DISTINCT Row_Number, Labels_File_Name, REMIS_File_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, action, train_test, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM resample_41315) labels JOIN (SELECT DISTINCT replace(target, 'None', '') target, prediction FROM deeplearningclassifier WHERE component_name LIKE '%action_41315%') pr ON concat(coalesce(labels.Discrepancy_Narrative, ''), ' ', coalesce(labels.Work_Center_Event_Narrative, ''), ' ', coalesce(labels.Corrective_Narrative, '')) = pr.target"
-]
+                "SELECT labels.Row_Number id, labels.Labels_File_Name, REMIS_File_Name, 'PrsSftVlv_41322' as Model_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, labels.Discrepancy_Narrative, labels.Work_Center_Event_Narrative, labels.Corrective_Narrative, labels.train_test, labels.action label, pr.prediction, if(labels.action=pr.prediction,'True','False') as matches FROM (SELECT DISTINCT Row_Number, Labels_File_Name, REMIS_File_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, action, train_test, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM resample_41322) labels JOIN (SELECT DISTINCT replace(target, 'None', '') target, prediction FROM deeplearningclassifier WHERE component_name LIKE '%action_41322%') pr ON concat(coalesce(labels.Discrepancy_Narrative, ''), ' ', coalesce(labels.Work_Center_Event_Narrative, ''), ' ', coalesce(labels.Corrective_Narrative, '')) = pr.target",
+                "SELECT labels.Row_Number id, labels.Labels_File_Name, REMIS_File_Name, 'PrsCtrl_41311' as Model_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, labels.Discrepancy_Narrative, labels.Work_Center_Event_Narrative, labels.Corrective_Narrative, labels.train_test, labels.action label, pr.prediction, if(labels.action=pr.prediction, 'True','False') AS matches FROM (SELECT DISTINCT Row_Number, Labels_File_Name, REMIS_File_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, action, train_test, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM resample_41311) labels JOIN (SELECT DISTINCT replace(target, 'None', '') target, prediction FROM deeplearningclassifier WHERE component_name LIKE '%action_41311%') pr ON concat(coalesce(labels.Discrepancy_Narrative, ''), ' ', coalesce(labels.Work_Center_Event_Narrative, ''), ' ', coalesce(labels.Corrective_Narrative, '')) = pr.target",
+                "SELECT labels.Row_Number id, labels.Labels_File_Name, REMIS_File_Name, 'PrsOflVlv_41321' as Model_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, labels.Discrepancy_Narrative, labels.Work_Center_Event_Narrative, labels.Corrective_Narrative, labels.train_test, labels.action label, pr.prediction, if(labels.action=pr.prediction, 'True','False') AS matches FROM (SELECT DISTINCT Row_Number, Labels_File_Name, REMIS_File_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, action, train_test, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM resample_41321) labels JOIN (SELECT DISTINCT replace(target, 'None', '') target, prediction FROM deeplearningclassifier WHERE component_name LIKE '%action_41321%') pr ON concat(coalesce(labels.Discrepancy_Narrative, ''), ' ', coalesce(labels.Work_Center_Event_Narrative, ''), ' ', coalesce(labels.Corrective_Narrative, '')) = pr.target",
+                "SELECT labels.Row_Number id, labels.Labels_File_Name, REMIS_File_Name, 'PrsSftVlvFlt_41325' as Model_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, labels.Discrepancy_Narrative, labels.Work_Center_Event_Narrative, labels.Corrective_Narrative, labels.train_test, labels.action label, pr.prediction, if(labels.action=pr.prediction, 'True','False') AS matches FROM (SELECT DISTINCT Row_Number, Labels_File_Name, REMIS_File_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, action, train_test, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM resample_41325) labels JOIN (SELECT DISTINCT replace(target, 'None', '') target, prediction FROM deeplearningclassifier WHERE component_name LIKE '%action_41325%') pr ON concat(coalesce(labels.Discrepancy_Narrative, ''), ' ', coalesce(labels.Work_Center_Event_Narrative, ''), ' ', coalesce(labels.Corrective_Narrative, '')) = pr.target",
+                "SELECT labels.Row_Number id, labels.Labels_File_Name, REMIS_File_Name, 'PrsOflVlvFlt_41315' as Model_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, labels.Discrepancy_Narrative, labels.Work_Center_Event_Narrative, labels.Corrective_Narrative, labels.train_test, labels.action label, pr.prediction, if(labels.action=pr.prediction, 'True','False') AS matches FROM (SELECT DISTINCT Row_Number, Labels_File_Name, REMIS_File_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, action, train_test, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM resample_41315) labels JOIN (SELECT DISTINCT replace(target, 'None', '') target, prediction FROM deeplearningclassifier WHERE component_name LIKE '%action_41315%') pr ON concat(coalesce(labels.Discrepancy_Narrative, ''), ' ', coalesce(labels.Work_Center_Event_Narrative, ''), ' ', coalesce(labels.Corrective_Narrative, '')) = pr.target"
+            ]
         },
         "class":"SQL",
         "custom_model":true,
@@ -2302,7 +2125,8 @@
                 "label_name":"Action",
                 "max_majority_fraction_of_next_highest":1.6,
                 "min_minority_fraction_of_most_common":0.15,
-                "test_ratio":0.25
+                "test_ratio":0.25,
+                "col_filter_value": {"Work_Unit_Code": "41322"}
             }
         },
         "class":"Python",
@@ -2356,6 +2180,56 @@
         "position":[
             370,
             610
+        ]
+    },
+    {
+        "attrs":{
+            "additional_parameters":{
+  "class_swaps": {
+    "P": "R",
+    "Q": "R",
+    "T": "TU",
+    "U": "TU"
+  },
+  "label_name": "Action",
+  "max_majority_fraction_of_next_highest": 2.2,
+  "min_minority_fraction_of_most_common": 0.15,
+  "test_ratio": 0.25,
+  "col_filter_value": {
+    "Work_Unit_Code": "453AS"
+  }
+}
+        },
+        "class":"Python",
+        "custom_model":true,
+        "description":"Randomly sample from minority classes (those fewer records than the most-common class) to get an even quantity of labeled data per class for training a model.",
+        "id":"resample_453as",
+        "label":"Resample 453AS",
+        "model":"3a8ec2ca-dc64-4d9c-811d-77bb49301843",
+        "position":[
+            230,
+            945
+        ]
+    },
+    {
+        "attrs":{
+            "label":"Action",
+            "number_epochs":50,
+            "target_columns":[
+                "Discrepancy_Narrative",
+                "Work_Center_Event_Narrative",
+                "Corrective_Narrative"
+            ]
+        },
+        "class":"DeepLearningClassifier",
+        "custom_model":true,
+        "description":"Uses a stacked deep learning method to train a model for classifying text.",
+        "id":"fit_action_453as",
+        "label":"Fit Action 453AS",
+        "model":"deeplearningclassifier",
+        "position":[
+            365,
+            945
         ]
     }
 ]
