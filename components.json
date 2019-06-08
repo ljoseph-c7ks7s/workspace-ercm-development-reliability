@@ -142,6 +142,9 @@
         ]
     },
     {
+        "attrs":{
+            "timeout":100
+        },
         "class":"Python",
         "custom_model":true,
         "description":"Run a python script.",
@@ -400,23 +403,6 @@
         "position":[
             790,
             185
-        ]
-    },
-    {
-        "attrs":{
-            "query_list":[
-                "SELECT equipment_designator mds, year(transaction_date) year, count(*) count FROM compiled_remis_data GROUP BY equipment_designator, year(transaction_date)"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Run a set of SQL select queries on existing database tables.",
-        "id":"what_data",
-        "label":"what data",
-        "model":"504ed54c-5d03-4c82-bbbe-8d3ccaf99e74",
-        "position":[
-            50,
-            640
         ]
     },
     {
@@ -1077,23 +1063,6 @@
         ]
     },
     {
-        "attrs":{
-            "query_list":[
-                "SELECT DISTINCT File_Name FROM compiled_remis_data"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Run a set of SQL select queries on existing database tables.",
-        "id":"data_files",
-        "label":"Data Files",
-        "model":"0bf5e4e4-6354-4290-9747-7355bda0fe99",
-        "position":[
-            50,
-            675
-        ]
-    },
-    {
         "class":"CSV",
         "custom_model":true,
         "description":"Import data that is contained in a delimited text file.",
@@ -1250,10 +1219,10 @@
         "description":"Apply a deep learning model to a new set of data",
         "id":"label_41322_action",
         "label":"Label 41322 Action",
-        "model":"4e8627d3-d22e-42ee-b7e8-af4dcd9e276c",
+        "model":"cd5d3e42-cbb4-445f-a004-419081a3ac3b",
         "position":[
-            960,
-            440
+            845,
+            445
         ]
     },
     {
@@ -1618,11 +1587,11 @@
                     "T":"TU",
                     "U":"TU"
                 },
+                "col_filter_value":"82LC0",
                 "label_name":"Action",
                 "max_majority_fraction_of_next_highest":1.6,
                 "min_minority_fraction_of_most_common":0.15,
-                "test_ratio":0.25,
-                "col_filter_value": "82LC0"
+                "test_ratio":0.25
             }
         },
         "class":"Python",
@@ -1711,8 +1680,12 @@
     {
         "attrs":{
             "query_list":[
-                "SELECT * FROM label_atc",
-                "SELECT * FROM label_82lc0_action"
+                "SELECT * FROM label_41322_action",
+                "SELECT * FROM label_82lc0_action",
+                "SELECT * FROM label_453as_action",
+                "SELECT * FROM label_starter_action",
+                "SELECT * FROM label_64bad_action",
+                "SELECT * FROM label_22rbc_action"
             ]
         },
         "class":"SQL",
@@ -1729,18 +1702,20 @@
     {
         "attrs":{
             "additional_parameters":{
-  "class_swaps": {
-    "P": "R",
-    "Q": "R",
-    "T": "TU",
-    "U": "TU"
-  },
-  "label_name": "Action",
-  "max_majority_fraction_of_next_highest": 2.2,
-  "min_minority_fraction_of_most_common": 0.15,
-  "test_ratio": 0.25,
-  "col_filter_value": {"Work_Unit_Code": "22RBC"}
-}
+                "class_swaps":{
+                    "P":"R",
+                    "Q":"R",
+                    "T":"TU",
+                    "U":"TU"
+                },
+                "col_filter_value":{
+                    "Work_Unit_Code":"22RBC"
+                },
+                "label_name":"Action",
+                "max_majority_fraction_of_next_highest":2.2,
+                "min_minority_fraction_of_most_common":0.15,
+                "test_ratio":0.25
+            }
         },
         "class":"Python",
         "custom_model":true,
@@ -1783,14 +1758,13 @@
                     "T":"TU",
                     "U":"TU"
                 },
+                "col_filter_value":{
+                    "Work_Unit_Code":"64BAD"
+                },
                 "label_name":"Action",
                 "max_majority_fraction_of_next_highest":1.6,
                 "min_minority_fraction_of_most_common":0.15,
-                "test_ratio":0.25,
-  "col_filter_value": {
-    "Work_Unit_Code": 
-      "64BAD"
-  }
+                "test_ratio":0.25
             }
         },
         "class":"Python",
@@ -1807,23 +1781,23 @@
     {
         "attrs":{
             "additional_parameters":{
-  "class_swaps": {
-    "P": "R",
-    "Q": "R",
-    "T": "TU",
-    "U": "TU"
-  },
-  "label_name": "Action",
-  "max_majority_fraction_of_next_highest": 2.2,
-  "min_minority_fraction_of_most_common": 0.15,
-  "test_ratio": 0.25,
-  "col_filter_value": {
-    "Work_Unit_Code": [
-      "22YAA",
-      "22FAA"
-    ]
-  }
-}
+                "class_swaps":{
+                    "P":"R",
+                    "Q":"R",
+                    "T":"TU",
+                    "U":"TU"
+                },
+                "col_filter_value":{
+                    "Work_Unit_Code":[
+                        "22YAA",
+                        "22FAA"
+                    ]
+                },
+                "label_name":"Action",
+                "max_majority_fraction_of_next_highest":2.2,
+                "min_minority_fraction_of_most_common":0.15,
+                "test_ratio":0.25
+            }
         },
         "class":"Python",
         "custom_model":true,
@@ -2122,11 +2096,13 @@
                     "T":"TU",
                     "U":"TU"
                 },
+                "col_filter_value":{
+                    "Work_Unit_Code":"41322"
+                },
                 "label_name":"Action",
                 "max_majority_fraction_of_next_highest":1.6,
                 "min_minority_fraction_of_most_common":0.15,
-                "test_ratio":0.25,
-                "col_filter_value": {"Work_Unit_Code": "41322"}
+                "test_ratio":0.25
             }
         },
         "class":"Python",
@@ -2185,20 +2161,20 @@
     {
         "attrs":{
             "additional_parameters":{
-  "class_swaps": {
-    "P": "R",
-    "Q": "R",
-    "T": "TU",
-    "U": "TU"
-  },
-  "label_name": "Action",
-  "max_majority_fraction_of_next_highest": 2.2,
-  "min_minority_fraction_of_most_common": 0.15,
-  "test_ratio": 0.25,
-  "col_filter_value": {
-    "Work_Unit_Code": "453AS"
-  }
-}
+                "class_swaps":{
+                    "P":"R",
+                    "Q":"R",
+                    "T":"TU",
+                    "U":"TU"
+                },
+                "col_filter_value":{
+                    "Work_Unit_Code":"453AS"
+                },
+                "label_name":"Action",
+                "max_majority_fraction_of_next_highest":2.2,
+                "min_minority_fraction_of_most_common":0.15,
+                "test_ratio":0.25
+            }
         },
         "class":"Python",
         "custom_model":true,
@@ -2230,6 +2206,134 @@
         "position":[
             365,
             945
+        ]
+    },
+    {
+        "attrs":{
+            "query_list":[
+                "SELECT remis.Work_Order_Number, remis.Work_Center_Event_Identifier, remis.Sequence_Number, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM compiled_remis_data remis JOIN wuc_of_interest wucs ON wucs.Work_Order_Number = remis.Work_Order_Number AND wucs.Work_Center_Event_Identifier = remis.Work_Center_Event_Identifier AND wucs.Sequence_Number = remis.Sequence_Number WHERE remis.Serial_Number IS NOT NULL AND TRIM(remis.Equipment_Designator) IN ('C130J','C130H') AND wucs.Work_Unit_Code = '453AS'"
+            ]
+        },
+        "class":"SQL",
+        "custom_model":true,
+        "description":"Filter by WUC and Year, exclude NULL Serial Number, get narratives to for labeling.",
+        "id":"remis_filter_453as",
+        "label":"REMIS Filter 453AS",
+        "model":"2f166dea-261d-4651-a78b-751ca34d492d",
+        "position":[
+            985,
+            945
+        ]
+    },
+    {
+        "attrs":{
+            "query_list":[
+                "SELECT remis.Work_Order_Number, remis.Work_Center_Event_Identifier, remis.Sequence_Number, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM compiled_remis_data remis JOIN wuc_of_interest wucs ON wucs.Work_Order_Number = remis.Work_Order_Number AND wucs.Work_Center_Event_Identifier = remis.Work_Center_Event_Identifier AND wucs.Sequence_Number = remis.Sequence_Number WHERE remis.Serial_Number IS NOT NULL AND TRIM(remis.Equipment_Designator) IN ('C130J','C130H') AND wucs.Work_Unit_Code in ('22YAA','22FAA')"
+            ]
+        },
+        "class":"SQL",
+        "custom_model":true,
+        "description":"Filter by WUC and Year, exclude NULL Serial Number, get narratives to for labeling.",
+        "id":"remis_filter_starter",
+        "label":"REMIS Filter Starter",
+        "model":"6adc14ec-702a-46dc-9d4a-09ee6a649f76",
+        "position":[
+            985,
+            910
+        ]
+    },
+    {
+        "attrs":{
+            "query_list":[
+                "SELECT remis.Work_Order_Number, remis.Work_Center_Event_Identifier, remis.Sequence_Number, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM compiled_remis_data remis JOIN wuc_of_interest wucs ON wucs.Work_Order_Number = remis.Work_Order_Number AND wucs.Work_Center_Event_Identifier = remis.Work_Center_Event_Identifier AND wucs.Sequence_Number = remis.Sequence_Number WHERE remis.Serial_Number IS NOT NULL AND TRIM(remis.Equipment_Designator) IN ('C130J','C130H') AND wucs.Work_Unit_Code = '64BAD'"
+            ]
+        },
+        "class":"SQL",
+        "custom_model":true,
+        "description":"Filter by WUC and Year, exclude NULL Serial Number, get narratives to for labeling.",
+        "id":"remis_filter_64bad",
+        "label":"REMIS Filter 64BAD",
+        "model":"e54b71e9-5494-4653-a662-44f531be97e2",
+        "position":[
+            985,
+            875
+        ]
+    },
+    {
+        "attrs":{
+            "query_list":[
+                "SELECT remis.Work_Order_Number, remis.Work_Center_Event_Identifier, remis.Sequence_Number, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM compiled_remis_data remis JOIN wuc_of_interest wucs ON wucs.Work_Order_Number = remis.Work_Order_Number AND wucs.Work_Center_Event_Identifier = remis.Work_Center_Event_Identifier AND wucs.Sequence_Number = remis.Sequence_Number WHERE remis.Serial_Number IS NOT NULL AND TRIM(remis.Equipment_Designator) IN ('C130J','C130H') AND wucs.Work_Unit_Code = '22RBC'"
+            ]
+        },
+        "class":"SQL",
+        "custom_model":true,
+        "description":"Filter by WUC and Year, exclude NULL Serial Number, get narratives to for labeling.",
+        "id":"remis_filter_22rbc",
+        "label":"REMIS Filter 22RBC",
+        "model":"5cfc8d83-a49c-4c77-8455-e260a7137b6b",
+        "position":[
+            985,
+            835
+        ]
+    },
+    {
+        "attrs":{
+            "copy_only_key_columns":true
+        },
+        "class":"DeepLearningLabeler",
+        "custom_model":true,
+        "description":"Apply a deep learning model to a new set of data",
+        "id":"label_starter_action",
+        "label":"Label Starter Action",
+        "model":"840b6565-2d48-4c6e-b8dc-bad0252b5142",
+        "position":[
+            1130,
+            910
+        ]
+    },
+    {
+        "attrs":{
+            "copy_only_key_columns":true
+        },
+        "class":"DeepLearningLabeler",
+        "custom_model":true,
+        "description":"Apply a deep learning model to a new set of data",
+        "id":"label_22rbc_action",
+        "label":"Label 22RBC Action",
+        "model":"16e116fa-98d5-42ba-b66b-478ac584c998",
+        "position":[
+            1130,
+            835
+        ]
+    },
+    {
+        "attrs":{
+            "copy_only_key_columns":true
+        },
+        "class":"DeepLearningLabeler",
+        "custom_model":true,
+        "description":"Apply a deep learning model to a new set of data",
+        "id":"label_453as_action",
+        "label":"Label 453AS Action",
+        "model":"ff4dcec9-5354-47c5-b8a6-bfec8b155335",
+        "position":[
+            1130,
+            945
+        ]
+    },
+    {
+        "attrs":{
+            "copy_only_key_columns":true
+        },
+        "class":"DeepLearningLabeler",
+        "custom_model":true,
+        "description":"Apply a deep learning model to a new set of data",
+        "id":"label_64bad_action",
+        "label":"Label 64BAD Action",
+        "model":"2b47e4de-bdc0-4e6c-befd-fdc1d3e94c0e",
+        "position":[
+            1130,
+            875
         ]
     }
 ]
