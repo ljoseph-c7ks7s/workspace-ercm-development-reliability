@@ -73,14 +73,14 @@ class eRCM_TOW(Component):
     
     def _add_removal_to_tow_record(self, record):
         if self.tow_record.get('REMOVAL_Transaction_Date'):
-            self.log.debug('multiple removals in a single interval')
             time_between_removals = record['Current_Operating_Time'] - self.tow_record['INSTALL_TSN'] - self.tow_record['TOW']
-            self.log.debug("time added since record's first removal: {}".format(time_between_removals))
             if time_between_removals > 0:
+                self.log.debug('multiple removals in a single interval with > 0 time between')
+                self.log.debug("time added since record's first removal: {}".format(time_between_removals))
                 self.multiple_removals_nonzero_tow += 1
             else:
                 self.multiple_removals_zero_tow += 1
-            self.log.debug(repr(self.tow_record))
+            #self.log.debug(repr(self.tow_record))
         self.tow_record['REMOVAL_Transaction_Date'] = record['Transaction_Date']
         self.tow_record['REMOVAL_Action_Taken_Code'] = record['Action_Taken_Code']
         #self.tow_record['REMOVAL_TIME'] = record['Start_Time']
@@ -124,14 +124,14 @@ class eRCM_TOW(Component):
             elif self._is_install(r) and hasattr(self, 'tow_record'):
                 if 'TOW' not in self.tow_record:
                     # multiple installs in a row without a removal. start interval over
-                    self.log.debug('multiple installs in a single interval')
                     time_between_installs = r['Current_Operating_Time'] - self.tow_record['INSTALL_TSN']
-                    self.log.debug("time added since record's first install: {}".format(time_between_installs))
                     if time_between_installs > 0:
+                        self.log.debug('multiple installs in a single interval with > 0 time between')
+                        self.log.debug("time added since record's first install: {}".format(time_between_installs))
                         self.multiple_installs_nonzero_tow += 1
                     else:
                         self.multiple_installs_zero_tow += 1
-                    self.log.debug(repr(self.tow_record))
+                    #self.log.debug(repr(self.tow_record))
                     self._start_tow_record(r)
                 else:
                     # end of proper tow record
