@@ -84,22 +84,7 @@
     },
     {
         "attrs":{
-            "delimiter":"tab"
-        },
-        "class":"CSV",
-        "custom_model":true,
-        "description":"Pre-Induction Analysis and FSIP excision and edit rules exported from the Non Autofilter C130 MDA SRS Exerpt Rev2D 24Oct18 Word document",
-        "id":"rules_list",
-        "label":"Rules List",
-        "model":"e98cd295-63ad-4ce4-97e7-561c611ac6ce",
-        "position":[
-            10,
-            215
-        ]
-    },
-    {
-        "attrs":{
-            "timeout":100
+            "timeout":250
         },
         "class":"Python",
         "custom_model":true,
@@ -821,11 +806,16 @@
     {
         "attrs":{
             "additional_parameters":{
-                "wuc_filter":[
-                    "41322",
-                    "82LC0"
-                ]
-            }
+  "wuc_filter": [
+    "41322",
+    "82LC0",
+    "22YAA",
+    "22FAA",
+    "22RBC",
+    "64BAD",
+    "453AS"
+  ]
+}
         },
         "class":"Python",
         "custom_model":true,
@@ -924,7 +914,7 @@
         "model":"ae7269f9-da60-4a5e-85ff-8531b250fe56",
         "position":[
             800,
-            415
+            410
         ]
     },
     {
@@ -1023,36 +1013,6 @@
         ]
     },
     {
-        "class":"CSV",
-        "custom_model":true,
-        "description":"Import data that is contained in a delimited text file.",
-        "id":"unlabeled_import",
-        "label":"Unlabeled Import",
-        "model":"aec9778f-6c13-4c29-9928-feed17932376",
-        "position":[
-            55,
-            1170
-        ]
-    },
-    {
-        "attrs":{
-            "query_list":[
-                "SELECT File_Name, remis.On_Maint_Action_Key, remis.Work_Center_Event_Identifier, remis.Sequence_Number, remis.Off_Maint_Action_Key, remis.Work_Order_Number, remis.Depot_Maint_Action_Key, Equipment_Designator, Serial_Number, Job_Control_Number, remis.Work_Unit_Code, Transaction_Date, Geographic_Location, remis.Current_Operating_Time, Action_Taken_Code, at.description, How_Malfunction_Code, How_Malfunction_Class_Ind, hmal.description, Type_Maintenance_Code, tm.description, When_Discovered_Code, wd.description, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM  unlabeled_import remis LEFT JOIN at_codes at ON at.code = remis.Action_Taken_Code LEFT JOIN hmal_codes hmal ON hmal.code = remis.How_Malfunction_Code LEFT JOIN wd_codes wd ON wd.code = remis.When_Discovered_Code LEFT JOIN tm_codes tm ON tm.code = remis.Type_Maintenance_Code WHERE Serial_Number IS NOT NULL AND TRIM(Equipment_Designator) IN ('C130J','C130H')",
-                "SELECT NULL , NULL , remis.Work_Center_Event_Identifier, remis.Sequence_Number, NULL , NULL , NULL , Equipment_Designator, Serial_Number, Job_Control_Number, remis.Work_Unit_Code, Transaction_Date, Geographic_Location, remis.Current_Operating_Time, Action_Taken_Code, at.description, How_Malfunction_Code, How_Malfunction_Class_Ind, hmal.description, Type_Maintenance_Code, tm.description, When_Discovered_Code, wd.description, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM  unlabeled_import_no_key remis  LEFT JOIN at_codes at     ON at.code = remis.Action_Taken_Code LEFT JOIN hmal_codes hmal     ON hmal.code = remis.How_Malfunction_Code LEFT JOIN wd_codes wd     ON wd.code = remis.When_Discovered_Code LEFT JOIN tm_codes tm     ON tm.code = remis.Type_Maintenance_Code WHERE Serial_Number IS NOT NULL AND TRIM(Equipment_Designator) IN ('C130H','C130J')"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Include codes and narratives to assist with labeling excercises.  Minimal key information for the 4127 report.",
-        "id":"unlabeled_data_desc",
-        "label":"Unlabeled Data Desc",
-        "model":"923d6d84-4f90-4a58-b20d-14cb8c91238d",
-        "position":[
-            195,
-            1170
-        ]
-    },
-    {
         "attrs":{
             "timeout":60
         },
@@ -1088,46 +1048,6 @@
         "position":[
             50,
             310
-        ]
-    },
-    {
-        "class":"CSV",
-        "custom_model":true,
-        "description":"Import data that is contained in a delimited text file.",
-        "id":"unlabeled_import_no_key",
-        "label":"Unlabeled Import No Key",
-        "model":"c71a9dcb-0dc5-4ff2-92e6-fcdd3b289784",
-        "position":[
-            55,
-            1205
-        ]
-    },
-    {
-        "class":"DataExporter",
-        "description":"Export all or a subset of rows contained in a table.",
-        "id":"unlabeled_export",
-        "label":"Unlabeled Export",
-        "position":[
-            325,
-            1205
-        ]
-    },
-    {
-        "attrs":{
-            "query_list":[
-                "SELECT File_Name, remis.On_Maint_Action_Key, remis.Work_Center_Event_Identifier, remis.Sequence_Number, remis.Off_Maint_Action_Key, remis.Work_Order_Number, remis.Depot_Maint_Action_Key, Equipment_Designator, Serial_Number, Job_Control_Number, remis.Work_Unit_Code, Transaction_Date, Geographic_Location, remis.Current_Operating_Time, Action_Taken_Code, at.description, How_Malfunction_Code, How_Malfunction_Class_Ind, hmal.description, Type_Maintenance_Code, tm.description, When_Discovered_Code, wd.description, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM (SELECT DISTINCT work_unit_code FROM ercm_wuc_list) ercm_wuc_list JOIN compiled_remis_data remis ON remis.Work_Unit_Code = ercm_wuc_list.Work_Unit_Code JOIN at_codes at ON at.code = remis.Action_Taken_Code JOIN hmal_codes hmal ON hmal.code = remis.How_Malfunction_Code JOIN wd_codes wd ON wd.code = remis.When_Discovered_Code JOIN tm_codes tm ON tm.code = remis.Type_Maintenance_Code WHERE TRIM(Equipment_Designator) IN ('C130H','C130J')",
-                "SELECT NULL , NULL , remis.Work_Center_Event_Identifier, remis.Sequence_Number, NULL , NULL , NULL , Equipment_Designator, Serial_Number, Job_Control_Number, remis.Work_Unit_Code, Transaction_Date, Geographic_Location, remis.Current_Operating_Time, Action_Taken_Code, at.description, How_Malfunction_Code, How_Malfunction_Class_Ind, hmal.description, Type_Maintenance_Code, tm.description, When_Discovered_Code, wd.description, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Action_Narrative FROM (SELECT DISTINCT work_unit_code FROM ercm_wuc_list) ercm_wuc_list JOIN prp4127 remis ON remis.Work_Unit_Code = ercm_wuc_list.Work_Unit_Code JOIN at_codes at ON at.code = remis.Action_Taken_Code JOIN hmal_codes hmal ON hmal.code = remis.How_Malfunction_Code JOIN wd_codes wd ON wd.code = remis.When_Discovered_Code JOIN tm_codes tm ON tm.code = remis.Type_Maintenance_Code WHERE TRIM(Equipment_Designator) IN ('C130H','C130J')"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Include codes and narratives to assist with labeling excercises.  Minimal key information for the 4127 report.",
-        "id":"unlabeled_data_desc_no_key",
-        "label":"Unlabeled Data Desc No Key",
-        "model":"80619abb-122d-4d53-b951-03e6f6a6e314",
-        "position":[
-            195,
-            1205
         ]
     },
     {
@@ -1179,22 +1099,10 @@
         "description":"Apply a deep learning model to a new set of data",
         "id":"label_41322_action",
         "label":"Label 41322 Action",
-        "model":"cd5d3e42-cbb4-445f-a004-419081a3ac3b",
+        "model":"e8d07ce8-9259-4231-b349-dac011b433e7",
         "position":[
             950,
             445
-        ]
-    },
-    {
-        "class":"Python",
-        "custom_model":true,
-        "description":"Run a python script.",
-        "id":"sort_rules_list",
-        "label":"Sort Rules List",
-        "model":"3e60b7dd-586d-4665-a6ad-baec666d3886",
-        "position":[
-            145,
-            215
         ]
     },
     {
@@ -1492,8 +1400,8 @@
         "class":"SQL",
         "custom_model":true,
         "description":"Condese labeled data to original size for metric calculation.",
-        "id":"add_label_add_split_526da",
-        "label":"Add Label Add Split 526DA",
+        "id":"add_label_add_split_526dx",
+        "label":"Add Label Add Split 526DX",
         "model":"d505d98d-c6e7-46fc-918e-33251f374bab",
         "position":[
             700,
@@ -1640,7 +1548,11 @@
     {
         "attrs":{
             "query_list":[
+                "SELECT * FROM label_41311_action",
+                "SELECT * FROM label_41315_action",
+                "SELECT * FROM label_41321_action",
                 "SELECT * FROM label_41322_action",
+                "SELECT * FROM label_41325_action",
                 "SELECT * FROM label_82lc0_action",
                 "SELECT * FROM label_453as_action",
                 "SELECT * FROM label_starter_action",
@@ -1655,7 +1567,7 @@
         },
         "class":"SQL",
         "custom_model":true,
-        "description":"Run a set of SQL select queries on existing database tables.",
+        "description":"Combine individual-model labels into single table.",
         "id":"labels_joined",
         "label":"Labels Joined",
         "model":"5c883d98-6201-49e6-9f07-ccbc136cec70",
@@ -2803,6 +2715,66 @@
         "position":[
             965,
             575
+        ]
+    },
+    {
+        "attrs":{
+            "copy_only_key_columns":true
+        },
+        "class":"DeepLearningLabeler",
+        "custom_model":true,
+        "description":"Apply a deep learning model to a new set of data",
+        "id":"label_41311_action",
+        "label":"Label 41311 Action",
+        "model":"e152611a-bead-46bc-8385-54e9ec8a0733",
+        "position":[
+            1105,
+            500
+        ]
+    },
+    {
+        "attrs":{
+            "copy_only_key_columns":true
+        },
+        "class":"DeepLearningLabeler",
+        "custom_model":true,
+        "description":"Apply a deep learning model to a new set of data",
+        "id":"label_41315_action",
+        "label":"Label 41315 Action",
+        "model":"f4eef544-dbc0-4fe2-b942-e6ce6d2c6aeb",
+        "position":[
+            1105,
+            535
+        ]
+    },
+    {
+        "attrs":{
+            "copy_only_key_columns":true
+        },
+        "class":"DeepLearningLabeler",
+        "custom_model":true,
+        "description":"Apply a deep learning model to a new set of data",
+        "id":"label_41321_action",
+        "label":"Label 41321 Action",
+        "model":"822d4860-ce4d-4393-859f-335cf60ade9f",
+        "position":[
+            1105,
+            575
+        ]
+    },
+    {
+        "attrs":{
+            "copy_only_key_columns":true
+        },
+        "class":"DeepLearningLabeler",
+        "custom_model":true,
+        "description":"Apply a deep learning model to a new set of data",
+        "id":"label_41325_action",
+        "label":"Label 41325 Action",
+        "model":"dcabe714-0c5b-48fa-b6b1-351df265e83b",
+        "position":[
+            1105,
+            610
         ]
     }
 ]
