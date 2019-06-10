@@ -707,25 +707,36 @@ def CCU(df,libraries):
         while j < len(checks):
 
             # search narratives for given patterns
-            parse = re.findall("\d+A\d+|CENTER CONSOL|CNTR CONSOL|RTP|AUG(?:MENTED)? ",str(df.loc[i,checks[j]]))
-            
+            parse = re.findall("\d+A\d+|CENTER CONSOL|CNTR CONSOL|RTP|AUG(?:MENTED)? (?:(?:CURSOR|CUROSR) CO?NTR?O?L? PA?NE?L)?|(?:CURSOR|CUROSR) CO?NTR?O?L? PA?NE?L",str(df.loc[i,checks[j]]))
+        
             # keep only alphabetical chars and comma separators
             parse = re.sub("[^\w,]","",str(parse))
             parse = re.sub("[\d]","",str(parse))
-            print(parse)
             
             # correct parsed labels
+            parse = parse.replace('CUROSR','CURSOR')
+            parse = parse.replace('CURSOR','CURSOR_')            
+            parse = parse.replace('CNTRL','CONTROL')
+            parse = parse.replace('CNTL','CONTROL')
+            parse = parse.replace('CNT','CONTROL')
+            parse = parse.replace('CNTR','CONTROL')
+            parse = parse.replace('CONTRL','CONTROL')
+            parse = parse.replace('CNTROL','CONTROL')
+            parse = parse.replace('PANEL','')
+            parse = parse.replace('PNL','')
+            parse = parse.replace('PANL','')
+            parse = parse.replace('PNEL','')
+            parse = parse.replace('CURSOR_CONTROL','CENTER')
             parse = parse.replace('CNTR','CENTER')
-            parse = parse.replace('CONSOLE','')
-            parse = parse.replace('CENTER','CENTER_CONSOLE')
+            parse = parse.replace('CONSOL','')
             parse = parse.replace('AUGMENTED','UG_CREW')
             parse = parse.replace('AUG','UG_CREW')
             parse = parse.replace('RTP','OTHER')
             parse = parse.replace('A','OTHER')
-            parse = parse.replace('UG_CREW','AUG_CREW')
+            parse = parse.replace('UG_CREW','AUG')
+            parse = parse.replace('AUGCENTER','AUG')
             
             # remove duplicates and sort
-#             parse = parse.strip()
             parse = parse.split(',')
             parse = list(set(parse))
             parse.sort()
@@ -883,7 +894,7 @@ def label_picker(df_one_wuc,wuc_qpa,this_wuc,libraries):
             # print('Filling with ECBU')
             df_i = ECBU(df_thisqpa,libraries)
 
-        elif qpa_i.Names=='aug_crew,center_console,other':
+        elif qpa_i.Names=='aug,center,other':
             # print('Filling with CCU')
             df_i = CCU(df_thisqpa,libraries)
 
