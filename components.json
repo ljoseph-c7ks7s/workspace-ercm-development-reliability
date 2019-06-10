@@ -5,7 +5,7 @@
         "description":"Create a staged table in the database.",
         "id":"compiled_sortie_history_data",
         "label":"Compiled Sortie History Data",
-        "model":"232440b7-070e-45d4-86d0-d2365f765f29",
+        "model":"c7e4b3ec-b804-4b2d-b45b-850723dea40b",
         "position":[
             360,
             360
@@ -806,16 +806,16 @@
     {
         "attrs":{
             "additional_parameters":{
-  "wuc_filter": [
-    "41322",
-    "82LC0",
-    "22YAA",
-    "22FAA",
-    "22RBC",
-    "64BAD",
-    "453AS"
-  ]
-}
+                "wuc_filter":[
+                    "41322",
+                    "82LC0",
+                    "22YAA",
+                    "22FAA",
+                    "22RBC",
+                    "64BAD",
+                    "453AS"
+                ]
+            }
         },
         "class":"Python",
         "custom_model":true,
@@ -1455,7 +1455,9 @@
                     "T":"TU",
                     "U":"TU"
                 },
-                "col_filter_value":"82LC0",
+                "col_filter_value":{
+                    "Work_Unit_Code":"82LC0"
+                },
                 "label_name":"Action",
                 "max_majority_fraction_of_next_highest":1.6,
                 "min_minority_fraction_of_most_common":0.15,
@@ -2775,6 +2777,125 @@
         "position":[
             1105,
             610
+        ]
+    },
+    {
+        "attrs":{
+            "additional_parameters":{
+                "class_swaps":{
+                    "P":"R",
+                    "Q":"R",
+                    "T":"TU",
+                    "U":"TU"
+                },
+                "col_filter_value":{
+                    "Work_Unit_Code":"42DLA"
+                },
+                "label_name":"Action",
+                "max_majority_fraction_of_next_highest":2,
+                "min_minority_fraction_of_most_common":0.15,
+                "test_ratio":0.25
+            }
+        },
+        "class":"Python",
+        "custom_model":true,
+        "description":"Randomly sample from minority classes (those fewer records than the most-common class) to get an even quantity of labeled data per class for training a model.",
+        "id":"resample_42dla",
+        "label":"Resample 42DLA",
+        "model":"d6761a3b-ad9f-45a5-8bc0-49a26164c048",
+        "position":[
+            230,
+            1155
+        ]
+    },
+    {
+        "attrs":{
+            "additional_parameters":{
+                "class_swaps":{
+                    "P":"R",
+                    "Q":"R",
+                    "T":"TU",
+                    "U":"TU"
+                },
+                "col_filter_value":{
+                    "Work_Unit_Code":"22XCN"
+                },
+                "label_name":"Action",
+                "max_majority_fraction_of_next_highest":2,
+                "min_minority_fraction_of_most_common":0.15,
+                "test_ratio":0.25
+            }
+        },
+        "class":"Python",
+        "custom_model":true,
+        "description":"Randomly sample from minority classes (those fewer records than the most-common class) to get an even quantity of labeled data per class for training a model.",
+        "id":"resample_22xcn",
+        "label":"Resample 22XCN",
+        "model":"ec6c72eb-c0c4-4826-86b3-1c47fab60ae8",
+        "position":[
+            230,
+            1190
+        ]
+    },
+    {
+        "attrs":{
+            "additional_parameters":{
+                "class_swaps":{
+                    "P":"R",
+                    "Q":"R",
+                    "T":"TU",
+                    "U":"TU"
+                },
+                "col_filter_value":{
+                    "Work_Unit_Code":"32525"
+                },
+                "label_name":"Action",
+                "max_majority_fraction_of_next_highest":2,
+                "min_minority_fraction_of_most_common":0.15,
+                "test_ratio":0.25
+            }
+        },
+        "class":"Python",
+        "custom_model":true,
+        "description":"Randomly sample from minority classes (those fewer records than the most-common class) to get an even quantity of labeled data per class for training a model.",
+        "id":"resample_32525",
+        "label":"Resample 32525",
+        "model":"09617c2c-fdf0-4282-bd96-417b361470aa",
+        "position":[
+            230,
+            1225
+        ]
+    },
+    {
+        "attrs":{
+            "additional_parameters":{
+                "class_swaps":{
+                    "P":"R",
+                    "Q":"R",
+                    "T":"TU",
+                    "U":"TU"
+                },
+                "col_filter_value":{
+                    "Work_Unit_Code":[
+                        "72KK0",
+                        "72K00"
+                    ]
+                },
+                "label_name":"Action",
+                "max_majority_fraction_of_next_highest":2,
+                "min_minority_fraction_of_most_common":0.15,
+                "test_ratio":0.25
+            }
+        },
+        "class":"Python",
+        "custom_model":true,
+        "description":"Randomly sample from minority classes (those fewer records than the most-common class) to get an even quantity of labeled data per class for training a model.",
+        "id":"resample_72kk0",
+        "label":"Resample 72KK0",
+        "model":"94fa4899-578f-47c5-8947-0a22ca37fa24",
+        "position":[
+            230,
+            1260
         ]
     }
 ]
