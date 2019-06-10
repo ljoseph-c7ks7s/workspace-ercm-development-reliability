@@ -706,10 +706,10 @@ def CCU(df,libraries):
         parse = []
         while j < len(checks):
 
-            # not included here - "ALL (insert number here)","ALL FOUR"
-            parse = re.findall("\d+A\d+|CENTER (?:CONSOLE)?|CNTR CONSOLE|RTP|AUG",str(df.loc[i,checks[j]]))
+            # search narratives for given patterns
+            parse = re.findall("\d+A\d+|CENTER CONSOL|CNTR CONSOL|RTP|AUG(?:MENTED)? ",str(df.loc[i,checks[j]]))
             
-            # keep only alphabetical chars and comma separators to fix C-P, C/P etc.
+            # keep only alphabetical chars and comma separators
             parse = re.sub("[^\w,]","",str(parse))
             parse = re.sub("[\d]","",str(parse))
             print(parse)
@@ -718,6 +718,7 @@ def CCU(df,libraries):
             parse = parse.replace('CNTR','CENTER')
             parse = parse.replace('CONSOLE','')
             parse = parse.replace('CENTER','CENTER_CONSOLE')
+            parse = parse.replace('AUGMENTED','UG_CREW')
             parse = parse.replace('AUG','UG_CREW')
             parse = parse.replace('RTP','OTHER')
             parse = parse.replace('A','OTHER')
