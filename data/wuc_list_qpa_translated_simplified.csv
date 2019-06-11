@@ -4,7 +4,7 @@ Work_Unit_Code,Alternate_WUC,MDS,Minimum_SN_Inclusive,Maximum_SN,QPA,QPA_Descrip
 22GAB,,C130H,,,4,Total: 4 Per Engine: 1 Each  ,1 Per Engine,"1,2,3,4"
 22RBC,,C130J,,,8,Total: 8 Per Engine: 2 Each  Both Mounted in metal enclosure bolted to the nacelle longerons connected together by electrical Harness,2 Per Engine,"1A,1B,2A,2B,3A,3B,4A,4B"
 22TBB,,C130J,,,4,Total: 4 Per Engine: 1 Each,1 Per Engine,"1,2,3,4"
-22VDA,"22VDB,22VDC",C130J,,,4,Total: 12,1 Per Engine,"1,2,3,4"
+22VDA,"22VDB,22VDC",C130J,,,4,Total: 4 Per Engine: 1 Each,1 Per Engine,"1,2,3,4"
 22XCN,,C130J,,,4,Total: 4 Per Engine: 1 Each,1 Per Engine,"1,2,3,4"
 22YAA,,C130J,,,4,Total: 4 Per Engine: 1 Each,1 Per Engine,"1,2,3,4"
 22YAB,,C130J,,,4,Total: 4 Per Engine: 1 Each,1 Per Engine,"1,2,3,4"
