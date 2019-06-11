@@ -164,7 +164,7 @@
         "description":"Create a staged table in the database.",
         "id":"stage_data_for_tow",
         "label":"Stage Data for TOW",
-        "model":"5567e07e-35b7-4941-946b-509891a4acdb",
+        "model":"59e4f67f-1f9c-452a-b9d5-e00c9d1288be",
         "position":[
             1185,
             130
@@ -2204,7 +2204,7 @@
         "description":"Apply a deep learning model to a new set of data",
         "id":"label_453as_action",
         "label":"Label 453AS Action",
-        "model":"5f9098d7-ccdb-475c-a214-91f80e6bdd45",
+        "model":"bc7326e8-b700-4ed7-82d2-9aceec331e30",
         "position":[
             1130,
             945
@@ -2591,7 +2591,7 @@
         "description":"Apply a deep learning model to a new set of data",
         "id":"label_22gab_action",
         "label":"Label 22GAB Action",
-        "model":"40606429-c84f-4658-a200-505fd4562013",
+        "model":"41874575-55f9-4908-85b2-7e91c6d68d87",
         "position":[
             1130,
             985
@@ -3085,7 +3085,7 @@
     {
         "attrs":{
             "query_list":[
-                "SELECT remis.Work_Order_Number, remis.Work_Center_Event_Identifier, remis.Sequence_Number, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM compiled_remis_data remis JOIN wuc_of_interest wucs ON wucs.Work_Order_Number = remis.Work_Order_Number AND wucs.Work_Center_Event_Identifier = remis.Work_Center_Event_Identifier AND wucs.Sequence_Number = remis.Sequence_Number WHERE remis.Serial_Number IS NOT NULL AND TRIM(remis.Equipment_Designator) IN ('C130J','C130H') AND wucs.Work_Unit_Code = '22TBB'"
+                "SELECT remis.Work_Order_Number, remis.Work_Center_Event_Identifier, remis.Sequence_Number, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM compiled_remis_data remis JOIN wuc_of_interest wucs ON wucs.Work_Order_Number = remis.Work_Order_Number AND wucs.Work_Center_Event_Identifier = remis.Work_Center_Event_Identifier AND wucs.Sequence_Number = remis.Sequence_Number WHERE remis.Serial_Number IS NOT NULL AND TRIM(remis.Equipment_Designator) IN ('C130J','C130H') AND wucs.Work_Unit_Code = '22XCN'"
             ]
         },
         "class":"SQL",
@@ -3176,7 +3176,7 @@
         "description":"Apply a deep learning model to a new set of data",
         "id":"label_42dla_action",
         "label":"Label 42DLA Action",
-        "model":"08bc0369-3fb5-4e62-a5a8-cbaecfca02cc",
+        "model":"d347b528-aafa-4703-92b1-94a35dcff643",
         "position":[
             1130,
             1165
@@ -3191,7 +3191,7 @@
         "description":"Apply a deep learning model to a new set of data",
         "id":"label_22xcn_action",
         "label":"Label 22XCN Action",
-        "model":"85b33812-777d-44d9-817e-4f0f599a5d53",
+        "model":"b8abec84-6e09-474b-9c4d-f9071d66ac86",
         "position":[
             1130,
             1200
@@ -3400,7 +3400,7 @@
         "description":"Apply a deep learning model to a new set of data",
         "id":"label_22yab_action",
         "label":"Label 22YAB Action",
-        "model":"16e116fa-98d5-42ba-b66b-478ac584c998",
+        "model":"870e5aec-5892-4939-b992-452559b68074",
         "position":[
             1130,
             760
@@ -3409,7 +3409,7 @@
     {
         "attrs":{
             "query_list":[
-                "SELECT remis.Work_Order_Number, remis.Work_Center_Event_Identifier, remis.Sequence_Number, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM compiled_remis_data remis JOIN wuc_of_interest wucs ON wucs.Work_Order_Number = remis.Work_Order_Number AND wucs.Work_Center_Event_Identifier = remis.Work_Center_Event_Identifier AND wucs.Sequence_Number = remis.Sequence_Number WHERE remis.Serial_Number IS NOT NULL AND TRIM(remis.Equipment_Designator) IN ('C130J','C130H') AND wucs.Work_Unit_Code = '41325'"
+                "SELECT remis.Work_Order_Number, remis.Work_Center_Event_Identifier, remis.Sequence_Number, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM compiled_remis_data remis JOIN wuc_of_interest wucs ON wucs.Work_Order_Number = remis.Work_Order_Number AND wucs.Work_Center_Event_Identifier = remis.Work_Center_Event_Identifier AND wucs.Sequence_Number = remis.Sequence_Number WHERE remis.Serial_Number IS NOT NULL AND TRIM(remis.Equipment_Designator) IN ('C130J','C130H') AND wucs.Work_Unit_Code in ('526DA','526DD','526DE')"
             ]
         },
         "class":"SQL",
