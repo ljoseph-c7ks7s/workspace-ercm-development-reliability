@@ -2888,7 +2888,7 @@
                     ]
                 },
                 "label_name":"Action",
-                "max_majority_fraction_of_next_highest":2,
+                "max_majority_fraction_of_next_highest":3,
                 "min_minority_fraction_of_most_common":0.15,
                 "test_ratio":0.25
             }
@@ -3404,6 +3404,38 @@
         "position":[
             1130,
             760
+        ]
+    },
+    {
+        "attrs":{
+            "query_list":[
+                "SELECT remis.Work_Order_Number, remis.Work_Center_Event_Identifier, remis.Sequence_Number, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM compiled_remis_data remis JOIN wuc_of_interest wucs ON wucs.Work_Order_Number = remis.Work_Order_Number AND wucs.Work_Center_Event_Identifier = remis.Work_Center_Event_Identifier AND wucs.Sequence_Number = remis.Sequence_Number WHERE remis.Serial_Number IS NOT NULL AND TRIM(remis.Equipment_Designator) IN ('C130J','C130H') AND wucs.Work_Unit_Code = '41325'"
+            ]
+        },
+        "class":"SQL",
+        "custom_model":true,
+        "description":"Filter by WUC and Year, exclude NULL Serial Number, get narratives to for labeling.",
+        "id":"remis_filter_526dx",
+        "label":"REMIS Filter 526DX",
+        "model":"575f9e68-74b2-4a54-b7e3-dbd4f4ff5288",
+        "position":[
+            975,
+            670
+        ]
+    },
+    {
+        "attrs":{
+            "copy_only_key_columns":true
+        },
+        "class":"DeepLearningLabeler",
+        "custom_model":true,
+        "description":"Apply a deep learning model to a new set of data",
+        "id":"label_526dx_action",
+        "label":"Label 526DX Action",
+        "model":"404c8ce4-f774-42e7-8d0c-1927117760ab",
+        "position":[
+            1110,
+            650
         ]
     }
 ]
