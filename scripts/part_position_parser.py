@@ -958,10 +958,10 @@ def fn(conn, libraries, params, predecessors):
             join_clause_2 = ['A.{} = C.{}'.format(ii,ii) for ii in keys]
             join_clause_2 = ' AND '.join(join_clause_2)
 
-            df = pd.read_sql(con=conn, sql="""SELECT A.*, B.Serial_Number, B.Equipment_Designator, C.Action, B.Discrepancy_Narrative, B.Work_Center_Event_Narrative, 
-                B.Corrective_Narrative, B.Component_Position_Number FROM {} A 
-                LEFT JOIN {} B ON {} LEFT JOIN {} C ON {}""".format(wuc_table_name, compiled_table_name, 
-                    join_clause_1, action_table_name, join_clause_2))
+            df = pd.read_sql(con=conn, sql="""SELECT A.*, C.Serial_Number, C.Equipment_Designator, B.Action, C.Discrepancy_Narrative, C.Work_Center_Event_Narrative, 
+                C.Corrective_Narrative, C.Component_Position_Number FROM {} A 
+                JOIN {} B ON {} LEFT JOIN {} C ON {}""".format(wuc_table_name, action_table_name, 
+                    join_clause_1, compiled_table_name, join_clause_2))
 
     elif len(predecessors) == 1:
         # KC135 comparison against NB-BOW
