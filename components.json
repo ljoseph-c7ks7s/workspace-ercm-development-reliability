@@ -3191,7 +3191,7 @@
         "description":"Apply a deep learning model to a new set of data",
         "id":"label_22xcn_action",
         "label":"Label 22XCN Action",
-        "model":"85b33812-777d-44d9-817e-4f0f599a5d53",
+        "model":"empty",
         "position":[
             1130,
             1200
@@ -3206,7 +3206,7 @@
         "description":"Apply a deep learning model to a new set of data",
         "id":"label_32525_action",
         "label":"Label 32525 Action",
-        "model":"6e433066-5440-4a3d-8af6-2b89fe2a1e77",
+        "model":"empty",
         "position":[
             1130,
             1240

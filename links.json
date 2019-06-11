@@ -2328,5 +2328,9 @@
                 530
             ]
         ]
+    },
+    {
+        "source":"labels_joined",
+        "target":"part_position_parser"
     }
 ]
