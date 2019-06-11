@@ -12,7 +12,7 @@ Args:
         Data frame of key fields and Parsed_Component_Position
 """
 
-def engine_reader(df,libraries):
+def engine_reader(df_eng,libraries):
 
     pd = libraries["pandas"]
     re = libraries["re"]
@@ -21,52 +21,89 @@ def engine_reader(df,libraries):
     checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
 
     # for each entry, search fields for component position numbers 
-    indexer = list(df.index.values)
-    for i in indexer:
-        j = 0
-        parse = []
-        while j < len(checks):
+    # indexer = list(df.index.values)
+    # for i in indexer:
+    #     j = 0
+    #     parse = []
+    #     while j < len(checks):
             
-            # search narratives for given patterns
-            parse = re.findall("(?:\# ?|NO\.? |NUMBER )\d+|\bALL FOUR\b|\bALL 4\b|HDD ?\d+",str(df.loc[i,checks[j]]))
+    #         # search narratives for given patterns
+    #         parse = re.findall(r"(?:\# ?|NO\.? |NUMBER )\d+|\bALL FOUR\b|\bALL 4\b|HDD ?\d+",str(df.loc[i,checks[j]]))
             
-            # replace 'ALL' matches with numbers
-            parse = [x.replace('ALL FOUR','1,2,3,4') for x in parse]
-            parse = [x.replace('ALL 4','1,2,3,4') for x in parse]
+    #         # replace 'ALL' matches with numbers
+    #         parse = [x.replace('ALL FOUR','1,2,3,4') for x in parse]
+    #         parse = [x.replace('ALL 4','1,2,3,4') for x in parse]
             
-            # keep only numeric digits and comma separators
-            nums = re.sub("[^\d,]","",str(parse))
+    #         # keep only numeric digits and comma separators
+    #         nums = re.sub("[^\d,]","",str(parse))
             
-            # convert string into list of strings
-            split = [x for x in nums.split(',')]
+    #         # convert string into list of strings
+    #         split = [x for x in nums.split(',')]
             
-            # remove empty strings from list
-            clean = filter(None, split)
+    #         # remove empty strings from list
+    #         clean = filter(None, split)
             
-            # convert list of strings into list of ints
-            ints = map(int, clean)
+    #         # convert list of strings into list of ints
+    #         ints = map(int, clean)
             
-            # remove all values > 4, duplicates and sort
-            trim = [x for x in ints if x<5]
-            trim = list(set(trim))
-            trim.sort()
+    #         # remove all values > 4, duplicates and sort
+    #         trim = [x for x in ints if x<5]
+    #         trim = list(set(trim))
+    #         trim.sort()
             
-            # convert back to string to remove []
-            remove = ','.join(map(str, trim))
+    #         # convert back to string to remove []
+    #         remove = ','.join(map(str, trim))
 
-            # save values into df
-            df.loc[i,'Parsed_Component_Position']=remove
-            # if empty, check next narrative
-            if any(x.isdigit() for x in remove):
-                j = len(checks)
-            else:
-                j = j+1
+    #         # save values into df
+    #         df.loc[i,'Parsed_Component_Position']=remove
+    #         # if empty, check next narrative
+    #         if any(x.isdigit() for x in remove):
+    #             j = len(checks)
+    #         else:
+    #             j = j+1
                 
 
-            # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
-        if df.loc[i,'Parsed_Component_Position']==str(''):
-            df.loc[i,'Parsed_Component_Position'] = df.loc[i,'Component_Position_Number']
-    return df
+    #         # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
+    #     if df.loc[i,'Parsed_Component_Position']==str(''):
+    #         df.loc[i,'Parsed_Component_Position'] = df.loc[i,'Component_Position_Number']
+
+    def extract_positions_single_narr_engine_reader(df, col):
+        # search narratives for given patterns
+        df['parse'] = df[col].apply(lambda x: re.findall(r"(?:\# ?|NO\.? |NUMBER )\d+|\bALL FOUR\b|\bALL 4\b|HDD ?\d+", x))
+
+        # replace 'ALL' matches with numbers
+        df['parse'] = df['parse'].apply(lambda x: [str(ii).replace('ALL FOUR', '1,2,3,4').replace('ALL 4', '1,2,3,4') for ii in x])
+
+        # keep only numeric digits and comma separators
+        # convert string into list of strings
+        # remove empty strings from list
+        # convert list of strings into list of ints
+        df['nums'] = df['parse'].apply(lambda x: map(int, filter(None, re.sub("[^\d,]","",str(x)).split(','))))
+
+        # remove all values > 4, duplicates and sort
+        df['nums'] = df['nums'].apply(lambda x: sorted(list(set([ii for ii in x if ii<5]))))
+
+        # convert back to string to remove []
+        df['nums'] = df['nums'].apply(lambda x: ','.join(map(str, x)))
+
+        # save values into df
+        df.loc[:,'Parsed_Component_Position'] = df['nums']
+        
+        df.drop(['parse','nums'], axis=1, inplace=True)
+
+        # return matches
+        return df[df.Parsed_Component_Position.str.len()>0]
+
+    for j in checks:
+
+        # send df subset that has no matches to get a match
+        df_sub = extract_positions_single_narr_engine_reader(df_eng.loc[df_eng.Parsed_Component_Position.str.len()==0].copy(), j)
+        df_eng.update(df_sub)
+    
+    # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
+    df_eng.loc[df_eng.Parsed_Component_Position.str.len()==0, 'Parsed_Component_Position'] = df_eng.loc[df_eng.Parsed_Component_Position.str.len()==0, 'Component_Position_Number']
+
+    return df_eng
 
 
 def cp_navplt(df,libraries):
@@ -660,60 +697,96 @@ def FQI(df,libraries):
     return df
 
 
-def ECBU(df,libraries):
+def ECBU(df_ecbu,libraries):
+
     pd = libraries["pandas"]
     re = libraries["re"]
 
     # define fields to check. Use j to iterate through this list
     checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
 
-    # for each entry, search fields for component position numbers 
-    indexer = list(df.index.values)
-    for i in indexer:
-        j = 0
-        parse = []
-        while j < len(checks):
+    # # for each entry, search fields for component position numbers 
+    # indexer = list(df.index.values)
+    # for i in indexer:
+    #     j = 0
+    #     parse = []
+    #     while j < len(checks):
             
-            # search narratives for given patterns
-            parse = re.findall("(?:\# ?|NO\.? |NUMBER |ECBU ?)\d+",str(df.loc[i,checks[j]]))
+    #         # search narratives for given patterns
+    #         parse = re.findall(r"(?:\# ?|NO\.? |NUMBER |ECBU ?)\d+",str(df.loc[i,checks[j]]))
             
-            # only SW entries can have multiple positions
-            if df.loc[i,'Action'] != 'SW' and parse != []:
-                parse = parse[0]
+    #         # only SW entries can have multiple positions
+    #         if df.loc[i,'Action'] != 'SW' and parse != []:
+    #             parse = parse[0]
             
-            # keep only numeric digits and comma separators
-            nums = re.sub("[^\d,]","",str(parse))
+    #         # keep only numeric digits and comma separators
+    #         nums = re.sub("[^\d,]","",str(parse))
             
-            # convert string into list of strings
-            split = [x for x in nums.split(',')]
+    #         # convert string into list of strings
+    #         split = [x for x in nums.split(',')]
             
-            # remove empty strings from list
-            clean = filter(None, split)
+    #         # remove empty strings from list
+    #         clean = filter(None, split)
             
-            # convert list of strings into list of ints
-            ints = map(int, clean)
+    #         # convert list of strings into list of ints
+    #         ints = map(int, clean)
             
-            # remove all values > 4, duplicates and sort
-            trim = [x for x in ints if x<14]
-            trim = list(set(trim))
-            trim.sort()
+    #         # remove all values > 4, duplicates and sort
+    #         trim = [x for x in ints if x<14]
+    #         trim = list(set(trim))
+    #         trim.sort()
             
-            # convert back to string to remove []
-            remove = ','.join(map(str, trim))
+    #         # convert back to string to remove []
+    #         remove = ','.join(map(str, trim))
 
-            # save values into df
-            df.loc[i,'Parsed_Component_Position']=remove
-            # if empty, check next narrative
-            if any(x.isdigit() for x in remove):
-                j = len(checks)
-            else:
-                j = j+1
+    #         # save values into df
+    #         df.loc[i,'Parsed_Component_Position']=remove
+    #         # if empty, check next narrative
+    #         if any(x.isdigit() for x in remove):
+    #             j = len(checks)
+    #         else:
+    #             j = j+1
+
+    # # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
+    #     if df.loc[i,'Parsed_Component_Position']==str(''):
+    #         df.loc[i,'Parsed_Component_Position'] = df.loc[i,'Component_Position_Number']
                 
+    def extract_positions_single_narr_ecbu(df, col):
+        # search narratives for given patterns
+        df['parse'] = df[col].apply(lambda x: re.findall(r"(?:\# ?|NO\.? |NUMBER |ECBU ?)\d+", x))
 
-            # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
-        if df.loc[i,'Parsed_Component_Position']==str(''):
-            df.loc[i,'Parsed_Component_Position'] = df.loc[i,'Component_Position_Number']
-    return df
+        # only SW entries can have multiple positions
+        df.loc[(df.Action!='SW') & (df.parse.str.len()!=0), 'parse'] = df.loc[(df.Action!='SW') & (df.parse.str.len()!=0), 'parse'].apply(lambda x: x[0])
+
+        # keep only numeric digits and comma separators
+        # convert string into list of strings
+        # remove empty strings from list
+        # convert list of strings into list of ints
+        df['nums'] = df['parse'].apply(lambda x: map(int, filter(None, re.sub("[^\d,]","",str(x)).split(','))))
+
+        # remove all values > 13, duplicates and sort
+        df['nums'] = df['nums'].apply(lambda x: sorted(list(set([ii for ii in x if ii<14]))))
+
+        # convert back to string to remove []
+        df['nums'] = df['nums'].apply(lambda x: ','.join(map(str, x)))
+
+        # save values into df
+        df.loc[:,'Parsed_Component_Position'] = df['nums']
+        
+        df.drop(['parse','nums'], axis=1, inplace=True)
+
+        return df[df.Parsed_Component_Position.str.len()>0]
+
+    for j in checks:
+
+        # send df subset that has no matches to get a match
+        df_sub = extract_positions_single_narr_ecbu(df_ecbu.loc[df_ecbu.Parsed_Component_Position.str.len()==0].copy(), j)
+        df_ecbu.update(df_sub)
+        
+    # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
+    df_ecbu.loc[df_ecbu.Parsed_Component_Position.str.len()==0, 'Parsed_Component_Position'] = df_ecbu.loc[df_ecbu.Parsed_Component_Position.str.len()==0, 'Component_Position_Number']
+    
+    return df_ecbu
 
 
 def CCU(df,libraries):
@@ -1034,7 +1107,7 @@ def fn(conn, libraries, params, predecessors):
     df.loc[:,'Parsed_Component_Position'] = df.loc[:,'Parsed_Component_Position'].astype(str)
 
     # change all empty parsed positions to 0
-    df.loc[:,'Parsed_Component_Position'] = df.loc[:,'Parsed_Component_Position'].map(lambda x: '0' if x.isna() else x)
+    df.loc[df.Parsed_Component_Position.str.len()==0,'Parsed_Component_Position'] = '0'
 
     # keep only needed columns to save memory
     keys.append('Parsed_Component_Position')
