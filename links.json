@@ -895,13 +895,7 @@
     },
     {
         "source":"wuc_of_interest",
-        "target":"part_position_parser",
-        "vertices":[
-            [
-                645,
-                60
-            ]
-        ]
+        "target":"part_position_parser"
     },
     {
         "source":"wuc_of_interest",

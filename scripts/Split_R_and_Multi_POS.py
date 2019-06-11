@@ -29,7 +29,7 @@ def fn(conn, libraries, params, predecessors):
     join_clause = ' AND '.join(join_clause)
 
     df = pd.read_sql(con=conn,sql="""SELECT A.*, B.{} Action_Taken_Code FROM {} A 
-        LEFT JOIN {} B ON {}""".format(atc_field, pred_position, pred_atc, join_clause))
+        JOIN {} B ON {}""".format(atc_field, pred_position, pred_atc, join_clause))
 
     # Split all entries with ATC = R into ATC = P and ATC = Q for separate removal and replacement entries
     # take explicit dataframe copies, update subsets, then recombine
