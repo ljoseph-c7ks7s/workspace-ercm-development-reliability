@@ -4,7 +4,7 @@ Work_Unit_Code,Alternate_WUC,MDS,Minimum_SN_Inclusive,Maximum_SN,QPA,QPA_Descrip
 22GAB,,C130H,,,4,Total: 4 Per Engine: 1 Each  ,1 Per Engine,"1,2,3,4"
 22RBC,,C130J,,,8,Total: 8 Per Engine: 2 Each  Both Mounted in metal enclosure bolted to the nacelle longerons connected together by electrical Harness,2 Per Engine,"1A,1B,2A,2B,3A,3B,4A,4B"
 22TBB,,C130J,,,4,Total: 4 Per Engine: 1 Each,1 Per Engine,"1,2,3,4"
-22VDA,"22VDB,22VDC",C130J,,,4,Total: 12,1 Per Engine,"gearbox 1-4, turbine 1-4, compressor 1-4"
+22VDA,"22VDB,22VDC",C130J,,,4,Total: 12,1 Per Engine,"1,2,3,4"
 22XCN,,C130J,,,4,Total: 4 Per Engine: 1 Each,1 Per Engine,"1,2,3,4"
 22YAA,,C130J,,,4,Total: 4 Per Engine: 1 Each,1 Per Engine,"1,2,3,4"
 22YAB,,C130J,,,4,Total: 4 Per Engine: 1 Each,1 Per Engine,"1,2,3,4"
@@ -25,7 +25,7 @@ Work_Unit_Code,Alternate_WUC,MDS,Minimum_SN_Inclusive,Maximum_SN,QPA,QPA_Descrip
 5114K,,C130H,8500000036,1.00E+12,3,Total:  2 to 3 depending on Aircraft Airplane Prior to AF85-0035 Loacated: 1.  Main Instrument Panel- 1 Each 2.  Navigator's Instrument Panel- 1 Each   After AF85-0035 Aircraft 1.  Main Instrument Panel - 2 Each 2.  Navigator's Instrument Panel- 1 Each,altimeter,"pilot,copilot,nav"
 526DA,,C130H,,,2,Total: 2 Pilot Panel Assembly: 1 Each Copilot Panel Assembly: 1 Each,ADI,"pilot,copilot"
 526DD,,C130H,,,2,Total: 2 Pilot Panel Assembly: 1 Each Copilot Panel Assembly: 1 Each,HSI,"pilot,copilot"
-526DE,"526DA,526DD",C130H,,,4,Total: 4 Pilot Panel Assembly: 2 Each Co-Pilot Panel Assembly: 2 Each,EFI,"pilot_upper,pilot_lower,copilot_upper,copilot_lower"
+526DE,,C130H,,,4,Total: 4 Pilot Panel Assembly: 2 Each Co-Pilot Panel Assembly: 2 Each,EFI,"pilot_upper,pilot_lower,copilot_upper,copilot_lower"
 64BAD,,C130J,,,7,,ICS,"pilot,copilot,aug_crew,aft_center_console,aft_cargo,fwd_cargo,observer"
 71GE0,,C130H,0,9300001036,1,"Total: 1 to 2 depending on Aircraft    Airplanes modified by TO 1C-130-1486 are equipped with two INUs located in the electrical control and supply rack. DUAL INU airplanes   Dual INU airplanes: LC-130H AF92-1094 and up, HC-130(H)N AF92-2104 and up,  C-130H AF93-1036 and up. ",INU,1
 71GE0,,C130H,9300001036,1.00E+12,2,"Total: 1 to 2 depending on Aircraft    Airplanes modified by TO 1C-130-1486 are equipped with two INUs located in the electrical control and supply rack. DUAL INU airplanes   Dual INU airplanes: LC-130H AF92-1094 and up, HC-130(H)N AF92-2104 and up,  C-130H AF93-1036 and up. ",INU,"1,2"
