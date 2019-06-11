@@ -7,6 +7,7 @@ metadata = MetaData()
 interval_data_for_plots = Table('interval_data_for_plots', metadata, 
 
     Column('id', BigInteger, primary_key=True, autoincrement=False),
+    Column('Work_Unit_Code', String(255), primary_key=False, autoincrement=False),
     Column('TOW', Float, primary_key=False, autoincrement=False),
     Column('REMOVAL_Cause', String(255), primary_key=False, autoincrement=False),
     Column('Causal', TINYINT, primary_key=False, autoincrement=False),
