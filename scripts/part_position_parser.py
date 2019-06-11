@@ -915,7 +915,7 @@ def fn(conn, libraries, params, predecessors):
     pd = libraries["pandas"]
     re = libraries["re"]
 
-    if len(predecessors) in (2,3):
+    if len(predecessors) in (2,4):
 
         if len(predecessors) == 2:  
             if len([ii for ii in predecessors if 'compiled' in ii]) > 0:
@@ -944,6 +944,8 @@ def fn(conn, libraries, params, predecessors):
                     compiled_table_name = pred
                 elif 'qpa' in pred:
                     qpa_table_name = pred
+                elif 'label' in pred:
+                    action_table_name = pred
                 else:
                     wuc_table_name = pred
             df_qpa = pd.read_sql(con=conn, sql="""SELECT * FROM {}""".format(qpa_table_name))
@@ -951,12 +953,15 @@ def fn(conn, libraries, params, predecessors):
         if compiled_table_name:
             # read data from multiple tables 
             keys = list(pd.read_sql(sql="SHOW KEYS FROM {}".format(wuc_table_name), con=conn).Column_name)
-            join_clause = ['A.{} = B.{}'.format(ii,ii) for ii in keys]
-            join_clause = ' AND '.join(join_clause)
+            join_clause_1 = ['A.{} = B.{}'.format(ii,ii) for ii in keys]
+            join_clause_1 = ' AND '.join(join_clause_1)
+            join_clause_2 = ['A.{} = C.{}'.format(ii,ii) for ii in keys]
+            join_clause_2 = ' AND '.join(join_clause_2)
 
-            df = pd.read_sql(con=conn, sql="""SELECT A.*, B.Serial_Number, B.Equipment_Designator, B.Action_Taken_Code, B.Discrepancy_Narrative, B.Work_Center_Event_Narrative, 
+            df = pd.read_sql(con=conn, sql="""SELECT A.*, B.Serial_Number, B.Equipment_Designator, C.Action, B.Discrepancy_Narrative, B.Work_Center_Event_Narrative, 
                 B.Corrective_Narrative, B.Component_Position_Number FROM {} A 
-                LEFT JOIN {} B ON {}""".format(wuc_table_name, compiled_table_name, join_clause))
+                LEFT JOIN {} B ON {} LEFT JOIN {} C ON {}""".format(wuc_table_name, compiled_table_name, 
+                    join_clause_1, action_table_name, join_clause_2))
 
     elif len(predecessors) == 1:
         # KC135 comparison against NB-BOW
