@@ -5,7 +5,7 @@
         "description":"Create a staged table in the database.",
         "id":"compiled_sortie_history_data",
         "label":"Compiled Sortie History Data",
-        "model":"c7e4b3ec-b804-4b2d-b45b-850723dea40b",
+        "model":"e862daaa-1db3-403d-9656-e24d3a1169c2",
         "position":[
             360,
             360
@@ -35,7 +35,7 @@
         "description":"Compile all previously-uploaded remis data.",
         "id":"compiled_remis_data",
         "label":"Compiled REMIS Data",
-        "model":"113a6728-c63f-40f7-b0cf-185886f5e550",
+        "model":"0fe94094-9f6c-4be9-8da8-d6e37dc6b137",
         "position":[
             215,
             20
@@ -785,7 +785,7 @@
         "description":"Save sets of labels to validate uploaded hand-labeled events against",
         "id":"labels_import",
         "label":"Labels Import",
-        "model":"a355396d-c345-48c8-bb35-d58d74cbc938",
+        "model":"732d632b-9faa-4881-9229-3fbf80c45af7",
         "position":[
             370,
             445
