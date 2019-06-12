@@ -3207,7 +3207,7 @@
         "description":"Apply a deep learning model to a new set of data",
         "id":"label_32525_action",
         "label":"Label 32525 Action",
-        "model":"6e433066-5440-4a3d-8af6-2b89fe2a1e77",
+        "model":"empty",
         "position":[
             1130,
             1240
