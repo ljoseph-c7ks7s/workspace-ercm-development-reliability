@@ -108,7 +108,7 @@ def engine_reader(df_eng,libraries):
     
     # if no information is found in the narratives, copy in the provided 'Component_Position_Number' - make sure its a non-decimal string
     df_eng.loc[df_eng.Parsed_Component_Position.str.len()==0, 'Parsed_Component_Position'] = \
-        df_eng.loc[df_eng.Parsed_Component_Position.str.len()==0, 'Component_Position_Number'].apply(lambda x: str(int(float(x))))
+        df_eng.loc[df_eng.Parsed_Component_Position.str.len()==0, 'Component_Position_Number']
 
     return df_eng
 
@@ -798,7 +798,7 @@ def ECBU(df_ecbu,libraries):
         
     # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
     df_ecbu.loc[df_ecbu.Parsed_Component_Position.str.len()==0, 'Parsed_Component_Position'] = \
-        df_ecbu.loc[df_ecbu.Parsed_Component_Position.str.len()==0, 'Component_Position_Number'].apply(lambda x: str(int(float(x))))
+        df_ecbu.loc[df_ecbu.Parsed_Component_Position.str.len()==0, 'Component_Position_Number']
     
     return df_ecbu
 
@@ -984,7 +984,7 @@ def APU(df_apu,libraries):
     df_apu.loc[(df_apu.Parsed_Component_Position.str.len()==0) &
                    (df_apu.Component_Position_Number == 5), 'Parsed_Component_Position'] = 'APU'
     df_apu.loc[df_apu.Parsed_Component_Position.str.len()==0, 'Parsed_Component_Position'] = \
-        df_apu.loc[df_apu.Parsed_Component_Position.str.len()==0, 'Component_Position_Number'].apply(lambda x: str(int(float(x))))
+        df_apu.loc[df_apu.Parsed_Component_Position.str.len()==0, 'Component_Position_Number']
                 
     return df_apu
 
