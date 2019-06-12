@@ -164,7 +164,7 @@
         "description":"Create a staged table in the database.",
         "id":"stage_data_for_tow",
         "label":"Stage Data for TOW",
-        "model":"59e4f67f-1f9c-452a-b9d5-e00c9d1288be",
+        "model":"9e6421bc-4e88-4d00-b8a8-885b3a5a20f9",
         "position":[
             1185,
             130
@@ -785,7 +785,7 @@
         "description":"Save sets of labels to validate uploaded hand-labeled events against",
         "id":"labels_import",
         "label":"Labels Import",
-        "model":"73337df4-a5f2-4339-a7d7-afa8fdeb6d20",
+        "model":"bb7cdcee-95f1-4641-a663-04a48bd9f658",
         "position":[
             370,
             445
@@ -3192,7 +3192,7 @@
         "description":"Apply a deep learning model to a new set of data",
         "id":"label_22xcn_action",
         "label":"Label 22XCN Action",
-        "model":"d99f4fe6-bd34-43b9-ab88-5461bc385f99",
+        "model":"8f821704-734a-486b-8bcb-0565075d54a8",
         "position":[
             1130,
             1200
@@ -3207,7 +3207,7 @@
         "description":"Apply a deep learning model to a new set of data",
         "id":"label_32525_action",
         "label":"Label 32525 Action",
-        "model":"empty",
+        "model":"4a430df1-7904-49ab-8485-e67052da1a47",
         "position":[
             1130,
             1240
@@ -3401,7 +3401,7 @@
         "description":"Apply a deep learning model to a new set of data",
         "id":"label_22yab_action",
         "label":"Label 22YAB Action",
-        "model":"870e5aec-5892-4939-b992-452559b68074",
+        "model":"affe19f9-0ead-4fa0-bee3-db24513afdcd",
         "position":[
             1130,
             760
@@ -3515,7 +3515,7 @@
         "description":"Apply a deep learning model to a new set of data",
         "id":"label_491a0_action",
         "label":"Label 491A0 Action",
-        "model":"6bd3eabb-cf6d-4f31-8039-6e1a40f314bc",
+        "model":"e8bd60de-d806-42bc-93ed-d1646c677283",
         "position":[
             1130,
             1390
