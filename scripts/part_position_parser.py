@@ -852,6 +852,105 @@ def APU(df,libraries):
     return df
 
 
+def VD(df,libraries):
+    
+    pd = libraries["pandas"]
+    re = libraries["re"]
+
+    # define fields to check
+    checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
+
+    # for each entry, search fields for component position numbers 
+    indexer = list(df.index.values)
+    for i in indexer:
+#     for i in range (0,len(df)):
+        j = 0
+        parse = []
+        while j < len(checks):
+
+            # search narratives for given patterns
+            parse = re.findall("GEAR ?BOX|GB|COMPR[E ]SSOR|TURBINE|GVIB|CVIB|TVIB",str(df.loc[i,checks[j]]))
+            parsenum = re.findall("(?:\# ?|NO\.? |NUMBER )\d+",str(df.loc[i,checks[j]]))
+            
+            # if we find string position but not numeric position (or vice versa), search the next narrative for a numeric/string position
+            if parse and not parsenum:
+                try:
+                    parsenum = re.findall("(?:\# ?|NO\.? |NUMBER )\d+",str(df.loc[i,checks[j+1]]))
+                except:
+                    parsenum = []
+            if parsenum and not parse:
+                try:
+                    parse = re.findall("GEAR ?BOX|GB|COMPR[E ]SSOR|TURBINE|GVIB|CVIB|TVIB",str(df.loc[i,checks[j+1]]))
+                except:
+                    parse = []
+            
+            # keep only alphanumeric chars and comma separators
+            parse = re.sub("[^\w,]","",str(parse))
+            parsenum = re.sub("[^\d,]","",str(parsenum))
+            
+            # convert strings into list of strings
+            split = [x for x in parsenum.split(',')]
+            parse = [x for x in parse.split(',')]
+
+# handle parsenum/split
+
+                # remove empty strings from list
+            clean = filter(None, split)
+            
+                # convert list of strings into list of ints
+            ints = map(int, clean)
+            
+                # remove all values > 4
+            trim = [x for x in ints if x<5]
+            
+            # remove duplicates and sort
+            trim = list(set(trim))
+            trim.sort()
+        
+# handle parse    
+            # convert back to string with only alphabetical, 1-4 labels
+            parse = re.sub("[^\w,^\d]","",str(parse))
+            parse = parse.lstrip(',').rstrip(',')
+            
+            # correct parsed labels
+            parse = parse.replace("GB","GEARBOX")
+            parse = parse.replace("GVIB","GEARBOX")
+            parse = parse.replace("TVIB","TURBINE")
+            parse = parse.replace("CVIB","COMPRESSOR")
+            parse = parse.replace("COMPR SSOR","COMPRESSOR")
+            
+            # remove duplicates and sort
+            parse = parse.split(',')
+            parse = list(set(parse))
+            parse.sort()
+            
+# concatenate alphabetical labels to numeric positions to get single parsed list
+    
+            # generate cross product for numbers and strings
+            # 1,2 and gearbox,compressor -> gearbox_1,gearbox_2,compressor_1,compressor_2
+            crossed = [str(x)+str('_')+str(y) for x in parse for y in trim]
+
+            # convert back to string to remove []                       
+            crossed = ','.join(map(str, crossed)).rstrip(',')
+            
+            
+            # save values into df
+            df.loc[i,'Parsed_Component_Position']=crossed
+
+            # if empty, check next narrative
+            if df.loc[i,'Parsed_Component_Position'] != "":
+                j = len(checks)
+            else:
+                j = j+1
+                
+            # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
+        if df.loc[i,'Parsed_Component_Position']==str(''):
+            df.loc[i,'Parsed_Component_Position'] = str('0')
+            
+
+    return df
+
+
 def label_picker(df_one_wuc,wuc_qpa,this_wuc,libraries):
     """
     Determines which function to run in order to parse a given set of records. Returns updated dataframe with parsed positions
@@ -932,6 +1031,9 @@ def label_picker(df_one_wuc,wuc_qpa,this_wuc,libraries):
         elif qpa_i.Names=='1,2,3,4,apu':
             # print('Filling with APU')
             df_i = APU(df_thisqpa,libraries)
+
+        elif qpa_i.Names=='1-4 ; compressor,gearbox,turbine':
+            df_i = VD(df_thisqpa,libraries)
         
         else:
             # print('Scheme not found. Position left unparsed')
