@@ -2364,7 +2364,7 @@
         "target":"resample_491a0",
         "vertices":[
             [
-                510,
+                505,
                 490
             ],
             [
@@ -2404,5 +2404,45 @@
                 425
             ]
         ]
+    },
+    {
+        "source":"labels_import",
+        "target":"resample_22vdx",
+        "vertices":[
+            [
+                510,
+                490
+            ],
+            [
+                215,
+                490
+            ],
+            [
+                215,
+                1415
+            ]
+        ]
+    },
+    {
+        "source":"resample_22vdx",
+        "target":"fit_action_22vdx"
+    },
+    {
+        "source":"fit_action_22vdx",
+        "target":"label_22vdx",
+        "vertices":[
+            [
+                750,
+                1460
+            ],
+            [
+                1110,
+                1460
+            ]
+        ]
+    },
+    {
+        "source":"remis_filter_22vdx",
+        "target":"label_22vdx"
     }
 ]
