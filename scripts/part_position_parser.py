@@ -75,10 +75,12 @@ def engine_reader(df_eng,libraries):
         df['parse'] = df['parse'].apply(lambda x: [str(ii).replace('ALL FOUR', '1,2,3,4').replace('ALL 4', '1,2,3,4') for ii in x])
 
         # keep only numeric digits and comma separators
+        df['nums'] = df['parse'].apply(lambda x: re.sub(r"[^\d,]","",str(x)))
         # convert string into list of strings
+        df['nums'] = df['nums'].apply(lambda x: x.split(','))
         # remove empty strings from list
         # convert list of strings into list of ints
-        df['nums'] = df['parse'].apply(lambda x: map(int, filter(None, re.sub(r"[^\d,]","",str(x)).split(','))))
+        df['nums'] = df['nums'].apply(lambda x: map(int, filter(None, x)))
 
         # remove all values > 4, duplicates and sort
         df['nums'] = df['nums'].apply(lambda x: sorted(list(set([ii for ii in x if ii<5]))))
@@ -104,8 +106,9 @@ def engine_reader(df_eng,libraries):
         df_sub = extract_positions_single_narr_engine_reader(df_eng.loc[df_eng.Parsed_Component_Position.str.len()==0].copy(), j)
         df_eng.update(df_sub)
     
-    # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
-    df_eng.loc[df_eng.Parsed_Component_Position.str.len()==0, 'Parsed_Component_Position'] = df_eng.loc[df_eng.Parsed_Component_Position.str.len()==0, 'Component_Position_Number']
+    # if no information is found in the narratives, copy in the provided 'Component_Position_Number' - make sure its a non-decimal string
+    df_eng.loc[df_eng.Parsed_Component_Position.str.len()==0, 'Parsed_Component_Position'] = \
+        df_eng.loc[df_eng.Parsed_Component_Position.str.len()==0, 'Component_Position_Number'].apply(lambda x: str(int(float(x))))
 
     return df_eng
 
@@ -763,10 +766,12 @@ def ECBU(df_ecbu,libraries):
         df.loc[(df.Action!='SW') & (df.parse.str.len()!=0), 'parse'] = df.loc[(df.Action!='SW') & (df.parse.str.len()!=0), 'parse'].apply(lambda x: x[0])
 
         # keep only numeric digits and comma separators
+        df['nums'] = df['parse'].apply(lambda x: re.sub(r"[^\d,]","",str(x)))
         # convert string into list of strings
+        df['nums'] = df['nums'].apply(lambda x: x.split(','))
         # remove empty strings from list
         # convert list of strings into list of ints
-        df['nums'] = df['parse'].apply(lambda x: map(int, filter(None, re.sub(r"[^\d,]","",str(x)).split(','))))
+        df['nums'] = df['nums'].apply(lambda x: map(int, filter(None, x)))
 
         # remove all values > 13, duplicates and sort
         df['nums'] = df['nums'].apply(lambda x: sorted(list(set([ii for ii in x if ii<14]))))
@@ -792,7 +797,8 @@ def ECBU(df_ecbu,libraries):
         df_ecbu.update(df_sub)
         
     # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
-    df_ecbu.loc[df_ecbu.Parsed_Component_Position.str.len()==0, 'Parsed_Component_Position'] = df_ecbu.loc[df_ecbu.Parsed_Component_Position.str.len()==0, 'Component_Position_Number']
+    df_ecbu.loc[df_ecbu.Parsed_Component_Position.str.len()==0, 'Parsed_Component_Position'] = \
+        df_ecbu.loc[df_ecbu.Parsed_Component_Position.str.len()==0, 'Component_Position_Number'].apply(lambda x: str(int(float(x))))
     
     return df_ecbu
 
@@ -936,10 +942,12 @@ def APU(df_apu,libraries):
         df['parseapu'] = df[col].apply(lambda x: re.findall(r"APU", x))
 
         # keep only numeric digits and comma separators
+        df['nums'] = df['parse'].apply(lambda x: re.sub(r"[^\d,]","",str(x)))
         # convert string into list of strings
+        df['nums'] = df['nums'].apply(lambda x: x.split(','))
         # remove empty strings from list
         # convert list of strings into list of ints
-        df['nums'] = df['parse'].apply(lambda x: map(int, filter(None, re.sub(r"[^\d,]","",str(x)).split(','))))
+        df['nums'] = df['nums'].apply(lambda x: map(int, filter(None, x)))
 
         # remove all values > 4, duplicates and sort
         df['nums'] = df['nums'].apply(lambda x: sorted(list(set([ii for ii in x if ii<5]))))
@@ -976,7 +984,7 @@ def APU(df_apu,libraries):
     df_apu.loc[(df_apu.Parsed_Component_Position.str.len()==0) &
                    (df_apu.Component_Position_Number == 5), 'Parsed_Component_Position'] = 'APU'
     df_apu.loc[df_apu.Parsed_Component_Position.str.len()==0, 'Parsed_Component_Position'] = \
-        df_apu.loc[df_apu.Parsed_Component_Position.str.len()==0, 'Component_Position_Number']
+        df_apu.loc[df_apu.Parsed_Component_Position.str.len()==0, 'Component_Position_Number'].apply(lambda x: str(int(float(x))))
                 
     return df_apu
 
