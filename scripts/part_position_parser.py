@@ -113,7 +113,7 @@ def engine_reader(df_eng,libraries):
     return df_eng
 
 
-def cp_navplt(df,libraries):
+def cp_navplt(df_cp_navplt,libraries):
 
     pd = libraries["pandas"]
     re = libraries["re"]
@@ -122,56 +122,99 @@ def cp_navplt(df,libraries):
     checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
     
     # for each entry, search fields for component position numbers 
-    indexer = list(df.index.values)
-    for i in indexer:
-        j = 0
-        parse = []
-        while j < len(checks):
+    # indexer = list(df.index.values)
+    # for i in indexer:
+    #     j = 0
+    #     parse = []
+    #     while j < len(checks):
 
-            # search narratives for given patterns
-            parse = re.findall(r"C?O?\W?PI?L?O?T|C\W?P|NAV",str(df.loc[i,checks[j]]))
+    #         # search narratives for given patterns
+    #         parse = re.findall(r"C?O?\W?PI?L?O?T|C\W?P|NAV",str(df.loc[i,checks[j]]))
             
-            # keep only alphabetical chars and comma separators to fix C-P, C/P etc.
-            parse = re.sub(r"[^\w,]","",str(parse))            
+    #         # keep only alphabetical chars and comma separators to fix C-P, C/P etc.
+    #         parse = re.sub(r"[^\w,]","",str(parse))            
             
-            # correct parsed labels
-            parse = parse.replace('CPIT','PIT')
-            parse = parse.replace(',PIT','')
-            parse = parse.replace('PIT,','')
-            parse = parse.replace('PIT','')
-            parse = parse.replace('PILT','PILOT')
-            parse = parse.replace('PLT','PILOT')
-            parse = parse.replace('PT','PILOT')
-            parse = parse.replace('CPLT','CP')
-            parse = parse.replace('CPT','CP')
-            parse = parse.replace('CPILOT','CP')
-            parse = parse.replace('COPILOT','CP')
-            parse = parse.replace('PILOT','NAV')
-            parse = parse.replace('CP','COPILOT')
+    #         # correct parsed labels
+    #         parse = parse.replace('CPIT','PIT')
+    #         parse = parse.replace(',PIT','')
+    #         parse = parse.replace('PIT,','')
+    #         parse = parse.replace('PIT','')
+    #         parse = parse.replace('PILT','PILOT')
+    #         parse = parse.replace('PLT','PILOT')
+    #         parse = parse.replace('PT','PILOT')
+    #         parse = parse.replace('CPLT','CP')
+    #         parse = parse.replace('CPT','CP')
+    #         parse = parse.replace('CPILOT','CP')
+    #         parse = parse.replace('COPILOT','CP')
+    #         parse = parse.replace('PILOT','NAV')
+    #         parse = parse.replace('CP','COPILOT')
             
-            # remove duplicates and sort
-            parse = parse.strip()
-            parse = parse.split(',')
-            parse = list(set(parse))
-            parse.sort()
+    #         # remove duplicates and sort
+    #         parse = parse.strip()
+    #         parse = parse.split(',')
+    #         parse = list(set(parse))
+    #         parse.sort()
             
-            # convert back to string to remove []
-            parse = ','.join(map(str, parse))
+    #         # convert back to string to remove []
+    #         parse = ','.join(map(str, parse))
 
-            # save values into df
-            df.loc[i,'Parsed_Component_Position']=parse
+    #         # save values into df
+    #         df.loc[i,'Parsed_Component_Position']=parse
 
-            # if empty, check next narrative
-            if df.loc[i,'Parsed_Component_Position'] != "":
-                j = len(checks)
-            else:
-                j = j+1
+    #         # if empty, check next narrative
+    #         if df.loc[i,'Parsed_Component_Position'] != "":
+    #             j = len(checks)
+    #         else:
+    #             j = j+1
 
-                # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
-        if df.loc[i,'Parsed_Component_Position']==str(''):
-            df.loc[i,'Parsed_Component_Position'] = df.loc[i,'Component_Position_Number']
+    #             # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
+    #     if df.loc[i,'Parsed_Component_Position']==str(''):
+    #         df.loc[i,'Parsed_Component_Position'] = df.loc[i,'Component_Position_Number']
 
-    return df
+    # search narratives for given patterns
+
+        def extract_positions_single_narr_cp_navplt(df, col):           
+
+        # search narratives for given patterns
+        df['parse'] = df[col].apply(lambda x: re.findall(r"C?O?\W?PI?L?O?T|C\W?P|NAV", x))
+
+        # keep only alphabetical chars and comma separators to fix C-P, C/P etc.
+		df['alpha'] = df['parse'].apply(lambda x: re.sub(r"[^\w,]","",str(x)))
+
+        # correct parsed labels
+        parse_dict = {'CPIT':'PIT', ',PIT':'','PIT,':'', 'PIT':'', 'PILT':'PILOT', 'PLT':'PILOT', 'PT':'PILOT','CPLT':'CP','CPT':'CP', 'CPILOT':'CP', 'COPILOT':'CP','PILOT':'NAV', 'CP':'COPILOT'}
+        for key in in parse_dict.keys():
+            df['alpha'] = df['alpha'].apply(lambda x: x.replace(key,parse_dict[key]))
+
+        # remove duplicates and sort
+        df['alpha'] = df['alpha'].apply(lambda x: sorted(list(set(x.strip().split(':',)))))
+
+        # convert back to string to remove []
+        df['alpha'] = df['alpha'].apply(lambda x: ','.apply(lambda x: ','.join(map(str, x))))
+
+        # save values into df
+        df.loc[:,'Parsed_Component_Position'] = df['alpha']
+
+        df.drop(['parse','alpha'], axis=1, inplace=True)
+
+        # return matches
+        return df[df.Parsed_Component_Position.str.len()>0]
+
+    
+    for j in checks:
+        if df_cp_navplt.loc[df_cp_navplt.Parsed_Component_Position.str.len()==0].empty:
+            # if all positions have been found then do nothing
+            break
+
+        # send df subset that has no matches to get a match
+        df_sub = extract_positions_single_narr_cp_navplt(df_cp_navplt.loc[df_cp_navplt.Parsed_Component_Position.str.len()==0].copy(), j)
+        df_cp_navplt.update(df_sub)
+
+    # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
+    df_cp_navplt.loc[df_cp_navplt.Parsed_Component_Position.str.len()==0, 'Parsed_Component_Position'] = \
+        df_cp_navplt.loc[df_cp_navplt.Parsed_Component_Position.str.len()==0, 'Component_Position_Number']
+
+    return df_cp_navplt
 
 def cp_plt(df,libraries):
 
@@ -235,7 +278,7 @@ def cp_plt(df,libraries):
     return df
 
 
-def pilot_cp_nav(df,libraries):
+def pilot_cp_nav(df_pilot_cp_nav,libraries):
 
     pd = libraries['pandas']
     re = libraries['re']
@@ -243,58 +286,96 @@ def pilot_cp_nav(df,libraries):
     # define fields to check. Use j to iterate through this list.
     checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
 
-    # for each entry, search fields for component position numbers 
-    indexer = list(df.index.values)
-    for i in indexer:
-#     for i in range (0,len(df)):
-        j = 0
-        parse = []
-        while j < len(checks):
+#     # for each entry, search fields for component position numbers 
+#     indexer = list(df.index.values)
+#     for i in indexer:
+# #     for i in range (0,len(df)):
+#         j = 0
+#         parse = []
+#         while j < len(checks):
 
-            # search narratives for given patterns
-            parse = re.findall("C?O?\W?PI?L?O?T|C\W?P|NAV",str(df.loc[i,checks[j]]))
+#             # search narratives for given patterns
+#             parse = re.findall("C?O?\W?PI?L?O?T|C\W?P|NAV",str(df.loc[i,checks[j]]))
             
-            # keep only alphabetical chars and comma separators to fix C-P, C/P etc.
-            parse = re.sub(r"[^\w,]","",str(parse))
+#             # keep only alphabetical chars and comma separators to fix C-P, C/P etc.
+#             parse = re.sub(r"[^\w,]","",str(parse))
             
-            # correct parsed labels
-            parse = parse.replace('OPI','PI')
-            parse = parse.replace('CPIT','PIT')
-            parse = parse.replace(',PIT','')
-            parse = parse.replace('PIT,','')
-            parse = parse.replace('PIT','')
-            parse = parse.replace('PILT','PILOT')
-            parse = parse.replace('PLT','PILOT')
-            parse = parse.replace('PT','PILOT')
-            parse = parse.replace('CPILOT','COPILOT')
-            parse = parse.replace('CPLT','COPILOT')
-            parse = parse.replace('CPT','COPILOT')
-            parse = parse.replace('CP','COPILOT')
+#             # correct parsed labels
+#             parse = parse.replace('OPI','PI')
+#             parse = parse.replace('CPIT','PIT')
+#             parse = parse.replace(',PIT','')
+#             parse = parse.replace('PIT,','')
+#             parse = parse.replace('PIT','')
+#             parse = parse.replace('PILT','PILOT')
+#             parse = parse.replace('PLT','PILOT')
+#             parse = parse.replace('PT','PILOT')
+#             parse = parse.replace('CPILOT','COPILOT')
+#             parse = parse.replace('CPLT','COPILOT')
+#             parse = parse.replace('CPT','COPILOT')
+#             parse = parse.replace('CP','COPILOT')
             
-            # remove duplicates and sort
-            parse = parse.strip()
-            parse = parse.split(',')
-            parse = list(set(parse))
-            parse.sort()
+#             # remove duplicates and sort
+#             parse = parse.strip()
+#             parse = parse.split(',')
+#             parse = list(set(parse))
+#             parse.sort()
             
-            # convert back to string to remove []
-            parse = ','.join(map(str, parse))
+#             # convert back to string to remove []
+#             parse = ','.join(map(str, parse))
             
-            # save values into df
-            df.loc[i,'Parsed_Component_Position']=parse
+#             # save values into df
+#             df.loc[i,'Parsed_Component_Position']=parse
 
-            # if empty, check next narrative
-            if df.loc[i,'Parsed_Component_Position'] != "":
-                j = len(checks)
-            else:
-                j = j+1
-                
+#             # if empty, check next narrative
+#             if df.loc[i,'Parsed_Component_Position'] != "":
+#                 j = len(checks)
+#             else:
+#                 j = j+1
+    def extract_positions_single_narr_pilot_cp_nav(df, col):           
 
-            # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
-        if df.loc[i,'Parsed_Component_Position']==str(''):
-            df.loc[i,'Parsed_Component_Position'] = df.loc[i,'Component_Position_Number']
+        # search narratives for given patterns
+        df['parse'] = df[col].apply(lambda x: re.findall(r"C?O?\W?PI?L?O?T|C\W?P|NAV", x))
 
-    return df
+
+        # keep only alphabetical chars and comma separators to fix C-P, C/P etc.
+		df['alpha'] = df['parse'].apply(lambda x: re.sub(r"[^\w,]","",str(x)))
+
+
+        # correct parsed labels
+        parse_dict = {'OPI':'PI', 'CPIT':'PIT', ',PIT':'', 'PIT':'', 'PILT':'PILOT', 'PLT':'PILOT', 'PT':'PILOT', 'CPILOT':'COPILOT', 'CPLT':'COPILOT', 'CPT':'COPILOT', 'CP':'COPILOT'}
+        for key in in parse_dict.keys():
+            df['alpha'] = df['alpha'].apply(lambda x: x.replace(key,parse_dict[key]))
+
+        # remove duplicates and sort
+        df['alpha'] = df['alpha'].apply(lambda x: sorted(list(set(x.strip().split(':',)))))
+
+        # convert back to string to remove []
+        df['alpha'] = df['alpha'].apply(lambda x: ','.apply(lambda x: ','.join(map(str, x))))
+
+        # save values into df
+        df.loc[:,'Parsed_Component_Position'] = df['alpha']
+
+        df.drop(['parse','alpha'], axis=1, inplace=True)
+
+        # return matches
+        return df[df.Parsed_Component_Position.str.len()>0]
+
+
+    
+    for j in checks:
+        if df_cp_navplt.loc[df_cp_navplt.Parsed_Component_Position.str.len()==0].empty:
+            # if all positions have been found then do nothing
+            break
+
+        # send df subset that has no matches to get a match
+        df_sub = extract_positions_single_narr_pilot_cp_nav(df_pilot_cp_nav.loc[df_pilot_cp_nav.Parsed_Component_Position.str.len()==0].copy(), j)
+        df_pilot_cp_nav.update(df_sub)
+
+    # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
+    df_pilot_cp_nav.loc[df_pilot_cp_nav.Parsed_Component_Position.str.len()==0, 'Parsed_Component_Position'] = \
+        df_pilot_cp_nav.loc[df_pilot_cp_nav.Parsed_Component_Position.str.len()==0, 'Component_Position_Number']
+
+    return df_pilot_cp_nav
 
 
 def INU(df,libraries):
