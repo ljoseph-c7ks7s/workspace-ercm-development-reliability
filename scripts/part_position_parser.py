@@ -297,7 +297,7 @@ def pilot_cp_nav(df,libraries):
     return df
 
 
-def INU(df,libraries):
+def INU(df_inu, libraries):
     pd = libraries['pandas']
     re = libraries['re']
 
@@ -305,53 +305,98 @@ def INU(df,libraries):
     checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
 
     # for each entry, search fields for component position numbers 
-    indexer = list(df.index.values)
-    for i in indexer:
-        j = 0
-        parse = []
-        while j < len(checks):
+    # indexer = list(df.index.values)
+    # for i in indexer:
+    #     j = 0
+    #     parse = []
+    #     while j < len(checks):
             
-            # search narratives for given patterns
-            parse = re.findall(r"\#\d+|\# \d+|NO. \d+|NUMBER \d+|1 AND 2|1 \& 2|\#!",str(df.loc[i,checks[j]]))
+    #         # search narratives for given patterns
+    #         parse = re.findall(r"\#\d+|\# \d+|NO. \d+|NUMBER \d+|1 AND 2|1 \& 2|\#!",str(df.loc[i,checks[j]]))
             
-            # replace 'AND' matches with numbers
-            parse = [x.replace('1 AND 2','1,2') for x in parse]
-            parse = [x.replace('1 & 2','1,2') for x in parse]
-            parse = [x.replace('#!','1') for x in parse]
+    #         # replace 'AND' matches with numbers
+    #         parse = [x.replace('1 AND 2','1,2') for x in parse]
+    #         parse = [x.replace('1 & 2','1,2') for x in parse]
+    #         parse = [x.replace('#!','1') for x in parse]
             
-            # keep only numeric digits and comma separators
-            nums = re.sub(r"[^\d,]","",str(parse))
+    #         # keep only numeric digits and comma separators
+    #         nums = re.sub(r"[^\d,]","",str(parse))
             
-            # convert string into list of strings
-            split = [x for x in nums.split(',')]
+    #         # convert string into list of strings
+    #         split = [x for x in nums.split(',')]
             
-            # remove empty strings from list
-            clean = filter(None, split)
+    #         # remove empty strings from list
+    #         clean = filter(None, split)
             
-            # convert list of strings into list of ints
-            ints = map(int, clean)
+    #         # convert list of strings into list of ints
+    #         ints = map(int, clean)
             
-            # remove all values > 2, duplicates and sort
-            trim = [x for x in ints if x<3]
-            trim = list(set(trim))
-            trim.sort()
+    #         # remove all values > 2, duplicates and sort
+    #         trim = [x for x in ints if x<3]
+    #         trim = list(set(trim))
+    #         trim.sort()
             
-            # convert back to string to remove []
-            remove = ','.join(map(str, trim))
+    #         # convert back to string to remove []
+    #         remove = ','.join(map(str, trim))
 
-            # save values into df
-            df.loc[i,'Parsed_Component_Position']=remove
-            # if empty, check next narrative
-            if any(x.isdigit() for x in remove):
-                j = len(checks)
-            else:
-                j = j+1
+    #         # save values into df
+    #         df.loc[i,'Parsed_Component_Position']=remove
+    #         # if empty, check next narrative
+    #         if any(x.isdigit() for x in remove):
+    #             j = len(checks)
+    #         else:
+    #             j = j+1
                 
 
-            # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
-        if df.loc[i,'Parsed_Component_Position'] == str(''):
-            df.loc[i,'Parsed_Component_Position'] = df.loc[i,'Component_Position_Number']
-    return df
+          #  # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
+        # if df.loc[i,'Parsed_Component_Position'] == str(''):
+        #     df.loc[i,'Parsed_Component_Position'] = df.loc[i,'Component_Position_Number']
+
+    def extract_positions_single_narr_inu(df, col):
+        # search narratives for given patterns
+        df['parse'] = df[col].apply(lambda x: re.findall(r"\#\d+|\# \d+|NO. \d+|NUMBER \d+|1 AND 2|1 \& 2|\#!", x))
+        
+        # replace 'AND' matches with numbers
+        df['parse'] = df['parse'].apply(lambda x: [str(ii).replace('1 AND 2','1,2').replace('1 & 2','1,2').replace('#!','1') for ii in x])
+
+        # keep only numeric digits and comma separators
+        df['nums'] = df['parse'].apply(lambda x: re.sub(r"[^\d,]","",str(x)))
+        # convert string into list of strings
+        df['nums'] = df['nums'].apply(lambda x: [ii for ii in x.split(',')])
+        # remove empty strings from list
+        df['nums'] = df['nums'].apply(lambda x: filter(None, x))
+        # convert list of strings into list of ints
+        df['nums'] = df['nums'].apply(lambda x: map(int, x))
+
+        # remove all values > 2, duplicates and sort
+        df['nums'] = df['nums'].apply(lambda x: sorted(list(set([ii for ii in x if ii<3]))))
+        
+        # convert back to string to remove []
+        df['nums'] = df['nums'].apply(lambda x: ','.join(map(str, x)).strip())
+
+        # save values into df
+        df.loc[:,'Parsed_Component_Position'] = df['nums']
+        
+        df.drop(['parse','nums'], axis=1, inplace=True)
+
+        # return matches
+        return df[df.Parsed_Component_Position.str.len()>0]
+
+    for j in checks:
+
+        if df_inu.loc[df_inu.Parsed_Component_Position.str.len()==0].empty:
+                # if all positions have been found then do nothing
+                break
+        
+        # send df subset that has no matches to get a match
+        df_sub = extract_positions_single_narr_inu(df_inu.loc[df_inu.Parsed_Component_Position.str.len()==0].copy(), j)
+        df_inu.update(df_sub)
+        
+    # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
+    df_inu.loc[df_inu.Parsed_Component_Position.str.len()==0, 'Parsed_Component_Position'] = \
+        df_inu.loc[df_inu.Parsed_Component_Position.str.len()==0, 'Component_Position_Number']
+
+    return df_inu
 
 
 def EFI(df,libraries):
