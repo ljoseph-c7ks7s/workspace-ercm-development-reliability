@@ -874,7 +874,6 @@ def VD(df,libraries):
             
             # if we find string position but not numeric position (or vice versa), search the next narrative for a numeric/string position
             if parse and not parsenum:
-                print('parse not num')
                 try:
                     parsenum = re.findall("(?:\# ?|NO\.? ?|NUMBER |ENG(?:INE)? )\d+| ALL 4| ALL FOUR",str(df.loc[i,checks[j+1]]))
                 except:
@@ -884,12 +883,9 @@ def VD(df,libraries):
                     parse = re.findall("GEAR ?BOX|G[\/]?B|COMP(?:R[E ]SSOR)?|TURBINE?|GVIB|CVIB|TVIB",str(df.loc[i,checks[j+1]]))
                 except:
                     parse = []
-#             print(parse)
-#             print(parsenum)
         
             # if both numeric and string found, standardize labels and save. Otherwise iterate through checks.
             if parsenum and parse:
-#                 print('found')
             
             
                 parsenum = [x.replace('ALL FOUR','1,2,3,4') for x in parsenum]
