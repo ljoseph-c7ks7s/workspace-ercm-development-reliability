@@ -1157,7 +1157,7 @@ def fn(conn, libraries, params, predecessors):
     df.loc[:,'Parsed_Component_Position'] = df.loc[:,'Parsed_Component_Position'].astype(str)
 
     # change all empty parsed positions to 0
-    df.loc[:,'Parsed_Component_Position'] = df.loc[:,'Parsed_Component_Position'].map(lambda x: '0' if x.isna() else x)
+    df.loc[:,'Parsed_Component_Position'] = df.loc[:,'Parsed_Component_Position'].map(lambda x: '0' if len(x)==0 else x)
 
     # keep only needed columns to save memory
     keys.append('Parsed_Component_Position')
