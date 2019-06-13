@@ -26,10 +26,6 @@
         ]
     },
     {
-        "source":"joined_data",
-        "target":"stage_data_for_tow"
-    },
-    {
         "source":"stage_data_for_tow",
         "target":"calculate_tow"
     },
@@ -60,10 +56,6 @@
     {
         "source":"part_position_parser",
         "target":"split_r_and_multi_pos"
-    },
-    {
-        "source":"joined_data",
-        "target":"stage_data_for_tow"
     },
     {
         "source":"wd_codes",
@@ -2410,7 +2402,7 @@
         "target":"resample_22vdx",
         "vertices":[
             [
-                510,
+                505,
                 490
             ],
             [
@@ -2429,7 +2421,7 @@
     },
     {
         "source":"fit_action_22vdx",
-        "target":"label_22vdx",
+        "target":"label_22vdx_action",
         "vertices":[
             [
                 750,
@@ -2443,6 +2435,10 @@
     },
     {
         "source":"remis_filter_22vdx",
-        "target":"label_22vdx"
+        "target":"label_22vdx_action"
+    },
+    {
+        "source":"joined_data",
+        "target":"stage_data_for_tow"
     }
 ]
