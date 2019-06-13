@@ -81,10 +81,43 @@ def fn(conn, libraries, params, predecessors):
         # use 5 years if 5 years is different than both 10 years and all years
         # use 10 years if above check doesn't pass and if 10 years is different than all years
 
+        def compare_10_and_s04(df_s04, df_10yr):
+            if df_s04.eta > df_10yr.eta: 
+                if df_s04.eta_se_lower_ci < df_10yr.eta_se_upper_ci:
+                    diff_10_s04 = False
+                else:
+                    diff_10_s04 = True
+            elif df_s04.eta < df_10yr.eta:
+                if df_s04.eta_se_upper_ci > df_10yr.eta_se_lower_ci:
+                    diff_10_s04 = False
+                else:
+                    diff_10_s04 = True
+            if diff_10_s04:
+                use = 'Removed_Last_10_Years'
+            else: 
+                use = 'Since 04'
+            return use
+
+        # if a WUC doesn't have any removals in the last 5 or 10 years there won't be a Weibull
+        #   we have to catch these instances and handle them separately
+
         # retrieve one-row dfs as series
         df_s04 = df.loc[df.Time_Frame == 'Since 04', :].iloc[0]
-        df_10yr = df.loc[df.Time_Frame == 'Removed_Last_10_Years', :].iloc[0]
-        df_5yr = df.loc[df.Time_Frame == 'Removed_Last_5_Years', :].iloc[0]
+        if len(df.loc[df.Time_Frame == 'Removed_Last_10_Years', :]) > 0:
+            df_10yr = df.loc[df.Time_Frame == 'Removed_Last_10_Years', :].iloc[0]
+        else:
+            use = 'Since 04'
+            print('WUC {} using {} because no other time frames'.format(df.Work_Unit_Code.iloc[0], use))
+            assert df[df.Time_Frame != use].empty
+            return df[df.Time_Frame != use].index
+        if len(df.loc[df.Time_Frame == 'Removed_Last_5_Years', :]) > 0:
+            df_5yr = df.loc[df.Time_Frame == 'Removed_Last_5_Years', :].iloc[0]
+        else:
+            use = compare_10_and_s04(df_s04, df_10yr)
+            print('WUC {} using {}'.format(df.Work_Unit_Code.iloc[0], use))
+            # return indices to exclude
+            return df[df.Time_Frame != use].index
+
 
         if df_10yr.eta > df_5yr.eta: # e.g 2000 and 1500
             if df_10yr.eta_se_lower_ci < df_5yr.eta_se_upper_ci:  # e.g. 1800 & 1700
