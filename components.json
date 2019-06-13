@@ -825,12 +825,12 @@
     {
         "attrs":{
             "query_list":[
-                "SELECT id, Work_Unit_Code, Serial_Number, Equipment_Designator, Component_Position_Number, Work_Order_Number, Work_Center_Event_Identifier, Sequence_Number, INSTALL_Transaction_Date, INSTALL_TSN, INSTALL_Geographic_Location, INSTALL_Action_Taken_Code, Corrective_Narrative, Discrepancy_Narrative, Work_Center_Event_Narrative, IFNULL(unk_removal_date, REMOVAL_Transaction_Date) REMOVAL_Transaction_Date, IFNULL(unk_removal_tsn, REMOVAL_TSN) REMOVAL_TSN, IF(ISNULL(unk_removal_date), REMOVAL_Geographic_Location, NULL) REMOVAL_Geographic_Location, IF(ISNULL(unk_removal_date), REMOVAL_Action_Taken_Code, NULL) REMOVAL_Action_Taken_Code, IF(ISNULL(unk_removal_date), REMOVAL_How_Malfunction_Code, NULL) REMOVAL_How_Malfunction_Code, IF(ISNULL(unk_removal_date), REMOVAL_When_Discovered_Code, NULL) REMOVAL_When_Discovered_Code, IF(ISNULL(unk_removal_date), REMOVAL_Cause, NULL) REMOVAL_Cause, spans_unknown_install, spans_unknown_removal, ROUND(IF(ISNULL(unk_removal_date), TOW, unk_removal_tsn - INSTALL_TSN), 2) TOW, DATEDIFF(start_forecast_date, COALESCE(IF(ISNULL(unk_removal_date), REMOVAL_Transaction_Date, unk_removal_date), start_forecast_date)) / 365.24 <= 5 removed_last_5_years, DATEDIFF(start_forecast_date, COALESCE(IF(ISNULL(unk_removal_date), REMOVAL_Transaction_Date, unk_removal_date), start_forecast_date)) / 365.24 <= 10 removed_last_10_years FROM remove_unk_position_number, (SELECT DATE_FORMAT(DATE_ADD(MAX(REMOVAL_Transaction_Date), INTERVAL 1 MONTH), '%Y-%m-01') start_forecast_date FROM calculate_tow) sfd WHERE INSTALL_action_taken_code != 'IU'"
+                "SELECT id, Work_Unit_Code, Serial_Number, Equipment_Designator, Component_Position_Number, Work_Order_Number, Work_Center_Event_Identifier, Sequence_Number, IFNULL(true_install_date, INSTALL_Transaction_Date) INSTALL_Transaction_Date, IFNULL(true_install_tsn, INSTALL_TSN) INSTALL_TSN, INSTALL_Geographic_Location, INSTALL_Action_Taken_Code, Corrective_Narrative, Discrepancy_Narrative, Work_Center_Event_Narrative, IFNULL(unk_removal_date_earliest, REMOVAL_Transaction_Date) REMOVAL_Transaction_Date, IFNULL(unk_removal_tsn_earliest, REMOVAL_TSN) REMOVAL_TSN, IF(ISNULL(unk_removal_date_earliest), REMOVAL_Geographic_Location, NULL) REMOVAL_Geographic_Location, IF(ISNULL(unk_removal_date_earliest), REMOVAL_Action_Taken_Code, NULL) REMOVAL_Action_Taken_Code, IF(ISNULL(unk_removal_date_earliest), REMOVAL_How_Malfunction_Code, NULL) REMOVAL_How_Malfunction_Code, IF(ISNULL(unk_removal_date_earliest), REMOVAL_When_Discovered_Code, NULL) REMOVAL_When_Discovered_Code, IF(ISNULL(unk_removal_date_earliest), REMOVAL_Cause, NULL) REMOVAL_Cause, spans_unknown_install, spans_unknown_removal, ROUND(IF(ISNULL(unk_removal_date_earliest), TOW, unk_removal_tsn_earliest - true_install_tsn), 2) TOW, DATEDIFF(start_forecast_date, COALESCE(IF(ISNULL(unk_removal_date_earliest), REMOVAL_Transaction_Date, unk_removal_date_earliest), start_forecast_date)) / 365.24 <= 5 removed_last_5_years, DATEDIFF(start_forecast_date, COALESCE(IF(ISNULL(unk_removal_date_earliest), REMOVAL_Transaction_Date, unk_removal_date_earliest), start_forecast_date)) / 365.24 <= 10 removed_last_10_years FROM remove_unk_position_number, (SELECT DATE_FORMAT(DATE_ADD(MAX(REMOVAL_Transaction_Date), INTERVAL 1 MONTH), '%Y-%m-01') start_forecast_date FROM calculate_tow) sfd WHERE INSTALL_action_taken_code != 'IU'"
             ]
         },
         "class":"SQL",
         "custom_model":true,
-        "description":"(1) Remove left-censored intervals for which we do not know the total time on test (those that were begun with the install of a used part), (2) update intervals that cross 'lost' removals of parts with unknown station to suspensions at the unknown-position removal dates, (3) add two time-based covariates: removed in the last 5 years, and removed in the last 10 years (both options include installed parts).",
+        "description":"(1) Remove left-censored intervals for which we do not know the total time on test (those that were begun with the install of a used part), (2) update intervals that cross 'lost' removals of parts with unknown station to suspensions at the first unknown-position removal dates, (3) update Install Date & Install TSN to the true values for intervals that cross lost positions, and (4) add two time-based covariates: removed in the last 5 years, and removed in the last 10 years (both options include installed parts).",
         "id":"remove_disqualified_add_covariates",
         "label":"Remove Disqualified Add Covariates",
         "model":"3131696e-9d7a-4f75-b716-80dd73f2705f",
@@ -909,7 +909,8 @@
         "attrs":{
             "additional_r_parameters":{
                 "alpha":0.05,
-                "min_interval_time":0.1
+                "min_interval_time":0.1,
+                "number_simulations":15000
             },
             "db_class_preference":"RMySQL",
             "local_script":"True",
@@ -1221,7 +1222,8 @@
             "additional_parameters":{
                 "causal_only":1,
                 "removal_cause_column":"REMOVAL_Cause",
-                "user_bucket_num":8
+                "user_bucket_num":8,
+                "work_unit_code":"5114K"
             },
             "timeout":15
         },

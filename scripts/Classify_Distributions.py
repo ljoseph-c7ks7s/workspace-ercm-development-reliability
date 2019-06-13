@@ -185,11 +185,11 @@ def fn(conn, libraries, params, predecessors):
             diff_a_b = False
         
         if diff_a_b:
-            print('WUC {} splittig by MDS'.format(df.Work_Unit_Code.iloc[0]))
+            print('WUC {} splitting by MDS'.format(df.Work_Unit_Code.iloc[0]))
             # return indices to exclude
             return df[df.MDS == 'Any MDS'].index
         else: 
-            print('WUC {} not splittig by MDS'.format(df.Work_Unit_Code.iloc[0]))
+            print('WUC {} not splitting by MDS'.format(df.Work_Unit_Code.iloc[0]))
             # return indices to exclude
             return df[df.MDS != 'Any MDS'].index
 
