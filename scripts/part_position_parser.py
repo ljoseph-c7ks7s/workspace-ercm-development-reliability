@@ -519,8 +519,8 @@ def EFI(df,libraries):
 # clean and standardize labels
 
             # keep only alphabetical characters
-            pcoparse = re.sub("[^\w,]","",str(pcoparse))
-            locparse = re.sub("[^\w,]","",str(locparse))
+            pcoparse = re.sub(r"[^\w,]","",str(pcoparse))
+            locparse = re.sub(r"[^\w,]","",str(locparse))
             
             
             # correct pcoparse
@@ -1281,8 +1281,8 @@ def VD(df,libraries):
                 # keep only alphanumeric chars and comma separators
                 
                 
-                parse = re.sub("[^\w,]","",str(parse))
-                parsenum = re.sub("[^\d,]","",str(parsenum))
+                parse = re.sub(r"[^\w,]","",str(parse))
+                parsenum = re.sub(r"[^\d,]","",str(parsenum))
 
                 # convert strings into list of strings
                 split = [x for x in parsenum.split(',')]
@@ -1305,7 +1305,7 @@ def VD(df,libraries):
 
     # handle parse    
                 # convert back to string with only alphabetical, 1-4 labels
-                parse = re.sub("[^\w,^\d]","",str(parse))
+                parse = re.sub(r"[^\w,^\d]","",str(parse))
                 parse = parse.lstrip(',').rstrip(',')
 
                 # correct parsed labels
