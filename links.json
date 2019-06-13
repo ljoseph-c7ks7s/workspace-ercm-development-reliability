@@ -26,10 +26,6 @@
         ]
     },
     {
-        "source":"joined_data",
-        "target":"stage_data_for_tow"
-    },
-    {
         "source":"stage_data_for_tow",
         "target":"calculate_tow"
     },
@@ -2444,5 +2440,9 @@
     {
         "source":"remis_filter_22vdx",
         "target":"label_22vdx"
+    },
+    {
+        "source":"persist_staged_subset",
+        "target":"stage_data_for_tow"
     }
 ]
