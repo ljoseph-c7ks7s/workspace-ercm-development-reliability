@@ -325,8 +325,8 @@ def EFI(df,libraries):
         while j < len(checks):
             
             # search narratives for given patterns
-            pcoparse = re.findall(r"C?O?\W?PI?L?O?T|C\W?P",str(df.loc[i,checks[j]]))
-            locparse = re.findall(r"UPP?E?R|LO?WW?E?R|TOP|BOTTOM|ADI|HSI",str(df.loc[i,checks[j]]))
+            pcoparse = re.findall(r"C?[0O]?\W?(?<!AUTO)(?<!AUTO )PI?L?O?T|C\W?P",str(df.loc[i,checks[j]]))
+            locparse = re.findall(r"\bUPP?E?R\b|\bLO?WW?E?R\b|\bTOP\b|\bBOTTOM\b|\bA\W?D\W?I\b|\bH\W?S\W?I\b|\bF\W?D\W?I\b",str(df.loc[i,checks[j]]))
             allparse = re.findall(r"ALL 4|4 NEW",str(df.loc[i,checks[j]]))
             
             
@@ -338,13 +338,13 @@ def EFI(df,libraries):
             # search for clues in next narrative if search returns incomplete
             elif pcoparse and not locparse:
                 try:
-                    locparse = re.findall(r"UPP?E?R|LO?WW?E?R|TOP|BOTTOM|ADI|HSI",str(df.loc[i,checks[j+1]]))
+                    locparse = re.findall(r"\bUPP?E?R\b|\bLO?WW?E?R\b|\bTOP\b|\bBOTTOM\b|\bADI\b|\bHSI\b|\bF\W?D\W?I\b",str(df.loc[i,checks[j+1]]))
                 except:
                     locparse = []
             
             elif not pcoparse and locparse:
                 try:
-                    pcoparse = re.findall(r"C?O?\W?PI?L?O?T|C\W?P",str(df.loc[i,checks[j+1]]))
+                    pcoparse = re.findall(r"C?[0O]?\W?(?<!AUTO)(?<!AUTO )PI?L?O?T|C\W?P",str(df.loc[i,checks[j+1]]))
                 except:
                     pcoparse = []
 
@@ -356,10 +356,10 @@ def EFI(df,libraries):
             
             
             # correct pcoparse
-            pcoparse = pcoparse.replace('OPI','PI')
-            pcoparse = pcoparse.replace('CPILOT','COPILOT')
+            pcoparse = pcoparse.replace('C0','CO')
             pcoparse = pcoparse.replace('CPLT','COPILOT')
             pcoparse = pcoparse.replace('CPT','COPILOT')
+            pcoparse = pcoparse.replace('CPILOT','COPILOT')
             pcoparse = pcoparse.replace('CP','COPILOT')
             pcoparse = pcoparse.replace('PLT','PILOT')
             pcoparse = pcoparse.replace('PT','PILOT')
@@ -373,7 +373,7 @@ def EFI(df,libraries):
             locparse = locparse.replace('UPR','UPPER')
             locparse = locparse.replace('UPPER','ADI')
             locparse = locparse.replace('LOWER','HSI')
-            
+            locparse = locparse.replace('FDI','ADI')
             
 
             # remove duplicates and sort
@@ -383,15 +383,18 @@ def EFI(df,libraries):
             locparse = locparse.split(',')
             locparse = list(set(locparse))
             locparse.sort()
-#             print(pcoparse)
-#             print(locparse)
+            
+            # combine non-empty lists (top),(pilot,copilot) -> (pilot_top,copilot_top)
+            if pcoparse and locparse:
+                crossed = [str(x)+str('_')+str(y) for x in pcoparse for y in locparse]
 
-            crossed = [str(x)+str('_')+str(y) for x in pcoparse for y in locparse]
-
-            # convert back to string to remove []                       
-            crossed = ','.join(map(str, crossed)).rstrip(',')
-
-
+                # convert back to string to remove []                       
+                crossed = ','.join(map(str, crossed)).rstrip(',')
+            
+            # if first or last character is _ then cross multiply wrong
+            if crossed[0]==str('_') or crossed[-1]==str('_'):
+                crossed = str('')
+                
             # save values into df
             df.loc[i,'Parsed_Component_Position']=crossed
 
