@@ -2438,7 +2438,7 @@
         "target":"label_22vdx"
     },
     {
-        "source":"persist_staged_subset",
+        "source":"joined_data",
         "target":"stage_data_for_tow"
     }
 ]
