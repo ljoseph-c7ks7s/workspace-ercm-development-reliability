@@ -2421,7 +2421,7 @@
     },
     {
         "source":"fit_action_22vdx",
-        "target":"label_22vdx",
+        "target":"label_22vdx_action",
         "vertices":[
             [
                 750,
@@ -2435,7 +2435,7 @@
     },
     {
         "source":"remis_filter_22vdx",
-        "target":"label_22vdx"
+        "target":"label_22vdx_action"
     },
     {
         "source":"joined_data",

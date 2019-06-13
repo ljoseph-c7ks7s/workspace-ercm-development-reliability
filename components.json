@@ -3546,7 +3546,7 @@
         "description":"Apply a deep learning model to a new set of data",
         "id":"label_491a0_action",
         "label":"Label 491A0 Action",
-        "model":"e8bd60de-d806-42bc-93ed-d1646c677283",
+        "model":"60c7b723-b1f8-4da7-bb1c-e79b1d497fb8",
         "position":[
             1130,
             1390
@@ -3630,9 +3630,9 @@
         "class":"DeepLearningLabeler",
         "custom_model":true,
         "description":"Apply a deep learning model to a new set of data",
-        "id":"label_22vdx",
-        "label":"Label 22VDX",
-        "model":"535c11e0-95f3-4d65-93ec-cd26d188e338",
+        "id":"label_22vdx_action",
+        "label":"Label 22VDX Action",
+        "model":"3236d9bb-5d8d-4b58-8fd5-ae088e2d6f0b",
         "position":[
             1130,
             1425
