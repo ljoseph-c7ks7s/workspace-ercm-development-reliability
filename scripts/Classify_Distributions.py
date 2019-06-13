@@ -123,7 +123,7 @@ def fn(conn, libraries, params, predecessors):
             if df_10yr.eta_se_lower_ci < df_5yr.eta_se_upper_ci:  # e.g. 1800 & 1700
                 diff_5_10 = False
             else:
-                diff_5_10 = Trueac
+                diff_5_10 = True
         elif df_10yr.eta < df_5yr.eta:
             if df_10yr.eta_se_upper_ci > df_5yr.eta_se_lower_ci:
                 diff_5_10 = False
