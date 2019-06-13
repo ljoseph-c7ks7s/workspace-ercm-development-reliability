@@ -785,7 +785,7 @@
         "description":"Save sets of labels to validate uploaded hand-labeled events against",
         "id":"labels_import",
         "label":"Labels Import",
-        "model":"bb7cdcee-95f1-4641-a663-04a48bd9f658",
+        "model":"9dc49112-eb68-4c44-b871-f67b1e24a015",
         "position":[
             370,
             445
