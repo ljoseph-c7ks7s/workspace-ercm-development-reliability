@@ -13,6 +13,7 @@ Args:
 """
 
 def engine_reader(df_eng,libraries):
+    df_eng = df_eng.copy()
 
     pd = libraries["pandas"]
     re = libraries["re"]
@@ -69,24 +70,24 @@ def engine_reader(df_eng,libraries):
 
     def extract_positions_single_narr_engine_reader(df, col):
         # search narratives for given patterns
-        df['parse'] = df[col].apply(lambda x: re.findall(r"(?:\# ?|NO\.? |NUMBER )\d+|\bALL FOUR\b|\bALL 4\b|HDD ?\d+", x))
+        df.loc[:, 'parse'] = df[col].apply(lambda x: re.findall(r"(?:\# ?|NO\.? |NUMBER )\d+|\bALL FOUR\b|\bALL 4\b|HDD ?\d+", x))
 
         # replace 'ALL' matches with numbers
-        df['parse'] = df['parse'].apply(lambda x: [str(ii).replace('ALL FOUR', '1,2,3,4').replace('ALL 4', '1,2,3,4') for ii in x])
+        df.loc[:, 'parse'] = df['parse'].apply(lambda x: [str(ii).replace('ALL FOUR', '1,2,3,4').replace('ALL 4', '1,2,3,4') for ii in x])
 
         # keep only numeric digits and comma separators
-        df['nums'] = df['parse'].apply(lambda x: re.sub(r"[^\d,]","",str(x)))
+        df.loc[:, 'nums'] = df['parse'].apply(lambda x: re.sub(r"[^\d,]","",str(x)))
         # convert string into list of strings
-        df['nums'] = df['nums'].apply(lambda x: x.split(','))
+        df.loc[:, 'nums'] = df['nums'].apply(lambda x: x.split(','))
         # remove empty strings from list
         # convert list of strings into list of ints
-        df['nums'] = df['nums'].apply(lambda x: map(int, filter(None, x)))
+        df.loc[:, 'nums'] = df['nums'].apply(lambda x: map(int, filter(None, x)))
 
         # remove all values > 4, duplicates and sort
-        df['nums'] = df['nums'].apply(lambda x: sorted(list(set([ii for ii in x if ii<5]))))
+        df.loc[:, 'nums'] = df['nums'].apply(lambda x: sorted(list(set([ii for ii in x if ii<5]))))
 
         # convert back to string to remove []
-        df['nums'] = df['nums'].apply(lambda x: ','.join(map(str, x)))
+        df.loc[:, 'nums'] = df['nums'].apply(lambda x: ','.join(map(str, x)))
 
         # save values into df
         df.loc[:,'Parsed_Component_Position'] = df['nums']
@@ -298,6 +299,8 @@ def pilot_cp_nav(df,libraries):
 
 
 def INU(df_inu, libraries):
+    df_inu = df_inu.copy()
+
     pd = libraries['pandas']
     re = libraries['re']
 
@@ -354,25 +357,25 @@ def INU(df_inu, libraries):
 
     def extract_positions_single_narr_inu(df, col):
         # search narratives for given patterns
-        df['parse'] = df[col].apply(lambda x: re.findall(r"\#\d+|\# \d+|NO. \d+|NUMBER \d+|1 AND 2|1 \& 2|\#!", x))
+        df.loc[:, 'parse'] = df[col].apply(lambda x: re.findall(r"\#\d+|\# \d+|NO. \d+|NUMBER \d+|1 AND 2|1 \& 2|\#!", x))
         
         # replace 'AND' matches with numbers
-        df['parse'] = df['parse'].apply(lambda x: [str(ii).replace('1 AND 2','1,2').replace('1 & 2','1,2').replace('#!','1') for ii in x])
+        df.loc[:, 'parse'] = df['parse'].apply(lambda x: [str(ii).replace('1 AND 2','1,2').replace('1 & 2','1,2').replace('#!','1') for ii in x])
 
         # keep only numeric digits and comma separators
-        df['nums'] = df['parse'].apply(lambda x: re.sub(r"[^\d,]","",str(x)))
+        df.loc[:, 'nums'] = df['parse'].apply(lambda x: re.sub(r"[^\d,]","",str(x)))
         # convert string into list of strings
-        df['nums'] = df['nums'].apply(lambda x: [ii for ii in x.split(',')])
+        df.loc[:, 'nums'] = df['nums'].apply(lambda x: [ii for ii in x.split(',')])
         # remove empty strings from list
-        df['nums'] = df['nums'].apply(lambda x: filter(None, x))
+        df.loc[:, 'nums'] = df['nums'].apply(lambda x: filter(None, x))
         # convert list of strings into list of ints
-        df['nums'] = df['nums'].apply(lambda x: map(int, x))
+        df.loc[:, 'nums'] = df['nums'].apply(lambda x: map(int, x))
 
         # remove all values > 2, duplicates and sort
-        df['nums'] = df['nums'].apply(lambda x: sorted(list(set([ii for ii in x if ii<3]))))
+        df.loc[:, 'nums'] = df['nums'].apply(lambda x: sorted(list(set([ii for ii in x if ii<3]))))
         
         # convert back to string to remove []
-        df['nums'] = df['nums'].apply(lambda x: ','.join(map(str, x)).strip())
+        df.loc[:, 'nums'] = df['nums'].apply(lambda x: ','.join(map(str, x)).strip())
 
         # save values into df
         df.loc[:,'Parsed_Component_Position'] = df['nums']
@@ -490,95 +493,214 @@ def EFI(df,libraries):
     return df
 
 
-def engine_double(df,libraries):
+def engine_double(df_eng_dbl,libraries):
+    df_eng_dbl = df_eng_dbl.copy()
+
     pd = libraries['pandas']
     re = libraries['re']
 
     # define fields to check. Use j to iterate through this list
     checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
     
-    # for each entry, search fields for component position numbers 
-    indexer = list(df.index.values)
-    for i in indexer:
-        j = 0
-        parse = []
-        while j < len(checks):
+#     # for each entry, search fields for component position numbers 
+#     indexer = list(df.index.values)
+#     for i in indexer:
+#         j = 0
+#         parse = []
+#         while j < len(checks):
             
-            # search narratives for given patterns
-            parse = re.findall(r"\#?\W?\d\W?[AB]\W?B?|[^R]\d(?: ENG)?(?:INE)?(?: FADEC)? ?[AB]\W?B?",str(df.loc[i,checks[j]]))
+#             # search narratives for given patterns
+#             parse = re.findall(r"\#?\W?\d\W?[AB]\W?B?|[^R]\d(?: ENG)?(?:INE)?(?: FADEC)? ?[AB]\W?B?",str(df.loc[i,checks[j]]))
 
-            # keep only alphanumeric and comma separators
-            parse = re.sub(r"[^\w,]","",str(parse))
+#             # keep only alphanumeric and comma separators
+#             parse = re.sub(r"[^\w,]","",str(parse))
             
-            # ensure number 1, 2, 3, or 4
-            if parse != str(''):
-                if (int(parse[0])>4) | (int(parse[0])==0):
-                    parse = str('')
-                try:
-                    if parse[1].isdigit():
-                        parse = ''
-                except:
-                    parse = parse
+#             # ensure number 1, 2, 3, or 4
+#             if parse != str(''):
+#                 if (int(parse[0])>4) | (int(parse[0])==0):
+#                     parse = str('')
+#                 try:
+#                     if parse[1].isdigit():
+#                         parse = ''
+#                 except:
+#                     parse = parse
         
-            # grab digit in 1AB to convert to 1A,1B
-            try:
-                digit = parse[0]
-            except:
-                digit = ''
+#             # grab digit in 1AB to convert to 1A,1B
+#             try:
+#                 digit = parse[0]
+#             except:
+#                 digit = ''
             
             
-            # correct parsed labels
-            parse = parse.replace('ENG','')
-            parse = parse.replace('INE','')
-            parse = parse.replace('FADEC','')
-            parse = parse.replace('BB','B')
-            parse = parse.replace('AB',str('A,')+str(digit)+str('B'))
+#             # correct parsed labels
+#             parse = parse.replace('ENG','')
+#             parse = parse.replace('INE','')
+#             parse = parse.replace('FADEC','')
+#             parse = parse.replace('BB','B')
+#             parse = parse.replace('AB',str('A,')+str(digit)+str('B'))
             
-            parse = parse.split(',')
-            trim = list(set(parse))
-            trim.sort()
+#             parse = parse.split(',')
+#             trim = list(set(parse))
+#             trim.sort()
             
-            # convert back to string to remove []
-            parse = ','.join(map(str, trim))
+#             # convert back to string to remove []
+#             parse = ','.join(map(str, trim))
 
-            # save values into df
-            df.loc[i,'Parsed_Component_Position']=parse
+#             # save values into df
+#             df.loc[i,'Parsed_Component_Position']=parse
 
-            # if empty, check next narrative
-            if df.loc[i,'Parsed_Component_Position'] != "":
-                j = len(checks)
-            else:
-                j = j+1
+#             # if empty, check next narrative
+#             if df.loc[i,'Parsed_Component_Position'] != "":
+#                 j = len(checks)
+#             else:
+#                 j = j+1
                 
 
-# if no information is found in the narratives, search for A/B in narratives and copy in the provided 'Component_Position_Number'
-        if df.loc[i,'Parsed_Component_Position'] == str(''):
-            if df.loc[i,'Component_Position_Number'] != str('0'):
+# # if no information is found in the narratives, search for A/B in narratives and copy in the provided 'Component_Position_Number'
+#         if df.loc[i,'Parsed_Component_Position'] == str(''):
+#             if df.loc[i,'Component_Position_Number'] != str('0'):
 
-                j = 0
-                parse = []
-                while j < len(checks):
+#                 j = 0
+#                 parse = []
+#                 while j < len(checks):
 
-                    parse = re.findall("FADEC [AB]\W?B?",str(df.loc[i,checks[j]]))
+#                     parse = re.findall(r"FADEC [AB]\W?B?",str(df.loc[i,checks[j]]))
 
-                    # keep only alphanumeric and comma separators
-                    parse = re.sub(r"[^\w,]","",str(parse))
+#                     # keep only alphanumeric and comma separators
+#                     parse = re.sub(r"[^\w,]","",str(parse))
         
-                    digit = str(df.loc[i,'Component_Position_Number'])
-                    parse = parse.replace('FADEC','')
-                    parse = parse.replace('BB','B')
-                    parse = parse.replace('AB',str('A,')+str(digit)+str('B'))
+#                     digit = str(df.loc[i,'Component_Position_Number'])
+#                     parse = parse.replace('FADEC','')
+#                     parse = parse.replace('BB','B')
+#                     parse = parse.replace('AB',str('A,')+str(digit)+str('B'))
                     
-                    # if empty, check next narrative
-                    if parse != str(''):
-                        j = len(checks)
-                        df.loc[i,'Parsed_Component_Position']=str(df.loc[i,'Component_Position_Number'])+str(parse)
-                    else:
-                        j = j+1
-# if still empty, fill with 0
-        if df.loc[i,'Parsed_Component_Position'] == str(''):
-            df.loc[i,'Parsed_Component_Position'] = '0'
-    return df
+#                     # if empty, check next narrative
+#                     if parse != str(''):
+#                         j = len(checks)
+#                         df.loc[i,'Parsed_Component_Position']=str(df.loc[i,'Component_Position_Number'])+str(parse)
+#                     else:
+#                         j = j+1
+
+    def extract_positions_single_narr_eng_dbl(df, col):
+        # loop through found elements within a narrative and apply transforming logic
+        
+        df.loc[:, 'parse'] = df[col].apply(lambda x: re.findall(r"\#?\W?\d\W?[AB]\W?B?|[^R]\d(?: ENG)?(?:INE)?(?: FADEC)? ?[AB]\W?B?", str(x)))
+        df.loc[:, 'parse'] = df.parse.apply(lambda l: [re.sub(r"[^\w,]","",str(ii)) for ii in l])
+
+        # if the first letter is a non-digit or a zero then drop it
+        df.loc[:, 'parse'] = df['parse'].apply(lambda l: [x if len(ii)<2 else ii[1:] if re.search(r"[A-Z0]", ii[0]) else ii for ii in l])
+
+        # if the first letter is a digit and is > 4 then drop the entire label
+        df.loc[df.parse.str.len()>0, 'parse'] = \
+            df.loc[df.parse.str.len()>0, 'parse'].apply(lambda l: [ii for ii in l if len(ii)>0 and ii[0].isdigit() and int(ii[0]) < 5])
+            
+        # now if the first letter is a non-digit then drop the entire piece
+        # also if the first letter is a digit and > 4 then drop the entire piece
+        check_second_letter = lambda x: True if len(x) < 2 else False if str(x[1]).isdigit() else True
+
+        df.loc[df.parse.str.len()>0, 'parse'] = \
+            df.loc[df.parse.str.len()>0, 'parse'].apply(lambda l: filter(check_second_letter, l))
+            
+        # correct parsed labels
+        parse_list = [('ENG',''), ('INE',''), ('FADEC',''), ('BB','B')]
+        for w, v in parse_list:
+            df.loc[:, 'parse'] = df['parse'].apply(lambda l: [ii.replace(w, v) for ii in l])
+            
+        # special correction for cases like '4AB'
+        df.loc[:, 'parse'] = df.parse.apply(lambda l: [ii.replace('AB','A,{}B'.format(ii[0])) if len(ii)>0 else ii for ii in l])
+
+        # remove duplicates and sort
+        # some items are complex, with items w/in items, e.g. ['1A,1B', '2A,2B', '3B', '3A', '4A,4B']
+        #   need to flatten these
+        df.loc[:, 'parse'] = df.parse.apply(lambda l: sorted(list(set([kk for jj in (ii.split(',') for ii in l) for kk in jj]))))
+
+        # remove empties
+        df.loc[:, 'parse'] = df.parse.apply(lambda l: filter(None, l))
+
+        # convert back to string to remove []
+        df.loc[:, 'parse'] = df.parse.apply(lambda x: ','.join(x))
+
+        # save values into dataframe
+        df.loc[:,'Parsed_Component_Position'] = df['parse']
+
+        df.drop(['parse'], axis=1, inplace=True)
+
+        # return matches
+        return df[df.Parsed_Component_Position.str.len()>0]
+
+    for j in checks:
+
+        if df_eng_dbl.loc[df_eng_dbl.Parsed_Component_Position.str.len()==0].empty:
+                # if all positions have been found then do nothing
+                break
+        
+        # send df subset that has no matches to get a match
+        df_sub = extract_positions_single_narr_eng_dbl(df_eng_dbl.loc[df_eng_dbl.Parsed_Component_Position.str.len()==0].copy(), j)
+        df_eng_dbl.update(df_sub)
+
+    ##########
+    # if no information is found in the narratives, 
+    #  search for A/B in narratives and copy in the provided 'Component_Position_Number' (if it exists)
+    def extract_positions_single_narr_eng_dbl_fallback(df, col):
+
+        # if no information is found in the narratives, 
+        #  search for A/B in narratives and copy in the provided 'Component_Position_Number' (if it exists)
+        df.loc[:, 'parse'] = ''
+        df.loc[(df.Parsed_Component_Position.str.len()==0) & 
+           (df.Component_Position_Number.apply(lambda x: False if len(str(x)) < 1 else False if str(int(x))=='0' else True)), 'parse'] = \
+            df.loc[(df.Parsed_Component_Position.str.len()==0) & 
+               (df.Component_Position_Number.apply(lambda x: False if len(str(x)) < 1 else False if str(int(x))=='0' else True)), col].apply(lambda x: re.findall(r"FADEC [AB]\W?B?", str(x)))
+
+        # keep only alphanumeric and comma separators (drop plus, slash, etc.)
+        df.parse = df.parse.apply(lambda l: [re.sub(r"[^\w,]","",str(ii)) for ii in l])
+
+        # correct parsed labels
+        parse_list = [('FADEC',''), ('BB','B')]
+        for w, v in parse_list:
+            df.loc[:, 'parse'] = df['parse'].apply(lambda l: [ii.replace(w, v) for ii in l])
+            
+        # special correction for cases like 'AB' - need component position so apply over entire row
+        df.loc[:, 'parse'] = df.apply(axis=1, 
+                               func=lambda row: [ii.replace('AB','A,{}B'.format(row.Component_Position_Number)) if len(ii)>0 else ii for ii in row.parse])
+
+        # add in position
+        df.loc[:, 'parse'] = df.apply(axis=1,
+                              func=lambda row: row.parse if len(row.parse)<1 else ["{}{}".format(row.Component_Position_Number, ii) for ii in row.parse])
+
+        # combine into single string
+        # remove duplicates and sort
+        # some items are complex, with items w/in items, e.g. ['1A,1B', '2A,2B', '3B', '3A', '4A,4B']
+        #   need to flatten these
+        df.loc[:, 'parse'] = df.parse.apply(lambda l: sorted(list(set([kk for jj in (ii.split(',') for ii in l) for kk in jj]))))
+
+        # remove empties
+        df.loc[:, 'parse'] = df.parse.apply(lambda l: filter(None, l))
+
+        # convert back to string to remove []
+        df.loc[:, 'parse'] = df.parse.apply(lambda x: ','.join(x))
+
+        # save values into dataframe
+        df.loc[:,'Parsed_Component_Position'] = df['parse']
+
+        df.drop(['parse'], axis=1, inplace=True)
+
+        # return matches
+        return df[df.Parsed_Component_Position.str.len()>0]
+
+    for j in checks:
+
+        if df_eng_dbl.loc[df_eng_dbl.Parsed_Component_Position.str.len()==0].empty:
+                # if all positions have been found then do nothing
+                break
+        
+        # send df subset that has no matches to get a match
+        df_sub = extract_positions_single_narr_eng_dbl_fallback(df_eng_dbl.loc[df_eng_dbl.Parsed_Component_Position.str.len()==0].copy(), j)
+        df_eng_dbl.update(df_sub)
+
+    # if still empty, fill with 0
+    df_eng_dbl.loc[df_eng_dbl.Parsed_Component_Position.str.len() < 1, 'Parsed_Component_Position'] = '0'
+
+    return df_eng_dbl
 
 
 def BAD(df,libraries):
@@ -805,24 +927,24 @@ def ECBU(df_ecbu,libraries):
                 
     def extract_positions_single_narr_ecbu(df, col):
         # search narratives for given patterns
-        df['parse'] = df[col].apply(lambda x: re.findall(r"(?:\# ?|NO\.? |NUMBER |ECBU ?)\d+", x))
+        df.loc[:, 'parse'] = df[col].apply(lambda x: re.findall(r"(?:\# ?|NO\.? |NUMBER |ECBU ?)\d+", x))
 
         # only SW entries can have multiple positions
         df.loc[(df.Action!='SW') & (df.parse.str.len()!=0), 'parse'] = df.loc[(df.Action!='SW') & (df.parse.str.len()!=0), 'parse'].apply(lambda x: x[0])
 
         # keep only numeric digits and comma separators
-        df['nums'] = df['parse'].apply(lambda x: re.sub(r"[^\d,]","",str(x)))
+        df.loc[:, 'nums'] = df['parse'].apply(lambda x: re.sub(r"[^\d,]","",str(x)))
         # convert string into list of strings
-        df['nums'] = df['nums'].apply(lambda x: x.split(','))
+        df.loc[:, 'nums'] = df['nums'].apply(lambda x: x.split(','))
         # remove empty strings from list
         # convert list of strings into list of ints
-        df['nums'] = df['nums'].apply(lambda x: map(int, filter(None, x)))
+        df.loc[:, 'nums'] = df['nums'].apply(lambda x: map(int, filter(None, x)))
 
         # remove all values > 13, duplicates and sort
-        df['nums'] = df['nums'].apply(lambda x: sorted(list(set([ii for ii in x if ii<14]))))
+        df.loc[:, 'nums'] = df['nums'].apply(lambda x: sorted(list(set([ii for ii in x if ii<14]))))
 
         # convert back to string to remove []
-        df['nums'] = df['nums'].apply(lambda x: ','.join(map(str, x)))
+        df.loc[:, 'nums'] = df['nums'].apply(lambda x: ','.join(map(str, x)))
 
         # save values into df
         df.loc[:,'Parsed_Component_Position'] = df['nums']
@@ -921,6 +1043,7 @@ def CCU(df,libraries):
 
 
 def APU(df_apu,libraries):
+    df_apu = df_apu.copy()
 
     pd = libraries["pandas"]
     re = libraries["re"]
@@ -983,28 +1106,28 @@ def APU(df_apu,libraries):
 
     def extract_positions_single_narr_apu_reader(df, col):
         # search narratives for given patterns
-        df['parse'] = df[col].apply(lambda x: re.findall(r"(?:\# ?|NO\.? |NUMBER )\d+|\bALL FOUR\b|\bALL 4\b", x))
-        df['parseapu'] = df[col].apply(lambda x: re.findall(r"APU", x))
+        df.loc[:, 'parse'] = df[col].apply(lambda x: re.findall(r"(?:\# ?|NO\.? |NUMBER )\d+|\bALL FOUR\b|\bALL 4\b", x))
+        df.loc[:, 'parseapu'] = df[col].apply(lambda x: re.findall(r"APU", x))
 
         # keep only numeric digits and comma separators
-        df['nums'] = df['parse'].apply(lambda x: re.sub(r"[^\d,]","",str(x)))
+        df.loc[:, 'nums'] = df['parse'].apply(lambda x: re.sub(r"[^\d,]","",str(x)))
         # convert string into list of strings
-        df['nums'] = df['nums'].apply(lambda x: x.split(','))
+        df.loc[:, 'nums'] = df['nums'].apply(lambda x: x.split(','))
         # remove empty strings from list
         # convert list of strings into list of ints
-        df['nums'] = df['nums'].apply(lambda x: map(int, filter(None, x)))
+        df.loc[:, 'nums'] = df['nums'].apply(lambda x: map(int, filter(None, x)))
 
         # remove all values > 4, duplicates and sort
-        df['nums'] = df['nums'].apply(lambda x: sorted(list(set([ii for ii in x if ii<5]))))
+        df.loc[:, 'nums'] = df['nums'].apply(lambda x: sorted(list(set([ii for ii in x if ii<5]))))
 
         # add APU back into label
-        df['parseapu'] = df['parseapu'].apply(lambda x: list(set(x)))
-        df['nums'] = df['nums'].apply(lambda x: map(str, x))
-        df['nums'] = df.apply(lambda row: row.nums + row.parseapu, 
+        df.loc[:, 'parseapu'] = df['parseapu'].apply(lambda x: list(set(x)))
+        df.loc[:, 'nums'] = df['nums'].apply(lambda x: map(str, x))
+        df.loc[:, 'nums'] = df.apply(lambda row: row.nums + row.parseapu, 
                               axis=1)
         
         # convert back to string to remove []
-        df['nums'] = df['nums'].apply(lambda x: ','.join(map(str, x)).strip())
+        df.loc[:, 'nums'] = df['nums'].apply(lambda x: ','.join(map(str, x)).strip())
 
         # save values into df
         df.loc[:,'Parsed_Component_Position'] = df['nums']
