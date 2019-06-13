@@ -164,7 +164,7 @@
         "description":"Create a staged table in the database.",
         "id":"stage_data_for_tow",
         "label":"Stage Data for TOW",
-        "model":"2ac51323-0297-4641-8bc3-746c8f213724",
+        "model":"536280a6-6980-479a-a05d-915bf77d166a",
         "position":[
             1185,
             130
@@ -3632,10 +3632,22 @@
         "description":"Apply a deep learning model to a new set of data",
         "id":"label_22vdx",
         "label":"Label 22VDX",
-        "model":"2beaa039-3471-4a21-9428-91b8ce9d863a",
+        "model":"535c11e0-95f3-4d65-93ec-cd26d188e338",
         "position":[
             1130,
             1425
+        ]
+    },
+    {
+        "class":"SQL",
+        "custom_model":true,
+        "description":"Allows user to temporarily hold on to a portion of the stage-data-for-tow data incase they need to reset data for a specific WUC or other subset of the data.  Assuming Joined-Data has the newer data user would like to use to overwrite the WUC in the current Stage-Data-For-TOW, process as follows: update this component's query to select all the data from stage-data-for-tow you'd like to keep.  Run this component.  Add query to Joined data like 'SELECT * FROM persist_staged_subset'.  Re-run Joined-Data.  Update Stage-Data-For-TOW configuration to be 'false' so that the table is dropped.  Run Stage-Data-For-TOW, which should then have all the data you need.  Update Stage-Data-For-TOW configuration to be 'true' so the table is no longer dropped.",
+        "id":"persist_staged_subset",
+        "label":"Persist Staged Subset",
+        "model":"41dc32cc-f1f3-4eef-90b5-ff440685bf78",
+        "position":[
+            1130,
+            35
         ]
     }
 ]

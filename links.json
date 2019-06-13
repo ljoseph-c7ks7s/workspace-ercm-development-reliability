@@ -26,10 +26,6 @@
         ]
     },
     {
-        "source":"joined_data",
-        "target":"stage_data_for_tow"
-    },
-    {
         "source":"stage_data_for_tow",
         "target":"calculate_tow"
     },
@@ -60,10 +56,6 @@
     {
         "source":"part_position_parser",
         "target":"split_r_and_multi_pos"
-    },
-    {
-        "source":"joined_data",
-        "target":"stage_data_for_tow"
     },
     {
         "source":"wd_codes",
@@ -2444,5 +2436,9 @@
     {
         "source":"remis_filter_22vdx",
         "target":"label_22vdx"
+    },
+    {
+        "source":"joined_data",
+        "target":"stage_data_for_tow"
     }
 ]
