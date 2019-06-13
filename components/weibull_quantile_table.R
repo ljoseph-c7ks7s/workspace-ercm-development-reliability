@@ -34,6 +34,11 @@ fn <- function(conn_rmysql, load_path, params_path, component_path, output_file)
   } else {
     min_interval_time = 1.0 # default is 1
   }
+  if (!is.null(r_component_attributes[["number_simulations"]])) {
+    simulations = r_component_attributes[["number_simulations"]]
+  } else {
+    simulations = 15000 # default is 15K
+  }
   
   df <- dbGetQuery(conn_rmysql, paste("SELECT rd.id distribution_id, dt.name dist_type, i.interval_value, i.causal FROM 
     reliability_distribution rd
@@ -62,7 +67,7 @@ fn <- function(conn_rmysql, load_path, params_path, component_path, output_file)
                                           quantiles=c(0.1, seq(1,99), 99.9)/100, 
                                           tidy=TRUE, 
                                           cl=(1-alpha),
-                                          B=25000) %>%
+                                          B=simulations) %>%
       mutate_at(2:4, round, 2) %>%
       rename(time=est) %>%
       mutate(type="tow_ci")
@@ -71,7 +76,7 @@ fn <- function(conn_rmysql, load_path, params_path, component_path, output_file)
     df_ci_qntl <- single_fit %>% summary(type="survival", 
                                            t=df_ci_tow$time[2:(nrow(df_ci_tow)-1)], 
                                            tidy=TRUE, 
-                                           B=25000) %>%
+                                           B=simulations) %>%
       mutate_at(2:4, round, 5) %>%
       # convert from Survival curve to CDF (unreliability)
       # first swap ucl and lcl
