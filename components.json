@@ -164,7 +164,7 @@
         "description":"Create a staged table in the database.",
         "id":"stage_data_for_tow",
         "label":"Stage Data for TOW",
-        "model":"59e4f67f-1f9c-452a-b9d5-e00c9d1288be",
+        "model":"2ac51323-0297-4641-8bc3-746c8f213724",
         "position":[
             1185,
             130
@@ -785,7 +785,7 @@
         "description":"Save sets of labels to validate uploaded hand-labeled events against",
         "id":"labels_import",
         "label":"Labels Import",
-        "model":"73337df4-a5f2-4339-a7d7-afa8fdeb6d20",
+        "model":"bb7cdcee-95f1-4641-a663-04a48bd9f658",
         "position":[
             370,
             445
@@ -3192,7 +3192,7 @@
         "description":"Apply a deep learning model to a new set of data",
         "id":"label_22xcn_action",
         "label":"Label 22XCN Action",
-        "model":"d99f4fe6-bd34-43b9-ab88-5461bc385f99",
+        "model":"8f821704-734a-486b-8bcb-0565075d54a8",
         "position":[
             1130,
             1200
@@ -3207,7 +3207,7 @@
         "description":"Apply a deep learning model to a new set of data",
         "id":"label_32525_action",
         "label":"Label 32525 Action",
-        "model":"empty",
+        "model":"4a430df1-7904-49ab-8485-e67052da1a47",
         "position":[
             1130,
             1240
@@ -3401,7 +3401,7 @@
         "description":"Apply a deep learning model to a new set of data",
         "id":"label_22yab_action",
         "label":"Label 22YAB Action",
-        "model":"870e5aec-5892-4939-b992-452559b68074",
+        "model":"affe19f9-0ead-4fa0-bee3-db24513afdcd",
         "position":[
             1130,
             760
@@ -3515,10 +3515,92 @@
         "description":"Apply a deep learning model to a new set of data",
         "id":"label_491a0_action",
         "label":"Label 491A0 Action",
-        "model":"6bd3eabb-cf6d-4f31-8039-6e1a40f314bc",
+        "model":"e8bd60de-d806-42bc-93ed-d1646c677283",
         "position":[
             1130,
             1390
+        ]
+    },
+    {
+        "attrs":{
+            "additional_parameters":{
+                "class_swaps":{
+                    "P":"R",
+                    "Q":"R",
+                    "T":"TU",
+                    "U":"TU"
+                },
+                "col_filter_value":{
+                    "Work_Unit_Code":"491A0"
+                },
+                "label_name":"Action",
+                "max_majority_fraction_of_next_highest":2,
+                "min_minority_fraction_of_most_common":0.15,
+                "test_ratio":0.25
+            }
+        },
+        "class":"Python",
+        "custom_model":true,
+        "description":"Randomly sample from minority classes (those fewer records than the most-common class) to get an even quantity of labeled data per class for training a model.",
+        "id":"resample_22vdx",
+        "label":"Resample 22VDX",
+        "model":"ce411703-ed70-4b59-95ae-6d2edc51963a",
+        "position":[
+            230,
+            1400
+        ]
+    },
+    {
+        "attrs":{
+            "label":"Action",
+            "number_epochs":30,
+            "target_columns":[
+                "Discrepancy_Narrative",
+                "Work_Center_Event_Narrative",
+                "Corrective_Narrative"
+            ]
+        },
+        "class":"DeepLearningClassifier",
+        "custom_model":true,
+        "description":"Uses a stacked deep learning method to train a model for classifying text.",
+        "id":"fit_action_22vdx",
+        "label":"Fit Action 22VDX",
+        "model":"deeplearningclassifier",
+        "position":[
+            365,
+            1400
+        ]
+    },
+    {
+        "attrs":{
+            "query_list":[
+                "SELECT remis.Work_Order_Number, remis.Work_Center_Event_Identifier, remis.Sequence_Number, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM compiled_remis_data remis JOIN wuc_of_interest wucs ON wucs.Work_Order_Number = remis.Work_Order_Number AND wucs.Work_Center_Event_Identifier = remis.Work_Center_Event_Identifier AND wucs.Sequence_Number = remis.Sequence_Number WHERE remis.Serial_Number IS NOT NULL AND TRIM(remis.Equipment_Designator) IN ('C130J','C130H') AND wucs.Work_Unit_Code = '491A0'"
+            ]
+        },
+        "class":"SQL",
+        "custom_model":true,
+        "description":"Filter by WUC and Year, exclude NULL Serial Number, get narratives to for labeling.",
+        "id":"remis_filter_22vdx",
+        "label":"REMIS Filter 22VDX",
+        "model":"2c5c22c0-9377-440b-b2f7-70c76596c267",
+        "position":[
+            985,
+            1425
+        ]
+    },
+    {
+        "attrs":{
+            "copy_only_key_columns":true
+        },
+        "class":"DeepLearningLabeler",
+        "custom_model":true,
+        "description":"Apply a deep learning model to a new set of data",
+        "id":"label_22vdx",
+        "label":"Label 22VDX",
+        "model":"aef42b5b-e64d-4de6-af65-e80479532233",
+        "position":[
+            1130,
+            1425
         ]
     }
 ]
