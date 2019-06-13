@@ -144,12 +144,12 @@
     {
         "attrs":{
             "query_list":[
-                "SELECT CASE WHEN wucs.Work_Unit_Code = '46620' THEN '46621' WHEN wucs.Work_Unit_Code = '42BA0' THEN '422A0' WHEN wucs.Work_Unit_Code = '4221P' THEN '422A0' WHEN wucs.Work_Unit_Code = '72K00' THEN '72KK0' WHEN wucs.Work_Unit_Code = '526DA' THEN '526DE' WHEN wucs.Work_Unit_Code = '526DD' THEN '526DE' ELSE wucs.Work_Unit_Code END AS Work_Unit_Code, TRIM(raw.Equipment_Designator) AS Equipment_Designator, raw.Serial_Number, raw.Geographic_Location, raw.Performing_Geographic_Location, raw.Transaction_Date, raw.Start_Time, raw.Work_Center_Code, raw.When_Discovered_Code, raw.How_Malfunction_Code, split_r_and_multi_pos.Action_Taken_Code, NULL Removal_Cause, raw.Type_Maintenance_Code, age.Current_Operating_Time, split_r_and_multi_pos.Parsed_Component_Position AS Component_Position_Number, raw.Corrective_Narrative, raw.Discrepancy_Narrative, raw.Work_Center_Event_Narrative, last_sortie.Depart_Date, last_sortie.Depart_Time, last_sortie.Flying_Hours AS Flying_Hours_Last_Sortie, last_sortie.Sorties_Flown AS Sorties_Flown_Last_Sortie, last_sortie.Total_Landings AS Total_Landings_Last_Sortie, last_sortie.Full_Stop_Landings AS Full_Stop_Landings_Last_Sortie, split_r_and_multi_pos.Work_Order_Number, split_r_and_multi_pos.Work_Center_Event_Identifier, split_r_and_multi_pos.Sequence_Number, split_r_and_multi_pos.Primary_Key_Index FROM compiled_remis_data raw JOIN wuc_of_interest wucs ON raw.Work_Center_Event_Identifier = wucs.Work_Center_Event_Identifier AND raw.Sequence_Number = wucs.Sequence_Number AND raw.Work_Order_Number = wucs.Work_Order_Number JOIN split_r_and_multi_pos ON raw.Work_Center_Event_Identifier = split_r_and_multi_pos.Work_Center_Event_Identifier AND raw.Sequence_Number = split_r_and_multi_pos.Sequence_Number AND raw.Work_Order_Number = split_r_and_multi_pos.Work_Order_Number JOIN add_event_age age ON raw.Work_Center_Event_Identifier = age.Work_Center_Event_Identifier AND raw.Sequence_Number = age.Sequence_Number AND raw.Work_Order_Number = age.Work_Order_Number LEFT JOIN last_sortie ON raw.Serial_Number = last_sortie.Serial_Number AND raw.Equipment_Designator = last_sortie.MDS WHERE split_r_and_multi_pos.Action_Taken_Code != 'O'"
+                "SELECT CASE WHEN wucs.Work_Unit_Code = '46620' THEN '46621'WHEN wucs.Work_Unit_Code = '42BA0' THEN '422A0'WHEN wucs.Work_Unit_Code = '4221P' THEN '422A0'WHEN wucs.Work_Unit_Code = '72K00' THEN '72KK0'WHEN wucs.Work_Unit_Code = '526DA' THEN '526DE'WHEN wucs.Work_Unit_Code = '526DD' THEN '526DE'WHEN wucs.Work_Unit_Code = '22VDA' THEN '22VDX'WHEN wucs.Work_Unit_Code = '22VDB' THEN '22VDX'WHEN wucs.Work_Unit_Code = '22VDC' THEN '22VDX'ELSE wucs.Work_Unit_Code END AS Work_Unit_Code, TRIM(raw.Equipment_Designator) AS Equipment_Designator, raw.Serial_Number, raw.Geographic_Location, raw.Performing_Geographic_Location, raw.Transaction_Date, raw.Start_Time, raw.Work_Center_Code, raw.When_Discovered_Code, raw.How_Malfunction_Code, split_r_and_multi_pos.Action_Taken_Code, NULL Removal_Cause, raw.Type_Maintenance_Code, age.Current_Operating_Time, split_r_and_multi_pos.Parsed_Component_Position AS Component_Position_Number, raw.Corrective_Narrative, raw.Discrepancy_Narrative, raw.Work_Center_Event_Narrative, last_sortie.Depart_Date, last_sortie.Depart_Time, last_sortie.Flying_Hours AS Flying_Hours_Last_Sortie, last_sortie.Sorties_Flown AS Sorties_Flown_Last_Sortie, last_sortie.Total_Landings AS Total_Landings_Last_Sortie, last_sortie.Full_Stop_Landings AS Full_Stop_Landings_Last_Sortie, split_r_and_multi_pos.Work_Order_Number, split_r_and_multi_pos.Work_Center_Event_Identifier, split_r_and_multi_pos.Sequence_Number, split_r_and_multi_pos.Primary_Key_Index FROM compiled_remis_data raw JOIN wuc_of_interest wucs ON raw.Work_Center_Event_Identifier = wucs.Work_Center_Event_Identifier AND raw.Sequence_Number = wucs.Sequence_Number AND raw.Work_Order_Number = wucs.Work_Order_Number JOIN split_r_and_multi_pos ON raw.Work_Center_Event_Identifier = split_r_and_multi_pos.Work_Center_Event_Identifier AND raw.Sequence_Number = split_r_and_multi_pos.Sequence_Number AND raw.Work_Order_Number = split_r_and_multi_pos.Work_Order_Number JOIN add_event_age age ON raw.Work_Center_Event_Identifier = age.Work_Center_Event_Identifier AND raw.Sequence_Number = age.Sequence_Number AND raw.Work_Order_Number = age.Work_Order_Number LEFT JOIN last_sortie ON raw.Serial_Number = last_sortie.Serial_Number AND raw.Equipment_Designator = last_sortie.MDS WHERE split_r_and_multi_pos.Action_Taken_Code != 'O'AND split_r_and_multi_pos.Parsed_Component_Position NOT IN ('1C','2C','3C','4C')"
             ]
         },
         "class":"SQL",
         "custom_model":true,
-        "description":"Run a set of SQL select queries on existing database tables.",
+        "description":"Combine labels, positions, and ages of removals and installs for cause into single table.  Treat a few Work Unit Codes uniquely because maintainers sometimes use the wrong WUC: convert any 46620 fuel system records that matched an R action to 46621; similarly, convert 72K00 to 72KK0 cursor control, as well as 42BA0 and 4221P to 422A0. Finally, convert 22VDA, 22VDB, and 22VDB to 22VDX but drop the 22VDB positions - we'll treat 22VDA and 22VDC positions as a single WUC with QPA=8",
         "id":"joined_data",
         "label":"Joined Data",
         "model":"a2acd8e8-0f7e-4f81-84c8-f90d430d60cc",
@@ -702,12 +702,42 @@
                     "2,4",
                     "APU",
                     "4,TVIB",
+                    "4,GVIB",
                     "2,TVIB",
                     "3,TVIB",
                     "3,CVIB",
+                    "3,GVIB",
                     "1,TVIB",
+                    "1,CVIB",
+                    "1T",
+                    "1G",
+                    "1C",
+                    "2C",
+                    "2T",
+                    "2G",
+                    "3T",
+                    "3G",
+                    "3C",
+                    "4C",
+                    "4T",
+                    "4G",
+                    "3G,3P",
+                    "3C,3T",
+                    "1C,1T",
+                    "0,1T",
+                    "0,2T",
+                    "3C,3G",
+                    "3C,3P",
+                    "4C,4T",
+                    "0,3T",
+                    "4,CVIB",
+                    "4,GVIB",
+                    "0,4T",
                     "0,4",
+                    "0,4C",
                     "0,1",
+                    "0,1T",
+                    "0,2T",
                     "2B",
                     "3B,4B",
                     "2A",
@@ -776,7 +806,8 @@
                     "TCTO 1C-130-1885",
                     "TCTO 1885",
                     "MODIFICATION",
-                    "CONTAMINATION"
+                    "CONTAMINATION",
+                    "CLEANING"
                 ]
             }
         },
@@ -785,7 +816,7 @@
         "description":"Save sets of labels to validate uploaded hand-labeled events against",
         "id":"labels_import",
         "label":"Labels Import",
-        "model":"bb7cdcee-95f1-4641-a663-04a48bd9f658",
+        "model":"9e850fa8-825f-4d43-8319-8cb964f1a6a4",
         "position":[
             370,
             445
@@ -1962,7 +1993,7 @@
     {
         "attrs":{
             "query_list":[
-                "SELECT remis.Work_Order_Number, remis.Work_Center_Event_Identifier, remis.Sequence_Number, COALESCE(corr.Work_Unit_Code, remis.Work_Unit_Code) as Work_Unit_Code FROM compiled_remis_data remis LEFT JOIN dedupe_corrections corr ON remis.Work_Order_Number = corr.Work_Order_Number AND remis.Work_Center_Event_Identifier = corr.Work_Center_Event_Identifier AND remis.Sequence_Number = corr.Sequence_Number HAVING Work_Unit_Code IN (SELECT Work_Unit_Code FROM ercm_wuc_list)"
+                "SELECT remis.Work_Order_Number, remis.Work_Center_Event_Identifier, remis.Sequence_Number, COALESCE(corr.Work_Unit_Code, remis.Work_Unit_Code) as Work_Unit_Code FROM compiled_remis_data remis LEFT JOIN dedupe_corrections corr ON remis.Work_Order_Number = corr.Work_Order_Number AND remis.Work_Center_Event_Identifier = corr.Work_Center_Event_Identifier AND remis.Sequence_Number = corr.Sequence_Number HAVING Work_Unit_Code IN (SELECT Work_Unit_Code FROM ercm_wuc_list) OR Work_Unit_Code = '22VDB'"
             ]
         },
         "class":"SQL",
@@ -3531,7 +3562,11 @@
                     "U":"TU"
                 },
                 "col_filter_value":{
-                    "Work_Unit_Code":["22VDA","22VDB","22VDC"]
+                    "Work_Unit_Code":[
+                        "22VDA",
+                        "22VDB",
+                        "22VDC"
+                    ]
                 },
                 "label_name":"Action",
                 "max_majority_fraction_of_next_highest":2,
@@ -3597,7 +3632,7 @@
         "description":"Apply a deep learning model to a new set of data",
         "id":"label_22vdx",
         "label":"Label 22VDX",
-        "model":"aef42b5b-e64d-4de6-af65-e80479532233",
+        "model":"2beaa039-3471-4a21-9428-91b8ce9d863a",
         "position":[
             1130,
             1425

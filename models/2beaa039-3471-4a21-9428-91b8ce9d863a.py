@@ -4,7 +4,7 @@ from sqlalchemy import MetaData, Table
 
 metadata = MetaData()
 
-label_491a0_action = Table('label_491a0_action', metadata, 
+label_22vdx = Table('label_22vdx', metadata, 
 
     Column('Work_Order_Number', BigInteger, primary_key=True, autoincrement=False),
     Column('Work_Center_Event_Identifier', Integer, primary_key=True, autoincrement=False),
