@@ -174,24 +174,24 @@ def cp_navplt(df_cp_navplt,libraries):
 
     # search narratives for given patterns
 
-        def extract_positions_single_narr_cp_navplt(df, col):           
+    def extract_positions_single_narr_cp_navplt(df, col):           
 
         # search narratives for given patterns
-        df['parse'] = df[col].apply(lambda x: re.findall(r"C?O?\W?PI?L?O?T|C\W?P|NAV", x))
+        df['parse'] = df[col].apply(lambda x: re.findall(r"C?O?\W?PI?L?O?T|C\W?P|NAV", str(x)))
 
         # keep only alphabetical chars and comma separators to fix C-P, C/P etc.
-		df['alpha'] = df['parse'].apply(lambda x: re.sub(r"[^\w,]","",str(x)))
+        df['alpha'] = df['parse'].apply(lambda x: re.sub(r"[^\w,]","",str(x)))
 
         # correct parsed labels
         parse_dict = {'CPIT':'PIT', ',PIT':'','PIT,':'', 'PIT':'', 'PILT':'PILOT', 'PLT':'PILOT', 'PT':'PILOT','CPLT':'CP','CPT':'CP', 'CPILOT':'CP', 'COPILOT':'CP','PILOT':'NAV', 'CP':'COPILOT'}
-        for key in in parse_dict.keys():
+        for key in parse_dict.keys():
             df['alpha'] = df['alpha'].apply(lambda x: x.replace(key,parse_dict[key]))
 
         # remove duplicates and sort
         df['alpha'] = df['alpha'].apply(lambda x: sorted(list(set(x.strip().split(':',)))))
 
         # convert back to string to remove []
-        df['alpha'] = df['alpha'].apply(lambda x: ','.apply(lambda x: ','.join(map(str, x))))
+        df['alpha'] = df['alpha'].apply(lambda x: ','.join(map(str, x)))
 
         # save values into df
         df.loc[:,'Parsed_Component_Position'] = df['alpha']
@@ -335,23 +335,23 @@ def pilot_cp_nav(df_pilot_cp_nav,libraries):
     def extract_positions_single_narr_pilot_cp_nav(df, col):           
 
         # search narratives for given patterns
-        df['parse'] = df[col].apply(lambda x: re.findall(r"C?O?\W?PI?L?O?T|C\W?P|NAV", x))
+        df['parse'] = df[col].apply(lambda x: re.findall(r"C?O?\W?PI?L?O?T|C\W?P|NAV", str(x)))
 
 
         # keep only alphabetical chars and comma separators to fix C-P, C/P etc.
-		df['alpha'] = df['parse'].apply(lambda x: re.sub(r"[^\w,]","",str(x)))
+        df['alpha'] = df['parse'].apply(lambda x: re.sub(r"[^\w,]","",str(x)))
 
 
         # correct parsed labels
         parse_dict = {'OPI':'PI', 'CPIT':'PIT', ',PIT':'', 'PIT':'', 'PILT':'PILOT', 'PLT':'PILOT', 'PT':'PILOT', 'CPILOT':'COPILOT', 'CPLT':'COPILOT', 'CPT':'COPILOT', 'CP':'COPILOT'}
-        for key in in parse_dict.keys():
+        for key in parse_dict.keys():
             df['alpha'] = df['alpha'].apply(lambda x: x.replace(key,parse_dict[key]))
 
         # remove duplicates and sort
         df['alpha'] = df['alpha'].apply(lambda x: sorted(list(set(x.strip().split(':',)))))
 
         # convert back to string to remove []
-        df['alpha'] = df['alpha'].apply(lambda x: ','.apply(lambda x: ','.join(map(str, x))))
+        df['alpha'] = df['alpha'].apply(lambda x: ','.join(map(str, x)))
 
         # save values into df
         df.loc[:,'Parsed_Component_Position'] = df['alpha']
@@ -364,7 +364,7 @@ def pilot_cp_nav(df_pilot_cp_nav,libraries):
 
     
     for j in checks:
-        if df_cp_navplt.loc[df_cp_navplt.Parsed_Component_Position.str.len()==0].empty:
+        if df_pilot_cp_nav.loc[df_pilot_cp_nav.Parsed_Component_Position.str.len()==0].empty:
             # if all positions have been found then do nothing
             break
 
@@ -438,7 +438,7 @@ def INU(df_inu, libraries):
 
     def extract_positions_single_narr_inu(df, col):
         # search narratives for given patterns
-        df.loc[:, 'parse'] = df[col].apply(lambda x: re.findall(r"\#\d+|\# \d+|NO. \d+|NUMBER \d+|1 AND 2|1 \& 2|\#!", x))
+        df.loc[:, 'parse'] = df[col].apply(lambda x: re.findall(r"\#\d+|\# \d+|NO. \d+|NUMBER \d+|1 AND 2|1 \& 2|\#!", str(x)))
         
         # replace 'AND' matches with numbers
         df.loc[:, 'parse'] = df['parse'].apply(lambda x: [str(ii).replace('1 AND 2','1,2').replace('1 & 2','1,2').replace('#!','1') for ii in x])
