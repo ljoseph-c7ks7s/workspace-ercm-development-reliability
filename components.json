@@ -3602,5 +3602,15 @@
             1130,
             1425
         ]
+    },
+    {
+        "class":"SQL",
+        "description":"Run a set of SQL select queries on existing database tables.",
+        "id":"persist_staged_subset",
+        "label":"Persist Staged Subset",
+        "position":[
+            1195,
+            50
+        ]
     }
 ]
