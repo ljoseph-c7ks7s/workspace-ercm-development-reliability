@@ -33,7 +33,9 @@ remove_unk_position_number = Table('remove_unk_position_number', metadata,
     Column('TOW', Float, primary_key=False, autoincrement=False),
     Column('spans_unknown_install', TINYINT, primary_key=False, autoincrement=False),
     Column('spans_unknown_removal', TINYINT, primary_key=False, autoincrement=False),
-    Column('unk_removal_date', Date, primary_key=False, autoincrement=False),
-    Column('unk_removal_tsn', Float, primary_key=False, autoincrement=False),
+    Column('unk_removal_date_earliest', Date, primary_key=False, autoincrement=False),
+    Column('unk_removal_tsn_earliest', Float, primary_key=False, autoincrement=False),
+    Column('true_install_date', Date, primary_key=False, autoincrement=False),
+    Column('true_install_tsn', Float, primary_key=False, autoincrement=False),
     Column('id', BigInteger, primary_key=True, autoincrement=True)
 )
