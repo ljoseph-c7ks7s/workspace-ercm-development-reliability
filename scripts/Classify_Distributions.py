@@ -151,20 +151,8 @@ def fn(conn, libraries, params, predecessors):
         else:
             # disqualify 5
             # compare 10 and s04
-            if df_s04.eta > df_10yr.eta: 
-                if df_s04.eta_se_lower_ci < df_10yr.eta_se_upper_ci:
-                    diff_10_s04 = False
-                else:
-                    diff_10_s04 = True
-            elif df_s04.eta < df_10yr.eta:
-                if df_s04.eta_se_upper_ci > df_10yr.eta_se_lower_ci:
-                    diff_10_s04 = False
-                else:
-                    diff_10_s04 = True
-            if diff_10_s04:
-                use = 'Removed_Last_10_Years'
-            else: 
-                use = 'Since 04'
+            use = compare_10_and_s04(df_s04, df_10yr)
+            
         
         print('WUC {} using {}'.format(df.Work_Unit_Code.iloc[0], use))
         
