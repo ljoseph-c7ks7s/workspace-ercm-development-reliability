@@ -970,31 +970,30 @@ def FQI(df_fqi,libraries):
         df.loc[:, 'num'] = df.parsenum.apply(lambda x: re.sub(r"[^\d,]","",str(x)))
 
         # convert strings into list of strings
-        # note RETURN TO THIS
         df.loc[:, 'alpha'] = df.alpha.apply(lambda x: x.split(','))
         df.loc[:, 'num'] = df.num.apply(lambda x: x.split(','))
 
-        # remove empty strings from list, convert list of strings into list of ints, remove all values > 4, remove duplicates and sort
+        # remove empty strings from list, convert list of strings into list of ints, remove all values > 4 and < 1, remove duplicates and sort
         df.loc[:, 'num'] = df.num.apply(lambda x: map(int,filter(None, x)))
 
-        df.loc[:, 'num'] = df.num.apply(lambda x: sorted(list(set([ii for ii in x if ii<5]))))
+        df.loc[:, 'num'] = df.num.apply(lambda x: sorted(list(set([ii for ii in x if ii<5 and ii>0]))))
 
         # strip commas
-        df.loc[:, 'alpha'] = df.alpha.apply(lambda x: x.lstrip(',').rstrip(','))
+        df.loc[:, 'alpha'] = df.alpha.apply(lambda l: [x.lstrip(',').rstrip(',') for x in l])
 
         # correct parsed labels
         parse_list = [("HAND",""), ("RH","RH_"), ("RT","RH_"), ("RIGHT","RH_"), ("RGT","RH_"), ("LH","LH_"), ("LT","LH_"), ("LEFT","LH_"), ("LFT","LH_"), ("LEX","LH_EX"), ("REX","RH_EX"), ("LAUX","LH_AUX"), ("RAUX","RH_AUX")]
         for tup in parse_list:
-            df.loc[:, 'alpha'] = df.alpha.apply(lambda x: x.replace(tup[0],tup[1]))
+            df.loc[:, 'alpha'] = df.alpha.apply(lambda l: [x.replace(tup[0],tup[1]) for x in l])
 
         # remove duplicates and sort
-        df.loc[:, 'alpha'] = df.alpha.apply(lambda x: sorted(list(set(x.strip().split(',')))))
+        df.loc[:, 'alpha'] = df.alpha.apply(lambda l: sorted(list(set(l))))
 
-        # concatenate alphabetical labels to numeric positions to get single parsed list
-        df.loc[:, 'trim'] = df[['alpha', 'num']].apply(lambda x: ''.join(x), axis=1)
+        # concatenate alphabetical labels to numeric positions to get single parsed list (flatten list)
+        df.loc[:, 'trim'] = df.apply(axis=1, func=lambda row: [kk for jj in (row.alpha, row.num) for kk in jj])
 
         # convert back to string to remove []
-        df.loc[:, 'trim'] = df.trim.apply(lambda x: ','.join(map(str, trim)).rstrip(','))
+        df.loc[:, 'trim'] = df['trim'].apply(lambda x: ','.join(map(str, x)).lstrip(',').rstrip(','))
 
         # save values into df
         df.loc[:,'Parsed_Component_Position'] = df['trim']
@@ -1189,10 +1188,8 @@ def CCU(df_ccu,libraries):
         # search narratives for given patterns
         df.loc[:, 'parse'] = df[col].apply(lambda x: re.findall(r"\d+A\d+|CENTER CONSOL|CNTR CONSOL|RTP|AUG(?:MENTED)? (?:(?:CURSOR|CUROSR) CO?NTR?O?L? PA?NE?L)?|(?:CURSOR|CUROSR) CO?NTR?O?L? PA?NE?L", str(x)))
 
-
         # keep only alphabetical chars and comma separators to fix C-P, C/P etc.
-        df.loc[:, 'alpha'] = df.parse.apply(lambda x: re.sub(r"[^\w,]","",str(x)))
-
+        df.loc[:, 'alpha'] = df.parse.apply(lambda x: re.sub(r"[^A-Z,]","",str(x)))
 
         # correct parsed labels
         parse_list = [('CUROSR','CURSOR'), ('CURSOR','CURSOR_'), ('CNTRL','CONTROL'), ('CNTL','CONTROL'), ('CNT','CONTROL'), ('CNTR','CONTROL'), ('CONTRL','CONTROL'), ('CNTROL','CONTROL'), 
@@ -1224,7 +1221,7 @@ def CCU(df_ccu,libraries):
             break
 
         # send df subset that has no matches to get a match
-        df_sub = extract_positions_single_narr_pilot_cp_nav(df_ccu.loc[df_ccu.Parsed_Component_Position.str.len()==0].copy(), j)
+        df_sub = extract_positions_single_narr_ccu(df_ccu.loc[df_ccu.Parsed_Component_Position.str.len()==0].copy(), j)
         df_ccu.update(df_sub)
 
     # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
