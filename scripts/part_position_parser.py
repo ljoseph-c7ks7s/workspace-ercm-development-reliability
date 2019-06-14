@@ -990,7 +990,7 @@ def FQI(df_fqi,libraries):
         df.loc[:, 'alpha'] = df.alpha.apply(lambda l: sorted(list(set(l))))
 
         # concatenate alphabetical labels to numeric positions to get single parsed list (flatten list)
-        df.loc[:, 'trim'] = df.apply(axis=1, func=lambda row: [kk for jj in (row.alpha, row.num) for kk in jj])
+        df.loc[:, 'trim'] = df.apply(axis=1, func=lambda row: [kk for jj in (row.num, row.alpha) for kk in jj])
 
         # convert back to string to remove []
         df.loc[:, 'trim'] = df['trim'].apply(lambda x: ','.join(map(str, x)).lstrip(',').rstrip(','))
