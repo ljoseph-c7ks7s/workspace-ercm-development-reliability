@@ -42,5 +42,10 @@ def test_part_position_parser():
     df_input.loc[:, 'Parsed_Component_Position'] = df_input['Parsed_Component_Position'].map(lambda x: '0' if x == 'nan' else x)
     df_input.loc[:, 'Parsed_Component_Position'] = df_input['Parsed_Component_Position'].map(lambda x: '0' if x == '' else x)
 
-
-    pd.testing.assert_frame_equal(df_input,df_output)
+    # split the dataframes in order to improve debug process
+    input1 = df_input.head(60)
+    input2 = df_input.tail(60)
+    output1 = df_output.head(60)
+    output2 = df_output.tail(60)
+    pd.testing.assert_frame_equal(input1,output1)
+    pd.testing.assert_frame_equal(input2,output2)
