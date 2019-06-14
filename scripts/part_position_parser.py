@@ -1614,7 +1614,7 @@ def fn(conn, libraries, params, predecessors):
         df_qpa = pd.DataFrame()
 
     else:
-        raise Exception, "Component should have one, two, or three predecessor components"
+        raise Exception("Component should have one, two, or three predecessor components")
 
     # standardize columns
     df.loc[:,'Parsed_Component_Position'] = ""
