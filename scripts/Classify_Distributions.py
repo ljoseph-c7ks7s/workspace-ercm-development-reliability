@@ -61,12 +61,12 @@ def fn(conn, libraries, params, predecessors):
     # can do this for all wucs at once
     removed_distributions_weibull_test = 0
     for ips in list(df_dist.interval_parameter_set_id.unique()):
-        df_dist_one_ips = df_dist.loc[(df_dist.interval_parameter_set_id == ips), :]
-        if df_dist_one_ips.loc[(df_dist.dist_name == 'weibull'), 'beta_eq_one_pval'].iloc[0] > 0.05:
+        df_dist_one_ips = df_dist.loc[(df_dist.interval_parameter_set_id == ips), :].copy()
+        if df_dist_one_ips.loc[(df_dist_one_ips.dist_name == 'weibull'), 'beta_eq_one_pval'].iloc[0] > 0.05:
             removed_distributions_weibull_test += 1
-            df_dist.drop(df_dist_one_ips.loc[(df_dist.dist_name == 'weibull'), :].index[0], axis=0, inplace=True)
+            df_dist.drop(df_dist_one_ips.loc[(df_dist_one_ips.dist_name == 'weibull'), :].index[0], axis=0, inplace=True)
         else:
-            df_dist.drop(df_dist_one_ips.loc[(df_dist.dist_name == 'exponential'), :].index[0], axis=0, inplace=True)
+            df_dist.drop(df_dist_one_ips.loc[(df_dist_one_ips.dist_name == 'exponential'), :].index[0], axis=0, inplace=True)
     print('removed {} weibull distributions for failing the beta=1 check (will use exponential)'.format(removed_distributions_weibull_test))
 
     # add columns to df to help SE comparisons
