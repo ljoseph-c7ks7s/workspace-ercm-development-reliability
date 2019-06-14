@@ -1202,6 +1202,10 @@ def CCU(df_ccu,libraries):
         # remove duplicates and sort
         df.loc[:, 'alpha'] = df.alpha.apply(lambda x: sorted(list(set(x.strip().split(',')))))
 
+        # remove tokens that don't match our labels
+        matches = ['CENTER','AUG','OTHER']
+        df.loc[:, 'alpha'] = df.alpha.apply(lambda l: [ii for ii in l if ii in matches])
+
         # convert back to string to remove []
         df.loc[:, 'alpha'] = df.alpha.apply(lambda x: ','.join(map(str, x)))
 
@@ -1634,6 +1638,7 @@ def fn(conn, libraries, params, predecessors):
         
         df_one_wuc = df[df.Work_Unit_Code == this_wuc]
         wuc_qpa = df_qpa[(df_qpa.Work_Unit_Code == this_wuc) | [this_wuc in df_qpa.loc[x,'Alternate_WUC'] for x in range(0,len(df_qpa))]]
+        assert not wuc_qpa.empty
         df_one_wuc = label_picker(df_one_wuc,wuc_qpa,this_wuc,libraries)
         df.update(df_one_wuc)
         print('WUC '+ str(this_wuc) + ' complete')
