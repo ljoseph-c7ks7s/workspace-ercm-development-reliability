@@ -1017,6 +1017,7 @@ def FQI(df_fqi,libraries):
     df_fqi.loc[df_fqi.Parsed_Component_Position.str.len()==0, 'Parsed_Component_Position'] = \
         df_fqi.loc[df_fqi.Parsed_Component_Position.str.len()==0, 'Component_Position_Number']
 
+    return df_fqi
 
 def ECBU(df_ecbu,libraries):
 
