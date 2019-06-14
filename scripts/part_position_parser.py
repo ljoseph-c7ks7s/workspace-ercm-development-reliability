@@ -1192,7 +1192,7 @@ def CCU(df_ccu,libraries):
         df.loc[:, 'alpha'] = df.parse.apply(lambda x: re.sub(r"[^A-Z,]","",str(x)))
 
         # correct parsed labels
-        parse_list = [('CUROSR','CURSOR'), ('CURSOR','CURSOR_'), ('CNTRL','CONTROL'), ('CNTL','CONTROL'), ('CNT','CONTROL'), ('CNTR','CONTROL'), ('CONTRL','CONTROL'), ('CNTROL','CONTROL'), 
+        parse_list = [('CUROSR','CURSOR'), ('CURSOR','CURSOR_'), ('CNTRL','CONTROL'), ('CONTL','CONTROL'), ('CNTL','CONTROL'), ('CNT','CONTROL'), ('CNTR','CONTROL'), ('CONTRL','CONTROL'), ('CNTROL','CONTROL'), 
             ('PANEL',''), ('PNL',''), ('PANL',''), ('PNEL',''), ('CURSOR_CONTROL','CENTER'), ('CNTR','CENTER'), ('CONSOL',''), ('AUGMENTED','UG_CREW'), ('AUG','UG_CREW'), ('RTP','OTHER'),
             ('A','OTHER'), ('UG_CREW','AUG'), ('AUGCENTER','AUG')]
         
