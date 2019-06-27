@@ -190,6 +190,10 @@ def cp_navplt(df_cp_navplt,libraries):
         # remove duplicates and sort
         df.loc[:, 'alpha'] = df.alpha.apply(lambda x: sorted(list(set(x.strip().split(',')))))
 
+        # remove tokens that don't match our labels
+        matches = ['NAV','COPILOT']
+        df.loc[:, 'alpha'] = df.alpha.apply(lambda l: [ii for ii in l if ii in matches])
+
         # convert back to string to remove []
         df.loc[:, 'alpha'] = df.alpha.apply(lambda x: ','.join(map(str, x)))
 
@@ -259,6 +263,10 @@ def cp_plt(df,libraries):
             parse = parse.split(',')
             parse = list(set(parse))
             parse.sort()
+
+            # remove tokens that don't match our labels
+            matches = ['PILOT','COPILOT']
+            df.loc[:, 'alpha'] = df.alpha.apply(lambda l: [ii for ii in l if ii in matches])
             
             # convert back to string to remove []
             parse = ','.join(map(str, parse))
@@ -346,12 +354,16 @@ def pilot_cp_nav(df_pilot_cp_nav,libraries):
         df.loc[:, 'alpha'] = df.parse.apply(lambda x: re.sub(r"[^\w,]","",str(x)))
 
         # correct parsed labels
-        parse_list = [('OPI','PI'), ('CPIT','PIT'), (',(PIT',''), ('PIT',''), ('PILT','PILOT'), ('PLT','PILOT'), ('PT','PILOT'), ('CPILOT','COPILOT'), ('CPLT','COPILOT'), ('CPT','COPILOT'), ('CP','COPILOT')]
+        parse_list = [('PILT','PILOT'), ('PLT','PILOT'), ('PT','PILOT'), ('CPILOT','COPILOT'), ('CPLT','COPILOT'), ('CPT','COPILOT'), ('CP','COPILOT')]
         for tup in parse_list:
             df.loc[:, 'alpha'] = df.alpha.apply(lambda x: x.replace(tup[0],tup[1]))
 
         # remove duplicates and sort
         df.loc[:, 'alpha'] = df.alpha.apply(lambda x: sorted(list(set(x.strip().split(',')))))
+
+        # remove tokens that don't match our labels
+        matches = ['NAV','COPILOT','PILOT']
+        df.loc[:, 'alpha'] = df.alpha.apply(lambda l: [ii for ii in l if ii in matches])
 
         # convert back to string to remove []
         df.loc[:, 'alpha'] = df.alpha.apply(lambda x: ','.join(map(str, x)))
@@ -710,6 +722,10 @@ def engine_double(df_eng_dbl,libraries):
         # remove empties
         df.loc[:, 'parse'] = df.parse.apply(lambda l: filter(None, l))
 
+        # remove tokens that don't match our labels
+        matches = ['0A','0B','0A,0B']
+        df.loc[:, 'parse'] = df.parse.apply(lambda l: [ii for ii in l if ii not in matches])
+
         # convert back to string to remove []
         df.loc[:, 'parse'] = df.parse.apply(lambda x: ','.join(x))
 
@@ -768,6 +784,10 @@ def engine_double(df_eng_dbl,libraries):
 
         # remove empties
         df.loc[:, 'parse'] = df.parse.apply(lambda l: filter(None, l))
+
+        # remove tokens that don't match our labels
+        matches = ['0A','0B','0A,0B']
+        df.loc[:, 'parse'] = df.parse.apply(lambda l: [ii for ii in l if ii not in matches])
 
         # convert back to string to remove []
         df.loc[:, 'parse'] = df.parse.apply(lambda x: ','.join(x))
@@ -866,9 +886,60 @@ def BAD(df,libraries):
                 j = j+1
                 
 
+<<<<<<< HEAD
             # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
         if df.loc[i,'Parsed_Component_Position'] == str():
             df.loc[i,'Parsed_Component_Position'] = df.loc[i,'Component_Position_Number']
+=======
+    #         # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
+    #     if df.loc[i,'Parsed_Component_Position'] == str():
+    #         df.loc[i,'Parsed_Component_Position'] = df.loc[i,'Component_Position_Number']
+    
+    def extract_positions_single_narr_BAD(df, col):
+        
+        # search narratives for given patterns
+        df.loc[:, 'parse'] = df[col].apply(lambda x: re.findall(r"\bP |^P |(?<=[^COM])C?O?\W?PI?L?O?T|^C?O?\W?PI?L?O?T|C\W?P|AUG|AFT CARGO|FWD CARGO|OBS|CENTER|AFT",str(x)))
+        
+        # keep only alphabetical chars and comma separators to fix C-P, C/P etc.
+        df.loc[:, 'alpha'] = df.parse.apply(lambda x: re.sub(r"[^\w,]","",str(x)))
+        
+        # correct parsed labels
+        parse_list = [('CPILOT','COPILOT'),('CPLT','COPILOT'),('CPT','COPILOT'),('CP','COPILOT'),('PLT','PILOT'),('PT','PILOT'),
+                      (',PIT',''),('PIT,',''),('PIT',''),('COPILOT','CP'),('OPILOT',''),('CP','COPILOT'),('P','PILOT'),('ILOTILOT','ILOT'),
+                     ('AUG','AUG_CREW'),('AFTCARGO','A_CO'),('FWDCARGO','FWD_CARGO'),('OBS','OBSERVER'),('CENTER','A_CENTER_CONSOLE'),
+                      ('AFT','AFT_CENTER_CONSOLE'),('A_CO','AFT_CARGO'),('A_CENTER_CONSOLE','AFT_CENTER_CONSOLE')]
+        for tup in parse_list:
+            df.loc[:, 'alpha'] = df.alpha.apply(lambda x: x.replace(tup[0],tup[1]))
+        
+        # remove duplicates and sort
+        df.loc[:, 'alpha'] = df.alpha.apply(lambda x: sorted(list(set(x.strip().split(',')))))
+
+        # remove tokens that don't match our labels
+        matches = ['PILOT','COPILOT','AUG_CREW','AFT_CENTER_CONSOLE','AFT_CARGO','FWD_CARGO','OBSERVER']
+        df.loc[:, 'alpha'] = df.alpha.apply(lambda l: [ii for ii in l if ii in matches])
+        
+        # convert back to string
+        df.loc[:, 'alpha'] = df.alpha.apply(lambda x: ','.join(map(str, x)))
+
+        # save values into df
+        df.loc[:, 'Parsed_Component_Position'] = df['alpha']
+
+        df.drop(['parse','alpha'], axis=1, inplace=True)
+
+        # return matches
+        return df[df.Parsed_Component_Position.str.len()>0]
+    
+    for j in checks:
+        if df_BAD.loc[df_BAD.Parsed_Component_Position.str.len()==0].empty:
+            # if all positions have been found then do nothing
+            break
+        
+        # send df subset that has no matches to get a match
+        df_sub = extract_positions_single_narr_BAD(df_BAD.loc[df_BAD.Parsed_Component_Position.str.len()==0].copy(), j)
+        df_BAD.update(df_sub)
+        
+    return df_BAD
+>>>>>>> 762414a... updated ppp to remove labels not in label list. updated tests
 
     return df
 
@@ -992,6 +1063,10 @@ def FQI(df_fqi,libraries):
 
         # concatenate alphabetical labels to numeric positions to get single parsed list (flatten list)
         df.loc[:, 'trim'] = df.apply(axis=1, func=lambda row: [kk for jj in (row.num, row.alpha) for kk in jj])
+
+        # remove tokens that don't match our labels
+        matches = ['1','2','3','4','LH_AUX','LH_EXT','RH_AUX','RH_EXT']
+        df.loc[:, 'alpha'] = df.alpha.apply(lambda l: [ii for ii in l if ii in matches])
 
         # convert back to string to remove []
         df.loc[:, 'trim'] = df['trim'].apply(lambda x: ','.join(map(str, x)).lstrip(',').rstrip(','))
@@ -1299,7 +1374,7 @@ def APU(df_apu,libraries):
 
     def extract_positions_single_narr_apu_reader(df, col):
         # search narratives for given patterns
-        df.loc[:, 'parse'] = df[col].apply(lambda x: re.findall(r"(?:\# ?|NO\.? |NUMBER )\d+|\bALL FOUR\b|\bALL 4\b", x))
+        df.loc[:, 'parse'] = df[col].apply(lambda x: re.findall(r"(?:\# ?|NO\.? |NUMBER )\d+", x))
         df.loc[:, 'parseapu'] = df[col].apply(lambda x: re.findall(r"APU", x))
 
         # keep only numeric digits and comma separators
@@ -1452,11 +1527,98 @@ def VD(df,libraries):
             if df.loc[i,'Parsed_Component_Position'] != "":
                 j = len(checks)
             else:
+<<<<<<< HEAD
                 j = j+1
                 
             # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
         if df.loc[i,'Parsed_Component_Position']==str(''):
             df.loc[i,'Parsed_Component_Position'] = str('0')
+=======
+                df.loc[:,col] = df[checks[j+1]].apply(lambda x: re.findall(r"GEAR ?BOX|G[\/]?B|COMP(?:R[E ]SSOR)?|TURBINE?|GVIB|CVIB|TVIB", str(x)))
+        except:
+            # if unable, return empty list
+            df.col = []
+        return df[col]
+    
+    
+    def cartesioner(A,B):
+        outer = [','.join([str(A[i][j]+str(B[i][k])) for k in range(0,len(B[i])) for j in range(0,len(A[i]))]) for i in list(A.index.values)]
+        return outer
+        
+
+    def extract_positions_single_narr_vd(df, j):
+        # search narratives for given patterns
+        df.loc[:,'parse'] = df[checks[j]].apply(lambda x: re.findall(r"GEAR ?BOX|G[\/]?B|COMP(?:R[E ]SSOR)?|TURBINE?|GVIB|CVIB|TVIB", str(x)))
+        df.loc[:,'numparse'] = df[checks[j]].apply(lambda x: re.findall(r"(?:\# ?|NO\.? ?|NUMBER |ENG(?:INE)? )\d+|\bALL 4|\bALL FOUR", str(x)))
+        
+        # if we find a partial match, search next narrative to complete match
+        col = 'numparse'
+        df.loc[(df.parse.str.len()!=0) & (df.numparse.str.len()==0),col] = trynext(df.loc[(df.parse.str.len()!=0) & (df.numparse.str.len()==0),:],col,j)
+        
+        col = 'parse'
+        df.loc[(df.parse.str.len()==0) & (df.numparse.str.len()!=0),col] = trynext(df.loc[(df.parse.str.len()==0) & (df.numparse.str.len()!=0),:],col,j)
+        
+        #keep only records with full matches
+        df = df.loc[(df.parse.str.len()!=0) & (df.numparse.str.len()!=0),:]            
+        
+        
+# handle nums
+        # replace 'ALL' matches with numbers
+        df.loc[:, 'numparse'] = df['numparse'].apply(lambda x: [str(ii).replace('ALL FOUR', '1,2,3,4').replace('ALL 4', '1,2,3,4') for ii in x])
+        # keep only numeric digits and comma separators
+        df.loc[:,'nums'] = df['numparse'].apply(lambda x: re.sub(r"[^\d,]","",str(x)))
+        # convert string into list of strings
+        df.loc[:, 'nums'] = df['nums'].apply(lambda x: x.split(','))
+        # remove empty strings from list
+        # convert list of strings into list of ints
+        df.loc[:, 'nums'] = df['nums'].apply(lambda x: map(int, filter(None, x)))
+        # remove all values > 4, duplicates and sort
+        df.loc[:, 'nums'] = df['nums'].apply(lambda x: sorted(list(set([ii for ii in x if ii<5]))))
+        # convert back to string without , separator for cartes function
+        df.loc[:, 'nums'] = df['nums'].apply(lambda x: ''.join(map(str, x)))
+
+# handle parse
+        # keep only alphabetical chars and comma separators to fix C-P, C/P etc.
+        df.loc[:, 'alpha'] = df.parse.apply(lambda x: re.sub(r"[^A-Z,]","",str(x)))
+        
+        # correct parsed labels
+        parse_list = [("GB","GEARBOX"),("GVIB","GEARBOX"),("TVIB","TURBINE"),("CVIB","COMPRESSOR"),("COMPR SSOR","COMPRESSOR"),
+                      ("COMPRESSOR","C"),("COMP","C"),("TURBINE","T"),("TURBIN","T"),("GEARBOX","G")]
+        for tup in parse_list:
+            df.loc[:, 'alpha'] = df.alpha.apply(lambda x: x.replace(tup[0],tup[1]))
+        
+        # remove duplicates and sort
+        df.loc[:, 'alpha'] = df.alpha.apply(lambda x: sorted(list(set(x.strip().split(',')))))
+        
+        # remove tokens that don't match our labels
+        matches = ['C','G','T']
+        df.loc[:, 'alpha'] = df.alpha.apply(lambda l: [ii for ii in l if ii in matches])
+        
+        # convert back to string without , separator for cartes function
+        df.loc[:, 'alpha'] = df.alpha.apply(lambda x: ''.join(map(str, x)))
+        
+        
+        
+# combine alpha and nums to create labels
+        try:
+            df.loc[:,'combo'] = cartesioner(df.nums,df.alpha)
+        except:
+            df.loc[:,'combo'] = []
+
+        df.loc[:,'Parsed_Component_Position'] = df['combo']
+        
+        df.drop(['parse','alpha','numparse','nums','combo'], axis=1, inplace=True)
+        
+# return matches
+        return df
+
+
+    for j in range(0,len(checks)):
+
+        if df_vd.loc[df_vd.Parsed_Component_Position.str.len()==0].empty:
+            # if all positions have been found then do nothing
+            break
+>>>>>>> 762414a... updated ppp to remove labels not in label list. updated tests
             
 
     return df
