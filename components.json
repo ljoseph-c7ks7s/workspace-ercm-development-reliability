@@ -7,38 +7,8 @@
         "label":"Compiled Sortie History Data",
         "model":"e862daaa-1db3-403d-9656-e24d3a1169c2",
         "position":[
-            360,
-            360
-        ]
-    },
-    {
-        "attrs":{
-            "additional_parameters":{
-                "drop_empty_SN":true,
-                "drop_other_MDS":true
-            }
-        },
-        "class":"Python",
-        "custom_model":true,
-        "description":"Add a 3-column primary key. Sort remaining duplicates so they're deleted by the primary key.",
-        "id":"remis_data",
-        "label":"REMIS Data",
-        "model":"6018bebc-4949-4ecc-9a4b-f233ad436242",
-        "position":[
-            70,
-            55
-        ]
-    },
-    {
-        "class":"Stager",
-        "custom_model":true,
-        "description":"Compile all previously-uploaded remis data.",
-        "id":"compiled_remis_data",
-        "label":"Compiled REMIS Data",
-        "model":"0fe94094-9f6c-4be9-8da8-d6e37dc6b137",
-        "position":[
-            215,
-            20
+            190,
+            385
         ]
     },
     {
@@ -78,8 +48,8 @@
         "label":"Sortie Import",
         "model":"fbdc98ee-c271-4ae8-887e-24c89d42870a",
         "position":[
-            50,
-            360
+            40,
+            385
         ]
     },
     {
@@ -93,8 +63,8 @@
         "label":"Part Position Parser",
         "model":"f21eadfe-d46a-455a-98eb-b8fc8bc9b395",
         "position":[
-            775,
-            15
+            300,
+            25
         ]
     },
     {
@@ -105,8 +75,8 @@
         "label":"Split R and Multi POS",
         "model":"98437406-31ef-429a-a8cd-d8a1b3d11ce0",
         "position":[
-            910,
-            80
+            540,
+            25
         ]
     },
     {
@@ -122,8 +92,8 @@
         "label":"Sortie Accumulated Hours",
         "model":"debc7c2f-0456-44bc-9f4d-680ba5ea86a4",
         "position":[
-            515,
-            275
+            355,
+            335
         ]
     },
     {
@@ -137,8 +107,8 @@
         "label":"Add Event Age",
         "model":"fe45927a-354a-4a72-aa41-3a609f694151",
         "position":[
-            790,
-            150
+            540,
+            70
         ]
     },
     {
@@ -154,8 +124,8 @@
         "label":"Joined Data",
         "model":"a2acd8e8-0f7e-4f81-84c8-f90d430d60cc",
         "position":[
-            1040,
-            130
+            720,
+            110
         ]
     },
     {
@@ -166,8 +136,8 @@
         "label":"Stage Data for TOW",
         "model":"536280a6-6980-479a-a05d-915bf77d166a",
         "position":[
-            1185,
-            130
+            870,
+            110
         ]
     },
     {
@@ -186,8 +156,8 @@
         "label":"Calculate TOW",
         "model":"c6b9d182-d4a9-46f6-b5b0-4333051ed6cc",
         "position":[
-            1345,
-            130
+            1015,
+            110
         ]
     },
     {
@@ -305,8 +275,8 @@
         "label":"Calculate Intervals",
         "model":"reliability_interval_model",
         "position":[
-            1105,
-            225
+            870,
+            185
         ]
     },
     {
@@ -325,8 +295,8 @@
         "label":"Calculate Distributions",
         "model":"reliability_distribution_model",
         "position":[
-            1255,
-            225
+            1020,
+            185
         ]
     },
     {
@@ -342,111 +312,8 @@
         "label":"Last Sortie",
         "model":"77f11401-f6f5-4268-b547-f7a1b1aea338",
         "position":[
-            790,
-            185
-        ]
-    },
-    {
-        "attrs":{
-            "column_conversion":{
-                "BOBJ Transactions for 01-2018 thru 01-2019":"x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
-                "PART NUMBER":"x if not x else str(x).strip() if type(x) == unicode else int(float(x))",
-                "WUC":"x if not x else str(x).strip() if type(x) == unicode else int(float(x))"
-            },
-            "sheets":[
-                "WUC list with Multiple Part #"
-            ]
-        },
-        "class":"Excel",
-        "custom_model":true,
-        "description":"Import an Excel file with the ~30 priority WUCs for C130.",
-        "id":"ercm_wuc_list_raw",
-        "label":"eRCM WUC List Raw",
-        "model":"335fda3d-ca15-44d9-9ac1-83b6a57f79ca",
-        "position":[
-            10,
-            250
-        ]
-    },
-    {
-        "attrs":{
-            "column_conversion":{
-                "HMAL":"str(x).replace('.0','')"
-            }
-        },
-        "class":"Excel",
-        "custom_model":true,
-        "description":"Import an Excel file.",
-        "id":"hmal_codes",
-        "label":"HMAL Codes",
-        "model":"6f7a7abe-a6bf-440c-bf23-ff5b327fa71d",
-        "position":[
-            50,
-            565
-        ]
-    },
-    {
-        "attrs":{
-            "column_conversion":{
-                "AT":"str(x).replace('.0','')"
-            }
-        },
-        "class":"Excel",
-        "custom_model":true,
-        "description":"Import an Excel file.",
-        "id":"at_codes",
-        "label":"AT Codes",
-        "model":"2871c63c-0c64-4f75-bbf3-55ea10996d23",
-        "position":[
-            50,
-            475
-        ]
-    },
-    {
-        "class":"Excel",
-        "custom_model":true,
-        "description":"Import an Excel file.",
-        "id":"tm_codes",
-        "label":"TM Codes",
-        "model":"fa84505e-1d6c-4838-8e32-4b3f48d705ab",
-        "position":[
-            50,
-            505
-        ]
-    },
-    {
-        "attrs":{
-            "column_conversion":{
-                "WD":"str(x).replace('.0','')"
-            }
-        },
-        "class":"Excel",
-        "custom_model":true,
-        "description":"Import an Excel file.",
-        "id":"wd_codes",
-        "label":"WD Codes",
-        "model":"615506ca-c708-4b27-b2b9-e56cb29c01ed",
-        "position":[
-            50,
-            535
-        ]
-    },
-    {
-        "attrs":{
-            "query_list":[
-                "SELECT File_Name, remis.On_Maint_Action_Key, remis.Work_Center_Event_Identifier, remis.Sequence_Number, remis.Off_Maint_Action_Key, remis.Work_Order_Number, remis.Depot_Maint_Action_Key, Equipment_Designator, Serial_Number, Job_Control_Number, remis.Work_Unit_Code, Transaction_Date, Geographic_Location, remis.Current_Operating_Time, Action_Taken_Code, at.description, How_Malfunction_Code, How_Malfunction_Class_Ind, hmal.description, Type_Maintenance_Code, tm.description, When_Discovered_Code, wd.description, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM (SELECT DISTINCT work_unit_code FROM ercm_wuc_list) ercm_wuc_list JOIN compiled_remis_data remis ON remis.Work_Unit_Code = ercm_wuc_list.Work_Unit_Code JOIN at_codes at ON at.code = remis.Action_Taken_Code JOIN hmal_codes hmal ON hmal.code = remis.How_Malfunction_Code JOIN wd_codes wd ON wd.code = remis.When_Discovered_Code JOIN tm_codes tm ON tm.code = remis.Type_Maintenance_Code WHERE TRIM(Equipment_Designator) IN ('C130H','C130J')",
-                "SELECT NULL , NULL , remis.Work_Center_Event_Identifier, remis.Sequence_Number, NULL , NULL , NULL , Equipment_Designator, Serial_Number, Job_Control_Number, remis.Work_Unit_Code, Transaction_Date, Geographic_Location, remis.Current_Operating_Time, Action_Taken_Code, at.description, How_Malfunction_Code, How_Malfunction_Class_Ind, hmal.description, Type_Maintenance_Code, tm.description, When_Discovered_Code, wd.description, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Action_Narrative FROM (SELECT DISTINCT work_unit_code FROM ercm_wuc_list) ercm_wuc_list JOIN prp4127 remis ON remis.Work_Unit_Code = ercm_wuc_list.Work_Unit_Code JOIN at_codes at ON at.code = remis.Action_Taken_Code JOIN hmal_codes hmal ON hmal.code = remis.How_Malfunction_Code JOIN wd_codes wd ON wd.code = remis.When_Discovered_Code JOIN tm_codes tm ON tm.code = remis.Type_Maintenance_Code WHERE TRIM(Equipment_Designator) IN ('C130H','C130J')"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Include codes and narratives to assist with labeling excercises.  Minimal key information for the 4127 report.",
-        "id":"to_label",
-        "label":"To Label",
-        "model":"f98a2964-117b-458d-bf6a-ed80a1eca2f6",
-        "position":[
-            230,
-            405
+            495,
+            335
         ]
     },
     {
@@ -496,330 +363,8 @@
         "label":"EFM 1640",
         "model":"bcafda99-f8e4-470d-92db-debc7bd06288",
         "position":[
-            50,
-            600
-        ]
-    },
-    {
-        "class":"Python",
-        "custom_model":true,
-        "description":"Run a python script.",
-        "id":"ercm_wuc_list",
-        "label":"eRCM WUC List",
-        "model":"47ba97d1-5510-4765-b228-60d68d13be86",
-        "position":[
-            145,
-            250
-        ]
-    },
-    {
-        "class":"DataExporter",
-        "description":"Export all or a subset of rows contained in a table.",
-        "id":"export_to_label",
-        "label":"Export to Label",
-        "position":[
-            370,
-            405
-        ]
-    },
-    {
-        "attrs":{
-            "labels":{
-                "Action":[
-                    "O",
-                    "R",
-                    "P",
-                    "Q",
-                    "T",
-                    "U",
-                    "IU",
-                    "CC",
-                    "SW",
-                    "TU"
-                ],
-                "Position":[
-                    "",
-                    "0",
-                    "2",
-                    "13",
-                    "10",
-                    "11",
-                    "6",
-                    "8",
-                    "5",
-                    "1",
-                    "3",
-                    "7",
-                    "9",
-                    "12",
-                    "4",
-                    "12,13",
-                    "13,9",
-                    "0,3",
-                    "13,4",
-                    "10,13",
-                    "13,2",
-                    "13,8",
-                    "12,9",
-                    "2,8",
-                    "13,6",
-                    "5,8",
-                    "11,13",
-                    "1,13",
-                    "13,3",
-                    "13,5",
-                    "13,7",
-                    "2,5",
-                    "10,2",
-                    "1,10",
-                    "12,8",
-                    "2,9",
-                    "11,4",
-                    "5,7",
-                    "10,9",
-                    "11,12",
-                    "1,5",
-                    "6,7",
-                    "8,9",
-                    "10,3",
-                    "14",
-                    "1,2,3,4",
-                    "0,1,2,3,4",
-                    "2 TANK PROBE AND COMP PROBE",
-                    "LH EXT SPR IND",
-                    "4 TANK PROBES",
-                    "RH EXT PROBE",
-                    "3 TANK FUEL PROBES",
-                    "RH AUX PROBES",
-                    "1 PROBE,2 TANK",
-                    "1 TANK,4 PROBE",
-                    "LH AUX BOUNDARY HARNESS",
-                    "LH AUX WIRE HARNESS",
-                    "2 FUEL QTY SYS",
-                    "LH EXT WIRING COMP PROBE TO TANK CONNECT",
-                    "LH AUX WIRING PRESSURE BREAK TO TANK",
-                    "COMP PROBE",
-                    "4 TANK,FUEL QTY HARNESS",
-                    "ALL HARNESS,RH EXT PROBES",
-                    "FLH DECK PRESSURE BREAK C/P",
-                    "RH EXT FUEL INDICATOR",
-                    "RH AUX QTY HARNESS",
-                    "4 TANK INDICATORS",
-                    "RH AUX FMC",
-                    "3 FUEL QTY GAGE",
-                    "RH EXT FUEL QUANTITY HARNESS",
-                    "LH AUX QUANTITY HARNESS",
-                    "LH EXT QUANTITY HARNESS",
-                    "RH EXT QUANTITY INDICATOR",
-                    "4 TANK SPR FUEL QUANTITY INDIICATO",
-                    "FUEL QUANTITY INDICATOR",
-                    "RH AUX COMP PROBE",
-                    "FUEL PRESS XMTR",
-                    "LH AUX TANK PROBES AND HARNESS",
-                    "\\",
-                    "4 TANK PROBES AND HARNESS",
-                    "LH AUX TANK FLCV",
-                    "2 TANK WIRE HARNESS",
-                    "3 CROSSFEED SWITCH",
-                    "RH EXT TANK PIP CONNECTOR",
-                    "RH AUX FUEL QUANTITY HARNESS",
-                    "1-4 TANK,LH & RH  AUX,LH & RH EXT. FUEL QTY HARNESS",
-                    "RH AUX TANK HARNESS",
-                    "LH AUX TANK FUEL QUANTITY INDICATOR",
-                    "3 TANK FUEL QUANTITY INDICATOR",
-                    "4 TANK  HARNESS",
-                    "LH EXT TAIL CONE HARNESS",
-                    "2 ENGINE SECONDARY FUEL PUMP PRESSURE SWITCH",
-                    "4 TANK FUEL QUANTITY INDICATOR",
-                    "4 TANK COMPENSATOR PROBE",
-                    "COPILOTS LIGHTING CONTROL PANEL",
-                    "TOTAL FUEL QUANTITIY INDICATOR",
-                    "LH EXT HARNESS",
-                    "4 TANK FUEL QUANTITY HARNESS",
-                    "LH EXT UNITS AND WIRING",
-                    "2 FUEL QUANTITY HARNESS",
-                    "LIGHT ASSY",
-                    "LH EXT FUEL QUANTITY HARNESS",
-                    "RH AUX FUEY QUANTITY HARNESS",
-                    "3 TANK COMPENSATOR PROBE",
-                    "4 TANK 2 PROBE",
-                    "1 FUEL QUANTITY INDICATOR",
-                    "SPR FUEL PANEL",
-                    "FLH DECK FUEL QUANTITY INDICATOR",
-                    "3 PUMP LIGHT ASSEMBLY",
-                    "1 FUEL QUANTITY HARNESS",
-                    "3 FUEL QUANTITY INDICATOR",
-                    "2 TANK PROBE 2",
-                    "FUEL TOTALIZER",
-                    "4 TANK HARNESS",
-                    "RH AUX PROBES X4",
-                    "RH EXT FUEL QUANTITY TEST SWITCH",
-                    "RH EXT FUEL QUANTITY INDICATOR",
-                    "FUEL TOTALIZER RELAY",
-                    "RH AUX QUANTITY HARNESS",
-                    "LH AUX FUEL QUANTITY INDICATOR",
-                    "3 TANK PROBE",
-                    "RH AUX QUANTITY INDICATOR TEST SWITCH",
-                    "3 FUEL QUANTITY INDICATOR HARNESS",
-                    "LH AUX FUEL QUANTITY HARNESS,PROBES",
-                    "LH AUX HARNESS,PROBES",
-                    "3 FUEL QUANTITY INDICATORS,4",
-                    "LH AUX COMPENSATOR PROBE",
-                    "2 FUEL QUANTITY INDICATOR,3",
-                    "2 TANK 2 PROBE",
-                    "B/C",
-                    "2,3,4",
-                    "RH AUX",
-                    "LH AUX",
-                    "LH EXT",
-                    "RH EXT",
-                    "LH EXT,RH EXT",
-                    "LH AUX,LH EXT",
-                    "RTP",
-                    "CURSOR CONTROL",
-                    "CENTER",
-                    "1A12",
-                    "1A03,1A04",
-                    "1A03,1A11,1A18,41A02",
-                    "1A06",
-                    "1A01",
-                    "1A07",
-                    "1A02",
-                    "1A01,1A02",
-                    "1A02,1A18",
-                    "LEFT EXTERNAL TANK",
-                    "1A18",
-                    "1A12,1A13,1A19",
-                    "1A05",
-                    "0,2",
-                    "1A19",
-                    "0,LH EXT",
-                    "1,3",
-                    "3,4",
-                    "1,4",
-                    "1,2",
-                    "2,3",
-                    "2,4",
-                    "APU",
-                    "4,TVIB",
-                    "4,GVIB",
-                    "2,TVIB",
-                    "3,TVIB",
-                    "3,CVIB",
-                    "3,GVIB",
-                    "1,TVIB",
-                    "1,CVIB",
-                    "1T",
-                    "1G",
-                    "1C",
-                    "2C",
-                    "2T",
-                    "2G",
-                    "3T",
-                    "3G",
-                    "3C",
-                    "4C",
-                    "4T",
-                    "4G",
-                    "3G,3P",
-                    "3C,3T",
-                    "1C,1T",
-                    "0,1T",
-                    "0,2T",
-                    "3C,3G",
-                    "3C,3P",
-                    "4C,4T",
-                    "0,3T",
-                    "4,CVIB",
-                    "4,GVIB",
-                    "0,4T",
-                    "0,4",
-                    "0,4C",
-                    "0,1",
-                    "0,1T",
-                    "0,2T",
-                    "2B",
-                    "3B,4B",
-                    "2A",
-                    "4A,4B",
-                    "4A",
-                    "3A",
-                    "3B",
-                    "1B",
-                    "1A",
-                    "4B",
-                    "2A,2B",
-                    "1A,4A",
-                    "3A,3B",
-                    "1A,2A",
-                    "3A,4A",
-                    "1A,1B",
-                    "0,2A",
-                    "COPILOT",
-                    "PILOT",
-                    "COPILOT,NAV",
-                    "NAV",
-                    "COPILOT HSI",
-                    "PILOT HSI",
-                    "PILOT ADI",
-                    "COPILOT ADI",
-                    "COPILOT HSI",
-                    "0,COPILOT ADI,COPILOT HSI,PILOT ADI,PILOT HSI",
-                    "COPILOT HSI,PILOT ADI",
-                    "COPILOT ADI,PILOT HSI",
-                    "COPILOT HSI,PILOT HSI",
-                    "COPILOT ADI,PILOT ADI",
-                    "FWD_CARGO",
-                    "AUG_CREW",
-                    "AFT_CARGO",
-                    "AFT_CENTER_CONSOLE"
-                ],
-                "Removal_Cause":[
-                    "",
-                    "MOD",
-                    "FOM",
-                    "DEPOT",
-                    "MX",
-                    "TCTO",
-                    "CANN",
-                    "TROUBLESHOOTING",
-                    "E",
-                    "TRAINING",
-                    "B/C",
-                    "TROUBLESHOOT",
-                    "FILTER",
-                    "PUMP",
-                    "VALVE",
-                    "FILTER, VALVE",
-                    "FITLER",
-                    "FITER",
-                    "FLTER",
-                    "SWAPPED",
-                    "REFURB",
-                    "TCTO 904",
-                    "TCTO 1C-130J-904",
-                    "FOD",
-                    "CLEAN",
-                    "NVIS MOD",
-                    "TCTO 1933",
-                    "VERSION UPGRADE",
-                    "TCTO 1C-130-1885",
-                    "TCTO 1885",
-                    "MODIFICATION",
-                    "CONTAMINATION",
-                    "CLEANING"
-                ]
-            }
-        },
-        "class":"EventLabelGenerator",
-        "custom_model":true,
-        "description":"Save sets of labels to validate uploaded hand-labeled events against",
-        "id":"labels_import",
-        "label":"Labels Import",
-        "model":"9e850fa8-825f-4d43-8319-8cb964f1a6a4",
-        "position":[
-            370,
-            445
+            25,
+            795
         ]
     },
     {
@@ -835,8 +380,8 @@
         "label":"Remove Disqualified Add Covariates",
         "model":"3131696e-9d7a-4f75-b716-80dd73f2705f",
         "position":[
-            955,
-            225
+            720,
+            185
         ]
     },
     {
@@ -860,8 +405,8 @@
         "label":"Current Part Ages",
         "model":"df9503ad-e1b1-41ea-897f-a30c923e57ad",
         "position":[
-            1670,
-            130
+            1335,
+            110
         ]
     },
     {
@@ -875,8 +420,8 @@
         "label":"Remove Unk Position Number",
         "model":"4cc3322a-9684-4715-81a6-0bde8f0d289a",
         "position":[
-            1505,
-            130
+            1155,
+            110
         ]
     },
     {
@@ -901,8 +446,8 @@
         "label":"Predictive Twins",
         "model":"78c9203b-b6d1-4447-8263-d8629b328d2a",
         "position":[
-            1820,
-            180
+            1680,
+            110
         ]
     },
     {
@@ -923,8 +468,8 @@
         "label":"Weibull Quantile CIs",
         "model":"8d41847f-1f54-4311-ad92-a2ff406d1d3f",
         "position":[
-            1395,
-            260
+            1165,
+            225
         ]
     },
     {
@@ -933,120 +478,8 @@
         "id":"export_predictions",
         "label":"Export Predictions",
         "position":[
-            1855,
-            85
-        ]
-    },
-    {
-        "attrs":{
-            "query_list":[
-                "SELECT remis.Work_Order_Number, remis.Work_Center_Event_Identifier, remis.Sequence_Number, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM compiled_remis_data remis JOIN wuc_of_interest wucs ON wucs.Work_Order_Number = remis.Work_Order_Number AND wucs.Work_Center_Event_Identifier = remis.Work_Center_Event_Identifier AND wucs.Sequence_Number = remis.Sequence_Number WHERE remis.Serial_Number IS NOT NULL AND TRIM(remis.Equipment_Designator) IN ('C130J','C130H') AND wucs.Work_Unit_Code = '41322'"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Filter by WUC and Year, exclude NULL Serial Number, get narratives to for labeling.",
-        "id":"remis_filter_41322",
-        "label":"REMIS Filter 41322",
-        "model":"ae7269f9-da60-4a5e-85ff-8531b250fe56",
-        "position":[
-            800,
-            410
-        ]
-    },
-    {
-        "attrs":{
-            "column_mapping":{
-                "AFTO Form 350 Tag Number":"AFTO_Form_350_Tag_Number",
-                "Action Taken Code":"Action_Taken_Code",
-                "Activity Identifier":"Activity_Identifier",
-                "Block Number":"Block_Number",
-                "Command":"Command",
-                "Component Part Number":"Component_Part_Number",
-                "Component Position Number":"Component_Position_Number",
-                "Component Serial Number":"Component_Serial_Number",
-                "Corrective Action Narrative":"Corrective_Narrative",
-                "Crew Size":"Crew_Size",
-                "Current Operating Time":"Current_Operating_Time",
-                "Discrepancy Narrative":"Discrepancy_Narrative",
-                "Documenter Name":"Documenter_Name",
-                "Equipment Designator":"Equipment_Designator",
-                "Federal Supply Classification":"Federal_Supply_Classification",
-                "Geographic Location":"Geographic_Location",
-                "How Malfunction Class Ind":"How_Malfunction_Class_Ind",
-                "How Malfunction Code":"How_Malfunction_Code",
-                "Installd EI Comp Serial Number":"Installed_EI_Comp_Serial_Number",
-                "Installed CAGE Code":"Installed_CAGE_Code",
-                "Installed Curr Operating Time":"Installed_Current_Operating_Time",
-                "Installed EI Comp Part Number":"Installed_EI_Comp_Part_Number",
-                "Installed EI Equip Designator":"Installed_EI_Equip_Designator",
-                "Installed EI SRD":"Installed_EI_SRD",
-                "Installed EI Serial Number":"Installed_EI_Serial_Number",
-                "Installed EI Type Equipment":"Installed_EI_Type_Equipment",
-                "Installed EI WUC Narrative":"Installed_EI_WUC_Narrative",
-                "Installed EI Work Unit Code":"Installed_EI_Work_Unit_Code",
-                "Installed Equipment Designator":"Installed_Equipment_Designator",
-                "Installed Location Identifier":"Installed_Location_Identifier",
-                "Installed Lot Number":"Installed_Lot_Number",
-                "Installed Prev Operating Time":"Installed_Prev_Operating_Time",
-                "Installed Serial Number":"Installed_Serial_Number",
-                "Installed Type Equipment":"Installed_Type_Equipment",
-                "Installed WUC Narrative":"Installed_WUC_Narrative",
-                "Installed Work Unit Code":"Installed_Work_Unit_Code",
-                "Job Control Number":"Job_Control_Number",
-                "Labor Manhours":"Labor_Manhours",
-                "Maintainer Name":"Maintainer_Name",
-                "Maintenance Priority":"Maintenance_Priority",
-                "On Base Turn In Doc Number":"On_Base_Turn_In_Doc_Number",
-                "On Equip Sequence Number":"On_Equip_Sequence_Number",
-                "On Equip Work Center Event Id":"On_Equip_Work_Center_Event_Id",
-                "Organization":"Organization",
-                "Performing Geographic Location":"Performing_Geographic_Location",
-                "Posting Date":"Posting_Date",
-                "Record Type":"Record_Type",
-                "Removed CAGE Code":"Removed_CAGE_Code",
-                "Removed Current Operating Time":"Removed_Current_Operating_Time",
-                "Removed Equipment Designator":"Removed_Equipment_Designator",
-                "Removed Location Identifier":"Removed_Location_Identifier",
-                "Removed Lot Number":"Removed_Lot_Number",
-                "Removed Prev Operating Time":"Removed_Prev_Operating_Time",
-                "Removed Serial Number":"Removed_Serial_Number",
-                "Removed Type Equipment":"Removed_Type_Equipment",
-                "Removed WUC Narrative":"Removed_WUC_Narrative",
-                "Removed Work Unit Code":"Removed_Work_Unit_Code",
-                "Sequence Number":"Sequence_Number",
-                "Serial Number":"Serial_Number",
-                "Standard Reporting Designator":"Standard_Reporting_Designator",
-                "Start Time":"Start_Time",
-                "Stop Time":"Stop_Time",
-                "TCTO Data Code":"TCTO_Data_Code",
-                "Transaction Date":"Transaction_Date",
-                "Type Equipment":"Type_Equipment",
-                "Type Maintenance Code":"Type_Maintenance_Code",
-                "Units":"Units",
-                "WUC Narrative":"WUC_Narrative",
-                "When Discovered Code":"When_Discovered_Code",
-                "Work Center Code":"Work_Center_Code",
-                "Work Center Event Identifier":"Work_Center_Event_Identifier",
-                "Work Center Event Narrative":"Work_Center_Event_Narrative",
-                "Work Order Number":"Work_Order_Number",
-                "Work Unit Code":"Work_Unit_Code"
-            },
-            "date_formatter":{
-                "Posting_Date":"%M %d %Y",
-                "Transaction_Date":"%M %d, %Y"
-            },
-            "delimiter":"comma"
-        },
-        "class":"CSV",
-        "custom_model":true,
-        "description":"Import PRP4127 REMIS data.",
-        "id":"prp4127",
-        "label":"PRP4127",
-        "model":"0cb4b55f-6b15-4bc6-abd0-8d6b2a2159dc",
-        "position":[
-            40,
-            10
+            1870,
+            75
         ]
     },
     {
@@ -1060,8 +493,8 @@
         "label":"OpsTempo Forecast",
         "model":"2c4d1493-09dc-4fc5-81b1-c75e5eb5fff7",
         "position":[
-            515,
-            360
+            355,
+            425
         ]
     },
     {
@@ -1083,63 +516,8 @@
         "label":"Assigned Location",
         "model":"ed79df86-5773-47d6-8108-29f3a0df8fa1",
         "position":[
-            50,
-            310
-        ]
-    },
-    {
-        "attrs":{
-            "label":"Action",
-            "number_epochs":30,
-            "target_columns":[
-                "Discrepancy_Narrative",
-                "Work_Center_Event_Narrative",
-                "Corrective_Narrative"
-            ]
-        },
-        "class":"DeepLearningClassifier",
-        "custom_model":true,
-        "description":"Uses a stacked deep learning method to train a model for classifying text.",
-        "id":"fit_action_41322",
-        "label":"Fit Action 41322",
-        "model":"deeplearningclassifier",
-        "position":[
-            660,
-            445
-        ]
-    },
-    {
-        "attrs":{
-            "additional_parameters":{
-                "custom_predecessor":true,
-                "display_text_column":"Corrective_Narrative",
-                "group_by_column":"Model_Name"
-            }
-        },
-        "class":"Python",
-        "custom_model":true,
-        "description":"Display Removal ID metrics for WUC Subsystem 413xx.",
-        "id":"action_metrics_413xx",
-        "label":"Action Metrics 413xx",
-        "model":"1b677858-184f-461e-8861-106feb3749df",
-        "position":[
-            790,
-            555
-        ]
-    },
-    {
-        "attrs":{
-            "copy_only_key_columns":true
-        },
-        "class":"DeepLearningLabeler",
-        "custom_model":true,
-        "description":"Apply a deep learning model to a new set of data",
-        "id":"label_41322_action",
-        "label":"Label 41322 Action",
-        "model":"f58426a7-99f9-4403-93c4-bf5e08f626e9",
-        "position":[
-            950,
-            445
+            40,
+            425
         ]
     },
     {
@@ -1150,8 +528,8 @@
         "label":"WUC List QPA",
         "model":"58321884-e4f0-4838-bd78-0866a67fc9f5",
         "position":[
-            55,
-            175
+            50,
+            25
         ]
     },
     {
@@ -1167,8 +545,8 @@
         "label":"Aircraft In Depot",
         "model":"8b40ceda-defa-445e-9cc7-484fb6e491db",
         "position":[
-            50,
-            720
+            150,
+            800
         ]
     },
     {
@@ -1186,8 +564,8 @@
         "label":"Asgn Loc Snapshot",
         "model":"d9bbf9f1-6d35-41e1-8822-ceb412f5d722",
         "position":[
-            50,
-            755
+            115,
+            1065
         ]
     },
     {
@@ -1196,8 +574,8 @@
         "id":"weibull_plots",
         "label":"Weibull Plots",
         "position":[
-            1820,
-            215
+            1870,
+            225
         ]
     },
     {
@@ -1213,8 +591,8 @@
         "label":"Interval Data for Plots",
         "model":"fbbb408f-39cd-4d71-8b81-966bdccdc323",
         "position":[
-            1255,
-            295
+            1165,
+            330
         ]
     },
     {
@@ -1232,8 +610,8 @@
         "id":"interval_plots",
         "label":"Interval Plots",
         "position":[
-            1395,
-            295
+            1325,
+            330
         ]
     },
     {
@@ -1250,8 +628,8 @@
         "label":"Range Check",
         "model":"f665edbe-3c19-49af-bdda-1ac3dfd9b20a",
         "position":[
-            1470,
-            360
+            1325,
+            290
         ]
     },
     {
@@ -1268,8 +646,8 @@
         "label":"Domain Check",
         "model":"4f7fde47-fb01-41e4-9d8a-0410d4d7b5cb",
         "position":[
-            1470,
-            395
+            1325,
+            245
         ]
     },
     {
@@ -1280,8 +658,8 @@
         "label":"Three Month FH Collector",
         "model":"0af2ac86-c3b3-4cba-87c0-30dae459afa1",
         "position":[
-            515,
-            320
+            355,
+            385
         ]
     },
     {
@@ -1292,8 +670,8 @@
         "label":"Opstempo Archive",
         "model":"e2fcb1cc-093b-4d97-84f8-95d46c12a999",
         "position":[
-            660,
-            340
+            720,
+            425
         ]
     },
     {
@@ -1309,8 +687,8 @@
         "label":"Denormalize Distributions",
         "model":"cc1e1d81-b31c-4983-ba14-74ed4dc628f2",
         "position":[
-            1395,
-            225
+            1165,
+            185
         ]
     },
     {
@@ -1321,8 +699,8 @@
         "label":"Predictive Twins Archive",
         "model":"006ddcd6-29e1-4cac-b69f-758c0f5ec4e8",
         "position":[
-            1855,
-            125
+            1870,
+            110
         ]
     },
     {
@@ -1333,8 +711,8 @@
         "label":"Weibull Archive",
         "model":"51b4aa7d-b057-452c-8535-1060961e0f0c",
         "position":[
-            1820,
-            295
+            1870,
+            145
         ]
     },
     {
@@ -1343,8 +721,8 @@
         "id":"export_weibulls",
         "label":"Export Weibulls",
         "position":[
-            1820,
-            330
+            1870,
+            180
         ]
     },
     {
@@ -1360,230 +738,8 @@
         "label":"Classify Distributions",
         "model":"db457bf6-a372-4078-b2bd-f3c2a0c77f92",
         "position":[
-            1630,
-            225
-        ]
-    },
-    {
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Placeholder component with model including all the necessary columns for labels import EventLabelGenerators.",
-        "id":"labels_model",
-        "label":"Labels Model",
-        "model":"5fb3e5bc-454c-48d6-bfe0-31844d117f27",
-        "position":[
-            230,
-            445
-        ]
-    },
-    {
-        "attrs":{
-            "additional_parameters":{
-                "class_swaps":{
-                    "P":"R",
-                    "Q":"R",
-                    "T":"TU",
-                    "U":"TU"
-                },
-                "col_filter_value":{
-                    "Work_Unit_Code":[
-                        "526DD",
-                        "526DA",
-                        "526DE"
-                    ]
-                },
-                "label_name":"Action",
-                "min_minority_fraction_of_most_common":0.33,
-                "test_ratio":0.25
-            }
-        },
-        "class":"Python",
-        "custom_model":true,
-        "description":"Randomly sample from minority classes (those fewer records than the most-common class) to get an even quantity of labeled data per class for training a model.",
-        "id":"resample_526dx",
-        "label":"Resample 526DX",
-        "model":"5d3dceef-c3bf-42c3-8550-f0f891a68b82",
-        "position":[
-            230,
-            645
-        ]
-    },
-    {
-        "attrs":{
-            "label":"Action",
-            "number_epochs":30,
-            "target_columns":[
-                "Discrepancy_Narrative",
-                "Work_Center_Event_Narrative",
-                "Corrective_Narrative"
-            ]
-        },
-        "class":"DeepLearningClassifier",
-        "custom_model":true,
-        "description":"Uses a stacked deep learning method to train a model for classifying text.",
-        "id":"fit_action_526dx",
-        "label":"Fit Action 526DX",
-        "model":"deeplearningclassifier",
-        "position":[
-            370,
-            645
-        ]
-    },
-    {
-        "attrs":{
-            "query_list":[
-                "SELECT labels.Row_Number id, labels.Labels_File_Name, REMIS_File_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, labels.Discrepancy_Narrative, labels.Work_Center_Event_Narrative, labels.Corrective_Narrative, labels.train_test, labels.action label, pr.prediction, if(labels.action=pr.prediction,'True','False') as matches FROM (SELECT DISTINCT Row_Number, Labels_File_Name, REMIS_File_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, action, train_test, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM resample_526dx) labels JOIN (SELECT DISTINCT replace(target, 'None', '') target, prediction FROM deeplearningclassifier WHERE component_name LIKE '%action_526dx%') pr ON concat(coalesce(labels.Discrepancy_Narrative, ''), ' ', coalesce(labels.Work_Center_Event_Narrative, ''), ' ', coalesce(labels.Corrective_Narrative, '')) = pr.target"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Condese labeled data to original size for metric calculation.",
-        "id":"add_label_add_split_526dx",
-        "label":"Add Label Add Split 526DX",
-        "model":"d505d98d-c6e7-46fc-918e-33251f374bab",
-        "position":[
-            695,
-            690
-        ]
-    },
-    {
-        "attrs":{
-            "additional_parameters":{
-                "custom_predecessor":true
-            }
-        },
-        "class":"Python",
-        "custom_model":true,
-        "description":"Display metrics for 8-class ATC model.",
-        "id":"action_metrics_526dx",
-        "label":"Action Metrics 526DX",
-        "model":"15c43923-ad28-411d-bf02-d756bcf004fe",
-        "position":[
-            830,
-            690
-        ]
-    },
-    {
-        "attrs":{
-            "label":"Action",
-            "number_epochs":30,
-            "target_columns":[
-                "Discrepancy_Narrative",
-                "Work_Center_Event_Narrative",
-                "Corrective_Narrative"
-            ]
-        },
-        "class":"DeepLearningClassifier",
-        "custom_model":true,
-        "description":"Uses a stacked deep learning method to train a model for classifying text.",
-        "id":"fit_action_82lc0",
-        "label":"Fit Action 82LC0",
-        "model":"deeplearningclassifier",
-        "position":[
-            365,
-            800
-        ]
-    },
-    {
-        "attrs":{
-            "additional_parameters":{
-                "class_swaps":{
-                    "P":"R",
-                    "Q":"R",
-                    "T":"TU",
-                    "U":"TU"
-                },
-                "col_filter_value":{
-                    "Work_Unit_Code":"82LC0"
-                },
-                "label_name":"Action",
-                "max_majority_fraction_of_next_highest":1.6,
-                "min_minority_fraction_of_most_common":0.15,
-                "test_ratio":0.25
-            }
-        },
-        "class":"Python",
-        "custom_model":true,
-        "description":"Randomly sample from minority classes (those fewer records than the most-common class) to get an even quantity of labeled data per class for training a model.",
-        "id":"resample_82lc0",
-        "label":"Resample 82LC0",
-        "model":"a1c1ff09-c4b0-409a-afbe-a2e44a8a2973",
-        "position":[
-            230,
-            800
-        ]
-    },
-    {
-        "attrs":{
-            "query_list":[
-                "SELECT labels.Row_Number id, labels.Labels_File_Name, REMIS_File_Name, 'StrCtlVlv_22YAB' as Model_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, labels.Discrepancy_Narrative, labels.Work_Center_Event_Narrative, labels.Corrective_Narrative, labels.train_test, labels.action label, pr.prediction, if(labels.action=pr.prediction,'True','False') as matches FROM (SELECT DISTINCT Row_Number, Labels_File_Name, REMIS_File_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, action, train_test, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM resample_22yab) labels JOIN (SELECT DISTINCT replace(target, 'None', '') target, prediction FROM deeplearningclassifier WHERE component_name LIKE '%action_22yab%') pr ON concat(coalesce(labels.Discrepancy_Narrative, ''), ' ', coalesce(labels.Work_Center_Event_Narrative, ''), ' ', coalesce(labels.Corrective_Narrative, '')) = pr.target",
-                "SELECT labels.Row_Number id, labels.Labels_File_Name, REMIS_File_Name, 'HDD_82LC0' as Model_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, labels.Discrepancy_Narrative, labels.Work_Center_Event_Narrative, labels.Corrective_Narrative, labels.train_test, labels.action label, pr.prediction, if(labels.action=pr.prediction,'True','False') as matches FROM (SELECT DISTINCT Row_Number, Labels_File_Name, REMIS_File_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, action, train_test, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM resample_82lc0) labels JOIN (SELECT DISTINCT replace(target, 'None', '') target, prediction FROM deeplearningclassifier WHERE component_name LIKE '%action_82L%') pr ON concat(coalesce(labels.Discrepancy_Narrative, ''), ' ', coalesce(labels.Work_Center_Event_Narrative, ''), ' ', coalesce(labels.Corrective_Narrative, '')) = pr.target",
-                "SELECT labels.Row_Number id, labels.Labels_File_Name, REMIS_File_Name, 'Starter_22xAA' as Model_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, labels.Discrepancy_Narrative, labels.Work_Center_Event_Narrative, labels.Corrective_Narrative, labels.train_test, labels.action label, pr.prediction, if(labels.action=pr.prediction, 'True','False') AS matches FROM (SELECT DISTINCT Row_Number, Labels_File_Name, REMIS_File_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, action, train_test, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM resample_starter) labels JOIN (SELECT DISTINCT replace(target, 'None', '') target, prediction FROM deeplearningclassifier WHERE component_name LIKE '%action_starter%') pr ON concat(coalesce(labels.Discrepancy_Narrative, ''), ' ', coalesce(labels.Work_Center_Event_Narrative, ''), ' ', coalesce(labels.Corrective_Narrative, '')) = pr.target",
-                "SELECT labels.Row_Number id, labels.Labels_File_Name, REMIS_File_Name, 'ICS_64BAD' as Model_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, labels.Discrepancy_Narrative, labels.Work_Center_Event_Narrative, labels.Corrective_Narrative, labels.train_test, labels.action label, pr.prediction, if(labels.action=pr.prediction, 'True','False') AS matches FROM (SELECT DISTINCT Row_Number, Labels_File_Name, REMIS_File_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, action, train_test, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM resample_64bad) labels JOIN (SELECT DISTINCT replace(target, 'None', '') target, prediction FROM deeplearningclassifier WHERE component_name LIKE '%action_64bad%') pr ON concat(coalesce(labels.Discrepancy_Narrative, ''), ' ', coalesce(labels.Work_Center_Event_Narrative, ''), ' ', coalesce(labels.Corrective_Narrative, '')) = pr.target",
-                "SELECT labels.Row_Number id, labels.Labels_File_Name, REMIS_File_Name, 'FADEC_22RBC' as Model_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, labels.Discrepancy_Narrative, labels.Work_Center_Event_Narrative, labels.Corrective_Narrative, labels.train_test, labels.action label, pr.prediction, if(labels.action=pr.prediction, 'True','False') AS matches FROM (SELECT DISTINCT Row_Number, Labels_File_Name, REMIS_File_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, action, train_test, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM resample_22rbc) labels JOIN (SELECT DISTINCT replace(target, 'None', '') target, prediction FROM deeplearningclassifier WHERE component_name LIKE '%action_22rbc%') pr ON concat(coalesce(labels.Discrepancy_Narrative, ''), ' ', coalesce(labels.Work_Center_Event_Narrative, ''), ' ', coalesce(labels.Corrective_Narrative, '')) = pr.target",
-                "SELECT labels.Row_Number id, labels.Labels_File_Name, REMIS_File_Name, 'HydPump_453AS' as Model_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, labels.Discrepancy_Narrative, labels.Work_Center_Event_Narrative, labels.Corrective_Narrative, labels.train_test, labels.action label, pr.prediction, if(labels.action=pr.prediction, 'True','False') AS matches FROM (SELECT DISTINCT Row_Number, Labels_File_Name, REMIS_File_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, action, train_test, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM resample_453as) labels JOIN (SELECT DISTINCT replace(target, 'None', '') target, prediction FROM deeplearningclassifier WHERE component_name LIKE '%action_453as%') pr ON concat(coalesce(labels.Discrepancy_Narrative, ''), ' ', coalesce(labels.Work_Center_Event_Narrative, ''), ' ', coalesce(labels.Corrective_Narrative, '')) = pr.target"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Condese labeled data to original size for metric calculation.",
-        "id":"add_label_add_split_b",
-        "label":"Add Label Add Split B",
-        "model":"38def964-1f66-4951-8282-2569479f64a8",
-        "position":[
-            700,
-            800
-        ]
-    },
-    {
-        "attrs":{
-            "additional_parameters":{
-                "custom_predecessor":true,
-                "display_text_column":"Corrective_Narrative",
-                "group_by_column":"Model_Name"
-            }
-        },
-        "class":"Python",
-        "custom_model":true,
-        "description":"Display metrics for 8-class ATC model.",
-        "id":"action_metrics_b",
-        "label":"Action Metrics B",
-        "model":"e4577e83-b038-496d-9420-aeab5c3bfab2",
-        "position":[
-            840,
-            800
-        ]
-    },
-    {
-        "attrs":{
-            "copy_only_key_columns":true
-        },
-        "class":"DeepLearningLabeler",
-        "custom_model":true,
-        "description":"Apply a deep learning model to a new set of data",
-        "id":"label_82lc0_action",
-        "label":"Label 82LC0 Action",
-        "model":"5eb80ee3-ec39-4359-beff-be6c95fa2d1f",
-        "position":[
-            1130,
-            800
-        ]
-    },
-    {
-        "attrs":{
-            "query_list":[
-                "SELECT remis.Work_Order_Number, remis.Work_Center_Event_Identifier, remis.Sequence_Number, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM compiled_remis_data remis JOIN wuc_of_interest wucs ON wucs.Work_Order_Number = remis.Work_Order_Number AND wucs.Work_Center_Event_Identifier = remis.Work_Center_Event_Identifier AND wucs.Sequence_Number = remis.Sequence_Number WHERE remis.Serial_Number IS NOT NULL AND TRIM(remis.Equipment_Designator) = 'C130J' AND wucs.Work_Unit_Code = '82LC0'"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Filter by WUC and Year, exclude NULL Serial Number, get narratives to for labeling.",
-        "id":"remis_filter_82lc0",
-        "label":"REMIS Filter 82LC0",
-        "model":"ac3772c8-07bb-47cb-a8a8-14bbb684f477",
-        "position":[
-            985,
-            800
+            1500,
+            185
         ]
     },
     {
@@ -1613,2031 +769,8 @@
         "label":"Labels Joined",
         "model":"5c883d98-6201-49e6-9f07-ccbc136cec70",
         "position":[
-            640,
-            80
-        ]
-    },
-    {
-        "attrs":{
-            "additional_parameters":{
-                "class_swaps":{
-                    "P":"R",
-                    "Q":"R",
-                    "T":"TU",
-                    "U":"TU"
-                },
-                "col_filter_value":{
-                    "Work_Unit_Code":"22RBC"
-                },
-                "label_name":"Action",
-                "max_majority_fraction_of_next_highest":2.2,
-                "min_minority_fraction_of_most_common":0.15,
-                "test_ratio":0.25
-            }
-        },
-        "class":"Python",
-        "custom_model":true,
-        "description":"Randomly sample from minority classes (those fewer records than the most-common class) to get an even quantity of labeled data per class for training a model.",
-        "id":"resample_22rbc",
-        "label":"Resample 22RBC",
-        "model":"c4e223b6-defc-48dc-8421-2ed369d65a1b",
-        "position":[
-            230,
-            835
-        ]
-    },
-    {
-        "attrs":{
-            "label":"Action",
-            "number_epochs":30,
-            "target_columns":[
-                "Discrepancy_Narrative",
-                "Work_Center_Event_Narrative",
-                "Corrective_Narrative"
-            ]
-        },
-        "class":"DeepLearningClassifier",
-        "custom_model":true,
-        "description":"Uses a stacked deep learning method to train a model for classifying text.",
-        "id":"fit_action_22rbc",
-        "label":"Fit Action 22RBC",
-        "model":"deeplearningclassifier",
-        "position":[
-            365,
-            835
-        ]
-    },
-    {
-        "attrs":{
-            "additional_parameters":{
-                "class_swaps":{
-                    "P":"R",
-                    "Q":"R",
-                    "T":"TU",
-                    "U":"TU"
-                },
-                "col_filter_value":{
-                    "Work_Unit_Code":"64BAD"
-                },
-                "label_name":"Action",
-                "max_majority_fraction_of_next_highest":1.6,
-                "min_minority_fraction_of_most_common":0.15,
-                "test_ratio":0.25
-            }
-        },
-        "class":"Python",
-        "custom_model":true,
-        "description":"Randomly sample from minority classes (those fewer records than the most-common class) to get an even quantity of labeled data per class for training a model.",
-        "id":"resample_64bad",
-        "label":"Resample 64BAD",
-        "model":"62631d2a-870f-4fbe-914d-34529f335bfe",
-        "position":[
-            230,
-            875
-        ]
-    },
-    {
-        "attrs":{
-            "additional_parameters":{
-                "class_swaps":{
-                    "P":"R",
-                    "Q":"R",
-                    "T":"TU",
-                    "U":"TU"
-                },
-                "col_filter_value":{
-                    "Work_Unit_Code":[
-                        "22YAA",
-                        "22FAA"
-                    ]
-                },
-                "label_name":"Action",
-                "max_majority_fraction_of_next_highest":2.2,
-                "min_minority_fraction_of_most_common":0.15,
-                "test_ratio":0.25
-            }
-        },
-        "class":"Python",
-        "custom_model":true,
-        "description":"Randomly sample from minority classes (those fewer records than the most-common class) to get an even quantity of labeled data per class for training a model.",
-        "id":"resample_starter",
-        "label":"Resample Starter",
-        "model":"157d7487-ee73-4d34-bc74-508021adf892",
-        "position":[
-            230,
-            910
-        ]
-    },
-    {
-        "attrs":{
-            "label":"Action",
-            "number_epochs":30,
-            "target_columns":[
-                "Discrepancy_Narrative",
-                "Work_Center_Event_Narrative",
-                "Corrective_Narrative"
-            ]
-        },
-        "class":"DeepLearningClassifier",
-        "custom_model":true,
-        "description":"Uses a stacked deep learning method to train a model for classifying text.",
-        "id":"fit_action_starter",
-        "label":"Fit Action Starter",
-        "model":"deeplearningclassifier",
-        "position":[
-            365,
-            910
-        ]
-    },
-    {
-        "attrs":{
-            "label":"Action",
-            "number_epochs":30,
-            "target_columns":[
-                "Discrepancy_Narrative",
-                "Work_Center_Event_Narrative",
-                "Corrective_Narrative"
-            ]
-        },
-        "class":"DeepLearningClassifier",
-        "custom_model":true,
-        "description":"Uses a stacked deep learning method to train a model for classifying text.",
-        "id":"fit_action_64bad",
-        "label":"Fit Action 64BAD",
-        "model":"deeplearningclassifier",
-        "position":[
-            365,
-            875
-        ]
-    },
-    {
-        "attrs":{
-            "query_list":[
-                "SELECT labels.Row_Number id, labels.Labels_File_Name, REMIS_File_Name, 'GenTach_22GAB' as Model_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, labels.Discrepancy_Narrative, labels.Work_Center_Event_Narrative, labels.Corrective_Narrative, labels.train_test, labels.action label, pr.prediction, if(labels.action=pr.prediction,'True','False') as matches FROM (SELECT DISTINCT Row_Number, Labels_File_Name, REMIS_File_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, action, train_test, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM resample_22gab) labels JOIN (SELECT DISTINCT replace(target, 'None', '') target, prediction FROM deeplearningclassifier WHERE component_name LIKE '%action_22gab%') pr ON concat(coalesce(labels.Discrepancy_Narrative, ''), ' ', coalesce(labels.Work_Center_Event_Narrative, ''), ' ', coalesce(labels.Corrective_Narrative, '')) = pr.target",
-                "SELECT labels.Row_Number id, labels.Labels_File_Name, REMIS_File_Name, 'AnlgFQI_4662X' as Model_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, labels.Discrepancy_Narrative, labels.Work_Center_Event_Narrative, labels.Corrective_Narrative, labels.train_test, labels.action label, pr.prediction, if(labels.action=pr.prediction, 'True','False') AS matches FROM (SELECT DISTINCT Row_Number, Labels_File_Name, REMIS_File_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, action, train_test, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM resample_4662x) labels JOIN (SELECT DISTINCT replace(target, 'None', '') target, prediction FROM deeplearningclassifier WHERE component_name LIKE '%action_4662x%') pr ON concat(coalesce(labels.Discrepancy_Narrative, ''), ' ', coalesce(labels.Work_Center_Event_Narrative, ''), ' ', coalesce(labels.Corrective_Narrative, '')) = pr.target",
-                "SELECT labels.Row_Number id, labels.Labels_File_Name, REMIS_File_Name, 'Altimtr_5114K' as Model_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, labels.Discrepancy_Narrative, labels.Work_Center_Event_Narrative, labels.Corrective_Narrative, labels.train_test, labels.action label, pr.prediction, if(labels.action=pr.prediction, 'True','False') AS matches FROM (SELECT DISTINCT Row_Number, Labels_File_Name, REMIS_File_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, action, train_test, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM resample_5114k) labels JOIN (SELECT DISTINCT replace(target, 'None', '') target, prediction FROM deeplearningclassifier WHERE component_name LIKE '%action_5114k%') pr ON concat(coalesce(labels.Discrepancy_Narrative, ''), ' ', coalesce(labels.Work_Center_Event_Narrative, ''), ' ', coalesce(labels.Corrective_Narrative, '')) = pr.target",
-                "SELECT labels.Row_Number id, labels.Labels_File_Name, REMIS_File_Name, 'INU_71GE0' as Model_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, labels.Discrepancy_Narrative, labels.Work_Center_Event_Narrative, labels.Corrective_Narrative, labels.train_test, labels.action label, pr.prediction, if(labels.action=pr.prediction, 'True','False') AS matches FROM (SELECT DISTINCT Row_Number, Labels_File_Name, REMIS_File_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, action, train_test, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM resample_71ge0) labels JOIN (SELECT DISTINCT replace(target, 'None', '') target, prediction FROM deeplearningclassifier WHERE component_name LIKE '%action_71ge0%') pr ON concat(coalesce(labels.Discrepancy_Narrative, ''), ' ', coalesce(labels.Work_Center_Event_Narrative, ''), ' ', coalesce(labels.Corrective_Narrative, '')) = pr.target",
-                "SELECT labels.Row_Number id, labels.Labels_File_Name, REMIS_File_Name, 'AntIcVlv_22TBB' as Model_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, labels.Discrepancy_Narrative, labels.Work_Center_Event_Narrative, labels.Corrective_Narrative, labels.train_test, labels.action label, pr.prediction, if(labels.action=pr.prediction, 'True','False') AS matches FROM (SELECT DISTINCT Row_Number, Labels_File_Name, REMIS_File_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, action, train_test, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM resample_22tbb) labels JOIN (SELECT DISTINCT replace(target, 'None', '') target, prediction FROM deeplearningclassifier WHERE component_name LIKE '%action_22tbb%') pr ON concat(coalesce(labels.Discrepancy_Narrative, ''), ' ', coalesce(labels.Work_Center_Event_Narrative, ''), ' ', coalesce(labels.Corrective_Narrative, '')) = pr.target"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Condese labeled data to original size for metric calculation.",
-        "id":"add_label_add_split_a",
-        "label":"Add Label Add Split A",
-        "model":"8f7c8395-f921-4a3f-ad3b-bbee29f9fb3c",
-        "position":[
-            680,
-            1005
-        ]
-    },
-    {
-        "attrs":{
-            "query_list":[
-                "SELECT labels.Row_Number id, labels.Labels_File_Name, REMIS_File_Name, 'PrsSftVlv_41322' as Model_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, labels.Discrepancy_Narrative, labels.Work_Center_Event_Narrative, labels.Corrective_Narrative, labels.train_test, labels.action label, pr.prediction, if(labels.action=pr.prediction,'True','False') as matches FROM (SELECT DISTINCT Row_Number, Labels_File_Name, REMIS_File_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, action, train_test, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM resample_41322) labels JOIN (SELECT DISTINCT replace(target, 'None', '') target, prediction FROM deeplearningclassifier WHERE component_name LIKE '%action_41322%') pr ON concat(coalesce(labels.Discrepancy_Narrative, ''), ' ', coalesce(labels.Work_Center_Event_Narrative, ''), ' ', coalesce(labels.Corrective_Narrative, '')) = pr.target",
-                "SELECT labels.Row_Number id, labels.Labels_File_Name, REMIS_File_Name, 'PrsCtrl_41311' as Model_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, labels.Discrepancy_Narrative, labels.Work_Center_Event_Narrative, labels.Corrective_Narrative, labels.train_test, labels.action label, pr.prediction, if(labels.action=pr.prediction, 'True','False') AS matches FROM (SELECT DISTINCT Row_Number, Labels_File_Name, REMIS_File_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, action, train_test, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM resample_41311) labels JOIN (SELECT DISTINCT replace(target, 'None', '') target, prediction FROM deeplearningclassifier WHERE component_name LIKE '%action_41311%') pr ON concat(coalesce(labels.Discrepancy_Narrative, ''), ' ', coalesce(labels.Work_Center_Event_Narrative, ''), ' ', coalesce(labels.Corrective_Narrative, '')) = pr.target",
-                "SELECT labels.Row_Number id, labels.Labels_File_Name, REMIS_File_Name, 'PrsOflVlv_41321' as Model_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, labels.Discrepancy_Narrative, labels.Work_Center_Event_Narrative, labels.Corrective_Narrative, labels.train_test, labels.action label, pr.prediction, if(labels.action=pr.prediction, 'True','False') AS matches FROM (SELECT DISTINCT Row_Number, Labels_File_Name, REMIS_File_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, action, train_test, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM resample_41321) labels JOIN (SELECT DISTINCT replace(target, 'None', '') target, prediction FROM deeplearningclassifier WHERE component_name LIKE '%action_41321%') pr ON concat(coalesce(labels.Discrepancy_Narrative, ''), ' ', coalesce(labels.Work_Center_Event_Narrative, ''), ' ', coalesce(labels.Corrective_Narrative, '')) = pr.target",
-                "SELECT labels.Row_Number id, labels.Labels_File_Name, REMIS_File_Name, 'PrsSftVlvFlt_41325' as Model_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, labels.Discrepancy_Narrative, labels.Work_Center_Event_Narrative, labels.Corrective_Narrative, labels.train_test, labels.action label, pr.prediction, if(labels.action=pr.prediction, 'True','False') AS matches FROM (SELECT DISTINCT Row_Number, Labels_File_Name, REMIS_File_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, action, train_test, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM resample_41325) labels JOIN (SELECT DISTINCT replace(target, 'None', '') target, prediction FROM deeplearningclassifier WHERE component_name LIKE '%action_41325%') pr ON concat(coalesce(labels.Discrepancy_Narrative, ''), ' ', coalesce(labels.Work_Center_Event_Narrative, ''), ' ', coalesce(labels.Corrective_Narrative, '')) = pr.target",
-                "SELECT labels.Row_Number id, labels.Labels_File_Name, REMIS_File_Name, 'PrsOflVlvFlt_41315' as Model_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, labels.Discrepancy_Narrative, labels.Work_Center_Event_Narrative, labels.Corrective_Narrative, labels.train_test, labels.action label, pr.prediction, if(labels.action=pr.prediction, 'True','False') AS matches FROM (SELECT DISTINCT Row_Number, Labels_File_Name, REMIS_File_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, action, train_test, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM resample_41315) labels JOIN (SELECT DISTINCT replace(target, 'None', '') target, prediction FROM deeplearningclassifier WHERE component_name LIKE '%action_41315%') pr ON concat(coalesce(labels.Discrepancy_Narrative, ''), ' ', coalesce(labels.Work_Center_Event_Narrative, ''), ' ', coalesce(labels.Corrective_Narrative, '')) = pr.target"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Rename columns to prep for comparison confusion matrix, add train/test split, and add predicted label.",
-        "id":"add_label_add_split_413xx",
-        "label":"Add Label Add Split 413XX",
-        "model":"796644da-25d6-4b37-b691-0408e0c0aa75",
-        "position":[
-            645,
-            555
-        ]
-    },
-    {
-        "attrs":{
-            "additional_parameters":{
-                "class_swaps":{
-                    "P":"R",
-                    "Q":"R",
-                    "T":"TU",
-                    "U":"TU"
-                },
-                "col_filter_value":{
-                    "Work_Unit_Code":"41325"
-                },
-                "label_name":"Action",
-                "min_minority_fraction_of_most_common":0.33,
-                "test_ratio":0.25
-            }
-        },
-        "class":"Python",
-        "custom_model":true,
-        "description":"Randomly sample from minority classes (those fewer records than the most-common class) to get an even quantity of labeled data per class for training a model.",
-        "id":"resample_41325",
-        "label":"Resample 41325",
-        "model":"a9c44e99-927e-4020-b3e2-30c7fc600e75",
-        "position":[
-            230,
-            610
-        ]
-    },
-    {
-        "attrs":{
-            "additional_parameters":{
-                "class_swaps":{
-                    "P":"R",
-                    "Q":"R",
-                    "T":"TU",
-                    "U":"TU"
-                },
-                "col_filter_value":{
-                    "Work_Unit_Code":"41321"
-                },
-                "label_name":"Action",
-                "min_minority_fraction_of_most_common":0.33,
-                "test_ratio":0.25
-            }
-        },
-        "class":"Python",
-        "custom_model":true,
-        "description":"Randomly sample from minority classes (those fewer records than the most-common class) to get an even quantity of labeled data per class for training a model.",
-        "id":"resample_41321",
-        "label":"Resample 41321",
-        "model":"723c475d-a3eb-4092-b862-ffbb44a524e0",
-        "position":[
-            230,
-            575
-        ]
-    },
-    {
-        "attrs":{
-            "additional_parameters":{
-                "class_swaps":{
-                    "P":"R",
-                    "Q":"R",
-                    "T":"TU",
-                    "U":"TU"
-                },
-                "col_filter_value":{
-                    "Work_Unit_Code":"41315"
-                },
-                "label_name":"Action",
-                "max_majority_fraction_of_next_highest":1.6,
-                "min_minority_fraction_of_most_common":0.15,
-                "test_ratio":0.25
-            }
-        },
-        "class":"Python",
-        "custom_model":true,
-        "description":"Randomly sample from minority classes (those fewer records than the most-common class) to get an even quantity of labeled data per class for training a model.",
-        "id":"resample_41315",
-        "label":"Resample 41315",
-        "model":"2b3ee52c-5182-4502-bd80-38c6485360d9",
-        "position":[
-            230,
-            535
-        ]
-    },
-    {
-        "attrs":{
-            "additional_parameters":{
-                "class_swaps":{
-                    "P":"R",
-                    "Q":"R",
-                    "T":"TU",
-                    "U":"TU"
-                },
-                "col_filter_value":{
-                    "Work_Unit_Code":"41311"
-                },
-                "label_name":"Action",
-                "max_majority_fraction_of_next_highest":1.6,
-                "min_minority_fraction_of_most_common":0.15,
-                "test_ratio":0.25
-            }
-        },
-        "class":"Python",
-        "custom_model":true,
-        "description":"Randomly sample from minority classes (those fewer records than the most-common class) to get an even quantity of labeled data per class for training a model.",
-        "id":"resample_41311",
-        "label":"Resample 41311",
-        "model":"b34595f8-d7cf-4da6-9ab8-c2e720b6aa2c",
-        "position":[
-            230,
-            500
-        ]
-    },
-    {
-        "attrs":{
-            "label":"Action",
-            "number_epochs":30,
-            "target_columns":[
-                "Discrepancy_Narrative",
-                "Work_Center_Event_Narrative",
-                "Corrective_Narrative"
-            ]
-        },
-        "class":"DeepLearningClassifier",
-        "custom_model":true,
-        "description":"Uses a stacked deep learning method to train a model for classifying text.",
-        "id":"fit_action_41311",
-        "label":"Fit Action 41311",
-        "model":"deeplearningclassifier",
-        "position":[
-            370,
-            500
-        ]
-    },
-    {
-        "class":"CSV",
-        "custom_model":true,
-        "description":"Import data that is contained in a delimited text file.",
-        "id":"import_wuc_corrections",
-        "label":"Import WUC Corrections",
-        "model":"1d46ea89-152c-4664-ad42-612910cf9c6c",
-        "position":[
-            15,
-            90
-        ]
-    },
-    {
-        "attrs":{
-            "label":"Action",
-            "number_epochs":30,
-            "target_columns":[
-                "Discrepancy_Narrative",
-                "Work_Center_Event_Narrative",
-                "Corrective_Narrative"
-            ]
-        },
-        "class":"DeepLearningClassifier",
-        "custom_model":true,
-        "description":"Uses a stacked deep learning method to train a model for classifying text.",
-        "id":"fit_action_41315",
-        "label":"Fit Action 41315",
-        "model":"deeplearningclassifier",
-        "position":[
-            370,
-            535
-        ]
-    },
-    {
-        "class":"Python",
-        "custom_model":true,
-        "description":"Run a python script.",
-        "id":"dedupe_corrections",
-        "label":"Dedupe Corrections",
-        "model":"20456ff8-b53b-45e4-b8b7-ffcf7975f4a2",
-        "position":[
-            55,
-            140
-        ]
-    },
-    {
-        "attrs":{
-            "query_list":[
-                "SELECT remis.Work_Order_Number, remis.Work_Center_Event_Identifier, remis.Sequence_Number, COALESCE(corr.Work_Unit_Code, remis.Work_Unit_Code) as Work_Unit_Code FROM compiled_remis_data remis LEFT JOIN dedupe_corrections corr ON remis.Work_Order_Number = corr.Work_Order_Number AND remis.Work_Center_Event_Identifier = corr.Work_Center_Event_Identifier AND remis.Sequence_Number = corr.Sequence_Number HAVING Work_Unit_Code IN (SELECT Work_Unit_Code FROM ercm_wuc_list) OR Work_Unit_Code in ('22VDB', '72KK0')"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Run a set of SQL select queries on existing database tables.",
-        "id":"wuc_of_interest",
-        "label":"WUC of Interest",
-        "model":"c47d9e93-c174-4f17-854c-b90a135289b0",
-        "position":[
-            215,
-            100
-        ]
-    },
-    {
-        "attrs":{
-            "additional_parameters":{
-                "class_swaps":{
-                    "P":"R",
-                    "Q":"R",
-                    "T":"TU",
-                    "U":"TU"
-                },
-                "col_filter_value":{
-                    "Work_Unit_Code":"41322"
-                },
-                "label_name":"Action",
-                "max_majority_fraction_of_next_highest":1.6,
-                "min_minority_fraction_of_most_common":0.15,
-                "test_ratio":0.25
-            }
-        },
-        "class":"Python",
-        "custom_model":true,
-        "description":"Randomly sample from minority classes (those fewer records than the most-common class) to get an even quantity of labeled data per class for training a model.",
-        "id":"resample_41322",
-        "label":"Resample 41322",
-        "model":"66b0de83-2fdd-4260-b6b9-fe936efe6566",
-        "position":[
-            515,
-            445
-        ]
-    },
-    {
-        "attrs":{
-            "label":"Action",
-            "number_epochs":30,
-            "target_columns":[
-                "Discrepancy_Narrative",
-                "Work_Center_Event_Narrative",
-                "Corrective_Narrative"
-            ]
-        },
-        "class":"DeepLearningClassifier",
-        "custom_model":true,
-        "description":"Uses a stacked deep learning method to train a model for classifying text.",
-        "id":"fit_action_41321",
-        "label":"Fit Action 41321",
-        "model":"deeplearningclassifier",
-        "position":[
-            370,
-            575
-        ]
-    },
-    {
-        "attrs":{
-            "label":"Action",
-            "number_epochs":30,
-            "target_columns":[
-                "Discrepancy_Narrative",
-                "Work_Center_Event_Narrative",
-                "Corrective_Narrative"
-            ]
-        },
-        "class":"DeepLearningClassifier",
-        "custom_model":true,
-        "description":"Uses a stacked deep learning method to train a model for classifying text.",
-        "id":"fit_action_41325",
-        "label":"Fit Action 41325",
-        "model":"deeplearningclassifier",
-        "position":[
-            370,
-            610
-        ]
-    },
-    {
-        "attrs":{
-            "additional_parameters":{
-                "class_swaps":{
-                    "P":"R",
-                    "Q":"R",
-                    "T":"TU",
-                    "U":"TU"
-                },
-                "col_filter_value":{
-                    "Work_Unit_Code":"453AS"
-                },
-                "label_name":"Action",
-                "max_majority_fraction_of_next_highest":2,
-                "min_minority_fraction_of_most_common":0.15,
-                "test_ratio":0.25
-            }
-        },
-        "class":"Python",
-        "custom_model":true,
-        "description":"Randomly sample from minority classes (those fewer records than the most-common class) to get an even quantity of labeled data per class for training a model.",
-        "id":"resample_453as",
-        "label":"Resample 453AS",
-        "model":"3a8ec2ca-dc64-4d9c-811d-77bb49301843",
-        "position":[
-            230,
-            945
-        ]
-    },
-    {
-        "attrs":{
-            "label":"Action",
-            "number_epochs":30,
-            "target_columns":[
-                "Discrepancy_Narrative",
-                "Work_Center_Event_Narrative",
-                "Corrective_Narrative"
-            ]
-        },
-        "class":"DeepLearningClassifier",
-        "custom_model":true,
-        "description":"Uses a stacked deep learning method to train a model for classifying text.",
-        "id":"fit_action_453as",
-        "label":"Fit Action 453AS",
-        "model":"deeplearningclassifier",
-        "position":[
-            365,
-            945
-        ]
-    },
-    {
-        "attrs":{
-            "query_list":[
-                "SELECT remis.Work_Order_Number, remis.Work_Center_Event_Identifier, remis.Sequence_Number, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM compiled_remis_data remis JOIN wuc_of_interest wucs ON wucs.Work_Order_Number = remis.Work_Order_Number AND wucs.Work_Center_Event_Identifier = remis.Work_Center_Event_Identifier AND wucs.Sequence_Number = remis.Sequence_Number WHERE remis.Serial_Number IS NOT NULL AND TRIM(remis.Equipment_Designator) = 'C130H' AND wucs.Work_Unit_Code = '453AS'"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Filter by WUC and Year, exclude NULL Serial Number, get narratives to for labeling.",
-        "id":"remis_filter_453as",
-        "label":"REMIS Filter 453AS",
-        "model":"2f166dea-261d-4651-a78b-751ca34d492d",
-        "position":[
-            985,
-            945
-        ]
-    },
-    {
-        "attrs":{
-            "query_list":[
-                "SELECT remis.Work_Order_Number, remis.Work_Center_Event_Identifier, remis.Sequence_Number, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM compiled_remis_data remis JOIN wuc_of_interest wucs ON wucs.Work_Order_Number = remis.Work_Order_Number AND wucs.Work_Center_Event_Identifier = remis.Work_Center_Event_Identifier AND wucs.Sequence_Number = remis.Sequence_Number WHERE remis.Serial_Number IS NOT NULL AND ((TRIM(remis.Equipment_Designator) = 'C130J' AND wucs.Work_Unit_Code = '22YAA') OR (TRIM(remis.Equipment_Designator) = 'C130H' AND wucs.Work_Unit_Code = '22FAA'))"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Filter by WUC and Year, exclude NULL Serial Number, get narratives to for labeling.",
-        "id":"remis_filter_starter",
-        "label":"REMIS Filter Starter",
-        "model":"6adc14ec-702a-46dc-9d4a-09ee6a649f76",
-        "position":[
-            985,
-            910
-        ]
-    },
-    {
-        "attrs":{
-            "query_list":[
-                "SELECT remis.Work_Order_Number, remis.Work_Center_Event_Identifier, remis.Sequence_Number, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM compiled_remis_data remis JOIN wuc_of_interest wucs ON wucs.Work_Order_Number = remis.Work_Order_Number AND wucs.Work_Center_Event_Identifier = remis.Work_Center_Event_Identifier AND wucs.Sequence_Number = remis.Sequence_Number WHERE remis.Serial_Number IS NOT NULL AND TRIM(remis.Equipment_Designator) = 'C130J' AND wucs.Work_Unit_Code = '64BAD'"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Filter by WUC and Year, exclude NULL Serial Number, get narratives to for labeling.",
-        "id":"remis_filter_64bad",
-        "label":"REMIS Filter 64BAD",
-        "model":"e54b71e9-5494-4653-a662-44f531be97e2",
-        "position":[
-            985,
-            875
-        ]
-    },
-    {
-        "attrs":{
-            "query_list":[
-                "SELECT remis.Work_Order_Number, remis.Work_Center_Event_Identifier, remis.Sequence_Number, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM compiled_remis_data remis JOIN wuc_of_interest wucs ON wucs.Work_Order_Number = remis.Work_Order_Number AND wucs.Work_Center_Event_Identifier = remis.Work_Center_Event_Identifier AND wucs.Sequence_Number = remis.Sequence_Number WHERE remis.Serial_Number IS NOT NULL AND TRIM(remis.Equipment_Designator) = 'C130J' AND wucs.Work_Unit_Code = '22RBC'"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Filter by WUC and Year, exclude NULL Serial Number, get narratives to for labeling.",
-        "id":"remis_filter_22rbc",
-        "label":"REMIS Filter 22RBC",
-        "model":"5cfc8d83-a49c-4c77-8455-e260a7137b6b",
-        "position":[
-            985,
-            835
-        ]
-    },
-    {
-        "attrs":{
-            "copy_only_key_columns":true
-        },
-        "class":"DeepLearningLabeler",
-        "custom_model":true,
-        "description":"Apply a deep learning model to a new set of data",
-        "id":"label_starter_action",
-        "label":"Label Starter Action",
-        "model":"e4153331-d1b7-467e-b830-bd5667253277",
-        "position":[
-            1130,
-            910
-        ]
-    },
-    {
-        "attrs":{
-            "copy_only_key_columns":true
-        },
-        "class":"DeepLearningLabeler",
-        "custom_model":true,
-        "description":"Apply a deep learning model to a new set of data",
-        "id":"label_22rbc_action",
-        "label":"Label 22RBC Action",
-        "model":"1910e750-0a40-40b1-bab4-a89b41813423",
-        "position":[
-            1130,
-            835
-        ]
-    },
-    {
-        "attrs":{
-            "copy_only_key_columns":true
-        },
-        "class":"DeepLearningLabeler",
-        "custom_model":true,
-        "description":"Apply a deep learning model to a new set of data",
-        "id":"label_453as_action",
-        "label":"Label 453AS Action",
-        "model":"bc7326e8-b700-4ed7-82d2-9aceec331e30",
-        "position":[
-            1130,
-            945
-        ]
-    },
-    {
-        "attrs":{
-            "copy_only_key_columns":true
-        },
-        "class":"DeepLearningLabeler",
-        "custom_model":true,
-        "description":"Apply a deep learning model to a new set of data",
-        "id":"label_64bad_action",
-        "label":"Label 64BAD Action",
-        "model":"d49149c9-a3df-4b9d-a23a-a6592973c034",
-        "position":[
-            1130,
-            875
-        ]
-    },
-    {
-        "attrs":{
-            "additional_parameters":{
-                "class_swaps":{
-                    "P":"R",
-                    "Q":"R",
-                    "T":"TU",
-                    "U":"TU"
-                },
-                "col_filter_value":{
-                    "Work_Unit_Code":"22GAB"
-                },
-                "label_name":"Action",
-                "max_majority_fraction_of_next_highest":2,
-                "min_minority_fraction_of_most_common":0.15,
-                "test_ratio":0.25
-            }
-        },
-        "class":"Python",
-        "custom_model":true,
-        "description":"Randomly sample from minority classes (those fewer records than the most-common class) to get an even quantity of labeled data per class for training a model.",
-        "id":"resample_22gab",
-        "label":"Resample 22GAB",
-        "model":"bc82f597-abe5-4bb0-b99d-ffca74587aee",
-        "position":[
-            230,
-            980
-        ]
-    },
-    {
-        "attrs":{
-            "label":"Action",
-            "number_epochs":30,
-            "target_columns":[
-                "Discrepancy_Narrative",
-                "Work_Center_Event_Narrative",
-                "Corrective_Narrative"
-            ]
-        },
-        "class":"DeepLearningClassifier",
-        "custom_model":true,
-        "description":"Uses a stacked deep learning method to train a model for classifying text.",
-        "id":"fit_action_22gab",
-        "label":"Fit Action 22GAB",
-        "model":"deeplearningclassifier",
-        "position":[
-            365,
-            980
-        ]
-    },
-    {
-        "attrs":{
-            "additional_parameters":{
-                "class_swaps":{
-                    "P":"R",
-                    "Q":"R",
-                    "T":"TU",
-                    "U":"TU"
-                },
-                "col_filter_value":{
-                    "Work_Unit_Code":[
-                        "46621",
-                        "46620"
-                    ]
-                },
-                "label_name":"Action",
-                "max_majority_fraction_of_next_highest":2,
-                "min_minority_fraction_of_most_common":0.15,
-                "test_ratio":0.25
-            }
-        },
-        "class":"Python",
-        "custom_model":true,
-        "description":"Randomly sample from minority classes (those fewer records than the most-common class) to get an even quantity of labeled data per class for training a model.",
-        "id":"resample_4662x",
-        "label":"Resample 4662X",
-        "model":"5189d71e-15e2-4626-8b79-33dab836756e",
-        "position":[
-            230,
-            1015
-        ]
-    },
-    {
-        "attrs":{
-            "label":"Action",
-            "number_epochs":30,
-            "target_columns":[
-                "Discrepancy_Narrative",
-                "Work_Center_Event_Narrative",
-                "Corrective_Narrative"
-            ]
-        },
-        "class":"DeepLearningClassifier",
-        "custom_model":true,
-        "description":"Uses a stacked deep learning method to train a model for classifying text.",
-        "id":"fit_action_4662x",
-        "label":"Fit Action 4662X",
-        "model":"deeplearningclassifier",
-        "position":[
-            365,
-            1015
-        ]
-    },
-    {
-        "attrs":{
-            "additional_parameters":{
-                "class_swaps":{
-                    "P":"R",
-                    "Q":"R",
-                    "T":"TU",
-                    "U":"TU"
-                },
-                "col_filter_value":{
-                    "Work_Unit_Code":"5114K"
-                },
-                "label_name":"Action",
-                "max_majority_fraction_of_next_highest":2,
-                "min_minority_fraction_of_most_common":0.15,
-                "test_ratio":0.25
-            }
-        },
-        "class":"Python",
-        "custom_model":true,
-        "description":"Randomly sample from minority classes (those fewer records than the most-common class) to get an even quantity of labeled data per class for training a model.",
-        "id":"resample_5114k",
-        "label":"Resample 5114K",
-        "model":"c5aef826-0dfe-4325-93a1-435738fcc5c9",
-        "position":[
-            230,
-            1050
-        ]
-    },
-    {
-        "attrs":{
-            "label":"Action",
-            "number_epochs":30,
-            "target_columns":[
-                "Discrepancy_Narrative",
-                "Work_Center_Event_Narrative",
-                "Corrective_Narrative"
-            ]
-        },
-        "class":"DeepLearningClassifier",
-        "custom_model":true,
-        "description":"Uses a stacked deep learning method to train a model for classifying text.",
-        "id":"fit_action_5114k",
-        "label":"Fit Action 5114K",
-        "model":"deeplearningclassifier",
-        "position":[
-            365,
-            1050
-        ]
-    },
-    {
-        "attrs":{
-            "additional_parameters":{
-                "class_swaps":{
-                    "P":"R",
-                    "Q":"R",
-                    "T":"TU",
-                    "U":"TU"
-                },
-                "col_filter_value":{
-                    "Work_Unit_Code":"71GE0"
-                },
-                "label_name":"Action",
-                "max_majority_fraction_of_next_highest":2,
-                "min_minority_fraction_of_most_common":0.15,
-                "test_ratio":0.25
-            }
-        },
-        "class":"Python",
-        "custom_model":true,
-        "description":"Randomly sample from minority classes (those fewer records than the most-common class) to get an even quantity of labeled data per class for training a model.",
-        "id":"resample_71ge0",
-        "label":"Resample 71GE0",
-        "model":"49a9665b-08ec-4410-b513-81c8d803931c",
-        "position":[
-            230,
-            1085
-        ]
-    },
-    {
-        "attrs":{
-            "label":"Action",
-            "number_epochs":30,
-            "target_columns":[
-                "Discrepancy_Narrative",
-                "Work_Center_Event_Narrative",
-                "Corrective_Narrative"
-            ]
-        },
-        "class":"DeepLearningClassifier",
-        "custom_model":true,
-        "description":"Uses a stacked deep learning method to train a model for classifying text.",
-        "id":"fit_action_71ge0",
-        "label":"Fit Action 71GE0",
-        "model":"deeplearningclassifier",
-        "position":[
-            365,
-            1085
-        ]
-    },
-    {
-        "attrs":{
-            "additional_parameters":{
-                "class_swaps":{
-                    "P":"R",
-                    "Q":"R",
-                    "T":"TU",
-                    "U":"TU"
-                },
-                "col_filter_value":{
-                    "Work_Unit_Code":"22TBB"
-                },
-                "label_name":"Action",
-                "max_majority_fraction_of_next_highest":2,
-                "min_minority_fraction_of_most_common":0.15,
-                "test_ratio":0.25
-            }
-        },
-        "class":"Python",
-        "custom_model":true,
-        "description":"Randomly sample from minority classes (those fewer records than the most-common class) to get an even quantity of labeled data per class for training a model.",
-        "id":"resample_22tbb",
-        "label":"Resample 22TBB",
-        "model":"00782e23-30db-42d1-adc0-a8a3aef00d14",
-        "position":[
-            230,
-            1120
-        ]
-    },
-    {
-        "attrs":{
-            "label":"Action",
-            "number_epochs":30,
-            "target_columns":[
-                "Discrepancy_Narrative",
-                "Work_Center_Event_Narrative",
-                "Corrective_Narrative"
-            ]
-        },
-        "class":"DeepLearningClassifier",
-        "custom_model":true,
-        "description":"Uses a stacked deep learning method to train a model for classifying text.",
-        "id":"fit_action_22tbb",
-        "label":"Fit Action 22TBB",
-        "model":"deeplearningclassifier",
-        "position":[
-            365,
-            1120
-        ]
-    },
-    {
-        "attrs":{
-            "additional_parameters":{
-                "custom_predecessor":true,
-                "display_text_column":"Corrective_Narrative",
-                "group_by_column":"Model_Name"
-            }
-        },
-        "class":"Python",
-        "custom_model":true,
-        "description":"Display metrics for 8-class ATC model.",
-        "id":"action_metrics_a",
-        "label":"Action Metrics A",
-        "model":"224f88ef-60b4-4e02-a036-4bbd24297e06",
-        "position":[
-            825,
-            1005
-        ]
-    },
-    {
-        "attrs":{
-            "query_list":[
-                "SELECT remis.Work_Order_Number, remis.Work_Center_Event_Identifier, remis.Sequence_Number, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM compiled_remis_data remis JOIN wuc_of_interest wucs ON wucs.Work_Order_Number = remis.Work_Order_Number AND wucs.Work_Center_Event_Identifier = remis.Work_Center_Event_Identifier AND wucs.Sequence_Number = remis.Sequence_Number WHERE remis.Serial_Number IS NOT NULL AND TRIM(remis.Equipment_Designator) = 'C130J' AND wucs.Work_Unit_Code = '22TBB'"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Filter by WUC and Year, exclude NULL Serial Number, get narratives to for labeling.",
-        "id":"remis_filter_22tbb",
-        "label":"REMIS Filter 22TBB",
-        "model":"669f4b33-211d-4c70-8f1a-848570d126e8",
-        "position":[
-            985,
-            1125
-        ]
-    },
-    {
-        "attrs":{
-            "query_list":[
-                "SELECT remis.Work_Order_Number, remis.Work_Center_Event_Identifier, remis.Sequence_Number, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM compiled_remis_data remis JOIN wuc_of_interest wucs ON wucs.Work_Order_Number = remis.Work_Order_Number AND wucs.Work_Center_Event_Identifier = remis.Work_Center_Event_Identifier AND wucs.Sequence_Number = remis.Sequence_Number WHERE remis.Serial_Number IS NOT NULL AND TRIM(remis.Equipment_Designator) = 'C130H' AND wucs.Work_Unit_Code = '71GE0'"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Filter by WUC and Year, exclude NULL Serial Number, get narratives to for labeling.",
-        "id":"remis_filter_71ge0",
-        "label":"REMIS Filter 71GE0",
-        "model":"6bbfc12d-8996-4c48-a6db-4ac112688db1",
-        "position":[
-            985,
-            1090
-        ]
-    },
-    {
-        "attrs":{
-            "query_list":[
-                "SELECT remis.Work_Order_Number, remis.Work_Center_Event_Identifier, remis.Sequence_Number, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM compiled_remis_data remis JOIN wuc_of_interest wucs ON wucs.Work_Order_Number = remis.Work_Order_Number AND wucs.Work_Center_Event_Identifier = remis.Work_Center_Event_Identifier AND wucs.Sequence_Number = remis.Sequence_Number WHERE remis.Serial_Number IS NOT NULL AND TRIM(remis.Equipment_Designator) = 'C130H' AND wucs.Work_Unit_Code = '5114K'"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Filter by WUC and Year, exclude NULL Serial Number, get narratives to for labeling.",
-        "id":"remis_filter_5114k",
-        "label":"REMIS Filter 5114K",
-        "model":"77fbae26-8f49-4d74-9c7f-4ef49d52f305",
-        "position":[
-            985,
-            1055
-        ]
-    },
-    {
-        "attrs":{
-            "query_list":[
-                "SELECT remis.Work_Order_Number, remis.Work_Center_Event_Identifier, remis.Sequence_Number, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM compiled_remis_data remis JOIN wuc_of_interest wucs ON wucs.Work_Order_Number = remis.Work_Order_Number AND wucs.Work_Center_Event_Identifier = remis.Work_Center_Event_Identifier AND wucs.Sequence_Number = remis.Sequence_Number WHERE remis.Serial_Number IS NOT NULL AND TRIM(remis.Equipment_Designator) = 'C130H' AND wucs.Work_Unit_Code in ('46620','46621')"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Filter by WUC and Year, exclude NULL Serial Number, get narratives to for labeling.",
-        "id":"remis_filter_4662x",
-        "label":"REMIS Filter 4662X",
-        "model":"30f79327-54e7-47e5-a0b4-edb6bd652c31",
-        "position":[
-            985,
-            1020
-        ]
-    },
-    {
-        "attrs":{
-            "query_list":[
-                "SELECT remis.Work_Order_Number, remis.Work_Center_Event_Identifier, remis.Sequence_Number, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM compiled_remis_data remis JOIN wuc_of_interest wucs ON wucs.Work_Order_Number = remis.Work_Order_Number AND wucs.Work_Center_Event_Identifier = remis.Work_Center_Event_Identifier AND wucs.Sequence_Number = remis.Sequence_Number WHERE remis.Serial_Number IS NOT NULL AND TRIM(remis.Equipment_Designator) = 'C130H' AND wucs.Work_Unit_Code = '22GAB'"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Filter by WUC and Year, exclude NULL Serial Number, get narratives to for labeling.",
-        "id":"remis_filter_22gab",
-        "label":"REMIS Filter 22GAB",
-        "model":"07d40bca-7849-4978-85f9-2c0bdbbe41cf",
-        "position":[
-            985,
-            985
-        ]
-    },
-    {
-        "attrs":{
-            "copy_only_key_columns":true
-        },
-        "class":"DeepLearningLabeler",
-        "custom_model":true,
-        "description":"Apply a deep learning model to a new set of data",
-        "id":"label_22gab_action",
-        "label":"Label 22GAB Action",
-        "model":"41874575-55f9-4908-85b2-7e91c6d68d87",
-        "position":[
-            1130,
-            985
-        ]
-    },
-    {
-        "attrs":{
-            "copy_only_key_columns":true
-        },
-        "class":"DeepLearningLabeler",
-        "custom_model":true,
-        "description":"Apply a deep learning model to a new set of data",
-        "id":"label_22tbb_action",
-        "label":"Label 22TBB Action",
-        "model":"cd37098d-4d47-41b2-b4d4-af0d3c6fbcf1",
-        "position":[
-            1130,
-            1125
-        ]
-    },
-    {
-        "attrs":{
-            "copy_only_key_columns":true
-        },
-        "class":"DeepLearningLabeler",
-        "custom_model":true,
-        "description":"Apply a deep learning model to a new set of data",
-        "id":"label_5114k_action",
-        "label":"Label 5114K Action",
-        "model":"0a50b8f5-e03a-4ca0-9e43-c484b912f6c3",
-        "position":[
-            1130,
-            1055
-        ]
-    },
-    {
-        "attrs":{
-            "copy_only_key_columns":true
-        },
-        "class":"DeepLearningLabeler",
-        "custom_model":true,
-        "description":"Apply a deep learning model to a new set of data",
-        "id":"label_71ge0_action",
-        "label":"Label 71GE0 Action",
-        "model":"cc411edd-a7af-4392-8273-cf407179573a",
-        "position":[
-            1130,
-            1090
-        ]
-    },
-    {
-        "attrs":{
-            "copy_only_key_columns":true
-        },
-        "class":"DeepLearningLabeler",
-        "custom_model":true,
-        "description":"Apply a deep learning model to a new set of data",
-        "id":"label_4662x_action",
-        "label":"Label 4662X Action",
-        "model":"d4e141fb-5d06-4a11-b2e8-08d6c6326c38",
-        "position":[
-            1130,
-            1020
-        ]
-    },
-    {
-        "attrs":{
-            "query_list":[
-                "SELECT remis.Work_Order_Number, remis.Work_Center_Event_Identifier, remis.Sequence_Number, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM compiled_remis_data remis JOIN wuc_of_interest wucs ON wucs.Work_Order_Number = remis.Work_Order_Number AND wucs.Work_Center_Event_Identifier = remis.Work_Center_Event_Identifier AND wucs.Sequence_Number = remis.Sequence_Number WHERE remis.Serial_Number IS NOT NULL AND TRIM(remis.Equipment_Designator) IN ('C130J','C130H') AND wucs.Work_Unit_Code = '41315'"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Filter by WUC and Year, exclude NULL Serial Number, get narratives to for labeling.",
-        "id":"remis_filter_41315",
-        "label":"REMIS Filter 41315",
-        "model":"d3e1761f-a546-4852-ab49-6de0bd5cbec6",
-        "position":[
-            965,
-            535
-        ]
-    },
-    {
-        "attrs":{
-            "query_list":[
-                "SELECT remis.Work_Order_Number, remis.Work_Center_Event_Identifier, remis.Sequence_Number, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM compiled_remis_data remis JOIN wuc_of_interest wucs ON wucs.Work_Order_Number = remis.Work_Order_Number AND wucs.Work_Center_Event_Identifier = remis.Work_Center_Event_Identifier AND wucs.Sequence_Number = remis.Sequence_Number WHERE remis.Serial_Number IS NOT NULL AND TRIM(remis.Equipment_Designator) IN ('C130J','C130H') AND wucs.Work_Unit_Code = '41311'"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Filter by WUC and Year, exclude NULL Serial Number, get narratives to for labeling.",
-        "id":"remis_filter_41311",
-        "label":"REMIS Filter 41311",
-        "model":"fbe65495-f8d5-4b9d-8a97-bc0bf3fd493b",
-        "position":[
-            965,
-            500
-        ]
-    },
-    {
-        "attrs":{
-            "query_list":[
-                "SELECT remis.Work_Order_Number, remis.Work_Center_Event_Identifier, remis.Sequence_Number, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM compiled_remis_data remis JOIN wuc_of_interest wucs ON wucs.Work_Order_Number = remis.Work_Order_Number AND wucs.Work_Center_Event_Identifier = remis.Work_Center_Event_Identifier AND wucs.Sequence_Number = remis.Sequence_Number WHERE remis.Serial_Number IS NOT NULL AND TRIM(remis.Equipment_Designator) IN ('C130J','C130H') AND wucs.Work_Unit_Code = '41325'"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Filter by WUC and Year, exclude NULL Serial Number, get narratives to for labeling.",
-        "id":"remis_filter_41325",
-        "label":"REMIS Filter 41325",
-        "model":"77df9b93-f240-4ca6-922c-f36bb73ae304",
-        "position":[
-            965,
-            610
-        ]
-    },
-    {
-        "attrs":{
-            "query_list":[
-                "SELECT remis.Work_Order_Number, remis.Work_Center_Event_Identifier, remis.Sequence_Number, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM compiled_remis_data remis JOIN wuc_of_interest wucs ON wucs.Work_Order_Number = remis.Work_Order_Number AND wucs.Work_Center_Event_Identifier = remis.Work_Center_Event_Identifier AND wucs.Sequence_Number = remis.Sequence_Number WHERE remis.Serial_Number IS NOT NULL AND TRIM(remis.Equipment_Designator) IN ('C130J','C130H') AND wucs.Work_Unit_Code = '41321'"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Filter by WUC and Year, exclude NULL Serial Number, get narratives to for labeling.",
-        "id":"remis_filter_41321",
-        "label":"REMIS Filter 41321",
-        "model":"a01ea253-25d0-4424-b664-28f18ca0c24d",
-        "position":[
-            965,
-            575
-        ]
-    },
-    {
-        "attrs":{
-            "copy_only_key_columns":true
-        },
-        "class":"DeepLearningLabeler",
-        "custom_model":true,
-        "description":"Apply a deep learning model to a new set of data",
-        "id":"label_41311_action",
-        "label":"Label 41311 Action",
-        "model":"9bbd164f-14ed-471b-9193-61c2202e3b8d",
-        "position":[
-            1105,
-            500
-        ]
-    },
-    {
-        "attrs":{
-            "copy_only_key_columns":true
-        },
-        "class":"DeepLearningLabeler",
-        "custom_model":true,
-        "description":"Apply a deep learning model to a new set of data",
-        "id":"label_41315_action",
-        "label":"Label 41315 Action",
-        "model":"17f49573-08a9-4a7b-a21a-3ae1d4ce6eba",
-        "position":[
-            1105,
-            535
-        ]
-    },
-    {
-        "attrs":{
-            "copy_only_key_columns":true
-        },
-        "class":"DeepLearningLabeler",
-        "custom_model":true,
-        "description":"Apply a deep learning model to a new set of data",
-        "id":"label_41321_action",
-        "label":"Label 41321 Action",
-        "model":"558133b4-0630-4cf4-9c18-8105a722ffce",
-        "position":[
-            1105,
-            575
-        ]
-    },
-    {
-        "attrs":{
-            "copy_only_key_columns":true
-        },
-        "class":"DeepLearningLabeler",
-        "custom_model":true,
-        "description":"Apply a deep learning model to a new set of data",
-        "id":"label_41325_action",
-        "label":"Label 41325 Action",
-        "model":"4ce97ad6-7a5e-4655-a2a8-baff6493a70d",
-        "position":[
-            1105,
-            610
-        ]
-    },
-    {
-        "attrs":{
-            "additional_parameters":{
-                "class_swaps":{
-                    "P":"R",
-                    "Q":"R",
-                    "T":"TU",
-                    "U":"TU"
-                },
-                "col_filter_value":{
-                    "Work_Unit_Code":"42DLA"
-                },
-                "label_name":"Action",
-                "max_majority_fraction_of_next_highest":2,
-                "min_minority_fraction_of_most_common":0.15,
-                "test_ratio":0.25
-            }
-        },
-        "class":"Python",
-        "custom_model":true,
-        "description":"Randomly sample from minority classes (those fewer records than the most-common class) to get an even quantity of labeled data per class for training a model.",
-        "id":"resample_42dla",
-        "label":"Resample 42DLA",
-        "model":"d6761a3b-ad9f-45a5-8bc0-49a26164c048",
-        "position":[
-            230,
-            1155
-        ]
-    },
-    {
-        "attrs":{
-            "additional_parameters":{
-                "class_swaps":{
-                    "P":"R",
-                    "Q":"R",
-                    "T":"TU",
-                    "U":"TU"
-                },
-                "col_filter_value":{
-                    "Work_Unit_Code":"22XCN"
-                },
-                "label_name":"Action",
-                "max_majority_fraction_of_next_highest":2,
-                "min_minority_fraction_of_most_common":0.15,
-                "test_ratio":0.25
-            }
-        },
-        "class":"Python",
-        "custom_model":true,
-        "description":"Randomly sample from minority classes (those fewer records than the most-common class) to get an even quantity of labeled data per class for training a model.",
-        "id":"resample_22xcn",
-        "label":"Resample 22XCN",
-        "model":"ec6c72eb-c0c4-4826-86b3-1c47fab60ae8",
-        "position":[
-            230,
-            1190
-        ]
-    },
-    {
-        "attrs":{
-            "additional_parameters":{
-                "class_swaps":{
-                    "P":"R",
-                    "Q":"R",
-                    "T":"TU",
-                    "U":"TU"
-                },
-                "col_filter_value":{
-                    "Work_Unit_Code":"32525"
-                },
-                "label_name":"Action",
-                "max_majority_fraction_of_next_highest":2,
-                "min_minority_fraction_of_most_common":0.15,
-                "test_ratio":0.25
-            }
-        },
-        "class":"Python",
-        "custom_model":true,
-        "description":"Randomly sample from minority classes (those fewer records than the most-common class) to get an even quantity of labeled data per class for training a model.",
-        "id":"resample_32525",
-        "label":"Resample 32525",
-        "model":"09617c2c-fdf0-4282-bd96-417b361470aa",
-        "position":[
-            230,
-            1225
-        ]
-    },
-    {
-        "attrs":{
-            "additional_parameters":{
-                "class_swaps":{
-                    "P":"R",
-                    "Q":"R",
-                    "T":"TU",
-                    "U":"TU"
-                },
-                "col_filter_value":{
-                    "Work_Unit_Code":[
-                        "72KK0",
-                        "72K00"
-                    ]
-                },
-                "label_name":"Action",
-                "max_majority_fraction_of_next_highest":3,
-                "min_minority_fraction_of_most_common":0.15,
-                "test_ratio":0.25
-            }
-        },
-        "class":"Python",
-        "custom_model":true,
-        "description":"Randomly sample from minority classes (those fewer records than the most-common class) to get an even quantity of labeled data per class for training a model.",
-        "id":"resample_72kk0",
-        "label":"Resample 72KK0",
-        "model":"94fa4899-578f-47c5-8947-0a22ca37fa24",
-        "position":[
-            230,
-            1260
-        ]
-    },
-    {
-        "attrs":{
-            "additional_parameters":{
-                "class_swaps":{
-                    "P":"R",
-                    "Q":"R",
-                    "T":"TU",
-                    "U":"TU"
-                },
-                "col_filter_value":{
-                    "Work_Unit_Code":[
-                        "422A0",
-                        "42BA0",
-                        "4221P"
-                    ]
-                },
-                "label_name":"Action",
-                "max_majority_fraction_of_next_highest":2,
-                "min_minority_fraction_of_most_common":0.15,
-                "test_ratio":0.25
-            }
-        },
-        "class":"Python",
-        "custom_model":true,
-        "description":"Randomly sample from minority classes (those fewer records than the most-common class) to get an even quantity of labeled data per class for training a model.",
-        "id":"resample_422a0",
-        "label":"Resample 422A0",
-        "model":"7964fa0e-9bb4-457c-ab6b-7accd9cdbd26",
-        "position":[
-            230,
-            1295
-        ]
-    },
-    {
-        "attrs":{
-            "label":"Action",
-            "number_epochs":30,
-            "target_columns":[
-                "Discrepancy_Narrative",
-                "Work_Center_Event_Narrative",
-                "Corrective_Narrative"
-            ]
-        },
-        "class":"DeepLearningClassifier",
-        "custom_model":true,
-        "description":"Uses a stacked deep learning method to train a model for classifying text.",
-        "id":"fit_action_422a0",
-        "label":"Fit Action 422A0",
-        "model":"deeplearningclassifier",
-        "position":[
-            365,
-            1295
-        ]
-    },
-    {
-        "attrs":{
-            "label":"Action",
-            "number_epochs":30,
-            "target_columns":[
-                "Discrepancy_Narrative",
-                "Work_Center_Event_Narrative",
-                "Corrective_Narrative"
-            ]
-        },
-        "class":"DeepLearningClassifier",
-        "custom_model":true,
-        "description":"Uses a stacked deep learning method to train a model for classifying text.",
-        "id":"fit_action_32525",
-        "label":"Fit Action 32525",
-        "model":"deeplearningclassifier",
-        "position":[
-            365,
-            1225
-        ]
-    },
-    {
-        "attrs":{
-            "label":"Action",
-            "number_epochs":30,
-            "target_columns":[
-                "Discrepancy_Narrative",
-                "Work_Center_Event_Narrative",
-                "Corrective_Narrative"
-            ]
-        },
-        "class":"DeepLearningClassifier",
-        "custom_model":true,
-        "description":"Uses a stacked deep learning method to train a model for classifying text.",
-        "id":"fit_action_42dla",
-        "label":"Fit Action 42DLA",
-        "model":"deeplearningclassifier",
-        "position":[
-            365,
-            1155
-        ]
-    },
-    {
-        "attrs":{
-            "label":"Action",
-            "number_epochs":30,
-            "target_columns":[
-                "Discrepancy_Narrative",
-                "Work_Center_Event_Narrative",
-                "Corrective_Narrative"
-            ]
-        },
-        "class":"DeepLearningClassifier",
-        "custom_model":true,
-        "description":"Uses a stacked deep learning method to train a model for classifying text.",
-        "id":"fit_action_72kk0",
-        "label":"Fit Action 72KK0",
-        "model":"deeplearningclassifier",
-        "position":[
-            365,
-            1260
-        ]
-    },
-    {
-        "attrs":{
-            "label":"Action",
-            "number_epochs":30,
-            "target_columns":[
-                "Discrepancy_Narrative",
-                "Work_Center_Event_Narrative",
-                "Corrective_Narrative"
-            ]
-        },
-        "class":"DeepLearningClassifier",
-        "custom_model":true,
-        "description":"Uses a stacked deep learning method to train a model for classifying text.",
-        "id":"fit_action_22xcn",
-        "label":"Fit Action 22XCN",
-        "model":"deeplearningclassifier",
-        "position":[
-            365,
-            1190
-        ]
-    },
-    {
-        "attrs":{
-            "query_list":[
-                "SELECT labels.Row_Number id, labels.Labels_File_Name, REMIS_File_Name, 'TDAmp_22EBD' as Model_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, labels.Discrepancy_Narrative, labels.Work_Center_Event_Narrative, labels.Corrective_Narrative, labels.train_test, labels.action label, pr.prediction, if(labels.action=pr.prediction,'True','False') as matches FROM (SELECT DISTINCT Row_Number, Labels_File_Name, REMIS_File_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, action, train_test, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM resample_22ebd) labels JOIN (SELECT DISTINCT replace(target, 'None', '') target, prediction FROM deeplearningclassifier WHERE component_name LIKE '%action_22ebd%') pr ON concat(coalesce(labels.Discrepancy_Narrative, ''), ' ', coalesce(labels.Work_Center_Event_Narrative, ''), ' ', coalesce(labels.Corrective_Narrative, '')) = pr.target",
-                "SELECT labels.Row_Number id, labels.Labels_File_Name, REMIS_File_Name, 'PGBFilt_22XCN' as Model_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, labels.Discrepancy_Narrative, labels.Work_Center_Event_Narrative, labels.Corrective_Narrative, labels.train_test, labels.action label, pr.prediction, if(labels.action=pr.prediction, 'True','False') AS matches FROM (SELECT DISTINCT Row_Number, Labels_File_Name, REMIS_File_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, action, train_test, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM resample_22xcn) labels JOIN (SELECT DISTINCT replace(target, 'None', '') target, prediction FROM deeplearningclassifier WHERE component_name LIKE '%action_22xcn%') pr ON concat(coalesce(labels.Discrepancy_Narrative, ''), ' ', coalesce(labels.Work_Center_Event_Narrative, ''), ' ', coalesce(labels.Corrective_Narrative, '')) = pr.target",
-                "SELECT labels.Row_Number id, labels.Labels_File_Name, REMIS_File_Name, 'AngVlvHs_32525' as Model_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, labels.Discrepancy_Narrative, labels.Work_Center_Event_Narrative, labels.Corrective_Narrative, labels.train_test, labels.action label, pr.prediction, if(labels.action=pr.prediction, 'True','False') AS matches FROM (SELECT DISTINCT Row_Number, Labels_File_Name, REMIS_File_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, action, train_test, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM resample_32525) labels JOIN (SELECT DISTINCT replace(target, 'None', '') target, prediction FROM deeplearningclassifier WHERE component_name LIKE '%action_32525%') pr ON concat(coalesce(labels.Discrepancy_Narrative, ''), ' ', coalesce(labels.Work_Center_Event_Narrative, ''), ' ', coalesce(labels.Corrective_Narrative, '')) = pr.target",
-                "SELECT labels.Row_Number id, labels.Labels_File_Name, REMIS_File_Name, 'CrsCntl_72KK0' as Model_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, labels.Discrepancy_Narrative, labels.Work_Center_Event_Narrative, labels.Corrective_Narrative, labels.train_test, labels.action label, pr.prediction, if(labels.action=pr.prediction, 'True','False') AS matches FROM (SELECT DISTINCT Row_Number, Labels_File_Name, REMIS_File_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, action, train_test, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM resample_72kk0) labels JOIN (SELECT DISTINCT replace(target, 'None', '') target, prediction FROM deeplearningclassifier WHERE component_name LIKE '%action_72kk0%') pr ON concat(coalesce(labels.Discrepancy_Narrative, ''), ' ', coalesce(labels.Work_Center_Event_Narrative, ''), ' ', coalesce(labels.Corrective_Narrative, '')) = pr.target",
-                "SELECT labels.Row_Number id, labels.Labels_File_Name, REMIS_File_Name, 'GCU_422A0' as Model_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, labels.Discrepancy_Narrative, labels.Work_Center_Event_Narrative, labels.Corrective_Narrative, labels.train_test, labels.action label, pr.prediction, if(labels.action=pr.prediction, 'True','False') AS matches FROM (SELECT DISTINCT Row_Number, Labels_File_Name, REMIS_File_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, action, train_test, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM resample_422a0) labels JOIN (SELECT DISTINCT replace(target, 'None', '') target, prediction FROM deeplearningclassifier WHERE component_name LIKE '%action_422a0%') pr ON concat(coalesce(labels.Discrepancy_Narrative, ''), ' ', coalesce(labels.Work_Center_Event_Narrative, ''), ' ', coalesce(labels.Corrective_Narrative, '')) = pr.target",
-                "SELECT labels.Row_Number id, labels.Labels_File_Name, REMIS_File_Name, 'FODCtrl_491A0' as Model_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, labels.Discrepancy_Narrative, labels.Work_Center_Event_Narrative, labels.Corrective_Narrative, labels.train_test, labels.action label, pr.prediction, if(labels.action=pr.prediction, 'True','False') AS matches FROM (SELECT DISTINCT Row_Number, Labels_File_Name, REMIS_File_Name, Equipment_Designator, Serial_Number, Work_Unit_Code, Transaction_Date, Geographic_Location, Action_Taken_Code, action, train_test, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM resample_491a0) labels JOIN (SELECT DISTINCT replace(target, 'None', '') target, prediction FROM deeplearningclassifier WHERE component_name LIKE '%action_491a0%') pr ON concat(coalesce(labels.Discrepancy_Narrative, ''), ' ', coalesce(labels.Work_Center_Event_Narrative, ''), ' ', coalesce(labels.Corrective_Narrative, '')) = pr.target"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Condese labeled data to original size for metric calculation.",
-        "id":"add_label_add_split_c",
-        "label":"Add Label Add Split C",
-        "model":"20789122-1c7c-40e7-a774-60c54639fca5",
-        "position":[
-            635,
-            1180
-        ]
-    },
-    {
-        "attrs":{
-            "additional_parameters":{
-                "custom_predecessor":true,
-                "display_text_column":"Corrective_Narrative",
-                "group_by_column":"Model_Name"
-            }
-        },
-        "class":"Python",
-        "custom_model":true,
-        "description":"Display metrics for 8-class ATC model.",
-        "id":"action_metrics_c",
-        "label":"Action Metrics C",
-        "model":"59854be6-d88a-4fc7-aae5-f2ad86604953",
-        "position":[
-            795,
-            1180
-        ]
-    },
-    {
-        "attrs":{
-            "query_list":[
-                "SELECT remis.Work_Order_Number, remis.Work_Center_Event_Identifier, remis.Sequence_Number, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM compiled_remis_data remis JOIN wuc_of_interest wucs ON wucs.Work_Order_Number = remis.Work_Order_Number AND wucs.Work_Center_Event_Identifier = remis.Work_Center_Event_Identifier AND wucs.Sequence_Number = remis.Sequence_Number WHERE remis.Serial_Number IS NOT NULL AND TRIM(remis.Equipment_Designator) = 'C130J' AND wucs.Work_Unit_Code = '22XCN'"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Filter by WUC and Year, exclude NULL Serial Number, get narratives to for labeling.",
-        "id":"remis_filter_22xcn",
-        "label":"REMIS Filter 22XCN",
-        "model":"0136f19a-b551-4f3e-8814-25071c9421bd",
-        "position":[
-            985,
-            1200
-        ]
-    },
-    {
-        "attrs":{
-            "query_list":[
-                "SELECT remis.Work_Order_Number, remis.Work_Center_Event_Identifier, remis.Sequence_Number, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM compiled_remis_data remis JOIN wuc_of_interest wucs ON wucs.Work_Order_Number = remis.Work_Order_Number AND wucs.Work_Center_Event_Identifier = remis.Work_Center_Event_Identifier AND wucs.Sequence_Number = remis.Sequence_Number WHERE remis.Serial_Number IS NOT NULL AND TRIM(remis.Equipment_Designator) = 'C130J' AND wucs.Work_Unit_Code = '42DLA'"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Filter by WUC and Year, exclude NULL Serial Number, get narratives to for labeling.",
-        "id":"remis_filter_42dla",
-        "label":"REMIS Filter 42DLA",
-        "model":"f05d2119-0bd3-48e1-8d0c-77040a1b5508",
-        "position":[
-            985,
-            1165
-        ]
-    },
-    {
-        "attrs":{
-            "query_list":[
-                "SELECT remis.Work_Order_Number, remis.Work_Center_Event_Identifier, remis.Sequence_Number, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM compiled_remis_data remis JOIN wuc_of_interest wucs ON wucs.Work_Order_Number = remis.Work_Order_Number AND wucs.Work_Center_Event_Identifier = remis.Work_Center_Event_Identifier AND wucs.Sequence_Number = remis.Sequence_Number WHERE remis.Serial_Number IS NOT NULL AND TRIM(remis.Equipment_Designator) = 'C130H' AND wucs.Work_Unit_Code = '32525'"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Filter by WUC and Year, exclude NULL Serial Number, get narratives to for labeling.",
-        "id":"remis_filter_32525",
-        "label":"REMIS Filter 32525",
-        "model":"ebf7aab1-cb1f-4cd5-8f95-35b88d8d756e",
-        "position":[
-            985,
-            1240
-        ]
-    },
-    {
-        "attrs":{
-            "query_list":[
-                "SELECT remis.Work_Order_Number, remis.Work_Center_Event_Identifier, remis.Sequence_Number, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM compiled_remis_data remis JOIN wuc_of_interest wucs ON wucs.Work_Order_Number = remis.Work_Order_Number AND wucs.Work_Center_Event_Identifier = remis.Work_Center_Event_Identifier AND wucs.Sequence_Number = remis.Sequence_Number WHERE remis.Serial_Number IS NOT NULL AND TRIM(remis.Equipment_Designator) = 'C130J' AND wucs.Work_Unit_Code in('72K00','72KK0')"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Filter by WUC and Year, exclude NULL Serial Number, get narratives to for labeling.",
-        "id":"remis_filter_72kk0",
-        "label":"REMIS Filter 72KK0",
-        "model":"7b5312b3-ae63-4e26-ad2b-5157c58b19fa",
-        "position":[
-            985,
-            1275
-        ]
-    },
-    {
-        "attrs":{
-            "query_list":[
-                "SELECT remis.Work_Order_Number, remis.Work_Center_Event_Identifier, remis.Sequence_Number, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM compiled_remis_data remis JOIN wuc_of_interest wucs ON wucs.Work_Order_Number = remis.Work_Order_Number AND wucs.Work_Center_Event_Identifier = remis.Work_Center_Event_Identifier AND wucs.Sequence_Number = remis.Sequence_Number WHERE remis.Serial_Number IS NOT NULL AND TRIM(remis.Equipment_Designator) = 'C130H' AND wucs.Work_Unit_Code in ('422A0','42BA0','4221P')"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Filter by WUC and Year, exclude NULL Serial Number, get narratives to for labeling.",
-        "id":"remis_filter_422a0",
-        "label":"REMIS Filter 422A0",
-        "model":"0829bb82-4c23-46d8-aaeb-a49d50144ca3",
-        "position":[
-            985,
-            1315
-        ]
-    },
-    {
-        "attrs":{
-            "copy_only_key_columns":true
-        },
-        "class":"DeepLearningLabeler",
-        "custom_model":true,
-        "description":"Apply a deep learning model to a new set of data",
-        "id":"label_42dla_action",
-        "label":"Label 42DLA Action",
-        "model":"02673f5d-a9dd-4bec-aa56-f805452d156b",
-        "position":[
-            1130,
-            1165
-        ]
-    },
-    {
-        "attrs":{
-            "copy_only_key_columns":true
-        },
-        "class":"DeepLearningLabeler",
-        "custom_model":true,
-        "description":"Apply a deep learning model to a new set of data",
-        "id":"label_22xcn_action",
-        "label":"Label 22XCN Action",
-        "model":"8f821704-734a-486b-8bcb-0565075d54a8",
-        "position":[
-            1130,
-            1200
-        ]
-    },
-    {
-        "attrs":{
-            "copy_only_key_columns":true
-        },
-        "class":"DeepLearningLabeler",
-        "custom_model":true,
-        "description":"Apply a deep learning model to a new set of data",
-        "id":"label_32525_action",
-        "label":"Label 32525 Action",
-        "model":"4a430df1-7904-49ab-8485-e67052da1a47",
-        "position":[
-            1130,
-            1240
-        ]
-    },
-    {
-        "attrs":{
-            "copy_only_key_columns":true
-        },
-        "class":"DeepLearningLabeler",
-        "custom_model":true,
-        "description":"Apply a deep learning model to a new set of data",
-        "id":"label_72kk0_action",
-        "label":"Label 72KK0 Action",
-        "model":"e05fa818-64db-40b0-a02c-5d5193da494e",
-        "position":[
-            1130,
-            1275
-        ]
-    },
-    {
-        "attrs":{
-            "copy_only_key_columns":true
-        },
-        "class":"DeepLearningLabeler",
-        "custom_model":true,
-        "description":"Apply a deep learning model to a new set of data",
-        "id":"label_422a0_action",
-        "label":"Label 422A0 Action",
-        "model":"9a15c4ca-2b6e-4d7a-b70c-0a58583f2c40",
-        "position":[
-            1130,
-            1315
-        ]
-    },
-    {
-        "attrs":{
-            "additional_parameters":{
-                "class_swaps":{
-                    "P":"R",
-                    "Q":"R",
-                    "T":"TU",
-                    "U":"TU"
-                },
-                "col_filter_value":{
-                    "Work_Unit_Code":"22EBD"
-                },
-                "label_name":"Action",
-                "max_majority_fraction_of_next_highest":2,
-                "min_minority_fraction_of_most_common":0.15,
-                "test_ratio":0.25
-            }
-        },
-        "class":"Python",
-        "custom_model":true,
-        "description":"Randomly sample from minority classes (those fewer records than the most-common class) to get an even quantity of labeled data per class for training a model.",
-        "id":"resample_22ebd",
-        "label":"Resample 22EBD",
-        "model":"47eaa79a-d98e-4cbe-bf9e-ad7f0c24b8c2",
-        "position":[
-            230,
-            1330
-        ]
-    },
-    {
-        "attrs":{
-            "label":"Action",
-            "number_epochs":30,
-            "target_columns":[
-                "Discrepancy_Narrative",
-                "Work_Center_Event_Narrative",
-                "Corrective_Narrative"
-            ]
-        },
-        "class":"DeepLearningClassifier",
-        "custom_model":true,
-        "description":"Uses a stacked deep learning method to train a model for classifying text.",
-        "id":"fit_action_22ebd",
-        "label":"Fit Action 22EBD",
-        "model":"deeplearningclassifier",
-        "position":[
-            365,
-            1330
-        ]
-    },
-    {
-        "attrs":{
-            "query_list":[
-                "SELECT remis.Work_Order_Number, remis.Work_Center_Event_Identifier, remis.Sequence_Number, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM compiled_remis_data remis JOIN wuc_of_interest wucs ON wucs.Work_Order_Number = remis.Work_Order_Number AND wucs.Work_Center_Event_Identifier = remis.Work_Center_Event_Identifier AND wucs.Sequence_Number = remis.Sequence_Number WHERE remis.Serial_Number IS NOT NULL AND TRIM(remis.Equipment_Designator) = 'C130H' AND wucs.Work_Unit_Code = '22EBD'"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Filter by WUC and Year, exclude NULL Serial Number, get narratives to for labeling.",
-        "id":"remis_filter_22ebd",
-        "label":"REMIS Filter 22EBD",
-        "model":"7a22f83a-af7d-444e-9e2c-a4f938924ee1",
-        "position":[
-            985,
-            1350
-        ]
-    },
-    {
-        "attrs":{
-            "copy_only_key_columns":true
-        },
-        "class":"DeepLearningLabeler",
-        "custom_model":true,
-        "description":"Apply a deep learning model to a new set of data",
-        "id":"label_22ebd_action",
-        "label":"Label 22EBD Action",
-        "model":"aec69a65-11e6-4ab7-b73a-1368cbb121f7",
-        "position":[
-            1130,
-            1350
-        ]
-    },
-    {
-        "attrs":{
-            "additional_parameters":{
-                "class_swaps":{
-                    "P":"R",
-                    "Q":"R",
-                    "T":"TU",
-                    "U":"TU"
-                },
-                "col_filter_value":{
-                    "Work_Unit_Code":"22YAB"
-                },
-                "label_name":"Action",
-                "max_majority_fraction_of_next_highest":1.6,
-                "min_minority_fraction_of_most_common":0.15,
-                "test_ratio":0.25
-            }
-        },
-        "class":"Python",
-        "custom_model":true,
-        "description":"Randomly sample from minority classes (those fewer records than the most-common class) to get an even quantity of labeled data per class for training a model.",
-        "id":"resample_22yab",
-        "label":"Resample 22YAB",
-        "model":"51f51259-eee6-4c7c-b93e-9b65d92d4f98",
-        "position":[
-            230,
-            765
-        ]
-    },
-    {
-        "attrs":{
-            "label":"Action",
-            "number_epochs":30,
-            "target_columns":[
-                "Discrepancy_Narrative",
-                "Work_Center_Event_Narrative",
-                "Corrective_Narrative"
-            ]
-        },
-        "class":"DeepLearningClassifier",
-        "custom_model":true,
-        "description":"Uses a stacked deep learning method to train a model for classifying text.",
-        "id":"fit_action_22yab",
-        "label":"Fit Action 22YAB",
-        "model":"deeplearningclassifier",
-        "position":[
-            365,
-            765
-        ]
-    },
-    {
-        "attrs":{
-            "query_list":[
-                "SELECT remis.Work_Order_Number, remis.Work_Center_Event_Identifier, remis.Sequence_Number, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM compiled_remis_data remis JOIN wuc_of_interest wucs ON wucs.Work_Order_Number = remis.Work_Order_Number AND wucs.Work_Center_Event_Identifier = remis.Work_Center_Event_Identifier AND wucs.Sequence_Number = remis.Sequence_Number WHERE remis.Serial_Number IS NOT NULL AND TRIM(remis.Equipment_Designator) = 'C130J' AND wucs.Work_Unit_Code = '22YAB'"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Filter by WUC and Year, exclude NULL Serial Number, get narratives to for labeling.",
-        "id":"remis_filter_22yab",
-        "label":"REMIS Filter 22YAB",
-        "model":"9ec0cf41-2aee-4dc6-88c0-d7c73198a5b0",
-        "position":[
-            985,
-            760
-        ]
-    },
-    {
-        "attrs":{
-            "copy_only_key_columns":true
-        },
-        "class":"DeepLearningLabeler",
-        "custom_model":true,
-        "description":"Apply a deep learning model to a new set of data",
-        "id":"label_22yab_action",
-        "label":"Label 22YAB Action",
-        "model":"f321aa27-c91d-4d6b-86f4-c29fac5b9050",
-        "position":[
-            1130,
-            760
-        ]
-    },
-    {
-        "attrs":{
-            "query_list":[
-                "SELECT remis.Work_Order_Number, remis.Work_Center_Event_Identifier, remis.Sequence_Number, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM compiled_remis_data remis JOIN wuc_of_interest wucs ON wucs.Work_Order_Number = remis.Work_Order_Number AND wucs.Work_Center_Event_Identifier = remis.Work_Center_Event_Identifier AND wucs.Sequence_Number = remis.Sequence_Number WHERE remis.Serial_Number IS NOT NULL AND TRIM(remis.Equipment_Designator) = 'C130H' AND wucs.Work_Unit_Code in ('526DA','526DD','526DE')"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Filter by WUC and Year, exclude NULL Serial Number, get narratives to for labeling.",
-        "id":"remis_filter_526dx",
-        "label":"REMIS Filter 526DX",
-        "model":"575f9e68-74b2-4a54-b7e3-dbd4f4ff5288",
-        "position":[
-            975,
-            670
-        ]
-    },
-    {
-        "attrs":{
-            "copy_only_key_columns":true
-        },
-        "class":"DeepLearningLabeler",
-        "custom_model":true,
-        "description":"Apply a deep learning model to a new set of data",
-        "id":"label_526dx_action",
-        "label":"Label 526DX Action",
-        "model":"437f826c-cdb7-49d5-9bcd-079d917a0db4",
-        "position":[
-            1110,
-            650
-        ]
-    },
-    {
-        "attrs":{
-            "additional_parameters":{
-                "class_swaps":{
-                    "P":"R",
-                    "Q":"R",
-                    "T":"TU",
-                    "U":"TU"
-                },
-                "col_filter_value":{
-                    "Work_Unit_Code":"491A0"
-                },
-                "label_name":"Action",
-                "max_majority_fraction_of_next_highest":2,
-                "min_minority_fraction_of_most_common":0.15,
-                "test_ratio":0.25
-            }
-        },
-        "class":"Python",
-        "custom_model":true,
-        "description":"Randomly sample from minority classes (those fewer records than the most-common class) to get an even quantity of labeled data per class for training a model.",
-        "id":"resample_491a0",
-        "label":"Resample 491A0",
-        "model":"812c9a85-39ef-4dc2-ae30-3765d13eb0bf",
-        "position":[
-            230,
-            1365
-        ]
-    },
-    {
-        "attrs":{
-            "label":"Action",
-            "number_epochs":30,
-            "target_columns":[
-                "Discrepancy_Narrative",
-                "Work_Center_Event_Narrative",
-                "Corrective_Narrative"
-            ]
-        },
-        "class":"DeepLearningClassifier",
-        "custom_model":true,
-        "description":"Uses a stacked deep learning method to train a model for classifying text.",
-        "id":"fit_action_491a0",
-        "label":"Fit Action 491A0",
-        "model":"deeplearningclassifier",
-        "position":[
-            365,
-            1365
-        ]
-    },
-    {
-        "attrs":{
-            "query_list":[
-                "SELECT remis.Work_Order_Number, remis.Work_Center_Event_Identifier, remis.Sequence_Number, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM compiled_remis_data remis JOIN wuc_of_interest wucs ON wucs.Work_Order_Number = remis.Work_Order_Number AND wucs.Work_Center_Event_Identifier = remis.Work_Center_Event_Identifier AND wucs.Sequence_Number = remis.Sequence_Number WHERE remis.Serial_Number IS NOT NULL AND TRIM(remis.Equipment_Designator) = 'C130J' AND wucs.Work_Unit_Code = '491A0'"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Filter by WUC and Year, exclude NULL Serial Number, get narratives to for labeling.",
-        "id":"remis_filter_491a0",
-        "label":"REMIS Filter 491A0",
-        "model":"5d86f9e3-c74e-486a-92b5-024040ff886a",
-        "position":[
-            985,
-            1390
-        ]
-    },
-    {
-        "attrs":{
-            "copy_only_key_columns":true
-        },
-        "class":"DeepLearningLabeler",
-        "custom_model":true,
-        "description":"Apply a deep learning model to a new set of data",
-        "id":"label_491a0_action",
-        "label":"Label 491A0 Action",
-        "model":"60c7b723-b1f8-4da7-bb1c-e79b1d497fb8",
-        "position":[
-            1130,
-            1390
-        ]
-    },
-    {
-        "attrs":{
-            "additional_parameters":{
-                "class_swaps":{
-                    "P":"R",
-                    "Q":"R",
-                    "T":"TU",
-                    "U":"TU"
-                },
-                "col_filter_value":{
-                    "Work_Unit_Code":[
-                        "22VDA",
-                        "22VDB",
-                        "22VDC"
-                    ]
-                },
-                "label_name":"Action",
-                "max_majority_fraction_of_next_highest":2,
-                "min_minority_fraction_of_most_common":0.15,
-                "test_ratio":0.25
-            }
-        },
-        "class":"Python",
-        "custom_model":true,
-        "description":"Randomly sample from minority classes (those fewer records than the most-common class) to get an even quantity of labeled data per class for training a model.",
-        "id":"resample_22vdx",
-        "label":"Resample 22VDX",
-        "model":"ce411703-ed70-4b59-95ae-6d2edc51963a",
-        "position":[
-            230,
-            1400
-        ]
-    },
-    {
-        "attrs":{
-            "label":"Action",
-            "number_epochs":30,
-            "target_columns":[
-                "Discrepancy_Narrative",
-                "Work_Center_Event_Narrative",
-                "Corrective_Narrative"
-            ]
-        },
-        "class":"DeepLearningClassifier",
-        "custom_model":true,
-        "description":"Uses a stacked deep learning method to train a model for classifying text.",
-        "id":"fit_action_22vdx",
-        "label":"Fit Action 22VDX",
-        "model":"deeplearningclassifier",
-        "position":[
-            365,
-            1400
-        ]
-    },
-    {
-        "attrs":{
-            "query_list":[
-                "SELECT remis.Work_Order_Number, remis.Work_Center_Event_Identifier, remis.Sequence_Number, Discrepancy_Narrative, Work_Center_Event_Narrative, Corrective_Narrative FROM compiled_remis_data remis JOIN wuc_of_interest wucs ON wucs.Work_Order_Number = remis.Work_Order_Number AND wucs.Work_Center_Event_Identifier = remis.Work_Center_Event_Identifier AND wucs.Sequence_Number = remis.Sequence_Number WHERE remis.Serial_Number IS NOT NULL AND TRIM(remis.Equipment_Designator) = 'C130J' AND wucs.Work_Unit_Code in ('22VDA','22VDB','22VDC')"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Filter by WUC and Year, exclude NULL Serial Number, get narratives to for labeling.",
-        "id":"remis_filter_22vdx",
-        "label":"REMIS Filter 22VDX",
-        "model":"2c5c22c0-9377-440b-b2f7-70c76596c267",
-        "position":[
-            985,
-            1425
-        ]
-    },
-    {
-        "attrs":{
-            "copy_only_key_columns":true
-        },
-        "class":"DeepLearningLabeler",
-        "custom_model":true,
-        "description":"Apply a deep learning model to a new set of data",
-        "id":"label_22vdx_action",
-        "label":"Label 22VDX Action",
-        "model":"3236d9bb-5d8d-4b58-8fd5-ae088e2d6f0b",
-        "position":[
-            1130,
-            1425
+            50,
+            70
         ]
     },
     {
@@ -3648,8 +781,8 @@
         "label":"Persist Staged Subset",
         "model":"41dc32cc-f1f3-4eef-90b5-ff440685bf78",
         "position":[
-            1130,
-            35
+            90,
+            940
         ]
     }
 ]
