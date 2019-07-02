@@ -784,5 +784,25 @@
             90,
             940
         ]
+    },
+    {
+        "class":"SharedViewImport",
+        "description":"\n        Consumes data provided by a workspace from a SharedView component.\n        ",
+        "id":"wuc_of_interest_view_import",
+        "label":"WUC of Interest View Import",
+        "position":[
+            50,
+            115
+        ]
+    },
+    {
+        "class":"SharedViewImport",
+        "description":"\n        Consumes data provided by a workspace from a SharedView component.\n        ",
+        "id":"compiled_remis_view_import",
+        "label":"Compiled REMIS View Import",
+        "position":[
+            50,
+            165
+        ]
     }
 ]
