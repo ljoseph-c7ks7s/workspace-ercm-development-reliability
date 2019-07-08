@@ -206,30 +206,8 @@
         ]
     },
     {
-        "source":"labels_joined",
-        "target":"split_r_and_multi_pos",
-        "vertices":[
-            [
-                475,
-                85
-            ],
-            [
-                475,
-                40
-            ]
-        ]
-    },
-    {
-        "source":"labels_joined",
-        "target":"add_event_age"
-    },
-    {
         "source":"sortie_import",
         "target":"compiled_sortie_history_data"
-    },
-    {
-        "source":"labels_joined",
-        "target":"part_position_parser"
     },
     {
         "source":"joined_data",
@@ -306,5 +284,49 @@
     {
         "source":"remove_disqualified_add_covariates",
         "target":"interval_data_for_plots"
+    },
+    {
+        "source":"add_event_age",
+        "target":"joined_data"
+    },
+    {
+        "source":"split_r_and_multi_pos",
+        "target":"joined_data"
+    },
+    {
+        "source":"last_sortie",
+        "target":"joined_data"
+    },
+    {
+        "source":"compiled_remis_data",
+        "target":"joined_data"
+    },
+    {
+        "source":"compiled_remis_data",
+        "target":"add_event_age"
+    },
+    {
+        "source":"compiled_remis_data",
+        "target":"part_position_parser"
+    },
+    {
+        "source":"wuc_of_interest",
+        "target":"part_position_parser"
+    },
+    {
+        "source":"wuc_of_interest",
+        "target":"joined_data"
+    },
+    {
+        "source":"labels_joined",
+        "target":"part_position_parser"
+    },
+    {
+        "source":"labels_joined",
+        "target":"add_event_age"
+    },
+    {
+        "source":"labels_joined",
+        "target":"split_r_and_multi_pos"
     }
 ]
