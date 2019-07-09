@@ -214,34 +214,6 @@
         "target":"stage_data_for_tow"
     },
     {
-        "source":"opstempo_forecast",
-        "target":"interval_data_for_plots",
-        "vertices":[
-            [
-                680,
-                440
-            ],
-            [
-                680,
-                350
-            ]
-        ]
-    },
-    {
-        "source":"opstempo_forecast",
-        "target":"predictive_twins",
-        "vertices":[
-            [
-                680,
-                440
-            ],
-            [
-                680,
-                125
-            ]
-        ]
-    },
-    {
         "source":"remove_unk_position_number",
         "target":"remove_disqualified_add_covariates",
         "vertices":[
@@ -328,5 +300,19 @@
     {
         "source":"labels_joined",
         "target":"split_r_and_multi_pos"
+    },
+    {
+        "source":"opstempo_forecast",
+        "target":"predictive_twins",
+        "vertices":[
+            [
+                680,
+                440
+            ],
+            [
+                680,
+                125
+            ]
+        ]
     }
 ]

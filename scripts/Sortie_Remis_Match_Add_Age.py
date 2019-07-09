@@ -21,7 +21,8 @@ def fn(conn, libraries, params, predecessors):
 
     # Filter raw REMIS based on WUC and ATC filters
     # Convert transaction date to timestamp using Start Time
-    primary_key_fields_list = list(pd.read_sql(sql="SHOW KEYS FROM {}".format(filter_table), con=conn).Column_name)
+    # primary_key_fields_list = list(pd.read_sql(sql="SHOW KEYS FROM {}".format(filter_table), con=conn).Column_name)
+    primary_key_fields_list = ['Work_Order_Number', 'Work_Center_Event_Identifier', 'Sequence_Number'] # hard code list of keys
     join_clause = ['remis.{} = filters.{}'.format(ii,ii) for ii in primary_key_fields_list]
     join_clause = ' AND '.join(join_clause)
     select_clause = ['filters.{}'.format(ii) for ii in primary_key_fields_list]

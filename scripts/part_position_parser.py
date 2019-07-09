@@ -1596,7 +1596,8 @@ def fn(conn, libraries, params, predecessors):
 
         if compiled_table_name:
             # read data from multiple tables 
-            keys = list(pd.read_sql(sql="SHOW KEYS FROM {}".format(wuc_table_name), con=conn).Column_name)
+            # keys = list(pd.read_sql(sql="SHOW KEYS FROM {}".format(wuc_table_name), con=conn).Column_name)
+            keys = ['Work_Order_Number', 'Work_Center_Event_Identifier', 'Sequence_Number'] # hard code list of keys
             join_clause_1 = ['A.{} = B.{}'.format(ii,ii) for ii in keys]
             join_clause_1 = ' AND '.join(join_clause_1)
             join_clause_2 = ['A.{} = C.{}'.format(ii,ii) for ii in keys]
@@ -1618,7 +1619,8 @@ def fn(conn, libraries, params, predecessors):
         raise Exception("Component should have one, two, or three predecessor components")
 
     # standardize columns
-    df.loc[:,'Parsed_Component_Position'] = ""
+    # df.loc[:,'Parsed_Component_Position'] = ''
+    df['Parsed_Component_Position'] = ''
     df.loc[:,'Parsed_Component_Position'] = df.loc[:,'Parsed_Component_Position'].astype(str)
     df.loc[:,'Component_Position_Number'] = df.loc[:,'Component_Position_Number'].fillna(0).astype('int64').astype(str)  # no awful 0.0 strings
     

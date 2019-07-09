@@ -24,7 +24,8 @@ def fn(conn, libraries, params, predecessors):
     
     atc_field = 'Action'
     
-    keys = list(pd.read_sql(sql="SHOW KEYS FROM {}".format(pred), con=conn).Column_name)
+    # keys = list(pd.read_sql(sql="SHOW KEYS FROM {}".format(pred), con=conn).Column_name)
+    keys = ['Work_Order_Number', 'Work_Center_Event_Identifier', 'Sequence_Number'] # hard code list of keys
     join_clause = ['A.{} = B.{}'.format(ii,ii) for ii in keys]
     join_clause = ' AND '.join(join_clause)
 
@@ -79,7 +80,8 @@ def fn(conn, libraries, params, predecessors):
 
     # Split remaining multiple component positions into multiple entries with one component position
     # Parsed_Component_Position "1,2,3,4" becomes 4 entries with Parsed_Component_Position "1", "2", "3", "4" respectively
-    s = df['Parsed_Component_Position'].str.split(',').apply(pd.Series, 1).stack()
+    # s = df['Parsed_Component_Position'].str.split(',').stack()
+    s = pd.DataFrame(df['Parsed_Component_Position'].str.split(',', expand=True)).stack()
     s.index = s.index.droplevel(-1)
     s.name = 'Parsed_Component_Position'
     df = df.drop(['Parsed_Component_Position'], axis=1)

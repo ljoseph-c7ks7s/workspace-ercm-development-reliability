@@ -82,7 +82,10 @@ def fn(conn, libraries, params, predecessors):
         # use 10 years if above check doesn't pass and if 10 years is different than all years
 
         def compare_10_and_s04(df_s04, df_10yr):
-            if df_s04.eta > df_10yr.eta: 
+
+            if df_s04.eta == df_10yr.eta:
+                diff_10_s04 = False
+            elif df_s04.eta > df_10yr.eta: 
                 if df_s04.eta_se_lower_ci < df_10yr.eta_se_upper_ci:
                     diff_10_s04 = False
                 else:
@@ -92,6 +95,7 @@ def fn(conn, libraries, params, predecessors):
                     diff_10_s04 = False
                 else:
                     diff_10_s04 = True
+            
             if diff_10_s04:
                 use = 'Removed_Last_10_Years'
             else: 

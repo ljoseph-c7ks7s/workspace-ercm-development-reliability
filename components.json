@@ -428,14 +428,110 @@
         "attrs":{
             "additional_parameters":{
                 "thresholds":{
-                    "41322":{
-                        "cdf_threshold":0.95,
-                        "hours_threshold":6000
-                    },
-                    "82LC0":{
-                        "cdf_threshold":0.95,
-                        "hours_threshold":6000
-                    }
+                    "32525": {
+				      "cdf_threshold": 0.95,
+				      "hours_threshold": 6000
+				    },
+				    "41311": {
+				      "cdf_threshold": 0.95,
+				      "hours_threshold": 6000
+				    },
+				    "41315": {
+				      "cdf_threshold": 0.95,
+				      "hours_threshold": 6000
+				    },
+				    "41321": {
+				      "cdf_threshold": 0.95,
+				      "hours_threshold": 6000
+				    },
+				    "41322": {
+				      "cdf_threshold": 0.95,
+				      "hours_threshold": 6000
+				    },
+				    "41325": {
+				      "cdf_threshold": 0.95,
+				      "hours_threshold": 6000
+				    },
+				    "46621": {
+				      "cdf_threshold": 0.95,
+				      "hours_threshold": 6000
+				    },
+				    "82LC0": {
+				      "cdf_threshold": 0.95,
+				      "hours_threshold": 6000
+				    },
+				    "22YAA": {
+				      "cdf_threshold": 0.95,
+				      "hours_threshold": 6000
+				    },
+				    "22FAA": {
+				      "cdf_threshold": 0.95,
+				      "hours_threshold": 6000
+				    },
+				    "22RBC": {
+				      "cdf_threshold": 0.95,
+				      "hours_threshold": 6000
+				    },
+				    "64BAD": {
+				      "cdf_threshold": 0.95,
+				      "hours_threshold": 6000
+				    },
+				    "453AS": {
+				      "cdf_threshold": 0.95,
+				      "hours_threshold": 6000
+				    },
+				    "22EBD": {
+				      "cdf_threshold": 0.95,
+				      "hours_threshold": 6000
+				    },
+				    "22GAB": {
+				      "cdf_threshold": 0.95,
+				      "hours_threshold": 6000
+				    },
+				    "22TBB": {
+				      "cdf_threshold": 0.95,
+				      "hours_threshold": 6000
+				    },
+				    "422A0": {
+				      "cdf_threshold": 0.95,
+				      "hours_threshold": 6000
+				    },
+				    "42DLA": {
+				      "cdf_threshold": 0.95,
+				      "hours_threshold": 6000
+				    },
+				    "5114K": {
+				      "cdf_threshold": 0.95,
+				      "hours_threshold": 6000
+				    },
+				    "71GE0": {
+				      "cdf_threshold": 0.95,
+				      "hours_threshold": 6000
+				    },
+				    "72KK0": {
+				      "cdf_threshold": 0.95,
+				      "hours_threshold": 6000
+				    },
+				    "491A0": {
+				      "cdf_threshold": 0.95,
+				      "hours_threshold": 6000
+				    },
+				    "22XCN": {
+				      "cdf_threshold": 0.95,
+				      "hours_threshold": 6000
+				    },
+				    "22YAB": {
+				      "cdf_threshold": 0.95,
+				      "hours_threshold": 6000
+				    },
+				    "22VDX": {
+				      "cdf_threshold": 0.95,
+				      "hours_threshold": 6000
+				    },
+				    "526DX": {
+				      "cdf_threshold": 0.95,
+				      "hours_threshold": 6000
+				    }
                 }
             }
         },
