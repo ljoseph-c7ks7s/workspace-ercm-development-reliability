@@ -886,11 +886,6 @@ def BAD(df,libraries):
                 j = j+1
                 
 
-<<<<<<< HEAD
-            # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
-        if df.loc[i,'Parsed_Component_Position'] == str():
-            df.loc[i,'Parsed_Component_Position'] = df.loc[i,'Component_Position_Number']
-=======
     #         # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
     #     if df.loc[i,'Parsed_Component_Position'] == str():
     #         df.loc[i,'Parsed_Component_Position'] = df.loc[i,'Component_Position_Number']
@@ -939,9 +934,8 @@ def BAD(df,libraries):
         df_BAD.update(df_sub)
         
     return df_BAD
->>>>>>> 762414a... updated ppp to remove labels not in label list. updated tests
 
-    return df
+    # return df
 
 
 def FQI(df_fqi,libraries):
@@ -1527,17 +1521,15 @@ def VD(df,libraries):
             if df.loc[i,'Parsed_Component_Position'] != "":
                 j = len(checks)
             else:
-<<<<<<< HEAD
                 j = j+1
                 
-            # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
-        if df.loc[i,'Parsed_Component_Position']==str(''):
-            df.loc[i,'Parsed_Component_Position'] = str('0')
-=======
+        #     # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
+        # if df.loc[i,'Parsed_Component_Position']==str(''):
+        #     df.loc[i,'Parsed_Component_Position'] = str('0')
                 df.loc[:,col] = df[checks[j+1]].apply(lambda x: re.findall(r"GEAR ?BOX|G[\/]?B|COMP(?:R[E ]SSOR)?|TURBINE?|GVIB|CVIB|TVIB", str(x)))
-        except:
-            # if unable, return empty list
-            df.col = []
+            # except:
+            # # if unable, return empty list
+            #     df.col = []
         return df[col]
     
     
@@ -1618,7 +1610,6 @@ def VD(df,libraries):
         if df_vd.loc[df_vd.Parsed_Component_Position.str.len()==0].empty:
             # if all positions have been found then do nothing
             break
->>>>>>> 762414a... updated ppp to remove labels not in label list. updated tests
             
 
     return df
