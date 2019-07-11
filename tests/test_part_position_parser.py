@@ -4,7 +4,7 @@ import pandas as pd
 import re
 
 # import modules for testing
-from scripts.part_position_parser import engine_reader,cp_navplt,cp_plt,pilot_cp_nav,INU,EFI,engine_double,BAD,FQI,label_picker
+from scripts.part_position_parser import *
 
 # create libraries dict in studio fashion
 libraries = {'pandas': pd,'re': re}
@@ -32,10 +32,10 @@ def test_part_position_parser():
         
         df_one_wuc = df_input.loc[df_input.Work_Unit_Code == this_wuc]
         wuc_qpa = df_qpa[(df_qpa.Work_Unit_Code == this_wuc) | [this_wuc in df_qpa.loc[x,'Alternate_WUC'] for x in range(0,len(df_qpa))]]
-    #     wuc_qpa.Maximum_SN = wuc_qpa.Maximum_SN.astype('int64')
-    #     wuc_qpa.Minimum_SN_Inclusive = wuc_qpa.Minimum_SN_Inclusive.astype('int64')
+        assert not wuc_qpa.empty
         df_one_wuc = label_picker(df_one_wuc.copy(),wuc_qpa,this_wuc,libraries)
         df_input.update(df_one_wuc)
+        # print(str(this_wuc)+str(' complete'))
 
     df_input.Serial_Number = df_input.Serial_Number.astype('int64') 
     df_input.loc[:, 'Parsed_Component_Position'] = df_input['Parsed_Component_Position'].astype(str)
