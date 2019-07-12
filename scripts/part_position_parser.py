@@ -816,74 +816,73 @@ def engine_double(df_eng_dbl,libraries):
     return df_eng_dbl
 
 
-def BAD(df,libraries):
+def BAD(df_BAD,libraries):
     pd = libraries['pandas']
     re = libraries['re']
     
-    # define fields to check
+    df_BAD = df_BAD.copy()
+    # define fields to check. Use j to iterate through this list.
     checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
-    
-    df['Parsed_Component_Position'] = df['Parsed_Component_Position'].astype(str)
 
-    # for each entry, search fields for component position numbers 
-    indexer = list(df.index.values)
-    for i in indexer:
-    #     for i in range (0,len(df)):
-        j = 0
-        parse = []
-        while j < len(checks):
+    # # for each entry, search fields for component position numbers 
+    # indexer = list(df.index.values)
+    # for i in indexer:
+    # #     for i in range (0,len(df)):
+    #     j = 0
+    #     parse = []
+    #     while j < len(checks):
 
-            # search narratives for given patterns
-            parse = re.findall(r"\bP |^P |(?<=[^COM])C?O?\W?PI?L?O?T|^C?O?\W?PI?L?O?T|C\W?P|AUG|AFT CARGO|FWD CARGO|OBS|CENTER|AFT",str(df.loc[i,checks[j]]))
+    #         # search narratives for given patterns
+    #         parse = re.findall(r"\bP |^P |(?<=[^COM])C?O?\W?PI?L?O?T|^C?O?\W?PI?L?O?T|C\W?P|AUG|AFT CARGO|FWD CARGO|OBS|CENTER|AFT",str(df.loc[i,checks[j]]))
             
-            # keep only alphabetical chars and comma separators to fix C-P, C/P etc.
-            parse = re.sub(r"[^\w,]","",str(parse))
+    #         # keep only alphabetical chars and comma separators to fix C-P, C/P etc.
+    #         parse = re.sub(r"[^\w,]","",str(parse))
             
-            # correct parsed labels
-            parse = parse.replace('CPILOT','COPILOT')
-            parse = parse.replace('CPLT','COPILOT')
-            parse = parse.replace('CPT','COPILOT')          
-            parse = parse.replace('CP','COPILOT')
-            parse = parse.replace('PLT','PILOT')
-            parse = parse.replace('PT','PILOT')
-            parse = parse.replace(',PIT','')
-            parse = parse.replace('PIT,','')
-            parse = parse.replace('PIT','')
-            if parse=='P':
-                parse = parse.replace('P','PILOT')
-            if 'P,' in parse:
-                parse = parse.replace('P,','PILOT,')
-            if ',P' in parse:
-                parse = parse.replace(',P',',PILOT')
-                parse = parse.replace('ILOTILOT','ILOT')
-            parse = parse.replace('COPILOT','CP')
-            parse = parse.replace('OPILOT','')
-            parse = parse.replace('CP','COPILOT')
-            parse = parse.replace('AUG','AUG_CREW')
-            parse = parse.replace('AFTCARGO','A_CO')
-            parse = parse.replace('FWDCARGO','FWD_CARGO')
-            parse = parse.replace('OBS','OBSERVER')
-            parse = parse.replace('CENTER','A_CENTER_CONSOLE')
-            parse = parse.replace('AFT','AFT_CENTER_CONSOLE')
-            parse = parse.replace('A_CO','AFT_CARGO')
-            parse = parse.replace('A_CENTER_CONSOLE','AFT_CENTER_CONSOLE')
+    #         # correct parsed labels
+    #         parse = parse.replace('CPILOT','COPILOT')
+    #         parse = parse.replace('CPLT','COPILOT')
+    #         parse = parse.replace('CPT','COPILOT')          
+    #         parse = parse.replace('CP','COPILOT')
+    #         parse = parse.replace('PLT','PILOT')
+    #         parse = parse.replace('PT','PILOT')
+    #         parse = parse.replace(',PIT','')
+    #         parse = parse.replace('PIT,','')
+    #         parse = parse.replace('PIT','')
+    #         if parse=='P':
+    #             parse = parse.replace('P','PILOT')
+    #         if 'P,' in parse:
+    #             parse = parse.replace('P,','PILOT,')
+    #         if ',P' in parse:
+    #             parse = parse.replace(',P',',PILOT')
+    #             parse = parse.replace('ILOTILOT','ILOT')
+    #         parse = parse.replace('COPILOT','CP')
+    #         parse = parse.replace('OPILOT','')
+    #         parse = parse.replace('CP','COPILOT')
+    #         parse = parse.replace('AUG','AUG_CREW')
+    #         parse = parse.replace('AFTCARGO','A_CO')
+    #         parse = parse.replace('FWDCARGO','FWD_CARGO')
+    #         parse = parse.replace('OBS','OBSERVER')
+    #         parse = parse.replace('CENTER','A_CENTER_CONSOLE')
+    #         parse = parse.replace('AFT','AFT_CENTER_CONSOLE')
+    #         parse = parse.replace('A_CO','AFT_CARGO')
+    #         parse = parse.replace('A_CENTER_CONSOLE','AFT_CENTER_CONSOLE')
             
-            # remove duplicates and sort
-            parse = parse.split(',')
-            parse = list(set(parse))
-            parse.sort()
+    #         # remove duplicates and sort
+    #         parse = parse.split(',')
+    #         parse = list(set(parse))
+    #         parse.sort()
             
-            # convert back to string to remove []
-            parse = ','.join(map(str, parse))
+    #         # convert back to string to remove []
+    #         parse = ','.join(map(str, parse))
             
-            # save values into df
-            df.loc[i,'Parsed_Component_Position']=parse
+    #         # save values into df
+    #         df.loc[i,'Parsed_Component_Position']=parse
 
-            # if empty, check next narrative
-            if df.loc[i,'Parsed_Component_Position'] != "":
-                j = len(checks)
-            else:
-                j = j+1
+    #         # if empty, check next narrative
+    #         if df.loc[i,'Parsed_Component_Position'] != "":
+    #             j = len(checks)
+    #         else:
+    #             j = j+1
                 
 
     #         # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
@@ -935,7 +934,6 @@ def BAD(df,libraries):
         
     return df_BAD
 
-    # return df
 
 
 def FQI(df_fqi,libraries):
@@ -1419,7 +1417,7 @@ def APU(df_apu,libraries):
     return df_apu
 
 
-def VD(df,libraries):
+def VD(df_vd,libraries):
     
     pd = libraries["pandas"]
     re = libraries["re"]
@@ -1427,109 +1425,118 @@ def VD(df,libraries):
     # define fields to check
     checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
 
-    # for each entry, search fields for component position numbers 
-    indexer = list(df.index.values)
-    for i in indexer:
-    #     for i in range (0,len(df)):
-        j = 0
-        parse = []
-        while j < len(checks):
+    # # for each entry, search fields for component position numbers 
+    # indexer = list(df.index.values)
+    # for i in indexer:
+    # #     for i in range (0,len(df)):
+    #     j = 0
+    #     parse = []
+    #     while j < len(checks):
 
-            # search narratives for given patterns
-            parse = re.findall(r"GEAR ?BOX|G[\/]?B|COMP(?:R[E ]SSOR)?|TURBINE?|GVIB|CVIB|TVIB",str(df.loc[i,checks[j]]))
-            parsenum = re.findall(r"(?:\# ?|NO\.? ?|NUMBER |ENG(?:INE)? )\d+| ALL 4| ALL FOUR",str(df.loc[i,checks[j]]))
+    #         # search narratives for given patterns
+    #         parse = re.findall(r"GEAR ?BOX|G[\/]?B|COMP(?:R[E ]SSOR)?|TURBINE?|GVIB|CVIB|TVIB",str(df.loc[i,checks[j]]))
+    #         parsenum = re.findall(r"(?:\# ?|NO\.? ?|NUMBER |ENG(?:INE)? )\d+| ALL 4| ALL FOUR",str(df.loc[i,checks[j]]))
             
-            # if we find string position but not numeric position (or vice versa), search the next narrative for a numeric/string position
-            if parse and not parsenum:
-                try:
-                    parsenum = re.findall(r"(?:\# ?|NO\.? ?|NUMBER |ENG(?:INE)? )\d+|\bALL 4|\bALL FOUR",str(df.loc[i,checks[j+1]]))
-                except:
-                    parsenum = []
-            if parsenum and not parse:
-                try:
-                    parse = re.findall(r"GEAR ?BOX|G[\/]?B|COMP(?:R[E ]SSOR)?|TURBINE?|GVIB|CVIB|TVIB",str(df.loc[i,checks[j+1]]))
-                except:
-                    parse = []
+    #         # if we find string position but not numeric position (or vice versa), search the next narrative for a numeric/string position
+    #         if parse and not parsenum:
+    #             try:
+    #                 parsenum = re.findall(r"(?:\# ?|NO\.? ?|NUMBER |ENG(?:INE)? )\d+|\bALL 4|\bALL FOUR",str(df.loc[i,checks[j+1]]))
+    #             except:
+    #                 parsenum = []
+    #         if parsenum and not parse:
+    #             try:
+    #                 parse = re.findall(r"GEAR ?BOX|G[\/]?B|COMP(?:R[E ]SSOR)?|TURBINE?|GVIB|CVIB|TVIB",str(df.loc[i,checks[j+1]]))
+    #             except:
+    #                 parse = []
         
-            # if both numeric and string found, standardize labels and save. Otherwise iterate through checks.
-            if parsenum and parse:
+    #         # if both numeric and string found, standardize labels and save. Otherwise iterate through checks.
+    #         if parsenum and parse:
             
             
-                parsenum = [x.replace('ALL FOUR','1,2,3,4') for x in parsenum]
-                parsenum = [x.replace('ALL 4','1,2,3,4') for x in parsenum]
-                # keep only alphanumeric chars and comma separators
+    #             parsenum = [x.replace('ALL FOUR','1,2,3,4') for x in parsenum]
+    #             parsenum = [x.replace('ALL 4','1,2,3,4') for x in parsenum]
+    #             # keep only alphanumeric chars and comma separators
                 
                 
-                parse = re.sub(r"[^\w,]","",str(parse))
-                parsenum = re.sub(r"[^\d,]","",str(parsenum))
+    #             parse = re.sub(r"[^\w,]","",str(parse))
+    #             parsenum = re.sub(r"[^\d,]","",str(parsenum))
 
-                # convert strings into list of strings
-                split = [x for x in parsenum.split(',')]
-                parse = [x for x in parse.split(',')]
+    #             # convert strings into list of strings
+    #             split = [x for x in parsenum.split(',')]
+    #             parse = [x for x in parse.split(',')]
 
-        # handle parsenum/split
+    #     # handle parsenum/split
 
-                    # remove empty strings from list
-                clean = filter(None, split)
+    #                 # remove empty strings from list
+    #             clean = filter(None, split)
 
-                    # convert list of strings into list of ints
-                ints = map(int, clean)
+    #                 # convert list of strings into list of ints
+    #             ints = map(int, clean)
 
-                    # remove all values > 4
-                trim = [x for x in ints if x<5]
+    #                 # remove all values > 4
+    #             trim = [x for x in ints if x<5]
 
-                # remove duplicates and sort
-                trim = list(set(trim))
-                trim.sort()
+    #             # remove duplicates and sort
+    #             trim = list(set(trim))
+    #             trim.sort()
 
-        # handle parse
-                # convert back to string with only alphabetical, 1-4 labels
-                parse = re.sub(r"[^\w,^\d]","",str(parse))
-                parse = parse.lstrip(',').rstrip(',')
+    #     # handle parse
+    #             # convert back to string with only alphabetical, 1-4 labels
+    #             parse = re.sub(r"[^\w,^\d]","",str(parse))
+    #             parse = parse.lstrip(',').rstrip(',')
 
-                # correct parsed labels
-                parse = parse.replace("GB","GEARBOX")
-                parse = parse.replace("GVIB","GEARBOX")
-                parse = parse.replace("TVIB","TURBINE")
-                parse = parse.replace("CVIB","COMPRESSOR")
-                parse = parse.replace("COMPR SSOR","COMPRESSOR")
-                parse = parse.replace("COMPRESSOR","C")
-                parse = parse.replace("COMP","C")
-                parse = parse.replace("TURBINE","T")
-                parse = parse.replace("TURBIN","T")
-                parse = parse.replace("GEARBOX","G")
+    #             # correct parsed labels
+    #             parse = parse.replace("GB","GEARBOX")
+    #             parse = parse.replace("GVIB","GEARBOX")
+    #             parse = parse.replace("TVIB","TURBINE")
+    #             parse = parse.replace("CVIB","COMPRESSOR")
+    #             parse = parse.replace("COMPR SSOR","COMPRESSOR")
+    #             parse = parse.replace("COMPRESSOR","C")
+    #             parse = parse.replace("COMP","C")
+    #             parse = parse.replace("TURBINE","T")
+    #             parse = parse.replace("TURBIN","T")
+    #             parse = parse.replace("GEARBOX","G")
 
-                # remove duplicates and sort
-                parse = parse.split(',')
-                parse = list(set(parse))
-                parse.sort()
+    #             # remove duplicates and sort
+    #             parse = parse.split(',')
+    #             parse = list(set(parse))
+    #             parse.sort()
 
-        # concatenate alphabetical labels to numeric positions to get single parsed list
+    #     # concatenate alphabetical labels to numeric positions to get single parsed list
 
-                # generate cross product for numbers and strings
-                # 1,2 and gearbox,compressor -> gearbox_1,gearbox_2,compressor_1,compressor_2
-                crossed = [str(y)+str(x) for x in parse for y in trim]
+    #             # generate cross product for numbers and strings
+    #             # [1,2] and [gearbox,compressor] -> [gearbox_1,gearbox_2,compressor_1,compressor_2]
+    #             crossed = [str(y)+str(x) for x in parse for y in trim]
 
-                # convert back to string to remove []                       
-                crossed = ','.join(map(str, crossed)).rstrip(',')
+    #             # convert back to string to remove []                       
+    #             crossed = ','.join(map(str, crossed)).rstrip(',')
 
 
-                # save values into df
-                df.loc[i,'Parsed_Component_Position']=crossed
+    #             # save values into df
+    #             df.loc[i,'Parsed_Component_Position']=crossed
 
-            # if empty, check next narrative
-            if df.loc[i,'Parsed_Component_Position'] != "":
-                j = len(checks)
+    #         # if empty, check next narrative
+    #         if df.loc[i,'Parsed_Component_Position'] != "":
+    #             j = len(checks)
+    #         else:
+    #             j = j+1
+                
+    #         # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
+    #     if df.loc[i,'Parsed_Component_Position']==str(''):
+    #         df.loc[i,'Parsed_Component_Position'] = str('0')
+            
+
+    # return df
+    def trynext(df, col, j):
+        # attempt to search next narrative
+        try:
+            if col == 'numparse':
+                df.loc[:,col] = df[checks[j+1]].apply(lambda x: re.findall(r"(?:\# ?|NO\.? ?|NUMBER |ENG(?:INE)? )\d+|\bALL 4|\bALL FOUR", str(x)))
             else:
-                j = j+1
-                
-        #     # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
-        # if df.loc[i,'Parsed_Component_Position']==str(''):
-        #     df.loc[i,'Parsed_Component_Position'] = str('0')
                 df.loc[:,col] = df[checks[j+1]].apply(lambda x: re.findall(r"GEAR ?BOX|G[\/]?B|COMP(?:R[E ]SSOR)?|TURBINE?|GVIB|CVIB|TVIB", str(x)))
-            # except:
-            # # if unable, return empty list
-            #     df.col = []
+        except:
+            # if unable, return empty list
+            df.col = []
         return df[col]
     
     
@@ -1611,8 +1618,11 @@ def VD(df,libraries):
             # if all positions have been found then do nothing
             break
             
+        # send df subset that has no matches to get a match
+        df_sub = extract_positions_single_narr_vd(df_vd.loc[df_vd.Parsed_Component_Position.str.len()==0].copy(), j)
 
-    return df
+        df_vd.update(df_sub)
+    return df_vd
 
 
 def label_picker(df_one_wuc,wuc_qpa,this_wuc,libraries):
