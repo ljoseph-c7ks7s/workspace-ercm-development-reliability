@@ -7,8 +7,8 @@
         "label":"Compiled Sortie History Data",
         "model":"e862daaa-1db3-403d-9656-e24d3a1169c2",
         "position":[
-            190,
-            385
+            210,
+            370
         ]
     },
     {
@@ -49,7 +49,7 @@
         "model":"fbdc98ee-c271-4ae8-887e-24c89d42870a",
         "position":[
             40,
-            385
+            320
         ]
     },
     {
@@ -364,7 +364,7 @@
         "model":"bcafda99-f8e4-470d-92db-debc7bd06288",
         "position":[
             40,
-            480
+            555
         ]
     },
     {
@@ -642,7 +642,7 @@
         "model":"8b40ceda-defa-445e-9cc7-484fb6e491db",
         "position":[
             40,
-            530
+            510
         ]
     },
     {
@@ -661,7 +661,7 @@
         "model":"d9bbf9f1-6d35-41e1-8822-ceb412f5d722",
         "position":[
             40,
-            630
+            475
         ]
     },
     {
@@ -670,7 +670,7 @@
         "id":"weibull_plots",
         "label":"Weibull Plots",
         "position":[
-            1870,
+            1680,
             225
         ]
     },
@@ -846,8 +846,8 @@
         "label":"Persist Staged Subset",
         "model":"41dc32cc-f1f3-4eef-90b5-ff440685bf78",
         "position":[
-            40,
-            580
+            805,
+            55
         ]
     },
     {
@@ -878,6 +878,23 @@
         "position":[
             50,
             75
+        ]
+    },
+    {
+        "attrs":{
+            "query_list":[
+                "SELECT * FROM sortie_import WHERE depart_date <= (SELECT CASE WHEN DATE_FORMAT(MAX(depart_date), '%Y-%m-%d') = LAST_DAY(MAX(depart_date)) THEN LAST_DAY(MAX(depart_date)) ELSE LAST_DAY(DATE_SUB(MAX(depart_date), INTERVAL 1 MONTH)) END max_desired_date FROM sortie_import)"
+            ]
+        },
+        "class":"SQL",
+        "custom_model":true,
+        "description":"Remove partial months from sortie data so the date range matches REMIS data.",
+        "id":"last_complete_month",
+        "label":"Last Complete Month",
+        "model":"784a9e6e-87b2-447d-a7be-c7d320f97085",
+        "position":[
+            60,
+            370
         ]
     }
 ]

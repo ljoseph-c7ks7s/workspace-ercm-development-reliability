@@ -206,10 +206,6 @@
         ]
     },
     {
-        "source":"sortie_import",
-        "target":"compiled_sortie_history_data"
-    },
-    {
         "source":"joined_data",
         "target":"stage_data_for_tow"
     },
@@ -312,6 +308,52 @@
             [
                 680,
                 125
+            ]
+        ]
+    },
+    {
+        "source":"sortie_import",
+        "target":"last_complete_month",
+        "vertices":[
+            [
+                175,
+                335
+            ],
+            [
+                175,
+                360
+            ],
+            [
+                35,
+                360
+            ],
+            [
+                35,
+                385
+            ]
+        ]
+    },
+    {
+        "source":"last_complete_month",
+        "target":"compiled_sortie_history_data"
+    },
+    {
+        "source":"aircraft_in_depot",
+        "target":"predictive_twins",
+        "vertices":[
+            [
+                1540,
+                520
+            ]
+        ]
+    },
+    {
+        "source":"asgn_loc_snapshot",
+        "target":"predictive_twins",
+        "vertices":[
+            [
+                1550,
+                490
             ]
         ]
     }
