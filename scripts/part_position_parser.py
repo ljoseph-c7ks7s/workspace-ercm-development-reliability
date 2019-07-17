@@ -215,9 +215,9 @@ def cp_navplt(df_cp_navplt,libraries):
         df_sub = extract_positions_single_narr_cp_navplt(df_cp_navplt.loc[df_cp_navplt.Parsed_Component_Position.str.len()==0].copy(), j)
         df_cp_navplt.update(df_sub)
 
-    # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
-    df_cp_navplt.loc[df_cp_navplt.Parsed_Component_Position.str.len()==0, 'Parsed_Component_Position'] = \
-        df_cp_navplt.loc[df_cp_navplt.Parsed_Component_Position.str.len()==0, 'Component_Position_Number']
+    # # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
+    # df_cp_navplt.loc[df_cp_navplt.Parsed_Component_Position.str.len()==0, 'Parsed_Component_Position'] = \
+    #     df_cp_navplt.loc[df_cp_navplt.Parsed_Component_Position.str.len()==0, 'Component_Position_Number']
 
     return df_cp_navplt
 
@@ -281,9 +281,9 @@ def cp_plt(df,libraries):
                 j = j+1
                 
 
-            # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
-        if df.loc[i,'Parsed_Component_Position']==str(''):
-            df.loc[i,'Parsed_Component_Position'] = df.loc[i,'Component_Position_Number']
+        #     # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
+        # if df.loc[i,'Parsed_Component_Position']==str(''):
+        #     df.loc[i,'Parsed_Component_Position'] = df.loc[i,'Component_Position_Number']
 
     return df
 
@@ -387,9 +387,9 @@ def pilot_cp_nav(df_pilot_cp_nav,libraries):
         df_sub = extract_positions_single_narr_pilot_cp_nav(df_pilot_cp_nav.loc[df_pilot_cp_nav.Parsed_Component_Position.str.len()==0].copy(), j)
         df_pilot_cp_nav.update(df_sub)
 
-    # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
-    df_pilot_cp_nav.loc[df_pilot_cp_nav.Parsed_Component_Position.str.len()==0, 'Parsed_Component_Position'] = \
-        df_pilot_cp_nav.loc[df_pilot_cp_nav.Parsed_Component_Position.str.len()==0, 'Component_Position_Number']
+    # # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
+    # df_pilot_cp_nav.loc[df_pilot_cp_nav.Parsed_Component_Position.str.len()==0, 'Parsed_Component_Position'] = \
+    #     df_pilot_cp_nav.loc[df_pilot_cp_nav.Parsed_Component_Position.str.len()==0, 'Component_Position_Number']
 
     return df_pilot_cp_nav
 
@@ -497,104 +497,212 @@ def INU(df_inu, libraries):
     return df_inu
 
 
-def EFI(df,libraries):
+def EFI(df_efi,libraries):
     pd = libraries['pandas']
     re = libraries['re']
 
     # define fields to check. Use j to iterate through this list
     checks = ['Corrective_Narrative','Discrepancy_Narrative','Work_Center_Event_Narrative']
     
-    # for each entry, search fields for component position numbers 
-    indexer = list(df.index.values)
-    for i in indexer:
-        j = 0
-        parse = []
-        while j < len(checks):
+#     # for each entry, search fields for component position numbers 
+#     indexer = list(df.index.values)
+#     for i in indexer:
+#         j = 0
+#         parse = []
+#         while j < len(checks):
             
-            # search narratives for given patterns
-            pcoparse = re.findall(r"C?[0O]?\W?(?<!AUTO)(?<!AUTO )PI?L?O?T|C\W?P",str(df.loc[i,checks[j]]))
-            locparse = re.findall(r"\bUPP?E?R\b|\bLO?WW?E?R\b|\bTOP\b|\bBOTTOM\b|\bA\W?D\W?I\b|\bH\W?S\W?I\b|\bF\W?D\W?I\b",str(df.loc[i,checks[j]]))
-            allparse = re.findall(r"ALL 4|4 NEW",str(df.loc[i,checks[j]]))
+#             # search narratives for given patterns
+#             pcoparse = re.findall(r"C?[0O]?\W?(?<!AUTO)(?<!AUTO )PI?L?O?T|C\W?P",str(df.loc[i,checks[j]]))
+#             locparse = re.findall(r"\bUPP?E?R\b|\bLO?WW?E?R\b|\bTOP\b|\bBOTTOM\b|\bA\W?D\W?I\b|\bH\W?S\W?I\b|\bF\W?D\W?I\b",str(df.loc[i,checks[j]]))
+#             allparse = re.findall(r"ALL 4|4 NEW",str(df.loc[i,checks[j]]))
             
-            # if all 4, label and break
-            if allparse:
-                df.loc[i,'Parsed_Component_Position'] = 'COPILOT_ADI,COPILOT_HSI,PILOT_ADI,PILOT_HSI'
-                break
+#             # if all 4, label and break
+#             if allparse:
+#                 df.loc[i,'Parsed_Component_Position'] = 'COPILOT_ADI,COPILOT_HSI,PILOT_ADI,PILOT_HSI'
+#                 break
             
-            # search for clues in next narrative if search returns incomplete
-            elif pcoparse and not locparse:
-                try:
-                    locparse = re.findall(r"\bUPP?E?R\b|\bLO?WW?E?R\b|\bTOP\b|\bBOTTOM\b|\bADI\b|\bHSI\b|\bF\W?D\W?I\b",str(df.loc[i,checks[j+1]]))
-                except:
-                    locparse = []
+#             # search for clues in next narrative if search returns incomplete
+#             elif pcoparse and not locparse:
+#                 try:
+#                     locparse = re.findall(r"\bUPP?E?R\b|\bLO?WW?E?R\b|\bTOP\b|\bBOTTOM\b|\bADI\b|\bHSI\b|\bF\W?D\W?I\b",str(df.loc[i,checks[j+1]]))
+#                 except:
+#                     locparse = []
             
-            elif not pcoparse and locparse:
-                try:
-                    pcoparse = re.findall(r"C?[0O]?\W?(?<!AUTO)(?<!AUTO )PI?L?O?T|C\W?P",str(df.loc[i,checks[j+1]]))
-                except:
-                    pcoparse = []
+#             elif not pcoparse and locparse:
+#                 try:
+#                     pcoparse = re.findall(r"C?[0O]?\W?(?<!AUTO)(?<!AUTO )PI?L?O?T|C\W?P",str(df.loc[i,checks[j+1]]))
+#                 except:
+#                     pcoparse = []
 
-# clean and standardize labels
+# # clean and standardize labels
 
-            # keep only alphabetical characters
-            pcoparse = re.sub(r"[^\w,]","",str(pcoparse))
-            locparse = re.sub(r"[^\w,]","",str(locparse))
+#             # keep only alphabetical characters
+#             pcoparse = re.sub(r"[^\w,]","",str(pcoparse))
+#             locparse = re.sub(r"[^\w,]","",str(locparse))
             
             
-            # correct pcoparse
-            pcoparse = pcoparse.replace('C0','CO')
-            pcoparse = pcoparse.replace('CPLT','COPILOT')
-            pcoparse = pcoparse.replace('CPT','COPILOT')
-            pcoparse = pcoparse.replace('CPILOT','COPILOT')
-            pcoparse = pcoparse.replace('CP','COPILOT')
-            pcoparse = pcoparse.replace('PLT','PILOT')
-            pcoparse = pcoparse.replace('PT','PILOT')            
+#             # correct pcoparse
+#             pcoparse = pcoparse.replace('C0','CO')
+#             pcoparse = pcoparse.replace('CPLT','COPILOT')
+#             pcoparse = pcoparse.replace('CPT','COPILOT')
+#             pcoparse = pcoparse.replace('CPILOT','COPILOT')
+#             pcoparse = pcoparse.replace('CP','COPILOT')
+#             pcoparse = pcoparse.replace('PLT','PILOT')
+#             pcoparse = pcoparse.replace('PT','PILOT')            
             
-            # correct locparse
-            locparse = locparse.replace('TOP','UPPER')
-            locparse = locparse.replace('BOTTOM','LOWER')
-            locparse = locparse.replace('LWR','LOWER')
-            locparse = locparse.replace('LOWWER','LOWER')
-            locparse = locparse.replace('UPR','UPPER')
-            locparse = locparse.replace('UPPER','ADI')
-            locparse = locparse.replace('LOWER','HSI')
-            locparse = locparse.replace('FDI','ADI')
+#             # correct locparse
+#             locparse = locparse.replace('TOP','UPPER')
+#             locparse = locparse.replace('BOTTOM','LOWER')
+#             locparse = locparse.replace('LWR','LOWER')
+#             locparse = locparse.replace('LOWWER','LOWER')
+#             locparse = locparse.replace('UPR','UPPER')
+#             locparse = locparse.replace('UPPER','ADI')
+#             locparse = locparse.replace('LOWER','HSI')
+#             locparse = locparse.replace('FDI','ADI')
             
 
-            # remove duplicates and sort
-            pcoparse = pcoparse.split(',')
-            pcoparse = list(set(pcoparse))
-            pcoparse.sort()
-            locparse = locparse.split(',')
-            locparse = list(set(locparse))
-            locparse.sort()
+#             # remove duplicates and sort
+#             pcoparse = pcoparse.split(',')
+#             pcoparse = list(set(pcoparse))
+#             pcoparse.sort()
+#             locparse = locparse.split(',')
+#             locparse = list(set(locparse))
+#             locparse.sort()
             
-            # combine non-empty lists (top),(pilot,copilot) -> (pilot_top,copilot_top)
-            if pcoparse and locparse:
-                crossed = [str(x)+str('_')+str(y) for x in pcoparse for y in locparse]
+#             # combine non-empty lists (top),(pilot,copilot) -> (pilot_top,copilot_top)
+#             if pcoparse and locparse:
+#                 crossed = [str(x)+str('_')+str(y) for x in pcoparse for y in locparse]
 
-                # convert back to string to remove []                       
-                crossed = ','.join(map(str, crossed)).rstrip(',')
+#                 # convert back to string to remove []                       
+#                 crossed = ','.join(map(str, crossed)).rstrip(',')
             
-            # if first or last character is _ then cross multiply wrong
-            if crossed[0]==str('_') or crossed[-1]==str('_'):
-                crossed = str('')
+#             # if first or last character is _ then cross multiply wrong
+#             if crossed[0]==str('_') or crossed[-1]==str('_'):
+#                 crossed = str('')
                 
-            # save values into df
-            df.loc[i,'Parsed_Component_Position']=crossed
+#             # save values into df
+#             df.loc[i,'Parsed_Component_Position']=crossed
 
-            # if empty, check next narrative
-            if df.loc[i,'Parsed_Component_Position'] != "":
-                j = len(checks)
+#             # if empty, check next narrative
+#             if df.loc[i,'Parsed_Component_Position'] != "":
+#                 j = len(checks)
+#             else:
+#                 j = j+1
+                
+#             # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
+#         if df.loc[i,'Parsed_Component_Position']==str(''):
+#             df.loc[i,'Parsed_Component_Position'] = str('0')
+            
+
+#     return df
+    def trynext(df, col, j):
+        # attempt to search next narrative
+        try:
+            if col == 'numparse':
+                df.loc[:,col] = df[checks[j+1]].apply(lambda x: re.findall(r"\bUPP?E?R\b|\bLO?WW?E?R\b|\bTOP\b|\bBOTTOM\b|\bA\W?D\W?I\b|\bH\W?S\W?I\b|\bF\W?D\W?I\b", str(x)))
             else:
-                j = j+1
-                
-            # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
-        if df.loc[i,'Parsed_Component_Position']==str(''):
-            df.loc[i,'Parsed_Component_Position'] = str('0')
-            
+                df.loc[:,col] = df[checks[j+1]].apply(lambda x: re.findall(r"C?[0O]?\W?(?<!AUTO)(?<!AUTO )PI?L?O?T|C\W?P", str(x)))
+        except:
+            # if unable, return empty list
+            df.col = []
+        return df[col]
 
-    return df
+
+    def cartesioner(A,B):
+        outer = [','.join([str(A[i][j]+str('_')+str(B[i][k])) for k in range(0,len(B[i])) for j in range(0,len(A[i]))]) for i in list(A.index.values)]
+        return outer
+
+
+    def extract_positions_single_narr_efi(df, j):
+        # search narratives for given patterns
+        df.loc[:,'parse'] = df[checks[j]].apply(lambda x: re.findall(r"C?[0O]?\W?(?<!AUTO)(?<!AUTO )PI?L?O?T|C\W?P", str(x)))
+        df.loc[:,'numparse'] = df[checks[j]].apply(lambda x: re.findall(r"\bUPP?E?R\b|\bLO?WW?E?R\b|\bTOP\b|\bBOTTOM\b|\bA\W?D\W?I\b|\bH\W?S\W?I\b|\bF\W?D\W?I\b", str(x)))
+        df.loc[:,'allparse'] = df[checks[j]].apply(lambda x: re.findall(r"ALL 4|4 NEW", str(x)))
+        
+
+# handle records without allparse
+
+        # if we find a partial match, search next narrative to complete match
+        col = 'numparse'
+        df.loc[(df.allparse.str.len()==0) & (df.parse.str.len()!=0) & (df.numparse.str.len()==0),col] = trynext(df.loc[(df.parse.str.len()!=0) & (df.numparse.str.len()==0),:],col,j)
+
+        col = 'parse'
+        df.loc[(df.allparse.str.len()==0) & (df.parse.str.len()==0) & (df.numparse.str.len()!=0),col] = trynext(df.loc[(df.parse.str.len()==0) & (df.numparse.str.len()!=0),:],col,j)
+
+        #keep only records with full matches
+        df = df.loc[(df.allparse.str.len()!=0) | ((df.parse.str.len()!=0) & (df.numparse.str.len()!=0)),:]            
+
+
+# handle numparse
+        # keep only alphabetical chars and comma separators to fix C-P, C/P etc.
+        df.loc[:, 'nums'] = df.numparse.apply(lambda x: re.sub(r"[^A-Z,]","",str(x)))
+
+        # correct parsed labels
+        parse_list = [('TOP','UPPER'),('BOTTOM','LOWER'),('LWR','LOWER'),('LOWWER','LOWER'),('UPR','UPPER'),
+                      ('UPPER','ADI'),('LOWER','HSI'),('FDI','ADI'),('ADI','A'),('HSI','H')]
+        for tup in parse_list:
+            df.loc[:, 'nums'] = df.nums.apply(lambda x: x.replace(tup[0],tup[1]))
+
+        # remove duplicates and sort
+        df.loc[:, 'nums'] = df.nums.apply(lambda x: sorted(list(set(x.strip().split(',')))))
+
+        # remove tokens that don't match our labels
+        matches = ['A','H']
+        df.loc[:, 'nums'] = df.nums.apply(lambda l: [ii for ii in l if ii in matches])
+        
+        # convert back to string
+        df.loc[:, 'nums'] = df.nums.apply(lambda x: ''.join(map(str, x)))
+
+# handle parse
+        # keep only alphabetical chars and comma separators to fix C-P, C/P etc.
+        df.loc[:, 'alpha'] = df.parse.apply(lambda x: re.sub(r"[^A-Z,]","",str(x)))
+
+        # correct parsed labels
+        parse_list = [('C0','CO'),('CPLT','COPILOT'),('CPT','COPILOT'),('CPILOT','COPILOT'),('CP','COPILOT'),
+                      ('PLT','PILOT'),('PT','PILOT'),('COPILOT','C'),('PILOT','P')]
+        for tup in parse_list:
+            df.loc[:, 'alpha'] = df.alpha.apply(lambda x: x.replace(tup[0],tup[1]))
+
+        # remove duplicates and sort
+        df.loc[:, 'alpha'] = df.alpha.apply(lambda x: sorted(list(set(x.strip().split(',')))))
+
+        # remove tokens that don't match our labels
+        matches = ['C','P']
+        df.loc[:, 'alpha'] = df.alpha.apply(lambda l: [ii for ii in l if ii in matches])
+
+        # convert back to string
+        df.loc[:, 'alpha'] = df.alpha.apply(lambda x: ''.join(map(str, x)))
+
+
+
+# combine alpha and nums to create labels
+        try:
+            df.loc[:,'combo'] = cartesioner(df.alpha,df.nums)
+            parse_list = [('P_A','PILOT_ADI'),('C_A','COPILOT_ADI'),('P_H','PILOT_HSI'),('C_H','COPILOT_HSI')]
+            for tup in parse_list:
+                df.loc[:, 'combo'] = df.combo.apply(lambda x: x.replace(tup[0],tup[1]))
+        except:
+            df.loc[:,'combo'] = ''
+        df.loc[:,'Parsed_Component_Position'] = df['combo']
+        
+        # handle allparse
+        df.loc[(df.allparse.str.len()!=0),'Parsed_Component_Position'] = 'COPILOT_ADI,COPILOT_HSI,PILOT_ADI,PILOT_HSI'
+
+        df.drop(['parse','alpha','numparse','nums','combo','allparse'], axis=1, inplace=True)
+
+        # return matches
+        return df
+    for j in range(0,len(checks)):
+
+        if df_efi.loc[df_efi.Parsed_Component_Position.str.len()==0].empty:
+            # if all positions have been found then do nothing
+            break
+
+        # send df subset that has no matches to get a match
+        df_sub = extract_positions_single_narr_efi(df_efi.loc[df_efi.Parsed_Component_Position.str.len()==0].copy(), j)
+
+        df_efi.update(df_sub)
+    return df_efi
 
 
 def engine_double(df_eng_dbl,libraries):
@@ -689,7 +797,7 @@ def engine_double(df_eng_dbl,libraries):
     def extract_positions_single_narr_eng_dbl(df, col):
         # loop through found elements within a narrative and apply transforming logic
         
-        df.loc[:, 'parse'] = df[col].apply(lambda x: re.findall(r"\#?\W?\d\W?[AB]\W?B?|[^R]\d(?: ENG)?(?:INE)?(?: FADEC)? ?[AB]\W?B?", str(x)))
+        df.loc[:, 'parse'] = df[col].apply(lambda x: re.findall(r"\#?\W?\d\W?[AB]\W?B?\b|[^R]\d(?: ENG)?(?:INE)?(?: FADEC)? ?[AB]\W?B?\b", str(x)))
         df.loc[:, 'parse'] = df.parse.apply(lambda l: [re.sub(r"[^\w,]","",str(ii)) for ii in l])
 
         # if the first letter is a non-digit or a zero then drop it
@@ -758,7 +866,7 @@ def engine_double(df_eng_dbl,libraries):
         df.loc[(df.Parsed_Component_Position.str.len()==0) & 
            (df.Component_Position_Number.apply(lambda x: False if len(str(x)) < 1 else False if str(int(x))=='0' else True)), 'parse'] = \
             df.loc[(df.Parsed_Component_Position.str.len()==0) & 
-               (df.Component_Position_Number.apply(lambda x: False if len(str(x)) < 1 else False if str(int(x))=='0' else True)), col].apply(lambda x: re.findall(r"FADEC [AB]\W?B?", str(x)))
+               (df.Component_Position_Number.apply(lambda x: False if len(str(x)) < 1 else False if str(int(x))=='0' else True)), col].apply(lambda x: re.findall(r"FADEC [AB]\W?B?\b", str(x)))
 
         # keep only alphanumeric and comma separators (drop plus, slash, etc.)
         df.parse = df.parse.apply(lambda l: [re.sub(r"[^\w,]","",str(ii)) for ii in l])
@@ -812,6 +920,11 @@ def engine_double(df_eng_dbl,libraries):
 
     # if still empty, fill with 0
     df_eng_dbl.loc[df_eng_dbl.Parsed_Component_Position.str.len() < 1, 'Parsed_Component_Position'] = '0'
+
+    # if SW record has only one label, add in other label for that position
+    # 4A -> 4A,4B  
+    mask = (df_eng_dbl.Action == 'SW') & (df_eng_dbl.Parsed_Component_Position.str.len() < 3)
+    df_eng_dbl.loc[mask,'Parsed_Component_Position'] = df_eng_dbl.loc[mask,'Parsed_Component_Position'].str[0]+str('A,')+df_eng_dbl.loc[mask,'Parsed_Component_Position'].str[0]+str('B')
 
     return df_eng_dbl
 
@@ -934,6 +1047,7 @@ def BAD(df_BAD,libraries):
         
     return df_BAD
 
+    
 
 
 def FQI(df_fqi,libraries):
@@ -1081,9 +1195,9 @@ def FQI(df_fqi,libraries):
         df_sub = extract_positions_single_narr_fqi(df_fqi.loc[df_fqi.Parsed_Component_Position.str.len()==0].copy(), j)
         df_fqi.update(df_sub)
 
-    # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
-    df_fqi.loc[df_fqi.Parsed_Component_Position.str.len()==0, 'Parsed_Component_Position'] = \
-        df_fqi.loc[df_fqi.Parsed_Component_Position.str.len()==0, 'Component_Position_Number']
+    # # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
+    # df_fqi.loc[df_fqi.Parsed_Component_Position.str.len()==0, 'Parsed_Component_Position'] = \
+    #     df_fqi.loc[df_fqi.Parsed_Component_Position.str.len()==0, 'Component_Position_Number']
 
     return df_fqi
 
@@ -1297,9 +1411,9 @@ def CCU(df_ccu,libraries):
         df_sub = extract_positions_single_narr_ccu(df_ccu.loc[df_ccu.Parsed_Component_Position.str.len()==0].copy(), j)
         df_ccu.update(df_sub)
 
-    # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
-    df_ccu.loc[df_ccu.Parsed_Component_Position.str.len()==0, 'Parsed_Component_Position'] = \
-        df_ccu.loc[df_ccu.Parsed_Component_Position.str.len()==0, 'Component_Position_Number']
+    # # if no information is found in the narratives, copy in the provided 'Component_Position_Number'
+    # df_ccu.loc[df_ccu.Parsed_Component_Position.str.len()==0, 'Parsed_Component_Position'] = \
+    #     df_ccu.loc[df_ccu.Parsed_Component_Position.str.len()==0, 'Component_Position_Number']
 
     return df_ccu
 
@@ -1759,8 +1873,7 @@ def fn(conn, libraries, params, predecessors):
 
         if compiled_table_name:
             # read data from multiple tables 
-            # keys = list(pd.read_sql(sql="SHOW KEYS FROM {}".format(wuc_table_name), con=conn).Column_name)
-            keys = ['Work_Order_Number', 'Work_Center_Event_Identifier', 'Sequence_Number'] # hard code list of keys
+            keys = list(pd.read_sql(sql="SHOW KEYS FROM {}".format(wuc_table_name), con=conn).Column_name)
             join_clause_1 = ['A.{} = B.{}'.format(ii,ii) for ii in keys]
             join_clause_1 = ' AND '.join(join_clause_1)
             join_clause_2 = ['A.{} = C.{}'.format(ii,ii) for ii in keys]
@@ -1782,8 +1895,7 @@ def fn(conn, libraries, params, predecessors):
         raise Exception("Component should have one, two, or three predecessor components")
 
     # standardize columns
-    # df.loc[:,'Parsed_Component_Position'] = ''
-    df['Parsed_Component_Position'] = ''
+    df.loc[:,'Parsed_Component_Position'] = ""
     df.loc[:,'Parsed_Component_Position'] = df.loc[:,'Parsed_Component_Position'].astype(str)
     df.loc[:,'Component_Position_Number'] = df.loc[:,'Component_Position_Number'].fillna(0).astype('int64').astype(str)  # no awful 0.0 strings
     
