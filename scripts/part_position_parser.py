@@ -921,9 +921,10 @@ def engine_double(df_eng_dbl,libraries):
     # if still empty, fill with 0
     df_eng_dbl.loc[df_eng_dbl.Parsed_Component_Position.str.len() < 1, 'Parsed_Component_Position'] = '0'
 
-    # if SW record has only one label, add in other label for that position
+    # if SW record has only one label and it isn't 0, add in other label for that position
     # 4A -> 4A,4B  
-    mask = (df_eng_dbl.Action == 'SW') & (df_eng_dbl.Parsed_Component_Position.str.len() < 3)
+    mask = (df_eng_dbl.Action == 'SW') & (df_eng_dbl.Parsed_Component_Position.str.len() < 3) & \
+        (df_eng_dbl.Parsed_Component_Position != '0')
     df_eng_dbl.loc[mask,'Parsed_Component_Position'] = df_eng_dbl.loc[mask,'Parsed_Component_Position'].str[0]+str('A,')+df_eng_dbl.loc[mask,'Parsed_Component_Position'].str[0]+str('B')
 
     return df_eng_dbl
