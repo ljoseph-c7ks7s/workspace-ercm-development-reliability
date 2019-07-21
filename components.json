@@ -8,7 +8,7 @@
         "model":"e862daaa-1db3-403d-9656-e24d3a1169c2",
         "position":[
             210,
-            370
+            325
         ]
     },
     {
@@ -49,7 +49,7 @@
         "model":"fbdc98ee-c271-4ae8-887e-24c89d42870a",
         "position":[
             40,
-            320
+            275
         ]
     },
     {
@@ -93,7 +93,7 @@
         "model":"debc7c2f-0456-44bc-9f4d-680ba5ea86a4",
         "position":[
             355,
-            335
+            285
         ]
     },
     {
@@ -312,8 +312,8 @@
         "label":"Last Sortie",
         "model":"77f11401-f6f5-4268-b547-f7a1b1aea338",
         "position":[
-            510,
-            335
+            515,
+            285
         ]
     },
     {
@@ -364,7 +364,7 @@
         "model":"bcafda99-f8e4-470d-92db-debc7bd06288",
         "position":[
             40,
-            555
+            515
         ]
     },
     {
@@ -589,8 +589,8 @@
         "label":"OpsTempo Forecast",
         "model":"2c4d1493-09dc-4fc5-81b1-c75e5eb5fff7",
         "position":[
-            355,
-            425
+            360,
+            375
         ]
     },
     {
@@ -613,7 +613,7 @@
         "model":"ed79df86-5773-47d6-8108-29f3a0df8fa1",
         "position":[
             40,
-            425
+            375
         ]
     },
     {
@@ -642,7 +642,7 @@
         "model":"8b40ceda-defa-445e-9cc7-484fb6e491db",
         "position":[
             40,
-            510
+            445
         ]
     },
     {
@@ -661,7 +661,7 @@
         "model":"d9bbf9f1-6d35-41e1-8822-ceb412f5d722",
         "position":[
             40,
-            475
+            410
         ]
     },
     {
@@ -755,7 +755,7 @@
         "model":"0af2ac86-c3b3-4cba-87c0-30dae459afa1",
         "position":[
             355,
-            385
+            335
         ]
     },
     {
@@ -766,8 +766,8 @@
         "label":"Opstempo Archive",
         "model":"e2fcb1cc-093b-4d97-84f8-95d46c12a999",
         "position":[
-            720,
-            425
+            515,
+            355
         ]
     },
     {
@@ -894,7 +894,19 @@
         "model":"784a9e6e-87b2-447d-a7be-c7d320f97085",
         "position":[
             60,
-            370
+            325
+        ]
+    },
+    {
+        "class":"CSV",
+        "custom_model":true,
+        "description":"Link locations by name between assignment snapshot data and assignment history data.  Assignment history data is not kept as current as the snapshot data so we use snapshot data for predictive twin, but assignment data for optempo forecasts.",
+        "id":"location_translation",
+        "label":"Location Translation",
+        "model":"565566cf-a958-4720-a250-20d4bc0d2039",
+        "position":[
+            40,
+            480
         ]
     }
 ]
