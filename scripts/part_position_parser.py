@@ -105,9 +105,13 @@ def engine_reader(df_eng,libraries):
         df_sub = extract_positions_single_narr_engine_reader(df_eng.loc[df_eng.Parsed_Component_Position.str.len()==0].copy(), j)
         df_eng.update(df_sub)
     
-    # if no information is found in the narratives, copy in the provided 'Component_Position_Number' - make sure its a non-decimal string
-    df_eng.loc[df_eng.Parsed_Component_Position.str.len()==0, 'Parsed_Component_Position'] = \
-        df_eng.loc[df_eng.Parsed_Component_Position.str.len()==0, 'Component_Position_Number']
+    # if no information is found in the narratives, copy in the provided 'Component_Position_Number' -
+    #   if provided 'Component_Position_Number' is less than five
+    #   make sure its a non-decimal string
+    df_eng.loc[(df_eng.Parsed_Component_Position.str.len() == 0) &
+               (df_eng.Component_Position_Number.astype(int) < 5), 'Parsed_Component_Position'] = \
+        df_eng.loc[(df_eng.Parsed_Component_Position.str.len() == 0) &
+                   (df_eng.Component_Position_Number.astype(int) < 5), 'Component_Position_Number']
 
     return df_eng
 

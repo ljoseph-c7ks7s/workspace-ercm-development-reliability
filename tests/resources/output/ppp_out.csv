@@ -2,6 +2,7 @@ Work_Unit_Code,Equipment_Designator,Serial_Number,Discrepancy_Narrative,Work_Cen
 22EBD,C130H,1,#1 engine not starting, ,removed #1 engine,R,0,1
 22FAA,C130H,1,#11 ECBU dead, ,replaced with #7,R,0,0
 22FAA,C130H,1,APU EGT GUAGE INOP, ,R2 EGT GAGE MOC GOOD,R,3,3
+22FAA,C130H,1,APU EGT GUAGE INOP, ,R2 EGT GAGE MOC GOOD,R,5,0
 22EBD,C130H,1,ran check pursuant to # 139 , ,no fault found,R,0,0
 22EBD,C130H,1,engine coolant leaking, ,plugged hole,R,4,4
 22TBB,C130J,1,ecb inop replace per #123-45678, ,replaced ecb,R,0,0
