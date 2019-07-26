@@ -1,166 +1,5 @@
 [
     {
-        "class":"Stager",
-        "custom_model":true,
-        "description":"Create a staged table in the database.",
-        "id":"compiled_sortie_history_data",
-        "label":"Compiled Sortie History Data",
-        "model":"e862daaa-1db3-403d-9656-e24d3a1169c2",
-        "position":[
-            210,
-            325
-        ]
-    },
-    {
-        "attrs":{
-            "column_conversion":{
-                "Mission Design Series (e.g. F-16C)":"str(x).strip()",
-                "Serial Number":"str(x).strip()"
-            },
-            "data_start_column":2,
-            "data_start_row":5,
-            "date_formatter":{
-                "Sortie_Date":"%y%j"
-            },
-            "label_start_row":4,
-            "labels":[
-                "Mission Design Series (e.g. F-16C)",
-                "Serial Number",
-                "Mission Number",
-                "Sortie Number",
-                "Takeoff ICAO Code",
-                "Takeoff Date",
-                "Takeoff Time",
-                "Landing ICAO Code",
-                "Landing Date",
-                "Landing Time",
-                "Hours Flown",
-                "Sorties Flown",
-                "Total Lndgs",
-                "Total Full Stop Lndgs",
-                "Sortie Date"
-            ]
-        },
-        "class":"Excel",
-        "custom_model":true,
-        "description":"Sortie History data import",
-        "id":"sortie_import",
-        "label":"Sortie Import",
-        "model":"fbdc98ee-c271-4ae8-887e-24c89d42870a",
-        "position":[
-            40,
-            275
-        ]
-    },
-    {
-        "attrs":{
-            "timeout":250
-        },
-        "class":"Python",
-        "custom_model":true,
-        "description":"Run a python script.",
-        "id":"part_position_parser",
-        "label":"Part Position Parser",
-        "model":"f21eadfe-d46a-455a-98eb-b8fc8bc9b395",
-        "position":[
-            300,
-            25
-        ]
-    },
-    {
-        "class":"Python",
-        "custom_model":true,
-        "description":"Run a python script.",
-        "id":"split_r_and_multi_pos",
-        "label":"Split R and Multi POS",
-        "model":"98437406-31ef-429a-a8cd-d8a1b3d11ce0",
-        "position":[
-            540,
-            25
-        ]
-    },
-    {
-        "attrs":{
-            "db_class_preference":"RMySQL",
-            "local_script":"True",
-            "script_file":"Sortie_Accumulated_Hours.R"
-        },
-        "class":"R",
-        "custom_model":true,
-        "description":"Run an R script.",
-        "id":"sortie_accumulated_hours",
-        "label":"Sortie Accumulated Hours",
-        "model":"debc7c2f-0456-44bc-9f4d-680ba5ea86a4",
-        "position":[
-            355,
-            285
-        ]
-    },
-    {
-        "attrs":{
-            "timeout":60
-        },
-        "class":"Python",
-        "custom_model":true,
-        "description":"Calculate accumulated hours for each maintenance event.",
-        "id":"add_event_age",
-        "label":"Add Event Age",
-        "model":"fe45927a-354a-4a72-aa41-3a609f694151",
-        "position":[
-            540,
-            70
-        ]
-    },
-    {
-        "attrs":{
-            "query_list":[
-                "SELECT CASE WHEN wucs.Work_Unit_Code = '46620' THEN '46621'WHEN wucs.Work_Unit_Code = '42BA0' THEN '422A0'WHEN wucs.Work_Unit_Code = '4221P' THEN '422A0'WHEN wucs.Work_Unit_Code = '72K00' THEN '72KK0'WHEN wucs.Work_Unit_Code = '526DA' THEN '526DX' WHEN wucs.Work_Unit_Code = '526DD' THEN '526DX' WHEN wucs.Work_Unit_Code = '526DE' THEN '526DX' WHEN wucs.Work_Unit_Code = '22VDA' THEN '22VDX'WHEN wucs.Work_Unit_Code = '22VDB' THEN '22VDX'WHEN wucs.Work_Unit_Code = '22VDC' THEN '22VDX'ELSE wucs.Work_Unit_Code END AS Work_Unit_Code, TRIM(raw.Equipment_Designator) AS Equipment_Designator, raw.Serial_Number, raw.Geographic_Location, raw.Performing_Geographic_Location, raw.Transaction_Date, raw.Start_Time, raw.Work_Center_Code, raw.When_Discovered_Code, raw.How_Malfunction_Code, split_r_and_multi_pos.Action_Taken_Code, NULL Removal_Cause, raw.Type_Maintenance_Code, age.Current_Operating_Time, split_r_and_multi_pos.Parsed_Component_Position AS Component_Position_Number, raw.Corrective_Narrative, raw.Discrepancy_Narrative, raw.Work_Center_Event_Narrative, last_sortie.Depart_Date, last_sortie.Depart_Time, last_sortie.Flying_Hours AS Flying_Hours_Last_Sortie, last_sortie.Sorties_Flown AS Sorties_Flown_Last_Sortie, last_sortie.Total_Landings AS Total_Landings_Last_Sortie, last_sortie.Full_Stop_Landings AS Full_Stop_Landings_Last_Sortie, split_r_and_multi_pos.Work_Order_Number, split_r_and_multi_pos.Work_Center_Event_Identifier, split_r_and_multi_pos.Sequence_Number, split_r_and_multi_pos.Primary_Key_Index FROM compiled_remis_data raw JOIN wuc_of_interest wucs ON raw.Work_Center_Event_Identifier = wucs.Work_Center_Event_Identifier AND raw.Sequence_Number = wucs.Sequence_Number AND raw.Work_Order_Number = wucs.Work_Order_Number JOIN split_r_and_multi_pos ON raw.Work_Center_Event_Identifier = split_r_and_multi_pos.Work_Center_Event_Identifier AND raw.Sequence_Number = split_r_and_multi_pos.Sequence_Number AND raw.Work_Order_Number = split_r_and_multi_pos.Work_Order_Number JOIN add_event_age age ON raw.Work_Center_Event_Identifier = age.Work_Center_Event_Identifier AND raw.Sequence_Number = age.Sequence_Number AND raw.Work_Order_Number = age.Work_Order_Number LEFT JOIN last_sortie ON raw.Serial_Number = last_sortie.Serial_Number AND raw.Equipment_Designator = last_sortie.MDS WHERE split_r_and_multi_pos.Action_Taken_Code != 'O'AND split_r_and_multi_pos.Parsed_Component_Position NOT IN ('1C','2C','3C','4C','OTHER')"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Combine labels, positions, and ages of removals and installs for cause into single table.  Treat a few Work Unit Codes uniquely because maintainers sometimes use the wrong WUC: convert any 46620 fuel system records that matched an R action to 46621; similarly, convert 72K00 to 72KK0 cursor control, as well as 42BA0 and 4221P to 422A0. Finally, convert 22VDA, 22VDB, and 22VDB to 22VDX but drop the 22VDB positions - we'll treat 22VDA and 22VDC positions as a single WUC with QPA=8",
-        "id":"joined_data",
-        "label":"Joined Data",
-        "model":"a2acd8e8-0f7e-4f81-84c8-f90d430d60cc",
-        "position":[
-            715,
-            110
-        ]
-    },
-    {
-        "class":"Stager",
-        "custom_model":true,
-        "description":"Create a staged table in the database.",
-        "id":"stage_data_for_tow",
-        "label":"Stage Data for TOW",
-        "model":"536280a6-6980-479a-a05d-915bf77d166a",
-        "position":[
-            870,
-            110
-        ]
-    },
-    {
-        "attrs":{
-            "component":"eRCM_TOW",
-            "component_config":{
-                "source_table":"stage_data_for_tow"
-            },
-            "iter_key":"Work_Unit_Code",
-            "iter_src":"stage_data_for_tow"
-        },
-        "class":"Looper",
-        "custom_model":true,
-        "description":"Run another component ('child component') multiple times, for each available value of the selected field",
-        "id":"calculate_tow",
-        "label":"Calculate TOW",
-        "model":"c6b9d182-d4a9-46f6-b5b0-4333051ed6cc",
-        "position":[
-            1015,
-            110
-        ]
-    },
-    {
         "attrs":{
             "component_config":{
                 "age_reset_event":[],
@@ -275,8 +114,8 @@
         "label":"Calculate Intervals",
         "model":"reliability_interval_model",
         "position":[
-            870,
-            185
+            205,
+            45
         ]
     },
     {
@@ -295,255 +134,8 @@
         "label":"Calculate Distributions",
         "model":"reliability_distribution_model",
         "position":[
-            1020,
-            185
-        ]
-    },
-    {
-        "attrs":{
-            "query_list":[
-                "SELECT sortie_accumulated_hours.* FROM sortie_accumulated_hours JOIN (SELECT Serial_Number, max(Flying_Hours) Flying_Hours FROM sortie_accumulated_hours GROUP BY Serial_Number ) max_sortie ON sortie_accumulated_hours.serial_number = max_sortie.serial_number AND sortie_accumulated_hours.Flying_Hours = max_sortie.Flying_Hours WHERE MDS IN ('C130J','C130H')"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Select the latest sortie for each aircraft.",
-        "id":"last_sortie",
-        "label":"Last Sortie",
-        "model":"77f11401-f6f5-4268-b547-f7a1b1aea338",
-        "position":[
-            515,
-            285
-        ]
-    },
-    {
-        "attrs":{
-            "column_conversion":{
-                "EQUIPMENT DESIGNATOR":"str(x).strip()"
-            },
-            "data_start_row":4,
-            "date_formatter":{
-                "Effective_Date":"%e%b%Y",
-                "Pub_Date":"%e%b%Y",
-                "Start_Date":"%e%b%Y",
-                "Stop_Date":"%e%b%Y"
-            },
-            "label_start_row":3,
-            "labels":[
-                "ACTION CODE",
-                "EQUIPMENT DESIGNATOR",
-                "WORK UNIT CODE",
-                "BLOCK NUMBER",
-                "START DATE",
-                "TYPE EQUIPMENT",
-                "SERIALLY TRACKED IND",
-                "FAILURE LIMIT",
-                "REPLACEMENT IND",
-                "NRTS IND",
-                "USAGE FACTOR",
-                "ACTION LIMIT",
-                "QTY PER APPLIC",
-                "SPECIAL INVENTORY",
-                "CAT OF FAILURE IND",
-                "INSP REQUIREMENT",
-                "PUB DATE",
-                "STOP DATE",
-                "ORIGINAL WUC",
-                "CASCADE TO NEW WUC",
-                "DESCRIPTION",
-                "CASCADED BY",
-                "EFFECTIVE DATE",
-                "MESSAGES"
-            ]
-        },
-        "class":"Excel",
-        "custom_model":true,
-        "description":"Import report EFM 1640, which includes quantity-per-aircraft and names for each MDS and work unit code. We are not using these QPAs - they are not all correct.",
-        "id":"efm_1640",
-        "label":"EFM 1640",
-        "model":"bcafda99-f8e4-470d-92db-debc7bd06288",
-        "position":[
-            40,
-            515
-        ]
-    },
-    {
-        "attrs":{
-            "query_list":[
-                "SELECT id, Work_Unit_Code, Serial_Number, Equipment_Designator, Component_Position_Number, Work_Order_Number, Work_Center_Event_Identifier, Sequence_Number, IFNULL(true_install_date, INSTALL_Transaction_Date) INSTALL_Transaction_Date, IFNULL(true_install_tsn, INSTALL_TSN) INSTALL_TSN, INSTALL_Geographic_Location, INSTALL_Action_Taken_Code, Corrective_Narrative, Discrepancy_Narrative, Work_Center_Event_Narrative, IFNULL(unk_removal_date_earliest, REMOVAL_Transaction_Date) REMOVAL_Transaction_Date, IFNULL(unk_removal_tsn_earliest, REMOVAL_TSN) REMOVAL_TSN, IF(ISNULL(unk_removal_date_earliest), REMOVAL_Geographic_Location, NULL) REMOVAL_Geographic_Location, IF(ISNULL(unk_removal_date_earliest), REMOVAL_Action_Taken_Code, NULL) REMOVAL_Action_Taken_Code, IF(ISNULL(unk_removal_date_earliest), REMOVAL_How_Malfunction_Code, NULL) REMOVAL_How_Malfunction_Code, IF(ISNULL(unk_removal_date_earliest), REMOVAL_When_Discovered_Code, NULL) REMOVAL_When_Discovered_Code, IF(ISNULL(unk_removal_date_earliest), REMOVAL_Cause, NULL) REMOVAL_Cause, spans_unknown_install, spans_unknown_removal, ROUND(IF(ISNULL(unk_removal_date_earliest), TOW, unk_removal_tsn_earliest - true_install_tsn), 2) TOW, DATEDIFF(start_forecast_date, COALESCE(IF(ISNULL(unk_removal_date_earliest), REMOVAL_Transaction_Date, unk_removal_date_earliest), start_forecast_date)) / 365.24 <= 5 removed_last_5_years, DATEDIFF(start_forecast_date, COALESCE(IF(ISNULL(unk_removal_date_earliest), REMOVAL_Transaction_Date, unk_removal_date_earliest), start_forecast_date)) / 365.24 <= 10 removed_last_10_years FROM remove_unk_position_number, (SELECT DATE_FORMAT(DATE_ADD(MAX(REMOVAL_Transaction_Date), INTERVAL 1 MONTH), '%Y-%m-01') start_forecast_date FROM calculate_tow) sfd WHERE INSTALL_action_taken_code != 'IU'"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"(1) Remove left-censored intervals for which we do not know the total time on test (those that were begun with the install of a used part), (2) update intervals that cross 'lost' removals of parts with unknown station to suspensions at the first unknown-position removal dates, (3) update Install Date & Install TSN to the true values for intervals that cross lost positions, and (4) add two time-based covariates: removed in the last 5 years, and removed in the last 10 years (both options include installed parts).",
-        "id":"remove_disqualified_add_covariates",
-        "label":"Remove Disqualified Add Covariates",
-        "model":"3131696e-9d7a-4f75-b716-80dd73f2705f",
-        "position":[
-            720,
-            185
-        ]
-    },
-    {
-        "attrs":{
-            "additional_parameters":{
-                "wuc_filter":[
-                    "41322",
-                    "82LC0",
-                    "22YAA",
-                    "22FAA",
-                    "22RBC",
-                    "64BAD",
-                    "453AS"
-                ]
-            }
-        },
-        "class":"Python",
-        "custom_model":true,
-        "description":"Tabulate current part ages for each position in each aircraft seen in sortie data and whether an unknown-position removal or install occurred since the part was installed (lost position).  WUC filter config should match a work unit code in the QPA list.",
-        "id":"current_part_ages",
-        "label":"Current Part Ages",
-        "model":"df9503ad-e1b1-41ea-897f-a30c923e57ad",
-        "position":[
-            1335,
-            110
-        ]
-    },
-    {
-        "attrs":{
-            "timeout":100
-        },
-        "class":"Python",
-        "custom_model":true,
-        "description":"Drop interval data without known positions, and identify other intervals that span removals and installs without known positions.",
-        "id":"remove_unk_position_number",
-        "label":"Remove Unk Position Number",
-        "model":"4cc3322a-9684-4715-81a6-0bde8f0d289a",
-        "position":[
-            1155,
-            110
-        ]
-    },
-    {
-        "attrs":{
-            "additional_parameters":{
-                "thresholds":{
-                    "22EBD":{
-                        "cdf_threshold":0.95,
-                        "hours_threshold":6000
-                    },
-                    "22FAA":{
-                        "cdf_threshold":0.95,
-                        "hours_threshold":6000
-                    },
-                    "22GAB":{
-                        "cdf_threshold":0.95,
-                        "hours_threshold":6000
-                    },
-                    "22RBC":{
-                        "cdf_threshold":0.95,
-                        "hours_threshold":6000
-                    },
-                    "22TBB":{
-                        "cdf_threshold":0.95,
-                        "hours_threshold":6000
-                    },
-                    "22VDX":{
-                        "cdf_threshold":0.95,
-                        "hours_threshold":6000
-                    },
-                    "22XCN":{
-                        "cdf_threshold":0.95,
-                        "hours_threshold":6000
-                    },
-                    "22YAA":{
-                        "cdf_threshold":0.95,
-                        "hours_threshold":6000
-                    },
-                    "22YAB":{
-                        "cdf_threshold":0.95,
-                        "hours_threshold":6000
-                    },
-                    "32525":{
-                        "cdf_threshold":0.95,
-                        "hours_threshold":6000
-                    },
-                    "41311":{
-                        "cdf_threshold":0.95,
-                        "hours_threshold":6000
-                    },
-                    "41315":{
-                        "cdf_threshold":0.95,
-                        "hours_threshold":6000
-                    },
-                    "41321":{
-                        "cdf_threshold":0.95,
-                        "hours_threshold":6000
-                    },
-                    "41322":{
-                        "cdf_threshold":0.95,
-                        "hours_threshold":6000
-                    },
-                    "41325":{
-                        "cdf_threshold":0.95,
-                        "hours_threshold":6000
-                    },
-                    "422A0":{
-                        "cdf_threshold":0.95,
-                        "hours_threshold":6000
-                    },
-                    "42DLA":{
-                        "cdf_threshold":0.95,
-                        "hours_threshold":6000
-                    },
-                    "453AS":{
-                        "cdf_threshold":0.95,
-                        "hours_threshold":6000
-                    },
-                    "46621":{
-                        "cdf_threshold":0.95,
-                        "hours_threshold":6000
-                    },
-                    "491A0":{
-                        "cdf_threshold":0.95,
-                        "hours_threshold":6000
-                    },
-                    "5114K":{
-                        "cdf_threshold":0.95,
-                        "hours_threshold":6000
-                    },
-                    "526DX":{
-                        "cdf_threshold":0.95,
-                        "hours_threshold":6000
-                    },
-                    "64BAD":{
-                        "cdf_threshold":0.95,
-                        "hours_threshold":6000
-                    },
-                    "71GE0":{
-                        "cdf_threshold":0.95,
-                        "hours_threshold":6000
-                    },
-                    "72KK0":{
-                        "cdf_threshold":0.95,
-                        "hours_threshold":6000
-                    },
-                    "82LC0":{
-                        "cdf_threshold":0.95,
-                        "hours_threshold":6000
-                    }
-                }
-            }
-        },
-        "class":"Python",
-        "custom_model":true,
-        "description":"Add CDF values for every position's currently-installed parts and predict probability of unscheduled removal and threshold removal 1/2/3/4/5/6 months out.",
-        "id":"predictive_twins",
-        "label":"Predictive Twins",
-        "model":"78c9203b-b6d1-4447-8263-d8629b328d2a",
-        "position":[
-            1680,
-            110
+            385,
+            45
         ]
     },
     {
@@ -564,104 +156,8 @@
         "label":"Weibull Quantile CIs",
         "model":"8d41847f-1f54-4311-ad92-a2ff406d1d3f",
         "position":[
-            1165,
-            225
-        ]
-    },
-    {
-        "class":"DataExporter",
-        "description":"Export all or a subset of rows contained in a table.",
-        "id":"export_predictions",
-        "label":"Export Predictions",
-        "position":[
-            1870,
-            75
-        ]
-    },
-    {
-        "attrs":{
-            "timeout":60
-        },
-        "class":"Python",
-        "custom_model":true,
-        "description":"Forecast near-term per-aircraft operating tempo.",
-        "id":"opstempo_forecast",
-        "label":"OpsTempo Forecast",
-        "model":"2c4d1493-09dc-4fc5-81b1-c75e5eb5fff7",
-        "position":[
-            360,
-            375
-        ]
-    },
-    {
-        "attrs":{
-            "column_conversion":{
-                "Assigned Geographic Location Name":"x.strip()",
-                "Assigned Organization":"x.strip()",
-                "Mission Design Series (e.g. F-16C)":"x.strip()",
-                "Serial Number":"x.strip()"
-            },
-            "data_start_column":2,
-            "data_start_row":5,
-            "label_start_row":4
-        },
-        "class":"Excel",
-        "custom_model":true,
-        "description":"Import Assigned Location Data.",
-        "id":"assigned_location",
-        "label":"Assigned Location",
-        "model":"ed79df86-5773-47d6-8108-29f3a0df8fa1",
-        "position":[
-            40,
-            375
-        ]
-    },
-    {
-        "class":"CSV",
-        "custom_model":true,
-        "description":"Import Clockwork-generated file providing more detail on quantity-per-aricraft for part position parser, lost position finder, and current part ages.",
-        "id":"wuc_list_qpa",
-        "label":"WUC List QPA",
-        "model":"58321884-e4f0-4838-bd78-0866a67fc9f5",
-        "position":[
-            50,
-            25
-        ]
-    },
-    {
-        "attrs":{
-            "data_start_row":10,
-            "label_start_row":9,
-            "save_file_name":"File_Name"
-        },
-        "class":"Excel",
-        "custom_model":true,
-        "description":"Import an Excel file with list of aircraft at depot and when they are due out.",
-        "id":"aircraft_in_depot",
-        "label":"Aircraft In Depot",
-        "model":"8b40ceda-defa-445e-9cc7-484fb6e491db",
-        "position":[
-            40,
-            445
-        ]
-    },
-    {
-        "attrs":{
-            "column_mapping":{
-                "Assigned Base":"Assigned_Base",
-                "MDS":"Equipment_Designator",
-                "Serial Number":"Serial_Number"
-            }
-        },
-        "class":"CSV",
-        "custom_model":true,
-        "description":"Import data that is contained in a delimited text file.",
-        "id":"asgn_loc_snapshot",
-        "label":"Asgn Loc Snapshot",
-        "model":"d9bbf9f1-6d35-41e1-8822-ceb412f5d722",
-        "position":[
-            40,
-            410
+            550,
+            95
         ]
     },
     {
@@ -670,8 +166,8 @@
         "id":"weibull_plots",
         "label":"Weibull Plots",
         "position":[
-            1680,
-            225
+            885,
+            95
         ]
     },
     {
@@ -687,8 +183,8 @@
         "label":"Interval Data for Plots",
         "model":"fbbb408f-39cd-4d71-8b81-966bdccdc323",
         "position":[
-            1165,
-            330
+            550,
+            215
         ]
     },
     {
@@ -706,8 +202,8 @@
         "id":"interval_plots",
         "label":"Interval Plots",
         "position":[
-            1325,
-            330
+            715,
+            215
         ]
     },
     {
@@ -724,8 +220,8 @@
         "label":"Range Check",
         "model":"f665edbe-3c19-49af-bdda-1ac3dfd9b20a",
         "position":[
-            1325,
-            290
+            715,
+            130
         ]
     },
     {
@@ -742,32 +238,8 @@
         "label":"Domain Check",
         "model":"4f7fde47-fb01-41e4-9d8a-0410d4d7b5cb",
         "position":[
-            1325,
-            245
-        ]
-    },
-    {
-        "class":"Python",
-        "custom_model":true,
-        "description":"Calculate 90-day flying hour horizons.",
-        "id":"three_month_fh_collector",
-        "label":"Three Month FH Collector",
-        "model":"0af2ac86-c3b3-4cba-87c0-30dae459afa1",
-        "position":[
-            355,
-            335
-        ]
-    },
-    {
-        "class":"Stager",
-        "custom_model":true,
-        "description":"Maintain a copy of all previously-generated predictive twins - one for each forecast month.",
-        "id":"opstempo_archive",
-        "label":"Opstempo Archive",
-        "model":"e2fcb1cc-093b-4d97-84f8-95d46c12a999",
-        "position":[
-            515,
-            355
+            715,
+            175
         ]
     },
     {
@@ -783,20 +255,8 @@
         "label":"Denormalize Distributions",
         "model":"cc1e1d81-b31c-4983-ba14-74ed4dc628f2",
         "position":[
-            1165,
-            185
-        ]
-    },
-    {
-        "class":"Stager",
-        "custom_model":true,
-        "description":"Maintain a copy of all previously-generated predictive twins.",
-        "id":"predictive_twins_archive",
-        "label":"Predictive Twins Archive",
-        "model":"006ddcd6-29e1-4cac-b69f-758c0f5ec4e8",
-        "position":[
-            1870,
-            110
+            550,
+            45
         ]
     },
     {
@@ -807,8 +267,8 @@
         "label":"Weibull Archive",
         "model":"51b4aa7d-b057-452c-8535-1060961e0f0c",
         "position":[
-            1870,
-            145
+            1105,
+            120
         ]
     },
     {
@@ -817,8 +277,8 @@
         "id":"export_weibulls",
         "label":"Export Weibulls",
         "position":[
-            1870,
-            180
+            1110,
+            160
         ]
     },
     {
@@ -834,79 +294,39 @@
         "label":"Classify Distributions",
         "model":"db457bf6-a372-4078-b2bd-f3c2a0c77f92",
         "position":[
-            1500,
-            185
+            885,
+            45
         ]
     },
     {
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Allows user to temporarily hold on to a portion of the stage-data-for-tow data incase they need to reset data for a specific WUC or other subset of the data.  Assuming Joined-Data has the newer data user would like to use to overwrite the WUC in the current Stage-Data-For-TOW, process as follows: update this component's query to select all the data from stage-data-for-tow you'd like to keep.  Run this component.  Add query to Joined data like 'SELECT * FROM persist_staged_subset'.  Re-run Joined-Data.  Update Stage-Data-For-TOW configuration to be 'false' so that the table is dropped.  Run Stage-Data-For-TOW, which should then have all the data you need.  Update Stage-Data-For-TOW configuration to be 'true' so the table is no longer dropped.",
-        "id":"persist_staged_subset",
-        "label":"Persist Staged Subset",
-        "model":"41dc32cc-f1f3-4eef-90b5-ff440685bf78",
+        "class":"SharedView",
+        "description":"Provides data to a child workspace.",
+        "id":"classify_distributions_view",
+        "label":"Classify Distributions View",
+        "model":"empty",
         "position":[
-            805,
-            55
+            1105,
+            45
         ]
     },
     {
         "class":"SharedViewImport",
         "description":"\n        Consumes data provided by a workspace from a SharedView component.\n        ",
-        "id":"wuc_of_interest",
-        "label":"WUC of Interest",
-        "position":[
-            50,
-            115
-        ]
-    },
-    {
-        "class":"SharedViewImport",
-        "description":"\n        Consumes data provided by a workspace from a SharedView component.\n        ",
-        "id":"compiled_remis_data",
-        "label":"Compiled REMIS Data",
-        "position":[
-            50,
-            160
-        ]
-    },
-    {
-        "class":"SharedViewImport",
-        "description":"\n        Consumes data provided by a workspace from a SharedView component.\n        ",
-        "id":"labels_joined",
-        "label":"Labels Joined",
-        "position":[
-            50,
-            75
-        ]
-    },
-    {
-        "attrs":{
-            "query_list":[
-                "SELECT * FROM sortie_import WHERE depart_date <= (SELECT CASE WHEN DATE_FORMAT(MAX(depart_date), '%Y-%m-%d') = LAST_DAY(MAX(depart_date)) THEN LAST_DAY(MAX(depart_date)) ELSE LAST_DAY(DATE_SUB(MAX(depart_date), INTERVAL 1 MONTH)) END max_desired_date FROM sortie_import)"
-            ]
-        },
-        "class":"SQL",
-        "custom_model":true,
-        "description":"Remove partial months from sortie data so the date range matches REMIS data.",
-        "id":"last_complete_month",
-        "label":"Last Complete Month",
-        "model":"784a9e6e-87b2-447d-a7be-c7d320f97085",
-        "position":[
-            60,
-            325
-        ]
-    },
-    {
-        "class":"CSV",
-        "custom_model":true,
-        "description":"Link locations by name between assignment snapshot data and assignment history data.  Assignment history data is not kept as current as the snapshot data so we use snapshot data for predictive twin, but assignment data for optempo forecasts.",
-        "id":"location_translation",
-        "label":"Location Translation",
-        "model":"565566cf-a958-4720-a250-20d4bc0d2039",
+        "id":"remove_disqualified_add_covariates",
+        "label":"Remove Disqualified Add Covariates",
         "position":[
             40,
-            480
+            45
+        ]
+    },
+    {
+        "class":"SharedViewImport",
+        "description":"\n        Consumes data provided by a workspace from a SharedView component.\n        ",
+        "id":"three_month_fh_collector",
+        "label":"Three Month FH Collector",
+        "position":[
+            40,
+            175
         ]
     }
 ]
