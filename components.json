@@ -157,7 +157,7 @@
         "model":"8d41847f-1f54-4311-ad92-a2ff406d1d3f",
         "position":[
             550,
-            95
+            115
         ]
     },
     {
@@ -166,8 +166,8 @@
         "id":"weibull_plots",
         "label":"Weibull Plots",
         "position":[
-            885,
-            95
+            1105,
+            115
         ]
     },
     {
@@ -184,7 +184,7 @@
         "model":"fbbb408f-39cd-4d71-8b81-966bdccdc323",
         "position":[
             550,
-            215
+            230
         ]
     },
     {
@@ -203,7 +203,7 @@
         "label":"Interval Plots",
         "position":[
             715,
-            215
+            230
         ]
     },
     {
@@ -221,7 +221,7 @@
         "model":"f665edbe-3c19-49af-bdda-1ac3dfd9b20a",
         "position":[
             715,
-            130
+            140
         ]
     },
     {
@@ -239,7 +239,7 @@
         "model":"4f7fde47-fb01-41e4-9d8a-0410d4d7b5cb",
         "position":[
             715,
-            175
+            185
         ]
     },
     {
@@ -268,7 +268,7 @@
         "model":"51b4aa7d-b057-452c-8535-1060961e0f0c",
         "position":[
             1105,
-            120
+            165
         ]
     },
     {
@@ -277,8 +277,8 @@
         "id":"export_weibulls",
         "label":"Export Weibulls",
         "position":[
-            1110,
-            160
+            1105,
+            215
         ]
     },
     {
@@ -299,17 +299,6 @@
         ]
     },
     {
-        "class":"SharedView",
-        "description":"Provides data to a child workspace.",
-        "id":"classify_distributions_view",
-        "label":"Classify Distributions View",
-        "model":"empty",
-        "position":[
-            1105,
-            45
-        ]
-    },
-    {
         "class":"SharedViewImport",
         "description":"\n        Consumes data provided by a workspace from a SharedView component.\n        ",
         "id":"remove_disqualified_add_covariates",
@@ -326,7 +315,28 @@
         "label":"Three Month FH Collector",
         "position":[
             40,
-            175
+            185
+        ]
+    },
+    {
+        "class":"SharedViewImport",
+        "description":"\n        Consumes data provided by a workspace from a SharedView component.\n        ",
+        "id":"calculate_tow",
+        "label":"Calculate TOW",
+        "position":[
+            40,
+            125
+        ]
+    },
+    {
+        "class":"SharedView",
+        "description":"Provides data to a child workspace.",
+        "id":"share_classified_distributions",
+        "label":"Share Classified Distributions",
+        "model":"empty",
+        "position":[
+            1105,
+            45
         ]
     }
 ]

@@ -52,10 +52,6 @@
         "target":"range_check"
     },
     {
-        "source":"classify_distributions",
-        "target":"classify_distributions_view"
-    },
-    {
         "source":"remove_disqualified_add_covariates",
         "target":"calculate_intervals"
     },
@@ -66,5 +62,27 @@
     {
         "source":"three_month_fh_collector",
         "target":"domain_check"
+    },
+    {
+        "source":"calculate_tow",
+        "target":"denormalize_distributions",
+        "vertices":[
+            [
+                520,
+                140
+            ],
+            [
+                520,
+                60
+            ]
+        ]
+    },
+    {
+        "source":"classify_distributions",
+        "target":"share_classified_distributions"
+    },
+    {
+        "source":"classify_distributions",
+        "target":"weibull_plots"
     }
 ]
